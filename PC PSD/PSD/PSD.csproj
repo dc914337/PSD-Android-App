@@ -122,7 +122,24 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\appbar.chevron.up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.chevron.down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.list.add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.list.delete.inline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.edit.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

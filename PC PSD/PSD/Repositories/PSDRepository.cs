@@ -51,20 +51,6 @@ namespace PSD
             Connected = false;
         }
 
-
-        public byte ComPort
-        {
-            get
-            {
-                return _comPort;
-            }
-            set
-            {
-                _comPort = value;
-                OnPropertyChanged();
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

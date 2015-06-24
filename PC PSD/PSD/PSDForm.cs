@@ -7,20 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PSD.Locales;
 
 namespace PSD
 {
     public partial class PSDForm : Form
     {
-        private DataConnections connections;
-        public bool Exited { get; private set; } = false;
+        private DataConnections _connections;
+        private bool _changingItem = false;
+        private PassItem _selectedItem;
 
-        private PassItem selectedItem;
+
 
         public PSDForm(DataConnections dataConnections)
         {
             InitializeComponent();
-            connections = dataConnections;
+            _connections = dataConnections;
         }
 
 
@@ -28,6 +30,7 @@ namespace PSD
         {
             if (!CheckBase())
             {
+                MessageBox.Show(Localization.InputDataError);
                 this.Close();
                 return;
             }
@@ -37,28 +40,28 @@ namespace PSD
 
         private bool CheckBase()
         {
-            if (connections?.PcBase?.Base?.Passwords == null)
+            if (_connections?.PcBase?.Base?.Passwords == null)
                 return false;
-            if (string.IsNullOrWhiteSpace(connections.PcBase.Path))
+            if (string.IsNullOrWhiteSpace(_connections.PcBase.Path))
                 return false;
             return true;
         }
 
         private void FillPathesLables()
         {
-            if (!string.IsNullOrWhiteSpace(connections.PcBase.Path))
+            if (!string.IsNullOrWhiteSpace(_connections.PcBase.Path))
             {
-                lblBasePath.Text = connections.PcBase.Path;
+                lblBasePath.Text = _connections.PcBase.Path;
                 lblBasePathDesc.Visible = true;
             }
-            if (!string.IsNullOrWhiteSpace(connections.PhoneBase.Path))
+            if (!string.IsNullOrWhiteSpace(_connections.PhoneBase.Path))
             {
-                lblAndroidBasePath.Text = connections.PhoneBase.Path;
+                lblAndroidBasePath.Text = _connections.PhoneBase.Path;
                 lblAndroidPathDesc.Visible = true;
             }
-            if (connections.PsdBase.Connected)
+            if (_connections.PsdBase.Connected)
             {
-                lblPsdComPort.Text = connections.PsdBase.ComPort.ToString();
+                lblPsdComPort.Text = _connections.PsdBase.Name.ToString();
                 lblPsdConnectionDesc.Visible = true;
             }
         }
@@ -66,12 +69,12 @@ namespace PSD
         private void FillPasswordsList()
         {
             lstViewPasswords.Items.Clear();
-            var passwords = connections.PcBase.Base.Passwords;
+            var passwords = _connections.PcBase.Base.Passwords;
 
             for (int i = 0; i < passwords.Count; i++)
             {
                 var currPass = passwords[i];
-                ListViewItem item = new ListViewItem(
+                var item = new ListViewItem(
                     new string[] {
                         currPass.Id.ToString(),
                         currPass.Title,
@@ -82,32 +85,32 @@ namespace PSD
 
         private void SetNewSelectedItem(int idInList)
         {
-            selectedItem = connections.PcBase.Base.Passwords[idInList];
+            _selectedItem = _connections.PcBase.Base.Passwords[idInList];
 
             nudId.DataBindings.Clear();
-            nudId.DataBindings.Add(new Binding("Value", selectedItem, "Id"));
+            nudId.DataBindings.Add(new Binding("Value", _selectedItem, "Id"));
 
             txtTitle.DataBindings.Clear();
-            txtTitle.DataBindings.Add(new Binding("Text", selectedItem, "Title"));
+            txtTitle.DataBindings.Add(new Binding("Text", _selectedItem, "Title"));
 
             txtLogin.DataBindings.Clear();
-            txtLogin.DataBindings.Add(new Binding("Text", selectedItem, "Login"));
+            txtLogin.DataBindings.Add(new Binding("Text", _selectedItem, "Login"));
 
             cbxEnterWithLogin.DataBindings.Clear();
-            cbxEnterWithLogin.DataBindings.Add(new Binding("Checked", selectedItem, "EnterWithLogin"));
+            cbxEnterWithLogin.DataBindings.Add(new Binding("Checked", _selectedItem, "EnterWithLogin"));
 
             txtPass.DataBindings.Clear();
-            txtPass.DataBindings.Add(new Binding("Text", selectedItem, "Pass"));
+            txtPass.DataBindings.Add(new Binding("Text", _selectedItem, "Pass"));
 
             txtDescription.DataBindings.Clear();
-            txtDescription.DataBindings.Add(new Binding("Text", selectedItem, "Description"));
+            txtDescription.DataBindings.Add(new Binding("Text", _selectedItem, "Description"));
         }
 
         private bool selectingNextItem = false; //to not update list values while changing list item
         //changed index
         private void lstViewPasswords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (changingItem)
+            if (_changingItem)
                 return;
 
             selectingNextItem = true;
@@ -127,13 +130,13 @@ namespace PSD
         }
 
 
-        private bool changingItem = false;
+
         private void UpdateChangedItem()
         {
             if (lstViewPasswords.SelectedIndices.Count <= 0)
                 return;
 
-            changingItem = true;
+            _changingItem = true;
             var selectedIndex = lstViewPasswords.SelectedIndices[0];
 
             ListViewItem currItem = new ListViewItem(
@@ -143,7 +146,7 @@ namespace PSD
                         txtLogin.Text });
             currItem.Selected = true;
             lstViewPasswords.Items[selectedIndex] = currItem;
-            changingItem = false;
+            _changingItem = false;
         }
 
         //changed textboxes
@@ -156,7 +159,7 @@ namespace PSD
 
         private void button4_Click(object sender, EventArgs e)
         {
-            connections.UpdateInAllAvailableBases();
+            _connections.UpdateInAllAvailableBases();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -177,8 +180,8 @@ namespace PSD
 
         private void AddItemAndSelect(PassItem addingItem)
         {
-            connections.PcBase.Base.Passwords.Add(addingItem);
-            ListViewItem item = new ListViewItem(
+            _connections.PcBase.Base.Passwords.Add(addingItem);
+            var item = new ListViewItem(
                                new string[] {
                         addingItem.Id.ToString(),
                         addingItem.Title,
@@ -232,7 +235,17 @@ namespace PSD
 
         private bool ContainsId(ushort id)
         {
-            return connections.PcBase.Base.Passwords.Any(a => a.Id == id);
+            return _connections.PcBase.Base.Passwords.Any(a => a.Id == id);
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void newPCBaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

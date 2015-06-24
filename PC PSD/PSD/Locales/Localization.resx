@@ -135,4 +135,7 @@
 	<data name="PsdConnectionError" xml:space="preserve">
     <value>Can't connect to PSD</value>
   </data>
+	<data name="InputDataError" xml:space="preserve">
+    <value>Input data is invalid</value>
+  </data>
 </root>
