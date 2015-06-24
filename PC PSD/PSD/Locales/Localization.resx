@@ -120,4 +120,16 @@
   <data name="CantLoadFileString" xml:space="preserve">
     <value>Can't load file. Password may be invalid</value>
   </data>
+	<data name="btnSetText" xml:space="preserve">
+    <value>Set</value>
+  </data>
+	<data name="btnUnsetText" xml:space="preserve">
+    <value>Unset</value>
+  </data>
+	<data name="NoPSDsError" xml:space="preserve">
+    <value>Didn't find any connected PSDs</value>
+  </data>
+	<data name="StorageFileNotSelectedError" xml:space="preserve">
+    <value>You must select storage file</value>
+  </data>
 </root>

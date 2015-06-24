@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PSD.Config;
+using PSD.Device.Hid;
+using PSD.Locales;
+using PSD.Properties;
 
 namespace PSD
 {
@@ -37,11 +40,14 @@ namespace PSD
                  _configSection.PsdCom = (byte)nudCom.Value;*/
         }
 
+
         private void btnSet_Click(object sender, EventArgs e)
         {
             if (txtPassword.Enabled)
             {
-                btnSet.Text = "Unset";
+                ReinitPsds();
+
+                btnSet.Text = Localization.btnUnsetText;
                 DataConnections = new DataConnections(new BasePasswords(txtPassword.Text));
 
                 lblBasePath.DataBindings.Clear();
@@ -51,17 +57,34 @@ namespace PSD
                 lblAndroidPath.DataBindings.Clear();
                 lblAndroidPath.DataBindings.Add(new Binding("Text", DataConnections.PhoneBase, "Path"));
 
-                lblPsdConnection.DataBindings.Clear();
-                lblPsdConnection.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "ComPort"));
+                lblPsdConnected.DataBindings.Clear();
+                lblPsdConnected.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "ComPort"));
 
             }
             else
             {
-                btnSet.Text = "Set";
+                btnSet.Text = Localization.btnSetText;
             }
             SwitchEnabled();
         }
 
+        private bool ReinitPsds()
+        {
+            var finder = new PSDFinder();
+            var psds = finder.FindConnectedPsds();
+            cmbPsds.Items.Clear();
+            cmbPsds.Items.AddRange(psds);
+            if (psds.Any())
+            {
+                cmbPsds.SelectedIndex = 0;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
 
         private void btnSelectStorageFile_Click(object sender, EventArgs e)
@@ -82,13 +105,19 @@ namespace PSD
         private void TryConnectPcBase(string path)
         {
             if (!DataConnections.PcBase.Connect(path))
+            {
                 DataConnections.PcBase.Path = null;
+                MessageBox.Show(Localization.CantLoadFileString);
+            }
         }
 
         private void TryConnectAndroidBase(string path)
         {
             if (!DataConnections.PhoneBase.Connect(path))
+            {
                 DataConnections.PhoneBase.Path = null;
+                MessageBox.Show(Localization.CantLoadFileString);
+            }
         }
 
         private void TryConnectPSDBase(byte comPort)
@@ -135,7 +164,7 @@ namespace PSD
             btnCreateStorageFile.Enabled = !btnCreateStorageFile.Enabled;
             btnSelectStorageFile.Enabled = !btnSelectStorageFile.Enabled;
 
-            nudCom.Enabled = !nudCom.Enabled;
+            cmbPsds.Enabled = !cmbPsds.Enabled;
             btnConnectPsd.Enabled = !btnConnectPsd.Enabled;
 
             btnStart.Enabled = !btnStart.Enabled;
@@ -144,11 +173,15 @@ namespace PSD
         private void btnStart_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(DataConnections?.PcBase?.Path))
-                MessageBox.Show("You must select at least storage file");
+                MessageBox.Show(Localization.StorageFileNotSelectedError);
             else
                 this.Close();
         }
 
-
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            if (!ReinitPsds())
+                MessageBox.Show(Localization.NoPSDsError);
+        }
     }
 }

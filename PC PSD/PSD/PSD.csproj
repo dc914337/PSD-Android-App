@@ -58,6 +58,11 @@
     <Compile Include="Device\Hid\PSDDevice.cs" />
     <Compile Include="Device\Hid\PSDFinder.cs" />
     <Compile Include="DataConnections.cs" />
+    <Compile Include="Locales\Localization.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\Objects\PasswordsList.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\CryptoBase.cs" />
@@ -82,6 +87,11 @@
     <Compile Include="Repositories\Serializers\JSONWorker.cs" />
     <Compile Include="Repositories\Serializers\Serializer.cs" />
     <Compile Include="Repositories\Serializers\XMLWorker.cs" />
+    <EmbeddedResource Include="Locales\Localization.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Locales\Localization.RU.resx" />
     <EmbeddedResource Include="PSDForm.resx">
       <DependentUpon>PSDForm.cs</DependentUpon>
     </EmbeddedResource>
