@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HidSharp, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -50,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasePasswords.cs" />
-    <Compile Include="Repositories\Config.cs" />
+    <Compile Include="Config\PSDConfigSection.cs" />
+    <Compile Include="Device\Hid\PSDDevice.cs" />
+    <Compile Include="Device\Hid\PSDFinder.cs" />
     <Compile Include="DataConnections.cs" />
     <Compile Include="Repositories\Objects\PasswordsList.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -106,6 +112,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

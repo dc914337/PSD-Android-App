@@ -137,7 +137,7 @@ namespace PSD
             Path = path;
             if (!MapData())
             {
-                path = null;
+                Path = null;
                 return false;
             }
 

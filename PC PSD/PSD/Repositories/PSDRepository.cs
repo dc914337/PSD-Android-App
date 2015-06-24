@@ -51,8 +51,13 @@ namespace PSD
             if (psdCom == 0) //no com 0. it equals null
                 return false;
             ComPort = psdCom;
+
+            //stub
             Connected = true;
-            return true;
+
+
+
+            return Connected;
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PSD.Config;
 
 namespace PSD
 {
     public partial class PrepareForm : Form
     {
         public DataConnections DataConnections { get; set; }
-        Config Cfg { get; set; }
+
 
         public PrepareForm()
         {
@@ -22,7 +24,6 @@ namespace PSD
 
         private void PrepareForm_Load(object sender, EventArgs e)
         {
-            Cfg = new Config();
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -32,8 +33,8 @@ namespace PSD
 
         private void btnConnectPsd_Click(object sender, EventArgs e)
         {
-            if (DataConnections.PsdBase.Connect((byte)nudCom.Value))
-                Cfg.PsdCom = (byte)nudCom.Value;
+            /* if (DataConnections.PsdBase.Connect((byte)nudCom.Value))
+                 _configSection.PsdCom = (byte)nudCom.Value;*/
         }
 
         private void btnSet_Click(object sender, EventArgs e)
@@ -53,12 +54,6 @@ namespace PSD
                 lblPsdConnection.DataBindings.Clear();
                 lblPsdConnection.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "ComPort"));
 
-                nudCom.Value = Cfg.PsdCom;
-
-
-                TryConnectPcBase(Cfg.PcBasePath);
-                TryConnectAndroidBase(Cfg.PhoneBasePath);
-                TryConnectPSDBase(Cfg.PsdCom);
             }
             else
             {
@@ -77,29 +72,31 @@ namespace PSD
         }
 
 
+        private void btnSelectPhoneFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.ShowDialog();
+            TryConnectAndroidBase(fileDialog.FileName);
+        }
+
         private void TryConnectPcBase(string path)
         {
-            if (DataConnections.PcBase.Connect(path))
-                Cfg.PcBasePath = DataConnections.PcBase.Path;
-            else
+            if (!DataConnections.PcBase.Connect(path))
                 DataConnections.PcBase.Path = null;
         }
 
         private void TryConnectAndroidBase(string path)
         {
-            if (DataConnections.PhoneBase.Connect(path))
-                Cfg.PhoneBasePath = path;
-            else
+            if (!DataConnections.PhoneBase.Connect(path))
                 DataConnections.PhoneBase.Path = null;
-
         }
 
         private void TryConnectPSDBase(byte comPort)
         {
-            if (DataConnections.PsdBase.Connect(comPort))
-                Cfg.PsdCom = comPort;
-            else
-                DataConnections.PsdBase.ComPort = 0;
+            /* if (DataConnections.PsdBase.Connect(comPort))
+                 _configSection.PsdCom = comPort;
+             else
+                 DataConnections.PsdBase.ComPort = 0;*/
 
         }
 
@@ -115,12 +112,7 @@ namespace PSD
             }
         }
 
-        private void btnSelectPhoneFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.ShowDialog();
-            TryConnectAndroidBase(fileDialog.FileName);
-        }
+
 
         private void btnCreatePhoneFile_Click(object sender, EventArgs e)
         {
