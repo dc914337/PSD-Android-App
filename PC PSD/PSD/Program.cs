@@ -11,15 +11,25 @@ namespace PSD
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        ///<summary>
+        ///The main entry point for the application.
+        ///</summary>
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PSDForm());
+
+            var prepareForm = new PrepareForm();
+
+            Application.Run(prepareForm);
+
+            if (!prepareForm.StartApp)
+                return;
+
+            var resDataConnections = prepareForm.DataConnections;
+            var mainForm = new PSDForm(resDataConnections);
+            Application.Run(mainForm);
         }
     }
 }

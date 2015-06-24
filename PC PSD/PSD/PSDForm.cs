@@ -13,17 +13,14 @@ namespace PSD
     public partial class PSDForm : Form
     {
         private DataConnections connections;
+        public bool Exited { get; private set; } = false;
 
         private PassItem selectedItem;
 
-        public PSDForm()
+        public PSDForm(DataConnections dataConnections)
         {
-            this.Hide();
             InitializeComponent();
-            PrepareForm preForm = new PrepareForm();
-            preForm.ShowDialog();
-            connections = preForm.DataConnections;
-
+            connections = dataConnections;
         }
 
 

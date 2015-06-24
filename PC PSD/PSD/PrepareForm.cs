@@ -18,6 +18,7 @@ namespace PSD
     public partial class PrepareForm : Form
     {
         public DataConnections DataConnections { get; set; }
+        public bool StartApp { get; private set; } = false;
 
 
         public PrepareForm()
@@ -62,9 +63,6 @@ namespace PSD
                 lblConnectedDesc.DataBindings.Clear();
                 lblConnectedDesc.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
 
-               
-
-              
             }
             else
             {
@@ -168,18 +166,28 @@ namespace PSD
             btnStart.Enabled = !btnStart.Enabled;
         }
 
+
+
         private void btnStart_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(DataConnections?.PcBase?.Path))
                 MessageBox.Show(Localization.StorageFileNotSelectedError);
             else
+            {
                 this.Close();
+                StartApp = true;
+            }
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             if (!ReinitPsds())
                 MessageBox.Show(Localization.NoPSDsError);
+        }
+
+        private void PrepareForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }

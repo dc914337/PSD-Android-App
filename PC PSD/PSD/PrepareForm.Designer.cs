@@ -169,9 +169,8 @@
             this.lblConnectedPsd.AutoSize = true;
             this.lblConnectedPsd.Location = new System.Drawing.Point(287, 184);
             this.lblConnectedPsd.Name = "lblConnectedPsd";
-            this.lblConnectedPsd.Size = new System.Drawing.Size(39, 13);
+            this.lblConnectedPsd.Size = new System.Drawing.Size(0, 13);
             this.lblConnectedPsd.TabIndex = 28;
-            this.lblConnectedPsd.Text = "deftext";
             // 
             // btnRefresh
             // 
@@ -214,6 +213,7 @@
             this.Controls.Add(this.lblBasePath);
             this.Name = "PrepareForm";
             this.Text = "Prepare";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrepareForm_FormClosing);
             this.Load += new System.EventHandler(this.PrepareForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
