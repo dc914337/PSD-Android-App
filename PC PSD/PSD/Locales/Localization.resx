@@ -132,4 +132,7 @@
 	<data name="StorageFileNotSelectedError" xml:space="preserve">
     <value>You must select storage file</value>
   </data>
+	<data name="PsdConnectionError" xml:space="preserve">
+    <value>Can't connect to PSD</value>
+  </data>
 </root>

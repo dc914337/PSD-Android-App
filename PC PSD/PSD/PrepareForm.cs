@@ -36,8 +36,7 @@ namespace PSD
 
         private void btnConnectPsd_Click(object sender, EventArgs e)
         {
-            /* if (DataConnections.PsdBase.Connect((byte)nudCom.Value))
-                 _configSection.PsdCom = (byte)nudCom.Value;*/
+            TryConnectPSDBase();
         }
 
 
@@ -53,13 +52,19 @@ namespace PSD
                 lblBasePath.DataBindings.Clear();
                 lblBasePath.DataBindings.Add(new Binding("Text", DataConnections.PcBase, "Path"));
 
-
                 lblAndroidPath.DataBindings.Clear();
                 lblAndroidPath.DataBindings.Add(new Binding("Text", DataConnections.PhoneBase, "Path"));
 
-                lblPsdConnected.DataBindings.Clear();
-                lblPsdConnected.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "ComPort"));
+                lblConnectedPsd.DataBindings.Clear();
+                lblConnectedPsd.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "Name"));
+                lblConnectedPsd.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
 
+                lblConnectedDesc.DataBindings.Clear();
+                lblConnectedDesc.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
+
+               
+
+              
             }
             else
             {
@@ -105,28 +110,21 @@ namespace PSD
         private void TryConnectPcBase(string path)
         {
             if (!DataConnections.PcBase.Connect(path))
-            {
-                DataConnections.PcBase.Path = null;
                 MessageBox.Show(Localization.CantLoadFileString);
-            }
+
         }
 
         private void TryConnectAndroidBase(string path)
         {
             if (!DataConnections.PhoneBase.Connect(path))
-            {
-                DataConnections.PhoneBase.Path = null;
                 MessageBox.Show(Localization.CantLoadFileString);
-            }
+
         }
 
-        private void TryConnectPSDBase(byte comPort)
+        private void TryConnectPSDBase()
         {
-            /* if (DataConnections.PsdBase.Connect(comPort))
-                 _configSection.PsdCom = comPort;
-             else
-                 DataConnections.PsdBase.ComPort = 0;*/
-
+            if (!DataConnections.PsdBase.Connect((PSDDevice)cmbPsds.SelectedItem))
+                MessageBox.Show(Localization.PsdConnectionError);
         }
 
 

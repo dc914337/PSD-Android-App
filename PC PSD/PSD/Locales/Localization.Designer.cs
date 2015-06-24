@@ -97,6 +97,15 @@ namespace PSD.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t connect to PSD.
+        /// </summary>
+        internal static string PsdConnectionError {
+            get {
+                return ResourceManager.GetString("PsdConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must select storage file.
         /// </summary>
         internal static string StorageFileNotSelectedError {

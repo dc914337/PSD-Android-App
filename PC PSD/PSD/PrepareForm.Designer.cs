@@ -40,8 +40,9 @@
             this.lblBasePath = new System.Windows.Forms.Label();
             this.btnSet = new System.Windows.Forms.Button();
             this.cmbPsds = new System.Windows.Forms.ComboBox();
-            this.lblPsdConnected = new System.Windows.Forms.Label();
+            this.lblConnectedPsd = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.lblConnectedDesc = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnSelectStorageFile
@@ -69,7 +70,7 @@
             // btnConnectPsd
             // 
             this.btnConnectPsd.Enabled = false;
-            this.btnConnectPsd.Location = new System.Drawing.Point(329, 155);
+            this.btnConnectPsd.Location = new System.Drawing.Point(326, 148);
             this.btnConnectPsd.Name = "btnConnectPsd";
             this.btnConnectPsd.Size = new System.Drawing.Size(72, 23);
             this.btnConnectPsd.TabIndex = 2;
@@ -158,22 +159,23 @@
             this.cmbPsds.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPsds.Enabled = false;
             this.cmbPsds.FormattingEnabled = true;
-            this.cmbPsds.Location = new System.Drawing.Point(204, 157);
+            this.cmbPsds.Location = new System.Drawing.Point(123, 150);
             this.cmbPsds.Name = "cmbPsds";
-            this.cmbPsds.Size = new System.Drawing.Size(119, 21);
+            this.cmbPsds.Size = new System.Drawing.Size(197, 21);
             this.cmbPsds.TabIndex = 27;
             // 
-            // lblPsdConnected
+            // lblConnectedPsd
             // 
-            this.lblPsdConnected.AutoSize = true;
-            this.lblPsdConnected.Location = new System.Drawing.Point(120, 184);
-            this.lblPsdConnected.Name = "lblPsdConnected";
-            this.lblPsdConnected.Size = new System.Drawing.Size(0, 13);
-            this.lblPsdConnected.TabIndex = 28;
+            this.lblConnectedPsd.AutoSize = true;
+            this.lblConnectedPsd.Location = new System.Drawing.Point(287, 184);
+            this.lblConnectedPsd.Name = "lblConnectedPsd";
+            this.lblConnectedPsd.Size = new System.Drawing.Size(39, 13);
+            this.lblConnectedPsd.TabIndex = 28;
+            this.lblConnectedPsd.Text = "deftext";
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(123, 155);
+            this.btnRefresh.Location = new System.Drawing.Point(123, 179);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 29;
@@ -181,13 +183,23 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // lblConnectedDesc
+            // 
+            this.lblConnectedDesc.AutoSize = true;
+            this.lblConnectedDesc.Location = new System.Drawing.Point(204, 184);
+            this.lblConnectedDesc.Name = "lblConnectedDesc";
+            this.lblConnectedDesc.Size = new System.Drawing.Size(77, 13);
+            this.lblConnectedDesc.TabIndex = 30;
+            this.lblConnectedDesc.Text = "Connected to: ";
+            // 
             // PrepareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(527, 247);
+            this.Controls.Add(this.lblConnectedDesc);
             this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.lblPsdConnected);
+            this.Controls.Add(this.lblConnectedPsd);
             this.Controls.Add(this.cmbPsds);
             this.Controls.Add(this.btnSet);
             this.Controls.Add(this.btnStart);
@@ -222,7 +234,8 @@
         private System.Windows.Forms.Label lblBasePath;
         private System.Windows.Forms.Button btnSet;
         private System.Windows.Forms.ComboBox cmbPsds;
-        private System.Windows.Forms.Label lblPsdConnected;
+        private System.Windows.Forms.Label lblConnectedPsd;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Label lblConnectedDesc;
     }
 }

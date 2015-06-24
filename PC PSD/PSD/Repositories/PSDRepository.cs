@@ -6,16 +6,43 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using PSD.Annotations;
+using PSD.Device.Hid;
 
 namespace PSD
 {
     public class PSDRepository : INotifyPropertyChanged
     {
+        public PSDDevice Psd;
+
+        private bool _connected = false;
         public bool Connected
         {
-            get;
-            set;
+            get
+            {
+                return _connected;
+            }
+            set
+            {
+                _connected = value;
+                OnPropertyChanged();
+            }
         }
+
+        private String _name;
+
+        public String Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private byte _comPort;
 
@@ -46,16 +73,16 @@ namespace PSD
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool Connect(byte psdCom)
+        public bool Connect(PSDDevice psdDevice)
         {
-            if (psdCom == 0) //no com 0. it equals null
-                return false;
-            ComPort = psdCom;
-
-            //stub
-            Connected = true;
-
-
+            Connected = psdDevice.Connect();
+            if (Connected)
+            {
+                Psd = psdDevice;
+                Name = Psd.ToString();
+            }
+            else
+                Psd = null;
 
             return Connected;
         }
