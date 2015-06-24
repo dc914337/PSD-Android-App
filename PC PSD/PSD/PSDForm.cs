@@ -14,11 +14,7 @@ namespace PSD
     public partial class PSDForm : Form
     {
         private DataConnections _connections;
-        private bool _changingItem = false;
-        private PassItem _selectedItem;
-
-
-
+        
         public PSDForm(DataConnections dataConnections)
         {
             InitializeComponent();
