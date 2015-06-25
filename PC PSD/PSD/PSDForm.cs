@@ -14,11 +14,14 @@ namespace PSD
     public partial class PSDForm : Form
     {
         private DataConnections _connections;
-        
+        private PasswordsList _passwords;
+
         public PSDForm(DataConnections dataConnections)
         {
             InitializeComponent();
             _connections = dataConnections;
+            _passwords = _connections.PcBase.Base.Passwords;
+            lstViewPasswords.HideSelection = false;
         }
 
 
@@ -31,7 +34,7 @@ namespace PSD
                 return;
             }
             FillPathesLables();
-            FillPasswordsList();
+            RefillPasswordsList();
         }
 
         private bool CheckBase()
@@ -62,10 +65,10 @@ namespace PSD
             }
         }
 
-        private void FillPasswordsList()
+        private void RefillPasswordsList()
         {
             lstViewPasswords.Items.Clear();
-            var passwords = _connections.PcBase.Base.Passwords;
+            var passwords = _connections.PcBase.Base.Passwords.OrderBy(a => a.Id).ToList();
 
             for (int i = 0; i < passwords.Count; i++)
             {
@@ -79,126 +82,38 @@ namespace PSD
             }
         }
 
-        private bool selectingNextItem = false; //to not update list values while changing list item
-        //changed index
-        private void lstViewPasswords_SelectedIndexChanged(object sender, EventArgs e)
+
+
+
+
+        private bool CheckPassword(PassItem pass)
         {
-            if (_changingItem)
-                return;
 
-            selectingNextItem = true;
-            if (lstViewPasswords.SelectedIndices.Count > 0)
-            {
-                var selectedIndex = lstViewPasswords.SelectedIndices[0];
-                SetNewSelectedItem(selectedIndex);
-
-            }
-            selectingNextItem = false;
-        }
-
-
-        private void cbxShowPassword_CheckedChanged(object sender, EventArgs e)
-        {
-            txtPass.UseSystemPasswordChar = cbxShowPassword.Checked;
-        }
-
-
-
-        private void UpdateChangedItem()
-        {
-            if (lstViewPasswords.SelectedIndices.Count <= 0)
-                return;
-
-            _changingItem = true;
-            var selectedIndex = lstViewPasswords.SelectedIndices[0];
-
-            ListViewItem currItem = new ListViewItem(
-                new string[] {
-                        nudId.Value.ToString(),
-                        txtTitle.Text,
-                        txtLogin.Text });
-            currItem.Selected = true;
-            lstViewPasswords.Items[selectedIndex] = currItem;
-            _changingItem = false;
-        }
-
-        //changed textboxes
-        private void RepresentationChanged(object sender, EventArgs e)
-        {
-            if (selectingNextItem)
-                return;
-            UpdateChangedItem();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            _connections.UpdateInAllAvailableBases();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var index = ((ushort)nudId.Value);
-            var title = txtTitle.Text;
-            var login = txtLogin.Text;
-            var enterWithLogin = cbxEnterWithLogin.Checked;
-            var pass = txtPass.Text;
-            var desc = txtDescription.Text;
-
-            if (!CheckFields())
-                return;
-
-            var addingItem = new PassItem(index, title, login, enterWithLogin, pass, desc);
-            AddItemAndSelect(addingItem);
-        }
-
-        private void AddItemAndSelect(PassItem addingItem)
-        {
-            _connections.PcBase.Base.Passwords.Add(addingItem);
-            var item = new ListViewItem(
-                               new string[] {
-                        addingItem.Id.ToString(),
-                        addingItem.Title,
-                        addingItem.Login });
-            item.Selected = true;
-            lstViewPasswords.Items.Add(item);
-
-            int indexInList = lstViewPasswords.Items.IndexOf(item);
-
-            SetNewSelectedItem(indexInList);
-        }
-
-        private bool CheckFields()
-        {
-            var index = ((ushort)nudId.Value);
-            var title = txtTitle.Text;
-            var login = txtLogin.Text;
-            var pass = txtPass.Text;
-            var desc = txtDescription.Text;
-            if (ContainsId(index))
+            if (ContainsId(pass.Id))
             {
                 MessageBox.Show("Contains this id");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(title))
+            if (string.IsNullOrWhiteSpace(pass.Title))
             {
                 MessageBox.Show("Title is empty");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(login))
+            if (string.IsNullOrWhiteSpace(pass.Login))
             {
                 MessageBox.Show("Login is empty");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(pass))
+            if (string.IsNullOrWhiteSpace(pass.Pass))
             {
                 MessageBox.Show("Password is empty");
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(desc))
+            if (string.IsNullOrWhiteSpace(pass.Description))
             {
                 MessageBox.Show("Description is empty");
                 return false;
@@ -211,14 +126,45 @@ namespace PSD
             return _connections.PcBase.Base.Passwords.Any(a => a.Id == id);
         }
 
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private PassItem GetFirstSelectedPassword()
         {
-
+            return GetSelectedPasswords()?.FirstOrDefault();
         }
 
-        private void newPCBaseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
+        private PassItem[] GetSelectedPasswords()
+        {
+            if (!_passwords.Any())
+                return null;
+            if (lstViewPasswords.SelectedIndices.Count <= 0)
+                return null;
+            PassItem[] selectedItems = new PassItem[lstViewPasswords.SelectedItems.Count];
+            for (uint i = 0; i < selectedItems.Length; i++)
+            {
+                var passId = lstViewPasswords.SelectedItems[(int)i].Index;
+                selectedItems[i] = _passwords.FirstOrDefault(a => a.Id == passId);
+            }
+            return selectedItems;
+        }
+
+
+        private void btnAddPass_Click(object sender, EventArgs e)
+        {
+            PassItem newPassword = new PassItem();
+            do
+            {
+                var editPassForm = new EditPasswordForm(newPassword);
+                editPassForm.ShowDialog();
+                if (!editPassForm.Confirmed)
+                    return; //was cancelled
+            } while (!CheckPassword(newPassword));
+            _passwords.Add(newPassword);
+            RefillPasswordsList();
+        }
+
+        private void btnSaveAll_Click(object sender, EventArgs e)
+        {
+           
         }
     }
 }

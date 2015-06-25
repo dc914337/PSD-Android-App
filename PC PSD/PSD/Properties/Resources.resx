@@ -127,8 +127,14 @@
   <data name="appbar.chevron.up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\appbar.chevron.up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="appbar.check" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\appbar.check.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="appbar.list.delete.inline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\appbar.list.delete.inline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="appbar.edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\appbar.edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CantLoadFileString" xml:space="preserve">
     <value>Can't load file. Password may be invalid</value>
@@ -136,7 +142,7 @@
   <data name="appbar.chevron.down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\appbar.chevron.down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="appbar.edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\appbar.edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="appbar.cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\appbar.cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

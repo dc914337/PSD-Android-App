@@ -38,7 +38,7 @@
             this.lblBasePath = new System.Windows.Forms.Label();
             this.lblAndroidBasePath = new System.Windows.Forms.Label();
             this.lblPsdComPort = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,31 +56,33 @@
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToPSDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.writeFirmwareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnSaveAll = new System.Windows.Forms.Button();
+            this.btnRemovePass = new System.Windows.Forms.Button();
+            this.btnAddPass = new System.Windows.Forms.Button();
+            this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstViewPasswords
             // 
+            this.lstViewPasswords.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lstViewPasswords.BackColor = System.Drawing.SystemColors.Window;
             this.lstViewPasswords.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Id,
             this.Title,
             this.Login});
             this.lstViewPasswords.FullRowSelect = true;
             this.lstViewPasswords.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lstViewPasswords.Location = new System.Drawing.Point(12, 22);
+            this.lstViewPasswords.HideSelection = false;
+            this.lstViewPasswords.Location = new System.Drawing.Point(7, 27);
             this.lstViewPasswords.Name = "lstViewPasswords";
             this.lstViewPasswords.Size = new System.Drawing.Size(338, 420);
             this.lstViewPasswords.TabIndex = 5;
             this.lstViewPasswords.UseCompatibleStateImageBehavior = false;
             this.lstViewPasswords.View = System.Windows.Forms.View.Details;
-            this.lstViewPasswords.SelectedIndexChanged += new System.EventHandler(this.lstViewPasswords_SelectedIndexChanged);
             // 
             // Id
             // 
@@ -100,7 +102,7 @@
             // lblBasePathDesc
             // 
             this.lblBasePathDesc.AutoSize = true;
-            this.lblBasePathDesc.Location = new System.Drawing.Point(12, 445);
+            this.lblBasePathDesc.Location = new System.Drawing.Point(4, 450);
             this.lblBasePathDesc.Name = "lblBasePathDesc";
             this.lblBasePathDesc.Size = new System.Drawing.Size(77, 13);
             this.lblBasePathDesc.TabIndex = 19;
@@ -110,7 +112,7 @@
             // lblAndroidPathDesc
             // 
             this.lblAndroidPathDesc.AutoSize = true;
-            this.lblAndroidPathDesc.Location = new System.Drawing.Point(12, 460);
+            this.lblAndroidPathDesc.Location = new System.Drawing.Point(4, 465);
             this.lblAndroidPathDesc.Name = "lblAndroidPathDesc";
             this.lblAndroidPathDesc.Size = new System.Drawing.Size(73, 13);
             this.lblAndroidPathDesc.TabIndex = 21;
@@ -120,7 +122,7 @@
             // lblPsdConnectionDesc
             // 
             this.lblPsdConnectionDesc.AutoSize = true;
-            this.lblPsdConnectionDesc.Location = new System.Drawing.Point(12, 476);
+            this.lblPsdConnectionDesc.Location = new System.Drawing.Point(4, 481);
             this.lblPsdConnectionDesc.Name = "lblPsdConnectionDesc";
             this.lblPsdConnectionDesc.Size = new System.Drawing.Size(90, 13);
             this.lblPsdConnectionDesc.TabIndex = 22;
@@ -130,7 +132,7 @@
             // lblBasePath
             // 
             this.lblBasePath.AutoSize = true;
-            this.lblBasePath.Location = new System.Drawing.Point(108, 447);
+            this.lblBasePath.Location = new System.Drawing.Point(100, 452);
             this.lblBasePath.Name = "lblBasePath";
             this.lblBasePath.Size = new System.Drawing.Size(0, 13);
             this.lblBasePath.TabIndex = 23;
@@ -138,7 +140,7 @@
             // lblAndroidBasePath
             // 
             this.lblAndroidBasePath.AutoSize = true;
-            this.lblAndroidBasePath.Location = new System.Drawing.Point(108, 460);
+            this.lblAndroidBasePath.Location = new System.Drawing.Point(100, 465);
             this.lblAndroidBasePath.Name = "lblAndroidBasePath";
             this.lblAndroidBasePath.Size = new System.Drawing.Size(0, 13);
             this.lblAndroidBasePath.TabIndex = 24;
@@ -146,24 +148,24 @@
             // lblPsdComPort
             // 
             this.lblPsdComPort.AutoSize = true;
-            this.lblPsdComPort.Location = new System.Drawing.Point(108, 476);
+            this.lblPsdComPort.Location = new System.Drawing.Point(100, 481);
             this.lblPsdComPort.Name = "lblPsdComPort";
             this.lblPsdComPort.Size = new System.Drawing.Size(0, 13);
             this.lblPsdComPort.TabIndex = 25;
             // 
-            // menuStrip1
+            // menuMain
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.pCToolStripMenuItem,
             this.phoneToolStripMenuItem,
             this.deviceToolStripMenuItem,
             this.aboutToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(398, 24);
-            this.menuStrip1.TabIndex = 30;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuMain.Location = new System.Drawing.Point(0, 0);
+            this.menuMain.Name = "menuMain";
+            this.menuMain.Size = new System.Drawing.Size(416, 24);
+            this.menuMain.TabIndex = 30;
+            this.menuMain.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -202,7 +204,6 @@
             this.newPCBaseToolStripMenuItem.Name = "newPCBaseToolStripMenuItem";
             this.newPCBaseToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.newPCBaseToolStripMenuItem.Text = "New";
-            this.newPCBaseToolStripMenuItem.Click += new System.EventHandler(this.newPCBaseToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -286,78 +287,80 @@
             this.writeFirmwareToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.writeFirmwareToolStripMenuItem.Text = "Write firmware";
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = "About";
-            // 
-            // button2
-            // 
-            this.button2.Image = global::PSD.Properties.Resources.appbar_chevron_down;
-            this.button2.Location = new System.Drawing.Point(351, 56);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(35, 35);
-            this.button2.TabIndex = 36;
-            this.button2.Text = " ";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Image = global::PSD.Properties.Resources.appbar_chevron_up;
-            this.button6.Location = new System.Drawing.Point(351, 22);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(35, 35);
-            this.button6.TabIndex = 37;
-            this.button6.Text = " ";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Image = global::PSD.Properties.Resources.appbar_save;
-            this.button7.Location = new System.Drawing.Point(351, 397);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(45, 45);
-            this.button7.TabIndex = 38;
-            this.button7.Text = " ";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Image = global::PSD.Properties.Resources.appbar_list_delete_inline;
-            this.button8.Location = new System.Drawing.Point(351, 353);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(45, 45);
-            this.button8.TabIndex = 39;
-            this.button8.Text = " ";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Image = global::PSD.Properties.Resources.appbar_list_add;
-            this.button10.Location = new System.Drawing.Point(351, 309);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(45, 45);
-            this.button10.TabIndex = 41;
-            this.button10.Text = " ";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
             // connectToolStripMenuItem
             // 
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
             this.connectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.connectToolStripMenuItem.Text = "Connect";
             // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.Image = global::PSD.Properties.Resources.appbar_chevron_down;
+            this.btnMoveDown.Location = new System.Drawing.Point(349, 61);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(35, 35);
+            this.btnMoveDown.TabIndex = 36;
+            this.btnMoveDown.Text = " ";
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            // 
+            // btnMoveUp
+            // 
+            this.btnMoveUp.Image = global::PSD.Properties.Resources.appbar_chevron_up;
+            this.btnMoveUp.Location = new System.Drawing.Point(349, 27);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(35, 35);
+            this.btnMoveUp.TabIndex = 37;
+            this.btnMoveUp.Text = " ";
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveAll
+            // 
+            this.btnSaveAll.Image = global::PSD.Properties.Resources.appbar_save;
+            this.btnSaveAll.Location = new System.Drawing.Point(349, 392);
+            this.btnSaveAll.Name = "btnSaveAll";
+            this.btnSaveAll.Size = new System.Drawing.Size(55, 55);
+            this.btnSaveAll.TabIndex = 38;
+            this.btnSaveAll.Text = " ";
+            this.btnSaveAll.UseVisualStyleBackColor = true;
+            this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
+            // 
+            // btnRemovePass
+            // 
+            this.btnRemovePass.Image = global::PSD.Properties.Resources.appbar_list_delete_inline;
+            this.btnRemovePass.Location = new System.Drawing.Point(349, 335);
+            this.btnRemovePass.Name = "btnRemovePass";
+            this.btnRemovePass.Size = new System.Drawing.Size(55, 55);
+            this.btnRemovePass.TabIndex = 39;
+            this.btnRemovePass.Text = " ";
+            this.btnRemovePass.UseVisualStyleBackColor = true;
+            // 
+            // btnAddPass
+            // 
+            this.btnAddPass.Image = global::PSD.Properties.Resources.appbar_list_add;
+            this.btnAddPass.Location = new System.Drawing.Point(349, 278);
+            this.btnAddPass.Name = "btnAddPass";
+            this.btnAddPass.Size = new System.Drawing.Size(55, 55);
+            this.btnAddPass.TabIndex = 41;
+            this.btnAddPass.Text = " ";
+            this.btnAddPass.UseVisualStyleBackColor = true;
+            this.btnAddPass.Click += new System.EventHandler(this.btnAddPass_Click);
+            // 
             // PSDForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 491);
-            this.Controls.Add(this.button10);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button2);
+            this.ClientSize = new System.Drawing.Size(416, 500);
+            this.Controls.Add(this.btnAddPass);
+            this.Controls.Add(this.btnRemovePass);
+            this.Controls.Add(this.btnSaveAll);
+            this.Controls.Add(this.btnMoveUp);
+            this.Controls.Add(this.btnMoveDown);
             this.Controls.Add(this.lblPsdComPort);
             this.Controls.Add(this.lblAndroidBasePath);
             this.Controls.Add(this.lblBasePath);
@@ -365,13 +368,13 @@
             this.Controls.Add(this.lblAndroidPathDesc);
             this.Controls.Add(this.lblBasePathDesc);
             this.Controls.Add(this.lstViewPasswords);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.menuMain);
+            this.MainMenuStrip = this.menuMain;
             this.Name = "PSDForm";
             this.Text = "PSD";
             this.Load += new System.EventHandler(this.PSDForm_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuMain.ResumeLayout(false);
+            this.menuMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -388,7 +391,7 @@
         private System.Windows.Forms.Label lblBasePath;
         private System.Windows.Forms.Label lblAndroidBasePath;
         private System.Windows.Forms.Label lblPsdComPort;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -407,11 +410,11 @@
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToPSDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem writeFirmwareToolStripMenuItem;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.Button btnMoveUp;
+        private System.Windows.Forms.Button btnSaveAll;
+        private System.Windows.Forms.Button btnRemovePass;
+        private System.Windows.Forms.Button btnAddPass;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
     }
 }

@@ -58,11 +58,11 @@
     <Compile Include="Device\Hid\PSDDevice.cs" />
     <Compile Include="Device\Hid\PSDFinder.cs" />
     <Compile Include="DataConnections.cs" />
-    <Compile Include="EditPassword.cs">
+    <Compile Include="EditPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditPassword.Designer.cs">
-      <DependentUpon>EditPassword.cs</DependentUpon>
+    <Compile Include="EditPasswordForm.Designer.cs">
+      <DependentUpon>EditPasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Locales\Localization.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -93,8 +93,8 @@
     <Compile Include="Repositories\Serializers\JSONWorker.cs" />
     <Compile Include="Repositories\Serializers\Serializer.cs" />
     <Compile Include="Repositories\Serializers\XMLWorker.cs" />
-    <EmbeddedResource Include="EditPassword.resx">
-      <DependentUpon>EditPassword.cs</DependentUpon>
+    <EmbeddedResource Include="EditPasswordForm.resx">
+      <DependentUpon>EditPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Locales\Localization.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -148,6 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\appbar.edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\appbar.cancel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

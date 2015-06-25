@@ -63,6 +63,26 @@ namespace PSD.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap appbar_cancel {
+            get {
+                object obj = ResourceManager.GetObject("appbar.cancel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap appbar_check {
+            get {
+                object obj = ResourceManager.GetObject("appbar.check", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap appbar_chevron_down {
             get {
                 object obj = ResourceManager.GetObject("appbar.chevron.down", resourceCulture);

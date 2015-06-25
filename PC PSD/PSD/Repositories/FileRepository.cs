@@ -38,21 +38,19 @@ namespace PSD
 
         public FileRepository()
         {
-            //EncryptionKey - null
+            //EncryptionKey = null
         }
         public FileRepository(byte[] encryptionKey)
         {
             EncryptionKey = encryptionKey;
         }
-
-
-
+        
 
         private bool MapData()
         {
             Base = new Base();
             byte[] dataBytes = ReadAllBytes();
-            
+
             string dataStr;
             if (EncryptionKey != null)//decrypt
             {
