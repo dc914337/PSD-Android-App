@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PSD.Annotations;
 using PSD.Device.Hid;
+using SharpProject;
 
 namespace PSD
 {
