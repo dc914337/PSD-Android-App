@@ -75,7 +75,6 @@ namespace PSD
                 var currPass = passwords[i];
                 var item = new ListViewItem(
                     new string[] {
-                        currPass.Id.ToString(),
                         currPass.Title,
                         currPass.Login });
                 lstViewPasswords.Items.Add(item);
@@ -156,9 +155,11 @@ namespace PSD
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
-            PassItem newPassword = new PassItem();
+            PassItem newPassword = new PassItem
+            {
+                Id = (ushort)(GetLastIndex() + 1)//can fail
+            };
 
-            newPassword.Id = (ushort)(GetLastIndex() + 1);
 
             if (!EditPassword(newPassword)) return;
             _passwords.Add(newPassword);

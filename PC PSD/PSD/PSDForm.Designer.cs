@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lstViewPasswords = new System.Windows.Forms.ListView();
-            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Login = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblBasePathDesc = new System.Windows.Forms.Label();
@@ -72,7 +71,6 @@
             this.lstViewPasswords.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lstViewPasswords.BackColor = System.Drawing.SystemColors.Window;
             this.lstViewPasswords.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Id,
             this.Title,
             this.Login});
             this.lstViewPasswords.FullRowSelect = true;
@@ -85,11 +83,6 @@
             this.lstViewPasswords.UseCompatibleStateImageBehavior = false;
             this.lstViewPasswords.View = System.Windows.Forms.View.Details;
             this.lstViewPasswords.DoubleClick += new System.EventHandler(this.lstViewPasswords_DoubleClick);
-            // 
-            // Id
-            // 
-            this.Id.Text = "Id";
-            this.Id.Width = 99;
             // 
             // Title
             // 
@@ -399,7 +392,6 @@
 
         #endregion
         private System.Windows.Forms.ListView lstViewPasswords;
-        private System.Windows.Forms.ColumnHeader Id;
         private System.Windows.Forms.ColumnHeader Title;
         private System.Windows.Forms.ColumnHeader Login;
         private System.Windows.Forms.Label lblBasePathDesc;

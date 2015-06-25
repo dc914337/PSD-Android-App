@@ -31,7 +31,6 @@ namespace PSD
 
         private void FillFields()
         {
-            nudId.Value = _passItem.Id;
             txtTitle.Text = _passItem.Title;
             txtLogin.Text = _passItem.Login;
             cbxEnterWithLogin.Checked = _passItem.EnterWithLogin;
@@ -41,7 +40,6 @@ namespace PSD
 
         private void FillPass()
         {
-            _passItem.Id = (ushort)nudId.Value;
             _passItem.Title = txtTitle.Text;
             _passItem.Login = txtLogin.Text;
             _passItem.EnterWithLogin = cbxEnterWithLogin.Checked;
