@@ -123,6 +123,16 @@ namespace PSD.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap appbar_list_add_below {
+            get {
+                object obj = ResourceManager.GetObject("appbar.list.add.below", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap appbar_list_delete_inline {
             get {
                 object obj = ResourceManager.GetObject("appbar.list.delete.inline", resourceCulture);

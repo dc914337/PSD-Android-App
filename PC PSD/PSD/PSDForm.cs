@@ -147,14 +147,22 @@ namespace PSD
             return selectedItems;
         }
 
+        private int GetLastIndex()
+        {
+            if (!_passwords.Any())
+                return -1;
+            return _passwords.Last().Id;
+        }
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
             PassItem newPassword = new PassItem();
+
+            newPassword.Id = (ushort)(GetLastIndex() + 1);
+
             if (!EditPassword(newPassword)) return;
             _passwords.Add(newPassword);
-            ReindexPasswords();
-            RefillPasswordsList();
+            UpdateData();
         }
 
 
@@ -181,9 +189,10 @@ namespace PSD
         }
 
 
-
         private void btnSaveAll_Click(object sender, EventArgs e)
         {
+            ReindexPasswords();
+            RefillPasswordsList();
             _connections.UpdateInAllAvailableBases();
         }
 
@@ -193,8 +202,7 @@ namespace PSD
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
                 selectedPass.InitFromPass(backup);
-            ReindexPasswords();
-            RefillPasswordsList();
+            UpdateData();
         }
 
         private void btnRemovePass_Click(object sender, EventArgs e)
@@ -203,14 +211,47 @@ namespace PSD
             {
                 _passwords.Remove(selectedPass);
             }
-            ReindexPasswords();
-            RefillPasswordsList();
+            UpdateData();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            UpdateData();
+        }
+
+        private void UpdateData()
+        {
             ReindexPasswords();
             RefillPasswordsList();
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            var selectedPass = GetFirstSelectedPassword();
+            if (selectedPass == null)
+                return;
+
+            var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
+            if (prevPass == null)
+                return;
+            var tempId = selectedPass.Id;
+            selectedPass.Id = prevPass.Id;
+            prevPass.Id = tempId;
+            UpdateData();
+        }
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            var selectedPass = GetFirstSelectedPassword();
+            if (selectedPass == null)
+                return;
+            var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
+            if (nextPass == null)
+                return;
+            var tempId = selectedPass.Id;
+            selectedPass.Id = nextPass.Id;
+            nextPass.Id = tempId;
+            UpdateData();
         }
     }
 }

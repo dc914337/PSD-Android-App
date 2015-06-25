@@ -310,6 +310,7 @@
             this.btnMoveDown.TabIndex = 36;
             this.btnMoveDown.Text = " ";
             this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnMoveUp
             // 
@@ -320,6 +321,7 @@
             this.btnMoveUp.TabIndex = 37;
             this.btnMoveUp.Text = " ";
             this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
             // btnSaveAll
             // 
@@ -345,7 +347,7 @@
             // 
             // btnAddPass
             // 
-            this.btnAddPass.Image = global::PSD.Properties.Resources.appbar_list_add;
+            this.btnAddPass.Image = global::PSD.Properties.Resources.appbar_list_add_below;
             this.btnAddPass.Location = new System.Drawing.Point(349, 278);
             this.btnAddPass.Name = "btnAddPass";
             this.btnAddPass.Size = new System.Drawing.Size(55, 55);
