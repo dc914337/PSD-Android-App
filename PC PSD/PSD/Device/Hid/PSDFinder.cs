@@ -2,6 +2,7 @@
 using System.Linq;
 using HidSharp;
 using PSD.Config;
+using SharpProject;
 
 namespace PSD.Device.Hid
 {

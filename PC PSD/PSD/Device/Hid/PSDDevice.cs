@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using HidSharp;
 
-namespace PSD.Device.Hid
+namespace SharpProject
 {
     public class PSDDevice
     {
         private const int DefaultDataLength = 64;
-        private const int MaxAuthPassLength = 31;
+        private const int MaxAuthPassLength = 32;
         private const int MaxKeyLength = 32;
 
+        private const byte ReportId = 0x00;
         private const int MaxPart2KeyLength = 126;
         private const int PageIndexSize = 2;
+
+        private const byte PasswordsStartPageNum = 8;
 
         private const int PageSize = 32;
         private const byte LineEnd = 0x00;
@@ -59,7 +63,7 @@ namespace PSD.Device.Hid
         {
             if (newPassword.Length > MaxAuthPassLength)
                 return false;
-            byte[] data = new byte[MaxAuthPassLength + 1];//pass+ \0
+            byte[] data = new byte[MaxAuthPassLength];
             byte[] passBytes = GetBytesFromString(newPassword);
             Array.Copy(passBytes, data, passBytes.Length);
 
@@ -121,12 +125,15 @@ namespace PSD.Device.Hid
                 Array.Copy(password, 0, buff, PageIndexSize, password.Length);//copying data with offset 2(PageIndexSize)
 
                 bool success = true;
-                for (var page = 0; page < pagesPerPassword; page++)
+                for (var currentPasswordPage = 0; currentPasswordPage < pagesPerPassword; currentPasswordPage++)
                 {
-                    byte pageNum = (byte)(pagesPerPassword * passIndex + page);//it MUST be byte
+                    byte pageNum = (byte)(PasswordsStartPageNum + pagesPerPassword * passIndex + currentPasswordPage);//it MUST be byte
                     try
                     {
-                        if (WriteEepromPage(pageNum, password)) continue;
+                        byte[] currentPasswordPageBuff = new byte[PageSize];
+                        Array.Copy(buff, (int)(currentPasswordPage * PageSize), currentPasswordPageBuff, 0, PageSize);
+
+                        if (WriteEepromPage(pageNum, currentPasswordPageBuff)) continue;
                         success = false;
                         break;
                     }
@@ -170,13 +177,30 @@ namespace PSD.Device.Hid
 
         private byte[] WritePackage(Packages packageType, byte[] data)
         {
-            _hidStream.WriteByte((byte)packageType);
-            _hidStream.Write(data);
-            var buf = new byte[DefaultDataLength];
-            var recievedCount = _hidStream.Read(buf);
-            if (recievedCount != DefaultDataLength)
+            byte[] buf = new byte[DefaultDataLength + 1]; // +1 due reportId at beginning
+            buf[0] = ReportId; // ReportId is zero
+            buf[1] = (byte)packageType;
+
+            // Copy data array into buffer
+            Array.Copy(data, 0, buf, 2, (int)Math.Min(data.Length, DefaultDataLength - 1));
+
+            // We have to write all data at once from single buffer
+            _hidStream.Write(buf);
+
+            var bufRead = new byte[DefaultDataLength + 1];
+
+            _hidStream.ReadTimeout = 30 * 1000; // 30 sec timeout
+            var recievedCount = _hidStream.Read(bufRead);
+
+            if (recievedCount != DefaultDataLength + 1) // +1 due reportId leading byte
                 throw new IOException(String.Format("Expected {0} bytes, recieved {1}", DefaultDataLength, recievedCount));
-            return buf;
+
+
+            // Remove leading zero byte (reportId) - consider this is a junk info
+            var bufResponse = new byte[DefaultDataLength];
+            Array.Copy(bufRead, 1, bufResponse, 0, DefaultDataLength);
+
+            return bufResponse;
         }
 
         //removes last byte
@@ -195,9 +219,6 @@ namespace PSD.Device.Hid
             return result[0] == 0x01;
         }
 
-        public override string ToString()
-        {
-            return String.Format("PSD VID: {0} PID: {1}", _hidDevice.VendorID, _hidDevice.ProductID);
-        }
+
     }
 }
