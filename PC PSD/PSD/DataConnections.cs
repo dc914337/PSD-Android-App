@@ -32,7 +32,12 @@ namespace PSD
             {
 
             }
-           
+
+            if (PsdBase.Connected)
+            {
+
+            }
+
 
             return true;
         }

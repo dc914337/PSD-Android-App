@@ -23,3 +23,6 @@ namespace PSD
         }
     }
 }
+
+
+// txtPass.UseSystemPasswordChar = cbxShowPassword.Checked;

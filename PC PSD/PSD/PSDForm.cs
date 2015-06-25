@@ -79,29 +79,6 @@ namespace PSD
             }
         }
 
-        private void SetNewSelectedItem(int idInList)
-        {
-            _selectedItem = _connections.PcBase.Base.Passwords[idInList];
-
-            nudId.DataBindings.Clear();
-            nudId.DataBindings.Add(new Binding("Value", _selectedItem, "Id"));
-
-            txtTitle.DataBindings.Clear();
-            txtTitle.DataBindings.Add(new Binding("Text", _selectedItem, "Title"));
-
-            txtLogin.DataBindings.Clear();
-            txtLogin.DataBindings.Add(new Binding("Text", _selectedItem, "Login"));
-
-            cbxEnterWithLogin.DataBindings.Clear();
-            cbxEnterWithLogin.DataBindings.Add(new Binding("Checked", _selectedItem, "EnterWithLogin"));
-
-            txtPass.DataBindings.Clear();
-            txtPass.DataBindings.Add(new Binding("Text", _selectedItem, "Pass"));
-
-            txtDescription.DataBindings.Clear();
-            txtDescription.DataBindings.Add(new Binding("Text", _selectedItem, "Description"));
-        }
-
         private bool selectingNextItem = false; //to not update list values while changing list item
         //changed index
         private void lstViewPasswords_SelectedIndexChanged(object sender, EventArgs e)

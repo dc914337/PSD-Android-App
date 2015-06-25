@@ -52,9 +52,7 @@ namespace PSD
         {
             Base = new Base();
             byte[] dataBytes = ReadAllBytes();
-
-
-
+            
             string dataStr;
             if (EncryptionKey != null)//decrypt
             {
