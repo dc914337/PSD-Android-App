@@ -45,5 +45,19 @@ namespace PSD
         [DataMember]
         public string Description { get; set; }
 
+        public PassItem GetCopy()
+        {
+            return new PassItem(Id, Title, Login, EnterWithLogin, Pass, Description);
+        }
+
+        public void InitFromPass(PassItem backup)
+        {
+            this.Id = backup.Id;
+            this.Title = backup.Title;
+            this.Login = backup.Login;
+            this.EnterWithLogin = backup.EnterWithLogin;
+            this.Pass = backup.Pass;
+            this.Description = backup.Description;
+        }
     }
 }

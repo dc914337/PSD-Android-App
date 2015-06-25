@@ -83,6 +83,7 @@
             this.lstViewPasswords.TabIndex = 5;
             this.lstViewPasswords.UseCompatibleStateImageBehavior = false;
             this.lstViewPasswords.View = System.Windows.Forms.View.Details;
+            this.lstViewPasswords.DoubleClick += new System.EventHandler(this.lstViewPasswords_DoubleClick);
             // 
             // Id
             // 
@@ -339,6 +340,7 @@
             this.btnRemovePass.TabIndex = 39;
             this.btnRemovePass.Text = " ";
             this.btnRemovePass.UseVisualStyleBackColor = true;
+            this.btnRemovePass.Click += new System.EventHandler(this.btnRemovePass_Click);
             // 
             // btnAddPass
             // 

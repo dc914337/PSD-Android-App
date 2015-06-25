@@ -99,10 +99,7 @@ namespace PSD
         {
             if (string.IsNullOrWhiteSpace(path))
                 return false;
-
             Path = path;
-
-
             return MapData();
         }
 

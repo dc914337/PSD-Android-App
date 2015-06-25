@@ -89,7 +89,7 @@ namespace PSD
         private bool CheckPassword(PassItem pass)
         {
 
-            if (ContainsId(pass.Id))
+            if (Contains(pass))
             {
                 MessageBox.Show("Contains this id");
                 return false;
@@ -121,27 +121,27 @@ namespace PSD
             return true;
         }
 
-        private bool ContainsId(ushort id)
+        private bool Contains(PassItem pass)
         {
-            return _connections.PcBase.Base.Passwords.Any(a => a.Id == id);
+            return _connections.PcBase.Base.Passwords.Any(a => a.Id == pass.Id && a != pass);
         }
 
         private PassItem GetFirstSelectedPassword()
         {
-            return GetSelectedPasswords()?.FirstOrDefault();
+            return GetSelectedPasswords().FirstOrDefault();
         }
 
 
         private PassItem[] GetSelectedPasswords()
         {
             if (!_passwords.Any())
-                return null;
+                return new PassItem[0];
             if (lstViewPasswords.SelectedIndices.Count <= 0)
-                return null;
+                return new PassItem[0];
             PassItem[] selectedItems = new PassItem[lstViewPasswords.SelectedItems.Count];
             for (uint i = 0; i < selectedItems.Length; i++)
             {
-                var passId = lstViewPasswords.SelectedItems[(int)i].Index;
+                var passId = int.Parse(lstViewPasswords.SelectedItems[(int)i].SubItems[0].Text);
                 selectedItems[i] = _passwords.FirstOrDefault(a => a.Id == passId);
             }
             return selectedItems;
@@ -151,20 +151,49 @@ namespace PSD
         private void btnAddPass_Click(object sender, EventArgs e)
         {
             PassItem newPassword = new PassItem();
-            do
-            {
-                var editPassForm = new EditPasswordForm(newPassword);
-                editPassForm.ShowDialog();
-                if (!editPassForm.Confirmed)
-                    return; //was cancelled
-            } while (!CheckPassword(newPassword));
+            if (!EditPassword(newPassword)) return;
             _passwords.Add(newPassword);
             RefillPasswordsList();
         }
 
+
+        private bool EditPassword(PassItem password)
+        {
+            do
+            {
+                var editPassForm = new EditPasswordForm(password);
+                editPassForm.ShowDialog();
+                if (!editPassForm.Confirmed)
+                    return false; //was cancelled
+            } while (!CheckPassword(password));
+            RefillPasswordsList();
+            return true;
+        }
+
+
+
         private void btnSaveAll_Click(object sender, EventArgs e)
         {
             _connections.UpdateInAllAvailableBases();
+        }
+
+        private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
+        {
+            var selectedPass = GetFirstSelectedPassword();
+            var backup = selectedPass.GetCopy();
+            if (!EditPassword(selectedPass))
+                selectedPass.InitFromPass(backup);
+            RefillPasswordsList();
+        }
+
+        private void btnRemovePass_Click(object sender, EventArgs e)
+        {
+            foreach (var selectedPass in GetSelectedPasswords())
+            {
+                _passwords.Remove(selectedPass);
+            }
+
+            RefillPasswordsList();
         }
     }
 }
