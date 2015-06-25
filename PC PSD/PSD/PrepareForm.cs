@@ -12,6 +12,7 @@ using PSD.Config;
 using PSD.Device.Hid;
 using PSD.Locales;
 using PSD.Properties;
+using SharpProject;
 
 namespace PSD
 {
