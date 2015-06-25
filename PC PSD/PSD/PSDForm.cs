@@ -153,7 +153,18 @@ namespace PSD
             PassItem newPassword = new PassItem();
             if (!EditPassword(newPassword)) return;
             _passwords.Add(newPassword);
+            ReindexPasswords();
             RefillPasswordsList();
+        }
+
+
+        private void ReindexPasswords()
+        {
+            ushort newIndex = 0;
+            foreach (var pass in _passwords.OrderBy(a => a.Id))
+            {
+                pass.Id = newIndex++;
+            }
         }
 
 
@@ -166,7 +177,6 @@ namespace PSD
                 if (!editPassForm.Confirmed)
                     return false; //was cancelled
             } while (!CheckPassword(password));
-            RefillPasswordsList();
             return true;
         }
 
@@ -183,6 +193,7 @@ namespace PSD
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
                 selectedPass.InitFromPass(backup);
+            ReindexPasswords();
             RefillPasswordsList();
         }
 
@@ -192,7 +203,13 @@ namespace PSD
             {
                 _passwords.Remove(selectedPass);
             }
+            ReindexPasswords();
+            RefillPasswordsList();
+        }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            ReindexPasswords();
             RefillPasswordsList();
         }
     }

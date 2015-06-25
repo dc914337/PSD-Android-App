@@ -63,6 +63,7 @@
             this.btnSaveAll = new System.Windows.Forms.Button();
             this.btnRemovePass = new System.Windows.Forms.Button();
             this.btnAddPass = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -353,11 +354,23 @@
             this.btnAddPass.UseVisualStyleBackColor = true;
             this.btnAddPass.Click += new System.EventHandler(this.btnAddPass_Click);
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Image = global::PSD.Properties.Resources.appbar_refresh;
+            this.btnUpdate.Location = new System.Drawing.Point(349, 217);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(55, 55);
+            this.btnUpdate.TabIndex = 42;
+            this.btnUpdate.Text = " ";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
             // PSDForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(416, 500);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAddPass);
             this.Controls.Add(this.btnRemovePass);
             this.Controls.Add(this.btnSaveAll);
@@ -418,6 +431,7 @@
         private System.Windows.Forms.Button btnRemovePass;
         private System.Windows.Forms.Button btnAddPass;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
 
