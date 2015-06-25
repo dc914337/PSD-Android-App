@@ -88,6 +88,15 @@ namespace PSD.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error with PSD.
+        /// </summary>
+        internal static string ErrorWithPSDMsg {
+            get {
+                return ResourceManager.GetString("ErrorWithPSDMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input data is invalid.
         /// </summary>
         internal static string InputDataError {

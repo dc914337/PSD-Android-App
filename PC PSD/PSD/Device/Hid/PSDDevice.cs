@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using HidSharp;
+using PSD.Locales;
 
 namespace PSD.Device.Hid
 {
@@ -74,7 +76,7 @@ namespace PSD.Device.Hid
             }
             catch (Exception ex)
             {
-                throw ex;//debug
+                MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -106,8 +108,8 @@ namespace PSD.Device.Hid
             }
             catch (Exception ex)
             {
-                throw ex;//debug
-                //return false;
+                MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK); 
+                return false;
             }
         }
 
@@ -138,7 +140,7 @@ namespace PSD.Device.Hid
                     }
                     catch (Exception ex)
                     {
-                        throw ex;//debug
+                        MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK);
                         success = false;
                         break;
                     }
@@ -169,7 +171,7 @@ namespace PSD.Device.Hid
             }
             catch (IOException ex)
             {
-                throw ex;//debug
+                MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK);
                 return false;
             }
         }

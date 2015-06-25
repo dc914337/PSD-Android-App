@@ -43,9 +43,6 @@ namespace PSD
             }
         }
 
-
-        private byte _comPort;
-
         public PSDRepository()
         {
             Connected = false;
