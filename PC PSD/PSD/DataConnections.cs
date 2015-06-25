@@ -26,7 +26,7 @@ namespace PSD
         {
             if (!string.IsNullOrWhiteSpace(PcBase.Path))
             {
-
+                PcBase.WriteChanges();
             }
             if (!string.IsNullOrWhiteSpace(PhoneBase.Path))
             {

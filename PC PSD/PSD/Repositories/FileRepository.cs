@@ -44,7 +44,7 @@ namespace PSD
         {
             EncryptionKey = encryptionKey;
         }
-        
+
 
         private bool MapData()
         {
@@ -101,25 +101,7 @@ namespace PSD
                 return false;
 
             Path = path;
-            CryptoBase crypto = new CryptoBase(EncryptionKey);
 
-            string xmlToSerialize = Serializer.Serialize(Base);
-
-            byte[] toWrite;
-
-            if (EncryptionKey != null)
-            {
-                toWrite = crypto.EncryptAll(xmlToSerialize);
-            }
-            else
-            {
-                toWrite = Encoding.ASCII.GetBytes(xmlToSerialize);
-            }
-
-            using (FileStream fsStream = new FileStream(path, FileMode.Create))
-            {
-                fsStream.Write(toWrite, 0, toWrite.Length);
-            }
 
             return MapData();
         }
@@ -137,6 +119,7 @@ namespace PSD
                 return false;
             }
 
+            WriteChanges();
 
             return true;
         }
@@ -147,6 +130,29 @@ namespace PSD
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void WriteChanges()
+        {
+            CryptoBase crypto = new CryptoBase(EncryptionKey);
+
+            string xmlToSerialize = Serializer.Serialize(Base);
+
+            byte[] toWrite;
+
+            if (EncryptionKey != null)
+            {
+                toWrite = crypto.EncryptAll(xmlToSerialize);
+            }
+            else
+            {
+                toWrite = Encoding.ASCII.GetBytes(xmlToSerialize);
+            }
+
+            using (FileStream fsStream = new FileStream(Path, FileMode.Create))
+            {
+                fsStream.Write(toWrite, 0, toWrite.Length);
+            }
         }
     }
 }

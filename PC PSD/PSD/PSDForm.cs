@@ -164,7 +164,7 @@ namespace PSD
 
         private void btnSaveAll_Click(object sender, EventArgs e)
         {
-           
+            _connections.UpdateInAllAvailableBases();
         }
     }
 }
