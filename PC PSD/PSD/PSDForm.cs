@@ -37,7 +37,7 @@ namespace PSD
                 return;
             }
             BindLables();
-            RefillPasswordsList();
+            UpdateData();
         }
 
         private bool CheckBase()
@@ -155,14 +155,15 @@ namespace PSD
         {
             if (!_passwords.Any())
                 return -1;
-            return _passwords.Last().Id;
+            return _passwords.OrderBy(a => a.Id).Last().Id;
         }
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
+            var lastIndex = (ushort)(GetLastIndex() + 1);
             PassItem newPassword = new PassItem
             {
-                Id = (ushort)(GetLastIndex() + 1)//can fail
+                Id = lastIndex //can fail
             };
 
 
