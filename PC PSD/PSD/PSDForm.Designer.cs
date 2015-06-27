@@ -218,6 +218,7 @@
             this.saveAsPcMenuItem.Name = "saveAsPcMenuItem";
             this.saveAsPcMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsPcMenuItem.Text = "Save As";
+            this.saveAsPcMenuItem.Click += new System.EventHandler(this.saveAsPcMenuItem_Click);
             // 
             // phoneToolStripMenuItem
             // 
@@ -254,6 +255,7 @@
             this.saveAsPhoneMenuItem.Name = "saveAsPhoneMenuItem";
             this.saveAsPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveAsPhoneMenuItem.Text = "Save As";
+            this.saveAsPhoneMenuItem.Click += new System.EventHandler(this.saveAsPhoneMenuItem_Click);
             // 
             // deviceToolStripMenuItem
             // 

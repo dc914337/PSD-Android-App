@@ -108,16 +108,19 @@ namespace PSD
 
         public bool Create(string path)
         {
+            Base = new Base();
+            return SaveAs(path);
+        }
+
+
+        public bool SaveAs(string path)
+        {
             if (string.IsNullOrWhiteSpace(path))
                 return false;
-
             Path = path;
-            Base = new Base();
-
             WriteChanges();
             return MapData();
         }
-
 
         public bool Connect(string path)
         {

@@ -358,6 +358,34 @@ namespace PSD
 
         }
 
+        private void saveAsPcMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!SaveAs(_connections.PcBase))
+                MessageBox.Show("Errors saving as new file");
+        }
+
+        private void saveAsPhoneMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!SaveAs(_connections.PhoneBase))
+                MessageBox.Show("Errors saving as new file");
+        }
+
+        private bool SaveAs(FileRepository fRepository)
+        {
+            var oldPath = fRepository.Path;
+            var dialog = new SaveFileDialog();
+            dialog.ShowDialog();
+            var newFilePath = dialog.FileName;
+            if (!fRepository.SaveAs(newFilePath))
+            {
+                fRepository.Path = oldPath;
+                return false;
+            }
+            return true;
+        }
+
+
+
 
         /* private void CreateBase()
          {
