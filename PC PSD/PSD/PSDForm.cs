@@ -194,7 +194,9 @@ namespace PSD
         {
             ReindexPasswords();
             RefillPasswordsList();
-            _connections.UpdateInAllAvailableBases();
+
+            if (!_connections.UpdateInAllAvailableBases())
+                MessageBox.Show(Localization.UpdatingAllError);
         }
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)

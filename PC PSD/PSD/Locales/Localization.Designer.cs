@@ -131,5 +131,14 @@ namespace PSD.Locales {
                 return ResourceManager.GetString("StorageFileNotSelectedError", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors while updating!.
+        /// </summary>
+        internal static string UpdatingAllError {
+            get {
+                return ResourceManager.GetString("UpdatingAllError", resourceCulture);
+            }
+        }
     }
 }

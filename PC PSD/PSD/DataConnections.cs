@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PSD.Repositories;
 
 namespace PSD
 {
@@ -24,20 +25,19 @@ namespace PSD
 
         public bool UpdateInAllAvailableBases()
         {
-            if (!string.IsNullOrWhiteSpace(PcBase.Path))
-            {
-                PcBase.WriteChanges();
-            }
-            if (!string.IsNullOrWhiteSpace(PhoneBase.Path))
-            {
+            bool success = true;
 
-            }
+            if (PcBase?.Connected == true && PcBase?.WriteChanges() == WriteResult.Error)
+                success = false;
 
-            if (PsdBase.Connected)
-            {
+            if (PhoneBase?.Connected == true && PhoneBase?.WriteChanges() == WriteResult.Error)
+                success = false;
 
-            }
-            return true;
+            if (PsdBase?.Connected == true && PsdBase?.WriteChanges() == WriteResult.Error)
+                success = false;
+
+
+            return success;
         }
 
 

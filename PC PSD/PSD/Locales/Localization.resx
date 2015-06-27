@@ -141,4 +141,7 @@
 	<data name="ErrorWithPSDMsg" xml:space="preserve">
     <value>Error with PSD</value>
   </data>
+	<data name="UpdatingAllError" xml:space="preserve">
+    <value>Errors while updating!</value>
+  </data>
 </root>

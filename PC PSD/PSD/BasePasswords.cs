@@ -12,8 +12,6 @@ namespace PSD
 {
     public class BasePasswords : INotifyPropertyChanged
     {
-
-
         public byte[] PhonePassword { get; private set; }
         public byte[] UserPassword { get; private set; }
 

@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using PSD.Annotations;
 using PSD.Device.Hid;
+using PSD.Repositories;
 
 namespace PSD
 {
-    public class PSDRepository : INotifyPropertyChanged
+    public class PSDRepository : INotifyPropertyChanged, IRepository
     {
         public PSDDevice Psd;
 
@@ -68,6 +69,12 @@ namespace PSD
                 Psd = null;
 
             return Connected;
+        }
+
+        public WriteResult WriteChanges()
+        {
+            return WriteResult.Error;
+
         }
     }
 }

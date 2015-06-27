@@ -69,6 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Objects\PasswordsList.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\CryptoBase.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Repositories\Serializers\JSONWorker.cs" />
     <Compile Include="Repositories\Serializers\Serializer.cs" />
     <Compile Include="Repositories\Serializers\XMLWorker.cs" />
+    <Compile Include="Repositories\WriteResult.cs" />
     <EmbeddedResource Include="EditPasswordForm.resx">
       <DependentUpon>EditPasswordForm.cs</DependentUpon>
     </EmbeddedResource>

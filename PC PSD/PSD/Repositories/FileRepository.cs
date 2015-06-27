@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -14,7 +15,7 @@ using PSD.Repositories.Serializers;
 
 namespace PSD
 {
-    public class FileRepository : INotifyPropertyChanged
+    public class FileRepository : INotifyPropertyChanged, IRepository
     {
 
         public Base Base { get; set; }
@@ -35,6 +36,14 @@ namespace PSD
             }
         }
 
+        public bool Connected => Ready();
+
+        private bool Ready()
+        {
+            if (String.IsNullOrWhiteSpace(Path))
+                return false;
+            return true;
+        }
 
         public FileRepository()
         {
@@ -132,7 +141,7 @@ namespace PSD
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void WriteChanges()
+        public WriteResult WriteChanges()
         {
             CryptoBase crypto = new CryptoBase(EncryptionKey);
 
@@ -149,10 +158,21 @@ namespace PSD
                 toWrite = Encoding.ASCII.GetBytes(xmlToSerialize);
             }
 
-            using (FileStream fsStream = new FileStream(Path, FileMode.Create))
+
+            try
             {
-                fsStream.Write(toWrite, 0, toWrite.Length);
+                using (FileStream fsStream = new FileStream(Path, FileMode.Create))
+                {
+                    fsStream.Write(toWrite, 0, toWrite.Length);
+                }
             }
+            catch (Exception ex)
+            {
+                return WriteResult.Error;
+            }
+
+            return WriteResult.Success;
         }
+
     }
 }
