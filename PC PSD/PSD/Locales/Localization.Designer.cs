@@ -133,11 +133,47 @@ namespace PSD.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not connected.
+        /// </summary>
+        internal static string NotConnectedWarning {
+            get {
+                return ResourceManager.GetString("NotConnectedWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors while updating phone.
+        /// </summary>
+        internal static string PhoneUpdateError {
+            get {
+                return ResourceManager.GetString("PhoneUpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t connect to PSD.
         /// </summary>
         internal static string PsdConnectionError {
             get {
                 return ResourceManager.GetString("PsdConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors while updating PSD.
+        /// </summary>
+        internal static string PsdUpdateError {
+            get {
+                return ResourceManager.GetString("PsdUpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors while updating PSD.
+        /// </summary>
+        internal static string PsdUpdatingError {
+            get {
+                return ResourceManager.GetString("PsdUpdatingError", resourceCulture);
             }
         }
         

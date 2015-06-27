@@ -150,4 +150,16 @@
 	<data name="ExitQuestionFormText" xml:space="preserve">
     <value>Unsaved bases</value>
   </data>
+	<data name="PsdUpdatingError" xml:space="preserve">
+    <value>Errors while updating PSD</value>
+  </data>
+	<data name="PhoneUpdateError" xml:space="preserve">
+    <value>Errors while updating phone</value>
+  </data>
+	<data name="PsdUpdateError" xml:space="preserve">
+    <value>Errors while updating PSD</value>
+  </data>
+	<data name="NotConnectedWarning" xml:space="preserve">
+    <value>Not connected</value>
+  </data>
 </root>

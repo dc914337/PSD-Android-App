@@ -31,7 +31,7 @@ namespace PSD
 
         public bool UpdateIfConnected(IRepository repository)
         {
-            return !(repository?.Connected == true && repository?.WriteChanges() == WriteResult.Error);
+            return !(repository?.Connected == true && repository.WriteChanges() == WriteResult.Error);
         }
         
         //wrote later than registered changes

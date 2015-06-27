@@ -317,6 +317,37 @@ namespace PSD
             SaveAll();
         }
 
+        private void savePcMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_connections.PcBase.Connected)
+                MessageBox.Show(Localization.NotConnectedWarning);
 
+            if (!_connections.UpdateIfConnected(_connections.PcBase))
+            {
+                MessageBox.Show(Localization.PsdUpdatingError);
+            }
+        }
+
+        private void savePhoneMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_connections.PhoneBase.Connected)
+                MessageBox.Show(Localization.NotConnectedWarning);
+
+            if (!_connections.UpdateIfConnected(_connections.PhoneBase))
+            {
+                MessageBox.Show(Localization.PhoneUpdateError);
+            }
+        }
+
+        private void saveToPsdMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!_connections.PsdBase.Connected)
+                MessageBox.Show(Localization.NotConnectedWarning);
+
+            if (!_connections.UpdateIfConnected(_connections.PsdBase))
+            {
+                MessageBox.Show(Localization.PsdUpdateError);
+            }
+        }
     }
 }

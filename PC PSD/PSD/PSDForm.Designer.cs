@@ -39,24 +39,24 @@
             this.lblPsdComPort = new System.Windows.Forms.Label();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAllMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newPCBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newPCBaseMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPcMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePcMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsPcMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.phoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.newPhoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openPhoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.savePhoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsPhoneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToPSDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.writeFirmwareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetPsdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToPsdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeFirmwarePsdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectPsdMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMoveDown = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnSaveAll = new System.Windows.Forms.Button();
@@ -155,7 +155,7 @@
             this.pCToolStripMenuItem,
             this.phoneToolStripMenuItem,
             this.deviceToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutMenuItem});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Size = new System.Drawing.Size(416, 24);
@@ -165,136 +165,139 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveAllToolStripMenuItem,
-            this.exitToolStripMenuItem});
+            this.saveAllMenu,
+            this.exitMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // saveAllToolStripMenuItem
+            // saveAllMenu
             // 
-            this.saveAllToolStripMenuItem.Name = "saveAllToolStripMenuItem";
-            this.saveAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveAllToolStripMenuItem.Text = "Save all";
-            this.saveAllToolStripMenuItem.Click += new System.EventHandler(this.saveAllToolStripMenuItem_Click);
+            this.saveAllMenu.Name = "saveAllMenu";
+            this.saveAllMenu.Size = new System.Drawing.Size(152, 22);
+            this.saveAllMenu.Text = "Save all";
+            this.saveAllMenu.Click += new System.EventHandler(this.saveAllToolStripMenuItem_Click);
             // 
-            // exitToolStripMenuItem
+            // exitMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitMenuItem.Text = "Exit";
+            this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // pCToolStripMenuItem
             // 
             this.pCToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newPCBaseToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveToolStripMenuItem1,
-            this.saveAsToolStripMenuItem});
+            this.newPCBaseMenuItem,
+            this.openPcMenuItem,
+            this.savePcMenuItem,
+            this.saveAsPcMenuItem});
             this.pCToolStripMenuItem.Name = "pCToolStripMenuItem";
             this.pCToolStripMenuItem.Size = new System.Drawing.Size(34, 20);
             this.pCToolStripMenuItem.Text = "PC";
             // 
-            // newPCBaseToolStripMenuItem
+            // newPCBaseMenuItem
             // 
-            this.newPCBaseToolStripMenuItem.Name = "newPCBaseToolStripMenuItem";
-            this.newPCBaseToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.newPCBaseToolStripMenuItem.Text = "New";
+            this.newPCBaseMenuItem.Name = "newPCBaseMenuItem";
+            this.newPCBaseMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newPCBaseMenuItem.Text = "New";
             // 
-            // saveToolStripMenuItem
+            // openPcMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.saveToolStripMenuItem.Text = "Open";
+            this.openPcMenuItem.Name = "openPcMenuItem";
+            this.openPcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openPcMenuItem.Text = "Open";
             // 
-            // saveToolStripMenuItem1
+            // savePcMenuItem
             // 
-            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.saveToolStripMenuItem1.Text = "Save";
+            this.savePcMenuItem.Name = "savePcMenuItem";
+            this.savePcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.savePcMenuItem.Text = "Save";
+            this.savePcMenuItem.Click += new System.EventHandler(this.savePcMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem
+            // saveAsPcMenuItem
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsPcMenuItem.Name = "saveAsPcMenuItem";
+            this.saveAsPcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsPcMenuItem.Text = "Save As";
             // 
             // phoneToolStripMenuItem
             // 
             this.phoneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem,
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem2,
-            this.saveAsToolStripMenuItem1});
+            this.newPhoneMenuItem,
+            this.openPhoneMenuItem,
+            this.savePhoneMenuItem,
+            this.saveAsPhoneMenuItem});
             this.phoneToolStripMenuItem.Name = "phoneToolStripMenuItem";
             this.phoneToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.phoneToolStripMenuItem.Text = "Phone";
             // 
-            // newToolStripMenuItem
+            // newPhoneMenuItem
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.newToolStripMenuItem.Text = "New";
+            this.newPhoneMenuItem.Name = "newPhoneMenuItem";
+            this.newPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newPhoneMenuItem.Text = "New";
             // 
-            // openToolStripMenuItem
+            // openPhoneMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
-            this.openToolStripMenuItem.Text = "Open";
+            this.openPhoneMenuItem.Name = "openPhoneMenuItem";
+            this.openPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openPhoneMenuItem.Text = "Open";
             // 
-            // saveToolStripMenuItem2
+            // savePhoneMenuItem
             // 
-            this.saveToolStripMenuItem2.Name = "saveToolStripMenuItem2";
-            this.saveToolStripMenuItem2.Size = new System.Drawing.Size(114, 22);
-            this.saveToolStripMenuItem2.Text = "Save";
+            this.savePhoneMenuItem.Name = "savePhoneMenuItem";
+            this.savePhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.savePhoneMenuItem.Text = "Save";
+            this.savePhoneMenuItem.Click += new System.EventHandler(this.savePhoneMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem1
+            // saveAsPhoneMenuItem
             // 
-            this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
-            this.saveAsToolStripMenuItem1.Text = "Save As";
+            this.saveAsPhoneMenuItem.Name = "saveAsPhoneMenuItem";
+            this.saveAsPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsPhoneMenuItem.Text = "Save As";
             // 
             // deviceToolStripMenuItem
             // 
             this.deviceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem,
-            this.saveToPSDToolStripMenuItem,
-            this.writeFirmwareToolStripMenuItem,
-            this.connectToolStripMenuItem});
+            this.resetPsdMenuItem,
+            this.saveToPsdMenuItem,
+            this.writeFirmwarePsdMenuItem,
+            this.connectPsdMenuItem});
             this.deviceToolStripMenuItem.Name = "deviceToolStripMenuItem";
             this.deviceToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.deviceToolStripMenuItem.Text = "Device";
             // 
-            // resetToolStripMenuItem
+            // resetPsdMenuItem
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.resetToolStripMenuItem.Text = "Reset PSD";
+            this.resetPsdMenuItem.Name = "resetPsdMenuItem";
+            this.resetPsdMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.resetPsdMenuItem.Text = "Reset PSD";
             // 
-            // saveToPSDToolStripMenuItem
+            // saveToPsdMenuItem
             // 
-            this.saveToPSDToolStripMenuItem.Name = "saveToPSDToolStripMenuItem";
-            this.saveToPSDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveToPSDToolStripMenuItem.Text = "Save to PSD";
+            this.saveToPsdMenuItem.Name = "saveToPsdMenuItem";
+            this.saveToPsdMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToPsdMenuItem.Text = "Save to PSD";
+            this.saveToPsdMenuItem.Click += new System.EventHandler(this.saveToPsdMenuItem_Click);
             // 
-            // writeFirmwareToolStripMenuItem
+            // writeFirmwarePsdMenuItem
             // 
-            this.writeFirmwareToolStripMenuItem.Name = "writeFirmwareToolStripMenuItem";
-            this.writeFirmwareToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.writeFirmwareToolStripMenuItem.Text = "Write firmware";
+            this.writeFirmwarePsdMenuItem.Name = "writeFirmwarePsdMenuItem";
+            this.writeFirmwarePsdMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.writeFirmwarePsdMenuItem.Text = "Write firmware";
             // 
-            // connectToolStripMenuItem
+            // connectPsdMenuItem
             // 
-            this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
-            this.connectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.connectToolStripMenuItem.Text = "Connect";
+            this.connectPsdMenuItem.Name = "connectPsdMenuItem";
+            this.connectPsdMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.connectPsdMenuItem.Text = "Connect";
             // 
-            // aboutToolStripMenuItem
+            // aboutMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutMenuItem.Name = "aboutMenuItem";
+            this.aboutMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutMenuItem.Text = "About";
             // 
             // btnMoveDown
             // 
@@ -405,29 +408,29 @@
         private System.Windows.Forms.Label lblPsdComPort;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAllMenu;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newPCBaseToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newPCBaseMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPcMenuItem;
         private System.Windows.Forms.ToolStripMenuItem phoneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deviceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToPSDToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem writeFirmwareToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem savePcMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsPcMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newPhoneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openPhoneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem savePhoneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsPhoneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetPsdMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToPsdMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem writeFirmwarePsdMenuItem;
         private System.Windows.Forms.Button btnMoveDown;
         private System.Windows.Forms.Button btnMoveUp;
         private System.Windows.Forms.Button btnSaveAll;
         private System.Windows.Forms.Button btnRemovePass;
         private System.Windows.Forms.Button btnAddPass;
-        private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem connectPsdMenuItem;
         private System.Windows.Forms.Button btnUpdate;
     }
 }
