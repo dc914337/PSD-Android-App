@@ -254,5 +254,18 @@ namespace PSD
             nextPass.Id = tempId;
             UpdateData();
         }
+
+
+        private void Exit()
+        {
+            //check if not saved
+            Application.Exit();
+        }
+
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

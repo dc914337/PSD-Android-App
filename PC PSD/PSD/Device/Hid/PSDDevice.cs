@@ -108,7 +108,7 @@ namespace PSD.Device.Hid
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK); 
+                MessageBox.Show(ex.Message, Localization.ErrorWithPSDMsg, MessageBoxButtons.OK);
                 return false;
             }
         }
@@ -220,6 +220,10 @@ namespace PSD.Device.Hid
             return result[0] == 0x01;
         }
 
+        public override string ToString()
+        {
+            return String.Format("PSD VID: {0} PID: {1}", _hidDevice.VendorID, _hidDevice.ProductID);
+        }
 
     }
 }

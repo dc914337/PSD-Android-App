@@ -138,4 +138,7 @@
 	<data name="InputDataError" xml:space="preserve">
     <value>Input data is invalid</value>
   </data>
+	<data name="ErrorWithPSDMsg" xml:space="preserve">
+    <value>Error with PSD</value>
+  </data>
 </root>

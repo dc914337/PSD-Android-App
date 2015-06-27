@@ -59,7 +59,6 @@ namespace PSD
                     return false;
                 if (!crypto.DecryptAll(dataBytes, out dataStr))
                     return false;
-
             }
             else
             {
@@ -99,7 +98,11 @@ namespace PSD
         {
             if (string.IsNullOrWhiteSpace(path))
                 return false;
+
             Path = path;
+            Base = new Base();
+
+            WriteChanges();
             return MapData();
         }
 
