@@ -140,7 +140,7 @@ namespace PSD
             PassItem[] selectedItems = new PassItem[lstViewPasswords.SelectedItems.Count];
             for (uint i = 0; i < selectedItems.Length; i++)
             {
-                var passId = int.Parse(lstViewPasswords.SelectedItems[(int)i].SubItems[0].Text);
+                var passId = lstViewPasswords.SelectedItems[(int)i].Index;
                 selectedItems[i] = _passwords.FirstOrDefault(a => a.Id == passId);
             }
             return selectedItems;
@@ -269,5 +269,6 @@ namespace PSD
         {
 
         }
+
     }
 }
