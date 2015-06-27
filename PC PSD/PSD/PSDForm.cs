@@ -317,9 +317,6 @@ namespace PSD
             SaveAll();
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            
-        }
+
     }
 }
