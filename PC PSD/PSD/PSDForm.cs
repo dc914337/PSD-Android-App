@@ -16,6 +16,9 @@ namespace PSD
         private DataConnections _connections;
         private PasswordsList _passwords;
 
+
+        private bool UnsavedEdits { get; set; } = false;
+
         public PSDForm(DataConnections dataConnections)
         {
             InitializeComponent();
@@ -161,7 +164,10 @@ namespace PSD
             };
 
 
-            if (!EditPassword(newPassword)) return;
+            if (!EditPassword(newPassword))
+                return;
+
+            UnsavedEdits = true;
             _passwords.Add(newPassword);
             UpdateData();
         }
@@ -195,8 +201,15 @@ namespace PSD
             ReindexPasswords();
             RefillPasswordsList();
 
-            if (!_connections.UpdateInAllAvailableBases())
+            if (_connections.UpdateInAllAvailableBases())
+            {
+                UnsavedEdits = false;
+            }
+            else
+            {
                 MessageBox.Show(Localization.UpdatingAllError);
+                UnsavedEdits = true;
+            }
         }
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
@@ -214,6 +227,7 @@ namespace PSD
             {
                 _passwords.Remove(selectedPass);
             }
+            UnsavedEdits = true;
             UpdateData();
         }
 
@@ -237,9 +251,8 @@ namespace PSD
             var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
             if (prevPass == null)
                 return;
-            var tempId = selectedPass.Id;
-            selectedPass.Id = prevPass.Id;
-            prevPass.Id = tempId;
+            SwapItems(selectedPass, prevPass);
+            UnsavedEdits = true;
             UpdateData();
         }
 
@@ -251,24 +264,44 @@ namespace PSD
             var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
             if (nextPass == null)
                 return;
-            var tempId = selectedPass.Id;
-            selectedPass.Id = nextPass.Id;
-            nextPass.Id = tempId;
+            SwapItems(selectedPass, nextPass);
+            UnsavedEdits = true;
             UpdateData();
         }
 
 
-        private void Exit()
+        private static void SwapItems(PassItem pass1, PassItem pass2)
+        {
+            var tempId = pass1.Id;
+            pass1.Id = pass2.Id;
+            pass2.Id = tempId;
+        }
+
+
+        private bool ExitCheck()
         {
             //check if not saved
-            Application.Exit();
+            if (!UnsavedEdits)
+                return true;
+
+            return MessageBox.Show(
+                Localization.ExitQuestion,
+                Localization.ExitQuestionFormText,
+                MessageBoxButtons.YesNo)
+                   == DialogResult.Yes;
         }
 
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ExitCheck())
+                Application.Exit();
         }
 
+        private void PSDForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!ExitCheck())
+                e.Cancel = true;
+        }
     }
 }

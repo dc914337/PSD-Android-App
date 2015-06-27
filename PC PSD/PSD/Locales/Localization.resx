@@ -144,4 +144,10 @@
 	<data name="UpdatingAllError" xml:space="preserve">
     <value>Errors while updating!</value>
   </data>
+	<data name="ExitQuestion" xml:space="preserve">
+    <value>Some of bases are not up to date. Do you still want to exit?</value>
+  </data>
+	<data name="ExitQuestionFormText" xml:space="preserve">
+    <value>Unsaved bases</value>
+  </data>
 </root>

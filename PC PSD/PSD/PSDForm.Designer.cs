@@ -383,6 +383,7 @@
             this.MainMenuStrip = this.menuMain;
             this.Name = "PSDForm";
             this.Text = "PSD";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PSDForm_FormClosing);
             this.Load += new System.EventHandler(this.PSDForm_Load);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();

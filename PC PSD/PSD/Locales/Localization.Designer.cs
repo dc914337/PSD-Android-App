@@ -97,6 +97,24 @@ namespace PSD.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some of bases are not up to date. Do you still want to exit?.
+        /// </summary>
+        internal static string ExitQuestion {
+            get {
+                return ResourceManager.GetString("ExitQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsaved bases.
+        /// </summary>
+        internal static string ExitQuestionFormText {
+            get {
+                return ResourceManager.GetString("ExitQuestionFormText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input data is invalid.
         /// </summary>
         internal static string InputDataError {
