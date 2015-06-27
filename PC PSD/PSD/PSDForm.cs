@@ -36,7 +36,7 @@ namespace PSD
                 this.Close();
                 return;
             }
-            FillPathesLables();
+            BindLables();
             RefillPasswordsList();
         }
 
@@ -49,24 +49,6 @@ namespace PSD
             return true;
         }
 
-        private void FillPathesLables()
-        {
-            if (!string.IsNullOrWhiteSpace(_connections.PcBase.Path))
-            {
-                lblBasePath.Text = _connections.PcBase.Path;
-                lblBasePathDesc.Visible = true;
-            }
-            if (!string.IsNullOrWhiteSpace(_connections.PhoneBase.Path))
-            {
-                lblAndroidBasePath.Text = _connections.PhoneBase.Path;
-                lblAndroidPathDesc.Visible = true;
-            }
-            if (_connections.PsdBase.Connected)
-            {
-                lblPsdComPort.Text = _connections.PsdBase.Name.ToString();
-                lblPsdConnectionDesc.Visible = true;
-            }
-        }
 
         private void RefillPasswordsList()
         {
@@ -85,6 +67,26 @@ namespace PSD
         }
 
 
+        private void BindLables()
+        {
+            lblBasePath.DataBindings.Clear();
+            lblBasePath.DataBindings.Add(new Binding("Text", _connections.PcBase, "Path"));
+            lblBasePath.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
+            lblBasePathDesc.DataBindings.Clear();
+            lblBasePathDesc.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
+
+            lblAndroidBasePath.DataBindings.Clear();
+            lblAndroidBasePath.DataBindings.Add(new Binding("Text", _connections.PhoneBase, "Path"));
+            lblAndroidBasePath.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
+            lblAndroidPathDesc.DataBindings.Clear();
+            lblAndroidPathDesc.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
+
+            lblPsdConnected.DataBindings.Clear();
+            lblPsdConnected.DataBindings.Add(new Binding("Text", _connections.PsdBase, "Name"));
+            lblPsdConnected.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
+            lblPsdConnectionDesc.DataBindings.Clear();
+            lblPsdConnectionDesc.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
+        }
 
 
 
@@ -349,5 +351,21 @@ namespace PSD
                 MessageBox.Show(Localization.PsdUpdateError);
             }
         }
+
+        private void newPCBaseMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        /* private void CreateBase()
+         {
+             SaveFileDialog saveFileDialog = new SaveFileDialog();
+             saveFileDialog.ShowDialog();
+             if (!_connections.PcBase.Create(saveFileDialog.FileName))
+             {
+                 _connections.PcBase.Path = null;
+             }
+         }*/
     }
 }

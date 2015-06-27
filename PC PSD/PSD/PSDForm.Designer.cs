@@ -36,7 +36,7 @@
             this.lblPsdConnectionDesc = new System.Windows.Forms.Label();
             this.lblBasePath = new System.Windows.Forms.Label();
             this.lblAndroidBasePath = new System.Windows.Forms.Label();
-            this.lblPsdComPort = new System.Windows.Forms.Label();
+            this.lblPsdConnected = new System.Windows.Forms.Label();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,7 +102,6 @@
             this.lblBasePathDesc.Size = new System.Drawing.Size(77, 13);
             this.lblBasePathDesc.TabIndex = 19;
             this.lblBasePathDesc.Text = "PC base path: ";
-            this.lblBasePathDesc.Visible = false;
             // 
             // lblAndroidPathDesc
             // 
@@ -112,7 +111,6 @@
             this.lblAndroidPathDesc.Size = new System.Drawing.Size(73, 13);
             this.lblAndroidPathDesc.TabIndex = 21;
             this.lblAndroidPathDesc.Text = "Android path: ";
-            this.lblAndroidPathDesc.Visible = false;
             // 
             // lblPsdConnectionDesc
             // 
@@ -122,7 +120,6 @@
             this.lblPsdConnectionDesc.Size = new System.Drawing.Size(90, 13);
             this.lblPsdConnectionDesc.TabIndex = 22;
             this.lblPsdConnectionDesc.Text = "Connected PSD: ";
-            this.lblPsdConnectionDesc.Visible = false;
             // 
             // lblBasePath
             // 
@@ -140,13 +137,13 @@
             this.lblAndroidBasePath.Size = new System.Drawing.Size(0, 13);
             this.lblAndroidBasePath.TabIndex = 24;
             // 
-            // lblPsdComPort
+            // lblPsdConnected
             // 
-            this.lblPsdComPort.AutoSize = true;
-            this.lblPsdComPort.Location = new System.Drawing.Point(100, 481);
-            this.lblPsdComPort.Name = "lblPsdComPort";
-            this.lblPsdComPort.Size = new System.Drawing.Size(0, 13);
-            this.lblPsdComPort.TabIndex = 25;
+            this.lblPsdConnected.AutoSize = true;
+            this.lblPsdConnected.Location = new System.Drawing.Point(100, 481);
+            this.lblPsdConnected.Name = "lblPsdConnected";
+            this.lblPsdConnected.Size = new System.Drawing.Size(0, 13);
+            this.lblPsdConnected.TabIndex = 25;
             // 
             // menuMain
             // 
@@ -201,6 +198,7 @@
             this.newPCBaseMenuItem.Name = "newPCBaseMenuItem";
             this.newPCBaseMenuItem.Size = new System.Drawing.Size(152, 22);
             this.newPCBaseMenuItem.Text = "New";
+            this.newPCBaseMenuItem.Click += new System.EventHandler(this.newPCBaseMenuItem_Click);
             // 
             // openPcMenuItem
             // 
@@ -376,7 +374,7 @@
             this.Controls.Add(this.btnSaveAll);
             this.Controls.Add(this.btnMoveUp);
             this.Controls.Add(this.btnMoveDown);
-            this.Controls.Add(this.lblPsdComPort);
+            this.Controls.Add(this.lblPsdConnected);
             this.Controls.Add(this.lblAndroidBasePath);
             this.Controls.Add(this.lblBasePath);
             this.Controls.Add(this.lblPsdConnectionDesc);
@@ -405,7 +403,7 @@
         private System.Windows.Forms.Label lblPsdConnectionDesc;
         private System.Windows.Forms.Label lblBasePath;
         private System.Windows.Forms.Label lblAndroidBasePath;
-        private System.Windows.Forms.Label lblPsdComPort;
+        private System.Windows.Forms.Label lblPsdConnected;
         private System.Windows.Forms.MenuStrip menuMain;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAllMenu;
