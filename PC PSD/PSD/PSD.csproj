@@ -57,7 +57,7 @@
     <Compile Include="Config\PSDConfigSection.cs" />
     <Compile Include="Device\Hid\PSDDevice.cs" />
     <Compile Include="Device\Hid\PSDFinder.cs" />
-    <Compile Include="DataConnections.cs" />
+    <Compile Include="Repositories\DataConnections.cs" />
     <Compile Include="EditPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,7 +73,7 @@
     <Compile Include="Repositories\Objects\PasswordsList.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Repositories\CryptoBase.cs" />
-    <Compile Include="Repositories\FileRepository.cs" />
+    <Compile Include="FileRepository.cs" />
     <Compile Include="Repositories\Objects\PassItem.cs" />
     <Compile Include="PSDForm.cs">
       <SubType>Form</SubType>

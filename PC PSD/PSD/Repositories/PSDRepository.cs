@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using PSD.Annotations;
 using PSD.Device.Hid;
-using PSD.Repositories;
 
-namespace PSD
+namespace PSD.Repositories
 {
     public class PSDRepository : INotifyPropertyChanged, IRepository
     {

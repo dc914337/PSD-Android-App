@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Permissions;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using PSD.Annotations;
-using PSD.Repositories;
 using PSD.Repositories.Objects;
 using PSD.Repositories.Serializers;
 
-namespace PSD
+namespace PSD.Repositories
 {
     public class FileRepository : INotifyPropertyChanged, IRepository
     {
-
         public Base Base { get; set; }
 
         private byte[] EncryptionKey { get; set; }

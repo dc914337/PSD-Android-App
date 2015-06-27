@@ -13,13 +13,13 @@ namespace PSD
     public class BasePasswords : INotifyPropertyChanged
     {
         public byte[] PhonePassword { get; private set; }
-        public byte[] UserPassword { get; private set; }
+        public byte[] BasePassword { get; private set; }
 
         private const int TimesByteNum = 0;
 
         public BasePasswords(string pass)
         {
-            UserPassword = GenerateUserPassword(Encoding.ASCII.GetBytes(pass));
+            BasePassword = GenerateUserPassword(Encoding.ASCII.GetBytes(pass));
             PhonePassword = GeneratePhonePassword(Encoding.ASCII.GetBytes(pass));
         }
 
