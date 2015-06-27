@@ -16,8 +16,8 @@ namespace PSD
         private DataConnections _connections;
         private PasswordsList _passwords;
 
+        private DateTime _lastChanges;
 
-        private bool UnsavedEdits { get; set; } = false;
 
         public PSDForm(DataConnections dataConnections)
         {
@@ -166,12 +166,17 @@ namespace PSD
 
             if (!EditPassword(newPassword))
                 return;
+            RegisterChange();
 
-            UnsavedEdits = true;
             _passwords.Add(newPassword);
             UpdateData();
         }
 
+
+        private void RegisterChange()
+        {
+            _lastChanges = DateTime.Now;
+        }
 
         private void ReindexPasswords()
         {
@@ -198,17 +203,21 @@ namespace PSD
 
         private void btnSaveAll_Click(object sender, EventArgs e)
         {
+            SaveAll();
+        }
+
+
+
+
+        private void SaveAll()
+        {
             ReindexPasswords();
             RefillPasswordsList();
 
-            if (_connections.UpdateInAllAvailableBases())
-            {
-                UnsavedEdits = false;
-            }
-            else
+            if (!_connections.UpdateInAllAvailableBases())
             {
                 MessageBox.Show(Localization.UpdatingAllError);
-                UnsavedEdits = true;
+                RegisterChange();
             }
         }
 
@@ -227,7 +236,7 @@ namespace PSD
             {
                 _passwords.Remove(selectedPass);
             }
-            UnsavedEdits = true;
+            RegisterChange();
             UpdateData();
         }
 
@@ -252,7 +261,7 @@ namespace PSD
             if (prevPass == null)
                 return;
             SwapItems(selectedPass, prevPass);
-            UnsavedEdits = true;
+            RegisterChange();
             UpdateData();
         }
 
@@ -265,7 +274,7 @@ namespace PSD
             if (nextPass == null)
                 return;
             SwapItems(selectedPass, nextPass);
-            UnsavedEdits = true;
+            RegisterChange();
             UpdateData();
         }
 
@@ -281,7 +290,7 @@ namespace PSD
         private bool ExitCheck()
         {
             //check if not saved
-            if (!UnsavedEdits)
+            if (!_connections.AllUpToDate(_lastChanges))
                 return true;
 
             return MessageBox.Show(
@@ -302,6 +311,16 @@ namespace PSD
         {
             if (!ExitCheck())
                 e.Cancel = true;
+        }
+
+        private void saveAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveAll();
+        }
+
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

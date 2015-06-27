@@ -15,6 +15,7 @@ namespace PSD
     {
         public PSDDevice Psd;
 
+        public DateTime LastUpdated { get; set; }
         private bool _connected = false;
         public bool Connected
         {

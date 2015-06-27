@@ -38,6 +38,8 @@ namespace PSD
 
         public bool Connected => Ready();
 
+        public DateTime LastUpdated { get; set; }
+
         private bool Ready()
         {
             if (String.IsNullOrWhiteSpace(Path))
@@ -171,6 +173,7 @@ namespace PSD
                 return WriteResult.Error;
             }
 
+            LastUpdated = DateTime.Now;
             return WriteResult.Success;
         }
 

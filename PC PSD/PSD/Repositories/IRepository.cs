@@ -11,5 +11,7 @@ namespace PSD.Repositories
         WriteResult WriteChanges();
 
         bool Connected { get; }
+
+        DateTime LastUpdated { get; set; }
     }
 }

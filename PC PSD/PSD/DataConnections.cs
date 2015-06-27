@@ -41,5 +41,21 @@ namespace PSD
         }
 
 
+        //wrote later than registered changes
+        public bool AllUpToDate(DateTime lastEdit)
+        {
+            bool success = true;
+            if (PcBase?.Connected == true && PcBase?.LastUpdated >= lastEdit)
+                success = false;
+
+            if (PhoneBase?.Connected == true && PhoneBase?.LastUpdated >= lastEdit)
+                success = false;
+
+            if (PsdBase?.Connected == true && PsdBase?.LastUpdated >= lastEdit)
+                success = false;
+
+            return success;
+        }
+
     }
 }
