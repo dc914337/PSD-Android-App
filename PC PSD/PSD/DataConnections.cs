@@ -33,16 +33,19 @@ namespace PSD
         {
             return !(repository?.Connected == true && repository.WriteChanges() == WriteResult.Error);
         }
-        
+
         //wrote later than registered changes
         public bool AllUpToDate(DateTime lastEdit)
         {
-            return UpToDate(PcBase, lastEdit) && UpToDate(PhoneBase, lastEdit) && UpToDate(PsdBase, lastEdit);
+            var v1 = UpToDate(PcBase, lastEdit);
+            var v2 = UpToDate(PhoneBase, lastEdit);
+            var v3 = UpToDate(PsdBase, lastEdit);
+            return v1 && v2 && v3;
         }
 
         public bool UpToDate(IRepository repository, DateTime lastEdit)
         {
-            return !(PcBase?.Connected == true && PcBase?.LastUpdated >= lastEdit);
+            return repository?.Connected == false || repository?.LastUpdated >= lastEdit;
         }
 
 

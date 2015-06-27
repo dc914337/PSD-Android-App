@@ -291,7 +291,7 @@ namespace PSD
         private bool ExitCheck()
         {
             //check if not saved
-            if (!_connections.AllUpToDate(_lastChanges))
+            if (_connections.AllUpToDate(_lastChanges))
                 return true;
 
             return MessageBox.Show(

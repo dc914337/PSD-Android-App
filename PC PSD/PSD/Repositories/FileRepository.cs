@@ -38,7 +38,7 @@ namespace PSD
 
         public bool Connected => Ready();
 
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; private set; }
 
         private bool Ready()
         {
@@ -54,6 +54,7 @@ namespace PSD
         public FileRepository(byte[] encryptionKey)
         {
             EncryptionKey = encryptionKey;
+            LastUpdated = DateTime.Now;
         }
 
 

@@ -12,6 +12,6 @@ namespace PSD.Repositories
 
         bool Connected { get; }
 
-        DateTime LastUpdated { get; set; }
+        DateTime LastUpdated { get; }
     }
 }
