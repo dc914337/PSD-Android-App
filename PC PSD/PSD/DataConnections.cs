@@ -25,37 +25,26 @@ namespace PSD
 
         public bool UpdateInAllAvailableBases()
         {
-            bool success = true;
-
-            if (PcBase?.Connected == true && PcBase?.WriteChanges() == WriteResult.Error)
-                success = false;
-
-            if (PhoneBase?.Connected == true && PhoneBase?.WriteChanges() == WriteResult.Error)
-                success = false;
-
-            if (PsdBase?.Connected == true && PsdBase?.WriteChanges() == WriteResult.Error)
-                success = false;
-
-
-            return success;
+            return UpdateIfConnected(PcBase) && UpdateIfConnected(PhoneBase) && UpdateIfConnected(PsdBase);
         }
 
 
+        public bool UpdateIfConnected(IRepository repository)
+        {
+            return !(repository?.Connected == true && repository?.WriteChanges() == WriteResult.Error);
+        }
+        
         //wrote later than registered changes
         public bool AllUpToDate(DateTime lastEdit)
         {
-            bool success = true;
-            if (PcBase?.Connected == true && PcBase?.LastUpdated >= lastEdit)
-                success = false;
-
-            if (PhoneBase?.Connected == true && PhoneBase?.LastUpdated >= lastEdit)
-                success = false;
-
-            if (PsdBase?.Connected == true && PsdBase?.LastUpdated >= lastEdit)
-                success = false;
-
-            return success;
+            return UpToDate(PcBase, lastEdit) && UpToDate(PhoneBase, lastEdit) && UpToDate(PsdBase, lastEdit);
         }
+
+        public bool UpToDate(IRepository repository, DateTime lastEdit)
+        {
+            return !(PcBase?.Connected == true && PcBase?.LastUpdated >= lastEdit);
+        }
+
 
     }
 }

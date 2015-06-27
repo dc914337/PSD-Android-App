@@ -217,7 +217,6 @@ namespace PSD
             if (!_connections.UpdateInAllAvailableBases())
             {
                 MessageBox.Show(Localization.UpdatingAllError);
-                RegisterChange();
             }
         }
 
@@ -320,7 +319,7 @@ namespace PSD
 
         private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 }
