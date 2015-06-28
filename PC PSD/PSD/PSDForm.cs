@@ -15,7 +15,6 @@ namespace PSD
     public partial class PSDForm : Form
     {
         private DataConnections _connections;
-        private PasswordsList _passwords;
 
         private DateTime _lastChanges;
 
@@ -24,31 +23,22 @@ namespace PSD
         {
             InitializeComponent();
             _connections = dataConnections;
-            _passwords = _connections.PcBase.Base.Passwords;
+
             lstViewPasswords.HideSelection = false;
         }
 
-
         private void PSDForm_Load(object sender, EventArgs e)
         {
-            if (!CheckBase())
+            if (_connections.PcBase != null)
             {
                 MessageBox.Show(Localization.InputDataError);
                 this.Close();
                 return;
             }
-            BindLables();
+            BindAllLables();
             UpdateData();
         }
 
-        private bool CheckBase()
-        {
-            if (_connections?.PcBase?.Base?.Passwords == null)
-                return false;
-            if (string.IsNullOrWhiteSpace(_connections.PcBase.Path))
-                return false;
-            return true;
-        }
 
 
         private void RefillPasswordsList()
@@ -68,7 +58,7 @@ namespace PSD
         }
 
 
-        private void BindLables()
+        private void BindAllLables()
         {
 
             lblBasePath.DataBindings.Clear();
@@ -78,6 +68,9 @@ namespace PSD
                 lblBasePath.DataBindings.Add(new Binding("Text", _connections.PcBase, "Path"));
                 lblBasePath.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
                 lblBasePathDesc.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
+
+             
+
             }
 
 
@@ -98,6 +91,10 @@ namespace PSD
                 lblPsdConnected.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
                 lblPsdConnectionDesc.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
             }
+
+
+
+
         }
 
 
@@ -150,7 +147,7 @@ namespace PSD
 
         private PassItem[] GetSelectedPasswords()
         {
-            if (!_passwords.Any())
+            /*if (!_passwords.Any())
                 return new PassItem[0];
             if (lstViewPasswords.SelectedIndices.Count <= 0)
                 return new PassItem[0];
@@ -160,19 +157,22 @@ namespace PSD
                 var passId = lstViewPasswords.SelectedItems[(int)i].Index;
                 selectedItems[i] = _passwords.FirstOrDefault(a => a.Id == passId);
             }
-            return selectedItems;
+            return selectedItems;*/
+            return null;
         }
 
         private int GetLastIndex()
         {
+            /*
             if (!_passwords.Any())
                 return -1;
-            return _passwords.OrderBy(a => a.Id).Last().Id;
+            return _passwords.OrderBy(a => a.Id).Last().Id;*/
+            return 0;
         }
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
-            var lastIndex = (ushort)(GetLastIndex() + 1);
+            /*var lastIndex = (ushort)(GetLastIndex() + 1);
             PassItem newPassword = new PassItem
             {
                 Id = lastIndex //can fail
@@ -184,7 +184,8 @@ namespace PSD
             RegisterChange();
 
             _passwords.Add(newPassword);
-            UpdateData();
+            UpdateData();*/
+
         }
 
 
@@ -195,11 +196,11 @@ namespace PSD
 
         private void ReindexPasswords()
         {
-            ushort newIndex = 0;
-            foreach (var pass in _passwords.OrderBy(a => a.Id))
-            {
-                pass.Id = newIndex++;
-            }
+            /* ushort newIndex = 0;
+             foreach (var pass in _passwords.OrderBy(a => a.Id))
+             {
+                 pass.Id = newIndex++;
+             }*/
         }
 
 
@@ -248,7 +249,7 @@ namespace PSD
         {
             foreach (var selectedPass in GetSelectedPasswords())
             {
-                _passwords.Remove(selectedPass);
+                //_passwords.Remove(selectedPass);
             }
             RegisterChange();
             UpdateData();
@@ -271,12 +272,12 @@ namespace PSD
             if (selectedPass == null)
                 return;
 
-            var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
+            /*var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
             if (prevPass == null)
                 return;
             SwapItems(selectedPass, prevPass);
             RegisterChange();
-            UpdateData();
+            UpdateData();*/
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
@@ -284,12 +285,12 @@ namespace PSD
             var selectedPass = GetFirstSelectedPassword();
             if (selectedPass == null)
                 return;
-            var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
+            /*var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
             if (nextPass == null)
                 return;
             SwapItems(selectedPass, nextPass);
             RegisterChange();
-            UpdateData();
+            UpdateData();*/
         }
 
 

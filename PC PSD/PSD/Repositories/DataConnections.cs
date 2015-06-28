@@ -11,6 +11,7 @@ namespace PSD
         public PSDRepository PsdBase { get; private set; }
         public BasePasswords UserPasses { get; set; }
 
+        public PasswordsList Passwords => PcBase.Base.Passwords;
 
         public DataConnections()
         {
@@ -86,6 +87,9 @@ namespace PSD
         {
             return repository?.Connected == false || repository?.LastUpdated >= lastEdit;
         }
+
+
+
 
     }
 
