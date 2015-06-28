@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lstViewPasswords = new System.Windows.Forms.ListView();
-            this.Title = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Login = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblBasePathDesc = new System.Windows.Forms.Label();
             this.lblAndroidPathDesc = new System.Windows.Forms.Label();
             this.lblPsdConnectionDesc = new System.Windows.Forms.Label();
@@ -63,36 +60,9 @@
             this.btnRemovePass = new System.Windows.Forms.Button();
             this.btnAddPass = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
+            this.lstPasses = new System.Windows.Forms.ListBox();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lstViewPasswords
-            // 
-            this.lstViewPasswords.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.lstViewPasswords.BackColor = System.Drawing.SystemColors.Window;
-            this.lstViewPasswords.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Title,
-            this.Login});
-            this.lstViewPasswords.FullRowSelect = true;
-            this.lstViewPasswords.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lstViewPasswords.HideSelection = false;
-            this.lstViewPasswords.Location = new System.Drawing.Point(7, 27);
-            this.lstViewPasswords.Name = "lstViewPasswords";
-            this.lstViewPasswords.Size = new System.Drawing.Size(338, 420);
-            this.lstViewPasswords.TabIndex = 5;
-            this.lstViewPasswords.UseCompatibleStateImageBehavior = false;
-            this.lstViewPasswords.View = System.Windows.Forms.View.Details;
-            this.lstViewPasswords.DoubleClick += new System.EventHandler(this.lstViewPasswords_DoubleClick);
-            // 
-            // Title
-            // 
-            this.Title.Text = "Title";
-            this.Title.Width = 102;
-            // 
-            // Login
-            // 
-            this.Login.Text = "Login";
-            this.Login.Width = 99;
             // 
             // lblBasePathDesc
             // 
@@ -171,14 +141,14 @@
             // saveAllMenu
             // 
             this.saveAllMenu.Name = "saveAllMenu";
-            this.saveAllMenu.Size = new System.Drawing.Size(152, 22);
+            this.saveAllMenu.Size = new System.Drawing.Size(113, 22);
             this.saveAllMenu.Text = "Save all";
             this.saveAllMenu.Click += new System.EventHandler(this.saveAllToolStripMenuItem_Click);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(113, 22);
             this.exitMenuItem.Text = "Exit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -196,27 +166,27 @@
             // newPCBaseMenuItem
             // 
             this.newPCBaseMenuItem.Name = "newPCBaseMenuItem";
-            this.newPCBaseMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newPCBaseMenuItem.Size = new System.Drawing.Size(114, 22);
             this.newPCBaseMenuItem.Text = "New";
             this.newPCBaseMenuItem.Click += new System.EventHandler(this.newPCBaseMenuItem_Click);
             // 
             // openPcMenuItem
             // 
             this.openPcMenuItem.Name = "openPcMenuItem";
-            this.openPcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openPcMenuItem.Size = new System.Drawing.Size(114, 22);
             this.openPcMenuItem.Text = "Open";
             // 
             // savePcMenuItem
             // 
             this.savePcMenuItem.Name = "savePcMenuItem";
-            this.savePcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.savePcMenuItem.Size = new System.Drawing.Size(114, 22);
             this.savePcMenuItem.Text = "Save";
             this.savePcMenuItem.Click += new System.EventHandler(this.savePcMenuItem_Click);
             // 
             // saveAsPcMenuItem
             // 
             this.saveAsPcMenuItem.Name = "saveAsPcMenuItem";
-            this.saveAsPcMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsPcMenuItem.Size = new System.Drawing.Size(114, 22);
             this.saveAsPcMenuItem.Text = "Save As";
             this.saveAsPcMenuItem.Click += new System.EventHandler(this.saveAsPcMenuItem_Click);
             // 
@@ -234,26 +204,26 @@
             // newPhoneMenuItem
             // 
             this.newPhoneMenuItem.Name = "newPhoneMenuItem";
-            this.newPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newPhoneMenuItem.Size = new System.Drawing.Size(114, 22);
             this.newPhoneMenuItem.Text = "New";
             // 
             // openPhoneMenuItem
             // 
             this.openPhoneMenuItem.Name = "openPhoneMenuItem";
-            this.openPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openPhoneMenuItem.Size = new System.Drawing.Size(114, 22);
             this.openPhoneMenuItem.Text = "Open";
             // 
             // savePhoneMenuItem
             // 
             this.savePhoneMenuItem.Name = "savePhoneMenuItem";
-            this.savePhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.savePhoneMenuItem.Size = new System.Drawing.Size(114, 22);
             this.savePhoneMenuItem.Text = "Save";
             this.savePhoneMenuItem.Click += new System.EventHandler(this.savePhoneMenuItem_Click);
             // 
             // saveAsPhoneMenuItem
             // 
             this.saveAsPhoneMenuItem.Name = "saveAsPhoneMenuItem";
-            this.saveAsPhoneMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsPhoneMenuItem.Size = new System.Drawing.Size(114, 22);
             this.saveAsPhoneMenuItem.Text = "Save As";
             this.saveAsPhoneMenuItem.Click += new System.EventHandler(this.saveAsPhoneMenuItem_Click);
             // 
@@ -365,11 +335,20 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // lstPasses
+            // 
+            this.lstPasses.FormattingEnabled = true;
+            this.lstPasses.Location = new System.Drawing.Point(13, 27);
+            this.lstPasses.Name = "lstPasses";
+            this.lstPasses.Size = new System.Drawing.Size(330, 420);
+            this.lstPasses.TabIndex = 43;
+            // 
             // PSDForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(416, 500);
+            this.Controls.Add(this.lstPasses);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnAddPass);
             this.Controls.Add(this.btnRemovePass);
@@ -382,7 +361,6 @@
             this.Controls.Add(this.lblPsdConnectionDesc);
             this.Controls.Add(this.lblAndroidPathDesc);
             this.Controls.Add(this.lblBasePathDesc);
-            this.Controls.Add(this.lstViewPasswords);
             this.Controls.Add(this.menuMain);
             this.MainMenuStrip = this.menuMain;
             this.Name = "PSDForm";
@@ -397,9 +375,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.ListView lstViewPasswords;
-        private System.Windows.Forms.ColumnHeader Title;
-        private System.Windows.Forms.ColumnHeader Login;
         private System.Windows.Forms.Label lblBasePathDesc;
         private System.Windows.Forms.Label lblAndroidPathDesc;
         private System.Windows.Forms.Label lblPsdConnectionDesc;
@@ -432,6 +407,7 @@
         private System.Windows.Forms.Button btnAddPass;
         private System.Windows.Forms.ToolStripMenuItem connectPsdMenuItem;
         private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.ListBox lstPasses;
     }
 }
 

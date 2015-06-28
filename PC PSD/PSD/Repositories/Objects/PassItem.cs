@@ -50,6 +50,11 @@ namespace PSD
             return new PassItem(Id, Title, Login, EnterWithLogin, Pass, Description);
         }
 
+        public override string ToString()
+        {
+            return Title;
+        }
+
         public void InitFromPass(PassItem backup)
         {
             this.Id = backup.Id;

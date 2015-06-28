@@ -23,13 +23,11 @@ namespace PSD
         {
             InitializeComponent();
             _connections = dataConnections;
-
-            lstViewPasswords.HideSelection = false;
         }
 
         private void PSDForm_Load(object sender, EventArgs e)
         {
-            if (_connections.PcBase != null)
+            if (_connections.PcBase == null)
             {
                 MessageBox.Show(Localization.InputDataError);
                 this.Close();
@@ -41,21 +39,6 @@ namespace PSD
 
 
 
-        private void RefillPasswordsList()
-        {
-            lstViewPasswords.Items.Clear();
-            var passwords = _connections.PcBase.Base.Passwords.OrderBy(a => a.Id).ToList();
-
-            for (int i = 0; i < passwords.Count; i++)
-            {
-                var currPass = passwords[i];
-                var item = new ListViewItem(
-                    new string[] {
-                        currPass.Title,
-                        currPass.Login });
-                lstViewPasswords.Items.Add(item);
-            }
-        }
 
 
         private void BindAllLables()
@@ -69,8 +52,8 @@ namespace PSD
                 lblBasePath.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
                 lblBasePathDesc.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
 
-             
-
+                lstPasses.DataBindings.Clear();
+                lstPasses.DataSource = _connections.Passwords;
             }
 
 
@@ -228,7 +211,7 @@ namespace PSD
         private void SaveAll()
         {
             ReindexPasswords();
-            RefillPasswordsList();
+           // RefillPasswordsList();
 
             if (!_connections.UpdateInAllAvailableBases())
             {
@@ -263,7 +246,7 @@ namespace PSD
         private void UpdateData()
         {
             ReindexPasswords();
-            RefillPasswordsList();
+           // RefillPasswordsList();
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
