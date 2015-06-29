@@ -17,12 +17,10 @@ namespace PSD.Repositories.Objects
         public string HBTKey { get; set; }
 
         public PasswordsList Passwords { get; set; }
-
-
+        
         public Base()
         {
             Passwords = new PasswordsList();
         }
-
     }
 }

@@ -33,15 +33,11 @@ namespace PSD
                 this.Close();
                 return;
             }
-            BindAllLables();
+            BindControls();
             UpdateData();
         }
 
-
-
-
-
-        private void BindAllLables()
+        private void BindControls()
         {
 
             lblBasePath.DataBindings.Clear();
@@ -84,7 +80,6 @@ namespace PSD
 
         private bool CheckPassword(PassItem pass)
         {
-
             if (Contains(pass))
             {
                 MessageBox.Show("Contains this id");
@@ -121,29 +116,8 @@ namespace PSD
         {
             return _connections.PcBase.Base.Passwords.Any(a => a.Id == pass.Id && a != pass);
         }
-
-        private PassItem GetFirstSelectedPassword()
-        {
-            return GetSelectedPasswords().FirstOrDefault();
-        }
-
-
-        private PassItem[] GetSelectedPasswords()
-        {
-            /*if (!_passwords.Any())
-                return new PassItem[0];
-            if (lstViewPasswords.SelectedIndices.Count <= 0)
-                return new PassItem[0];
-            PassItem[] selectedItems = new PassItem[lstViewPasswords.SelectedItems.Count];
-            for (uint i = 0; i < selectedItems.Length; i++)
-            {
-                var passId = lstViewPasswords.SelectedItems[(int)i].Index;
-                selectedItems[i] = _passwords.FirstOrDefault(a => a.Id == passId);
-            }
-            return selectedItems;*/
-            return null;
-        }
-
+        
+     
         private int GetLastIndex()
         {
             /*
