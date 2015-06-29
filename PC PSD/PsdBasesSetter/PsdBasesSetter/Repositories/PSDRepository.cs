@@ -65,9 +65,9 @@ namespace PsdBasesSetter.Repositories
             return Connected;
         }
 
-        public SetResult WriteChanges()
+        public bool WriteChanges()
         {
-            return SetResult.Error;
+            return false;
 
         }
     }

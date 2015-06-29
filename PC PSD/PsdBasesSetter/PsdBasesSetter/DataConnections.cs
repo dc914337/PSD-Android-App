@@ -8,90 +8,88 @@ namespace PsdBasesSetter
 {
     public class DataConnections
     {
-        public FileRepository PcBase { get; private set; }
+        public FileRepository PcBase { get; set; }
         public FileRepository PhoneBase { get; private set; }
         public PSDRepository PsdBase { get; private set; }
-        public BasePasswords UserPasses { get; set; }
+
+        public String UserPass
+        {
+            set
+            {
+                _userPasses = new BasePasswords(value);
+            }
+        }
+
+        private BasePasswords _userPasses;
 
         public PasswordsList Passwords => PcBase.Base.Passwords;
 
 
-
-        public DataConnections()
+        public SetResult TrySetPcBase(String path)
         {
+            if (_userPasses == null)
+                return SetResult.NoPassSet;
 
+            var newPcBase = new FileRepository(_userPasses.BasePassword);
+            if (!newPcBase.Connect(path))
+                return SetResult.Failed;
+            PcBase = newPcBase;
+            return SetResult.Success;
         }
 
-        public DataConnections(BasePasswords passes)
+        public SetResult TrySetPhoneBase(String path)
         {
-            UserPasses = passes;
-            PcBase = new FileRepository(passes.BasePassword);
-            PhoneBase = new FileRepository(passes.PhonePassword);
-            PsdBase = new PSDRepository();
+            if (_userPasses == null)
+                return SetResult.NoPassSet;
+
+            var newPhoneBase = new FileRepository(_userPasses.BasePassword);
+            if (!newPhoneBase.Connect(path))
+                return SetResult.Failed;
+            PhoneBase = newPhoneBase;
+            return SetResult.Success;
         }
 
+        public SetResult TrySetPsdBase(PSDDevice newDevice)
+        {
+            if (_userPasses == null)
+                return SetResult.NoPassSet;
 
-        public bool SetPCBase(String path)
-        {
-            PcBase = new FileRepository(UserPasses.BasePassword);
-            bool success = PcBase.Connect(path);
-            //update phone base and psd base
-
-            return success;
-        }
-
-        public void DropPcBase()
-        {
-            PcBase = null;
-        }
-
-        public bool SetPhoneBase(String path)
-        {
-            if (PcBase == null && UserPasses == null)
-                throw new Exception("You need to set PC base or specify passes first");
-            PhoneBase = new FileRepository(UserPasses.PhonePassword);
-            return PhoneBase.Connect(path);
-        }
-        public void DropPhoneBase()
-        {
-            PhoneBase = null;
-        }
-
-        public bool SetPsdDevice(PSDDevice device)
-        {
-            return false;
-        }
-        public void DropPsdBase()
-        {
-            PsdBase = null;
+            var newPsdBase = new PSDRepository();
+            if (!newPsdBase.Connect(newDevice))
+                return SetResult.Failed;
+            PsdBase = newPsdBase;
+            return SetResult.Success;
         }
 
 
-        public bool UpdateInAllAvailableBases()
+        public WriteAllResult WriteAll()
         {
-            return UpdateIfConnected(PcBase) && UpdateIfConnected(PhoneBase) && UpdateIfConnected(PsdBase);
+            if (!PcBase.WriteChanges())
+                return WriteAllResult.FailedPC;
+
+            if (!PhoneBase.WriteChanges())
+                return WriteAllResult.FailedPhone;
+
+            if (!PsdBase.WriteChanges())
+                return WriteAllResult.FailedPsd;
+
+            return WriteAllResult.Success;
         }
 
+    }
 
-        public bool UpdateIfConnected(IRepository repository)
-        {
-            return !(repository?.Connected == true && repository.WriteChanges() == SetResult.Error);
-        }
-        
+    public enum SetResult
+    {
+        Success,
+        Failed,
+        NoPassSet
+    }
 
-        //wrote later than registered changes
-        public bool AllUpToDate(DateTime lastEdit)
-        {
-            var v1 = UpToDate(PcBase, lastEdit);
-            var v2 = UpToDate(PhoneBase, lastEdit);
-            var v3 = UpToDate(PsdBase, lastEdit);
-            return v1 && v2 && v3;
-        }
-
-        public bool UpToDate(IRepository repository, DateTime lastEdit)
-        {
-            return repository?.Connected == false || repository?.LastUpdated >= lastEdit;
-        }
-
+    public enum WriteAllResult
+    {
+        Success,
+        FailedPC,
+        FailedPhone,
+        FailedPsd
     }
 }

@@ -133,13 +133,13 @@ namespace PsdBasesSetter.Repositories
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public SetResult WriteChanges()
+        public bool WriteChanges()
         {
             CryptoBase crypto = new CryptoBase(EncryptionKey);
 
@@ -166,11 +166,11 @@ namespace PsdBasesSetter.Repositories
             }
             catch (Exception ex)
             {
-                return SetResult.Error;
+                return false;
             }
 
             LastUpdated = DateTime.Now;
-            return SetResult.Success;
+            return true;
         }
 
     }
