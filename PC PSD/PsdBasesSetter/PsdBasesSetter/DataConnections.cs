@@ -31,8 +31,12 @@ namespace PsdBasesSetter
                 return SetResult.NoPassSet;
 
             var newPcBase = new FileRepository(_userPasses.BasePassword);
+
+
             if (!newPcBase.Connect(path))
-                return SetResult.Failed;
+                if (!newPcBase.Create(path))
+                    return SetResult.Failed;
+
             PcBase = newPcBase;
             return SetResult.Success;
         }
@@ -42,9 +46,11 @@ namespace PsdBasesSetter
             if (_userPasses == null)
                 return SetResult.NoPassSet;
 
-            var newPhoneBase = new FileRepository(_userPasses.BasePassword);
+            var newPhoneBase = new FileRepository(_userPasses.PhonePassword);
             if (!newPhoneBase.Connect(path))
-                return SetResult.Failed;
+                if (!newPhoneBase.Create(path))
+                    return SetResult.Failed;
+
             PhoneBase = newPhoneBase;
             return SetResult.Success;
         }
@@ -64,19 +70,34 @@ namespace PsdBasesSetter
 
         public WriteAllResult WriteAll()
         {
-            if (!PcBase.WriteChanges())
+            if (PcBase != null && !PcBase.WriteChanges())
                 return WriteAllResult.FailedPC;
 
-            if (!PhoneBase.WriteChanges())
+            UpdateAll();
+
+
+            if (PhoneBase != null && !PhoneBase.WriteChanges())
                 return WriteAllResult.FailedPhone;
 
-            if (!PsdBase.WriteChanges())
+            if (PsdBase != null && !PsdBase.WriteChanges())
                 return WriteAllResult.FailedPsd;
 
             return WriteAllResult.Success;
         }
 
+
+        private void UpdateAll()
+        {
+            //update data in lists in phone and psd
+        }
+
     }
+
+
+
+
+
+
 
     public enum SetResult
     {

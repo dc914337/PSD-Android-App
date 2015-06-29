@@ -48,6 +48,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PsdBasesSetter\PsdBasesSetter\PsdBasesSetter.csproj">
+      <Project>{701dabf1-7f96-481d-93fa-9cd815d46713}</Project>
+      <Name>PsdBasesSetter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
