@@ -25,34 +25,38 @@ namespace PsdBasesSetter
         public PasswordsList Passwords => PcBase.Base.Passwords;
 
 
-        public SetResult TrySetPcBase(String path)
+        public bool TrySetPcBase(String path)
         {
             if (_userPasses == null)
-                return SetResult.NoPassSet;
+                return false;
 
             var newPcBase = new FileRepository(_userPasses.BasePassword);
-
-
-            if (!newPcBase.Connect(path))
+            var connectResult = newPcBase.Connect(path);
+            if (connectResult == ConnectResult.WrongPath)
                 if (!newPcBase.Create(path))
-                    return SetResult.Failed;
+                    return false;
 
-            PcBase = newPcBase;
-            return SetResult.Success;
+            if (connectResult == ConnectResult.Success)
+                PcBase = newPcBase;
+
+            return connectResult == ConnectResult.Success;
         }
 
-        public SetResult TrySetPhoneBase(String path)
+        public bool TrySetPhoneBase(String path)
         {
             if (_userPasses == null)
-                return SetResult.NoPassSet;
+                return false;
 
             var newPhoneBase = new FileRepository(_userPasses.PhonePassword);
-            if (!newPhoneBase.Connect(path))
+            var connectResult = newPhoneBase.Connect(path);
+            if (connectResult == ConnectResult.WrongPath)
                 if (!newPhoneBase.Create(path))
-                    return SetResult.Failed;
+                    return false;
 
-            PhoneBase = newPhoneBase;
-            return SetResult.Success;
+            if (connectResult == ConnectResult.Success)
+                PhoneBase = newPhoneBase;
+
+            return connectResult == ConnectResult.Success;
         }
 
         public SetResult TrySetPsdBase(PSDDevice newDevice)

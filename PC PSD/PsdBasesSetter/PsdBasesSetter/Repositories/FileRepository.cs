@@ -115,21 +115,21 @@ namespace PsdBasesSetter.Repositories
             return MapData();
         }
 
-        public bool Connect(string path)
+        public ConnectResult Connect(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                return false;
+            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+                return ConnectResult.WrongPath;
 
             Path = path;
             if (!MapData())
             {
                 Path = null;
-                return false;
+                return ConnectResult.AccessError;
             }
 
             WriteChanges();
 
-            return true;
+            return ConnectResult.Success;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -172,6 +172,14 @@ namespace PsdBasesSetter.Repositories
             LastUpdated = DateTime.Now;
             return true;
         }
+
+    }
+
+    public enum ConnectResult
+    {
+        AccessError,  //no permissions, wrong pass or broken file
+        Success,
+        WrongPath
 
     }
 }

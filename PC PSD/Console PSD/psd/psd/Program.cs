@@ -8,6 +8,9 @@ namespace psd
     class Program
     {
         private static Args _args;
+        private static DataConnections _connetions;
+
+
         static void Main(string[] args)
         {
             _args = new Args();
@@ -18,27 +21,22 @@ namespace psd
             if (!argsParseResult || _args.Help)
                 return;
 
+            if (Connect())
+                Console.WriteLine("Connected.");
+            else
+                Console.WriteLine("Can't connect. Maybe your password is wrong");
+            Console.ReadKey();
+        }
 
-            DataConnections connetions = new DataConnections();
-
-
-            connetions.UserPass = "root";//1
-
-
-            do
+        private static bool Connect()
+        {
+            _connetions = new DataConnections
             {
-                connetions.UserPass = "root";//1
-                connetions.TrySetPcBase("base.psd");//2
-                connetions.TrySetPhoneBase("phone.psd");//3
-                                                        //4
-
-                Random rnd = new Random();
-                connetions.Passwords.Add(new PassItem((ushort)rnd.Next(0, 100), "2", "2", true, "2", "2"));
-                connetions.Passwords.Add(new PassItem((ushort)rnd.Next(0, 100), "2", "2", true, "2", "2"));
-
-                connetions.WriteAll();
-            } while (!Console.KeyAvailable);
-
+                UserPass = _args.UserPassword
+            };
+            var setPcResult = _connetions.TrySetPcBase(_args.PcPath);
+            var setPhoneResult = _connetions.TrySetPhoneBase(_args.PhonePath);
+            return setPhoneResult || setPcResult;
         }
     }
 }
