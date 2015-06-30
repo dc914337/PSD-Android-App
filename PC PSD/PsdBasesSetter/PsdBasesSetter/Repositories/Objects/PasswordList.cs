@@ -9,12 +9,21 @@ namespace PsdBasesSetter.Repositories.Objects
     {
         public bool AddPass(PassItem item)
         {
-            if ( ContainsKey( item.Id ) )
+            ushort newId;
+            newId = item.Id ?? FindMinEmptyId();
+
+            if (ContainsKey(newId))
                 return false;
-            Add(item.Id, item);
+
+            Add(newId, item);
+            item.Id = newId;//changing after adding because if there will be any error than we wont break the item
             return true;
         }
 
+        private ushort FindMinEmptyId()
+        {
+            return 4;//lol. Debug
+        }
 
 
     }

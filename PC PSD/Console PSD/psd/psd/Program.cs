@@ -33,10 +33,9 @@ namespace psd
                 Output("Executed with errors.", OutputType.Error);
                 return;
             }
-            Output("Executed", OutputType.Verbose);
+            Output("Success!", OutputType.Verbose);
 
             _connetions.WriteAll();
-
             Console.ReadKey();
         }
 
@@ -46,9 +45,14 @@ namespace psd
             {
                 UserPass = _args.UserPassword
             };
-            var setPcResult = _connetions.TrySetPcBase(_args.PcPath);
-            var setPhoneResult = _connetions.TrySetPhoneBase(_args.PhonePath);
-            return setPhoneResult || setPcResult;
+
+            bool setPcResult = true;
+            if (!_connetions.TrySetPcBase(_args.PcPath))
+                setPcResult = _connetions.TryCreateAndSetPcBase(_args.PcPath);
+
+            if (!_connetions.TrySetPhoneBase(_args.PhonePath))
+                _connetions.TryCreateAndSetPhoneBase(_args.PhonePath);
+            return setPcResult;
         }
 
         private static bool ExecCommand()
@@ -67,9 +71,12 @@ namespace psd
 
         private static bool AddPass()
         {
-            PassItem itemToAdd = new PassItem(agsa);
-
-            return _connetions.Passwords.AddPass(itemToAdd);
+            if (_args.PassItem == null)
+            {
+                Output("No pass item set", OutputType.Error);
+                return false;
+            }
+            return _connetions.Passwords.AddPass(_args.PassItem);
         }
 
         private static bool RemovePass()

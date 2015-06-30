@@ -9,15 +9,12 @@ namespace psd.InitArgs
 
         public static bool Parse(Args args, string[] strArgs)
         {
-
             var success = ParseCmdType(strArgs, args);
 
             args.PcPath = GetArgVal(strArgs, "-b");
             args.PhonePath = GetArgVal(strArgs, "-p");
             args.UsePsd = strArgs.Contains("--usepsd");
             args.Help = strArgs.Contains("--help");
-            
-            args.PassItem = ParsePassItem(strArgs);
 
             if (!success || args.Help)
             {
@@ -37,15 +34,19 @@ namespace psd.InitArgs
                     break;
                 case "add":
                     args.CmdType = CommandType.AddPass;
+                    args.PassItem = ParsePassItem(strArgs);
                     break;
                 case "rem":
                     args.CmdType = CommandType.RemovePass;
+                    args.FindPassById = ParseId(strArgs);
                     break;
                 case "edit":
                     args.CmdType = CommandType.EditPass;
+                    args.FindPassById = ParseId(strArgs);
                     break;
                 case "info":
                     args.CmdType = CommandType.ShowPassInfo;
+                    args.FindPassById = ParseId(strArgs);
                     break;
                 default:
                     return false;
@@ -75,6 +76,14 @@ namespace psd.InitArgs
             passItem.Description = GetArgVal(strArgs, "--description");
 
             return passItem;
+        }
+
+        private static ushort? ParseId(string[] strArgs)
+        {
+            ushort id;
+            if (!ushort.TryParse(GetArgVal(strArgs, "--id"), out id))
+                return null;
+            return id;
         }
 
         private static String GetArgVal(string[] strArgs, String argKey)

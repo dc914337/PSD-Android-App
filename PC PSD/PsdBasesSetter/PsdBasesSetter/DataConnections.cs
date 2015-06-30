@@ -25,6 +25,19 @@ namespace PsdBasesSetter
         public PasswordList Passwords => PcBase.Base.Passwords;
 
 
+        public bool TryCreateAndSetPcBase(String path)
+        {
+            if (_userPasses == null)
+                return false;
+
+            var newPcBase = new FileRepository(_userPasses.BasePassword);
+            var connectResult = newPcBase.Create(path);
+            if (!newPcBase.Create(path))
+                return false;
+            return TrySetPcBase(path);
+        }
+
+
         public bool TrySetPcBase(String path)
         {
             if (_userPasses == null)
@@ -33,13 +46,24 @@ namespace PsdBasesSetter
             var newPcBase = new FileRepository(_userPasses.BasePassword);
             var connectResult = newPcBase.Connect(path);
             if (connectResult == ConnectResult.WrongPath)
-                if (!newPcBase.Create(path))
-                    return false;
+                return false;
 
             if (connectResult == ConnectResult.Success)
                 PcBase = newPcBase;
 
             return connectResult == ConnectResult.Success;
+        }
+
+        public bool TryCreateAndSetPhoneBase(String path)
+        {
+            if (_userPasses == null)
+                return false;
+
+            var newPhoneBase = new FileRepository(_userPasses.PhonePassword);
+            var connectResult = newPhoneBase.Connect(path);
+            if (!newPhoneBase.Create(path))
+                return false;
+            return TrySetPhoneBase(path);
         }
 
         public bool TrySetPhoneBase(String path)
@@ -50,8 +74,7 @@ namespace PsdBasesSetter
             var newPhoneBase = new FileRepository(_userPasses.PhonePassword);
             var connectResult = newPhoneBase.Connect(path);
             if (connectResult == ConnectResult.WrongPath)
-                if (!newPhoneBase.Create(path))
-                    return false;
+                return false;
 
             if (connectResult == ConnectResult.Success)
                 PhoneBase = newPhoneBase;
