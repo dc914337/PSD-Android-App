@@ -20,6 +20,14 @@ namespace PsdBasesSetter.Repositories.Objects
             return true;
         }
 
+        public PassItem GetPassById(ushort id)
+        {
+            PassItem retItem;
+            if (!TryGetValue(id, out retItem))
+                return null;
+            return retItem;
+        }
+
         private ushort FindMinEmptyId()
         {
             ushort lastKey = 0;
@@ -29,6 +37,8 @@ namespace PsdBasesSetter.Repositories.Objects
             }
             return lastKey;
         }
+
+
 
 
     }

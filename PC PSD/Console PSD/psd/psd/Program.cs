@@ -37,7 +37,7 @@ namespace psd
             _connetions.WriteAll();
             Output("Success!", OutputType.Verbose);
 
-           
+
         }
 
         private static bool Connect()
@@ -64,7 +64,14 @@ namespace psd
                     return AddPass();
                 case CommandType.ListPasses:
                     return ListPasses();
+                case CommandType.ShowPassInfo:
+                    return ShowPass();
+                case CommandType.EditPass:
+                    return EditPass();
+                case CommandType.RemovePass:
+                    return RemovePass();
                 default:
+                    Output("No such command. Magic enum", OutputType.Error);
                     return false;
             }
         }
@@ -102,8 +109,25 @@ namespace psd
 
         private static bool ShowPass()
         {
+            if (!_args.FindPassById.HasValue)
+            {
+                Output("Need index to show pass", OutputType.Error);
+                return false;
+            }
 
-            return false;
+            var selectedPass = _connetions.Passwords.GetPassById(_args.FindPassById.Value);
+            if (selectedPass == null)
+            {
+                Output("No pass with such id", OutputType.Error);
+                return false;
+            }
+            Console.WriteLine("___[ Password info. Id: {0} ]___", selectedPass.Id);
+            Console.WriteLine("Title: {0}", selectedPass.Title);
+            Console.WriteLine("Login: {0}", selectedPass.Login);
+            Console.WriteLine("Password: {0}", selectedPass.Pass);
+            Console.WriteLine("Enter with login: {0}", selectedPass.EnterWithLogin);
+            Console.WriteLine("Description: {0}", selectedPass.Description);
+            return true;
         }
 
         private static void Output(String text, OutputType type)
