@@ -11,7 +11,7 @@ namespace psd.InitArgs
         {
             var success = ParseCmdType(strArgs, args);
 
-            args.UserPassword= GetArgVal(strArgs, "--userpassword");
+            args.UserPassword = GetArgVal(strArgs, "--userpassword");
             args.PcPath = GetArgVal(strArgs, "-b");
             args.PhonePath = GetArgVal(strArgs, "-p");
             args.UsePsd = strArgs.Contains("--usepsd");
@@ -65,8 +65,11 @@ namespace psd.InitArgs
             var passItem = new PassItem(title, password);
 
             ushort parsedId;
-            ushort.TryParse(GetArgVal(strArgs, "--id"), out parsedId);
-            passItem.Id = parsedId;
+            if (!ushort.TryParse(GetArgVal(strArgs, "--id"), out parsedId))
+                passItem.Id = null;
+            else
+                passItem.Id = parsedId;
+
 
             passItem.Login = GetArgVal(strArgs, "--login");
 

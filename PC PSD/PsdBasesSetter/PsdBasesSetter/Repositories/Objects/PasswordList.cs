@@ -22,7 +22,12 @@ namespace PsdBasesSetter.Repositories.Objects
 
         private ushort FindMinEmptyId()
         {
-            return 4;//lol. Debug
+            ushort lastKey = 0;
+            while (ContainsKey(lastKey))
+            {
+                lastKey++;
+            }
+            return lastKey;
         }
 
 
