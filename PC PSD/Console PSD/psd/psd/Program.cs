@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Gnu.Getopt;
+using psd.CmdArgs;
 using PsdBasesSetter;
 using PsdBasesSetter.Repositories.Objects;
 
@@ -10,8 +13,15 @@ namespace psd
 {
     class Program
     {
+        private static Args _args;
         static void Main(string[] args)
         {
+            _args = new Args(args);
+            bool argsParseResult = _args.Parse();
+            if (!argsParseResult || _args.Help)
+                return;
+
+
             do
             {
                 DataConnections connetions = new DataConnections();

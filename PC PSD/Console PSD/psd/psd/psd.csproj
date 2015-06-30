@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gnu.Getopt, Version=0.9.1.0, Culture=neutral, PublicKeyToken=d014b4ccdc53511a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gnu.Getopt.0.9.2\lib\net20\Gnu.Getopt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,11 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdArgs\Args.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PsdBasesSetter\PsdBasesSetter\PsdBasesSetter.csproj">
