@@ -44,7 +44,8 @@ namespace psd.InitArgs
                     break;
                 case "edit":
                     args.CmdType = CommandType.EditPass;
-                    args.FindPassById = ParseId(strArgs);
+                    args.FindPassById = ParseId(strArgs);//to be sure that i have id
+                    args.PassItem = ParsePassItem(strArgs);
                     break;
                 case "info":
                     args.CmdType = CommandType.ShowPassInfo;

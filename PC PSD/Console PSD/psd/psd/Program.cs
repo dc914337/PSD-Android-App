@@ -126,6 +126,8 @@ namespace psd
 
         private static bool EditPass()
         {
+            var selectedPass = GetSelectedItemId();
+            selectedPass?.Copy(_args.PassItem);
             return false;
         }
 
