@@ -12,11 +12,11 @@ namespace PsdBasesSetter.Repositories.Objects
         [DataMember]
         public string HBTKey { get; set; }
 
-        public PasswordsList Passwords { get; set; }
+        public PasswordList Passwords { get; set; }
         
         public Base()
         {
-            Passwords = new PasswordsList();
+            Passwords = new PasswordList();
         }
     }
 }

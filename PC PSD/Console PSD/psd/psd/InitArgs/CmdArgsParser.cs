@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using PsdBasesSetter.Repositories.Objects;
 
 namespace psd.InitArgs
 {
@@ -15,6 +16,8 @@ namespace psd.InitArgs
             args.PhonePath = GetArgVal(strArgs, "-p");
             args.UsePsd = strArgs.Contains("--usepsd");
             args.Help = strArgs.Contains("--help");
+            
+            args.PassItem = ParsePassItem(strArgs);
 
             if (!success || args.Help)
             {
@@ -48,6 +51,30 @@ namespace psd.InitArgs
                     return false;
             }
             return true;
+        }
+
+
+        private static PassItem ParsePassItem(string[] strArgs)
+        {
+            var title = GetArgVal(strArgs, "--title");
+            var password = GetArgVal(strArgs, "--password");
+            if (title == null || password == null)
+                return null;
+            var passItem = new PassItem(title, password);
+
+            ushort parsedId;
+            ushort.TryParse(GetArgVal(strArgs, "--id"), out parsedId);
+            passItem.Id = parsedId;
+
+            passItem.Login = GetArgVal(strArgs, "--login");
+
+            bool enterWithLogin;
+            bool.TryParse(GetArgVal(strArgs, "--enter-with-login"), out enterWithLogin);
+            passItem.EnterWithLogin = enterWithLogin;
+
+            passItem.Description = GetArgVal(strArgs, "--description");
+
+            return passItem;
         }
 
         private static String GetArgVal(string[] strArgs, String argKey)

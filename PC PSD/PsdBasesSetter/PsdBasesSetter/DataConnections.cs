@@ -22,7 +22,7 @@ namespace PsdBasesSetter
 
         private BasePasswords _userPasses;
 
-        public PasswordsList Passwords => PcBase.Base.Passwords;
+        public PasswordList Passwords => PcBase.Base.Passwords;
 
 
         public bool TrySetPcBase(String path)

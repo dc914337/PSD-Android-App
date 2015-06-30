@@ -61,7 +61,7 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Objects\Base.cs" />
     <Compile Include="Repositories\Objects\PassItem.cs" />
-    <Compile Include="Repositories\Objects\PasswordsList.cs" />
+    <Compile Include="Repositories\Objects\PasswordList.cs" />
     <Compile Include="Repositories\PSDRepository.cs" />
     <Compile Include="Repositories\Serializers\JSONWorker.cs" />
     <Compile Include="Repositories\Serializers\Serializer.cs" />

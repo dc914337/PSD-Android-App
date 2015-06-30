@@ -1,4 +1,5 @@
 ﻿using System;
+using PsdBasesSetter.Repositories.Objects;
 
 namespace psd.InitArgs
 {
@@ -10,6 +11,12 @@ namespace psd.InitArgs
         public bool UsePsd { get; set; }
         public bool Help { get; set; }
         public String UserPassword { get; set; }
+
+        public PassItem PassItem { get; set; }
+
+
+        public bool Verbose { get; set; }
+
     }
 
     public enum CommandType

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using psd.InitArgs;
 using PsdBasesSetter;
 using PsdBasesSetter.Repositories.Objects;
@@ -22,17 +23,19 @@ namespace psd
 
             if (!Connect())
             {
-                Console.WriteLine("Can't connect. Maybe your password is wrong");
+                Output("Can't connect. Maybe your password is wrong", OutputType.Error);
                 return;
             }
-            Console.WriteLine("Connected");
+            Output("Connected", OutputType.Verbose);
 
             if (!ExecCommand())
             {
-                Console.WriteLine("Executed with errors.");
+                Output("Executed with errors.", OutputType.Error);
                 return;
             }
-            Console.WriteLine("Executed");
+            Output("Executed", OutputType.Verbose);
+
+            _connetions.WriteAll();
 
             Console.ReadKey();
         }
@@ -64,8 +67,9 @@ namespace psd
 
         private static bool AddPass()
         {
-            //_connetions.Passwords
-            return false;
+            PassItem itemToAdd = new PassItem(agsa);
+
+            return _connetions.Passwords.AddPass(itemToAdd);
         }
 
         private static bool RemovePass()
@@ -88,5 +92,16 @@ namespace psd
             return false;
         }
 
+        private static void Output(String text, OutputType type)
+        {
+            if (type != OutputType.Verbose || !_args.Verbose)
+                Console.WriteLine(text);
+        }
+
+        enum OutputType
+        {
+            Error,
+            Verbose
+        }
     }
 }
