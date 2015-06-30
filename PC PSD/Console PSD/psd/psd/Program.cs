@@ -10,7 +10,6 @@ namespace psd
         private static Args _args;
         private static DataConnections _connetions;
 
-
         static void Main(string[] args)
         {
             _args = new Args();
@@ -21,10 +20,20 @@ namespace psd
             if (!argsParseResult || _args.Help)
                 return;
 
-            if (Connect())
-                Console.WriteLine("Connected.");
-            else
+            if (!Connect())
+            {
                 Console.WriteLine("Can't connect. Maybe your password is wrong");
+                return;
+            }
+            Console.WriteLine("Connected");
+
+            if (!ExecCommand())
+            {
+                Console.WriteLine("Executed with errors.");
+                return;
+            }
+            Console.WriteLine("Executed");
+
             Console.ReadKey();
         }
 
@@ -38,5 +47,46 @@ namespace psd
             var setPhoneResult = _connetions.TrySetPhoneBase(_args.PhonePath);
             return setPhoneResult || setPcResult;
         }
+
+        private static bool ExecCommand()
+        {
+            switch (_args.CmdType)
+            {
+                case CommandType.AddPass:
+                    return AddPass();
+                case CommandType.ListPasses:
+                    return ListPasses();
+                default:
+                    return false;
+            }
+        }
+
+
+        private static bool AddPass()
+        {
+            //_connetions.Passwords
+            return false;
+        }
+
+        private static bool RemovePass()
+        {
+            return false;
+        }
+
+        private static bool ListPasses()
+        {
+            return false;
+        }
+
+        private static bool EditPass()
+        {
+            return false;
+        }
+
+        private static bool ShowPass()
+        {
+            return false;
+        }
+
     }
 }
