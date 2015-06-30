@@ -11,6 +11,7 @@ namespace psd.InitArgs
         {
             var success = ParseCmdType(strArgs, args);
 
+            args.UserPassword= GetArgVal(strArgs, "--userpassword");
             args.PcPath = GetArgVal(strArgs, "-b");
             args.PhonePath = GetArgVal(strArgs, "-p");
             args.UsePsd = strArgs.Contains("--usepsd");

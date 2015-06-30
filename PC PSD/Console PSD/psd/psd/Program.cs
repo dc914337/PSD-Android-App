@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using psd.InitArgs;
 using PsdBasesSetter;
@@ -33,9 +34,10 @@ namespace psd
                 Output("Executed with errors.", OutputType.Error);
                 return;
             }
+            _connetions.WriteAll();
             Output("Success!", OutputType.Verbose);
 
-            _connetions.WriteAll();
+            
             Console.ReadKey();
         }
 
@@ -86,7 +88,12 @@ namespace psd
 
         private static bool ListPasses()
         {
-            return false;
+            Console.WriteLine("Passwords: ");
+            foreach (var pass in _connetions.Passwords.Select(a => a.Value))
+            {
+                Console.WriteLine("{0}: {1}  {2}", pass.Id, pass.Title, pass.Description);
+            }
+            return true;
         }
 
         private static bool EditPass()
