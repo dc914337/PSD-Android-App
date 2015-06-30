@@ -133,9 +133,6 @@ namespace PsdBasesSetter
                 PsdBase.Base.HBTKey = hBtKEy;
             }
         }
-
-
-
     }
 
 

@@ -16,7 +16,7 @@ namespace psd.InitArgs
 
         public ushort? FindPassById { get; set; }
 
-        public bool Verbose { get; set; }
+        public bool Verbose { get; set; } = false;
 
     }
 

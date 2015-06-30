@@ -37,8 +37,7 @@ namespace psd
             _connetions.WriteAll();
             Output("Success!", OutputType.Verbose);
 
-            
-            Console.ReadKey();
+           
         }
 
         private static bool Connect()
@@ -109,7 +108,7 @@ namespace psd
 
         private static void Output(String text, OutputType type)
         {
-            if (type != OutputType.Verbose || !_args.Verbose)
+            if (type != OutputType.Verbose || _args.Verbose)
                 Console.WriteLine(text);
         }
 
