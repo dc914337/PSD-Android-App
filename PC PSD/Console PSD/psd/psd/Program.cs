@@ -91,7 +91,7 @@ namespace psd
             Console.WriteLine("Passwords: ");
             foreach (var pass in _connetions.Passwords.Select(a => a.Value))
             {
-                Console.WriteLine("{0}: {1}  {2}", pass.Id, pass.Title, pass.Description);
+                Console.WriteLine("{0}:\t{1}\t{2}", pass.Id, pass.Title, pass.Description);
             }
             return true;
         }

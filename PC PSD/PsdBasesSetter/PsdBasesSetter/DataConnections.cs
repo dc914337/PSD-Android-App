@@ -8,6 +8,9 @@ namespace PsdBasesSetter
 {
     public class DataConnections
     {
+        private const int BtKeyLength = 32;
+        private const int HBtKeyLength = 32;
+
         public FileRepository PcBase { get; set; }
         public FileRepository PhoneBase { get; private set; }
         public PSDRepository PsdBase { get; private set; }
@@ -97,11 +100,10 @@ namespace PsdBasesSetter
 
         public WriteAllResult WriteAll()
         {
-            if (PcBase != null && !PcBase.WriteChanges())
-                return WriteAllResult.FailedPC;
-
             UpdateAll();
 
+            if (PcBase != null && !PcBase.WriteChanges())
+                return WriteAllResult.FailedPc;
 
             if (PhoneBase != null && !PhoneBase.WriteChanges())
                 return WriteAllResult.FailedPhone;
@@ -115,8 +117,24 @@ namespace PsdBasesSetter
 
         private void UpdateAll()
         {
-            //update data in lists in phone and psd
+            String hBtKEy = KeyGenerator.GenerateStringKey(HBtKeyLength);
+            String btKey = KeyGenerator.GenerateStringKey(BtKeyLength);
+            if (PhoneBase != null)
+            {
+                PhoneBase.Base.Passwords = PcBase.Base.Passwords;
+                PhoneBase.Base.BTKey = btKey;
+                PhoneBase.Base.HBTKey = hBtKEy;
+            }
+
+            if (PsdBase != null)
+            {
+                PsdBase.Base.Passwords = PcBase.Base.Passwords;
+                PsdBase.Base.BTKey = btKey;
+                PsdBase.Base.HBTKey = hBtKEy;
+            }
         }
+
+
 
     }
 
@@ -136,7 +154,7 @@ namespace PsdBasesSetter
     public enum WriteAllResult
     {
         Success,
-        FailedPC,
+        FailedPc,
         FailedPhone,
         FailedPsd
     }

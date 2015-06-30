@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Config\PSDConfigSection.cs" />
     <Compile Include="Crypto\BasePasswords.cs" />
+    <Compile Include="Crypto\KeyGenerator.cs" />
     <Compile Include="Device\Hid\PSDDevice.cs" />
     <Compile Include="Device\Hid\PSDFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

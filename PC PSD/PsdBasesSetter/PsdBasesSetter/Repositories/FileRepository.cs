@@ -28,18 +28,10 @@ namespace PsdBasesSetter.Repositories
                 OnPropertyChanged();
             }
         }
-
-        public bool Connected => Ready();
+        
 
         public DateTime LastUpdated { get; private set; }
-
-        private bool Ready()
-        {
-            if (String.IsNullOrWhiteSpace(Path))
-                return false;
-            return true;
-        }
-
+        
         public FileRepository()
         {
             //EncryptionKey = null
@@ -180,6 +172,5 @@ namespace PsdBasesSetter.Repositories
         AccessError,  //no permissions, wrong pass or broken file
         Success,
         WrongPath
-
     }
 }

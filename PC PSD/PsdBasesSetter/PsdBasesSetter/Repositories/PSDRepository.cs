@@ -2,27 +2,16 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using PsdBasesSetter.Device.Hid;
+using PsdBasesSetter.Repositories.Objects;
 
 namespace PsdBasesSetter.Repositories
 {
-    public class PSDRepository : INotifyPropertyChanged, IRepository
+    public class PSDRepository : IRepository
     {
         public PSDDevice Psd;
+        public Base Base { get; private set; }
 
         public DateTime LastUpdated { get; set; }
-        private bool _connected = false;
-        public bool Connected
-        {
-            get
-            {
-                return _connected;
-            }
-            set
-            {
-                _connected = value;
-                OnPropertyChanged();
-            }
-        }
 
         private String _name;
 
@@ -35,40 +24,28 @@ namespace PsdBasesSetter.Repositories
             set
             {
                 _name = value;
-                OnPropertyChanged();
             }
         }
 
-        public PSDRepository()
-        {
-            Connected = false;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public bool Connect(PSDDevice psdDevice)
         {
-            Connected = psdDevice.Connect();
-            if (Connected)
+            var connected = psdDevice.Connect();
+            if (connected)
             {
                 Psd = psdDevice;
                 Name = Psd.ToString();
+                Base = new Base();
             }
             else
                 Psd = null;
 
-            return Connected;
+            return connected;
         }
 
         public bool WriteChanges()
         {
             return false;
-
         }
     }
 }

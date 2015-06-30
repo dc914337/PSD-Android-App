@@ -6,6 +6,7 @@ namespace PsdBasesSetter.Repositories
     {
         bool WriteChanges();
         
+
         DateTime LastUpdated { get; }
     }
 }

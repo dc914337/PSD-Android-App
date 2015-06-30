@@ -21,14 +21,14 @@ namespace PsdBasesSetter.Crypto
 
         private byte[] GenerateUserPassword(byte[] pass)
         {
-            SHA256 mySha256 = SHA256Managed.Create();
+            SHA256 mySha256 = SHA256.Create();
             return mySha256.ComputeHash(pass);
         }
 
 
         private byte[] GeneratePhonePassword(byte[] pass)
         {
-            SHA256 mySha256 = SHA256Managed.Create();
+            SHA256 mySha256 = SHA256.Create();
             byte generateTimes = mySha256.ComputeHash(pass)[TimesByteNum];
             if (generateTimes <= 1)
                 generateTimes++;
