@@ -16,12 +16,12 @@ namespace psd
         {
             _args = new Args();
 
-            var argsParseResult = CmdArgsParser.Parse(_args, args);
-            argsParseResult &= ConsoleArgsParser.Fill(_args);
-
-            if (!argsParseResult || _args.Help)
+            if (!CmdArgsParser.Parse(_args, args))
                 return;
 
+            if (!ConsoleArgsParser.Fill(_args))
+                return;
+            
             if (!Connect())
             {
                 Output("Can't connect. Maybe your password is wrong", OutputType.Error);
@@ -127,8 +127,10 @@ namespace psd
         private static bool EditPass()
         {
             var selectedPass = GetSelectedItemId();
+            if (selectedPass == null)
+                return false;
             selectedPass?.Copy(_args.PassItem);
-            return false;
+            return true;
         }
 
         private static bool ShowPass()

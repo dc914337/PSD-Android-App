@@ -6,11 +6,14 @@ namespace psd.InitArgs
 {
     static class CmdArgsParser
     {
-
         public static bool Parse(Args args, string[] strArgs)
         {
             if (strArgs.Length < 1)
+            {
+                args.Help = true;
+                PrintHelp();
                 return false;
+            }
 
             var success = ParseCmdType(strArgs, args);
 
