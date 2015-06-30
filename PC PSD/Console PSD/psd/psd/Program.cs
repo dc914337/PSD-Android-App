@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Gnu.Getopt;
-using psd.CmdArgs;
+using psd.InitArgs;
 using PsdBasesSetter;
 using PsdBasesSetter.Repositories.Objects;
 
@@ -16,9 +16,10 @@ namespace psd
         private static Args _args;
         static void Main(string[] args)
         {
-            _args = new Args(args);
-            bool argsParseResult = _args.Parse();
-            if (!argsParseResult || _args.Help)
+            _args = new Args();
+            var argsParseResult = CmdArgsParser.Parse(_args, args);
+
+            if (argsParseResult == null || _args.Help)
                 return;
 
 

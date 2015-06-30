@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CmdArgs\Args.cs" />
+    <Compile Include="InitArgs\Args.cs" />
+    <Compile Include="InitArgs\CmdArgsParser.cs" />
+    <Compile Include="InitArgs\ConsoleArgsParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
