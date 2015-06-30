@@ -21,7 +21,7 @@ namespace psd
 
             if (!ConsoleArgsParser.Fill(_args))
                 return;
-            
+
             if (!Connect())
             {
                 Output("Can't connect. Maybe your password is wrong", OutputType.Error);
@@ -70,6 +70,8 @@ namespace psd
                     return EditPass();
                 case CommandType.RemovePass:
                     return RemovePass();
+                case CommandType.Update:
+                    return true;//stub. it will be updated later
                 default:
                     Output("No such command. Magic enum", OutputType.Error);
                     return false;

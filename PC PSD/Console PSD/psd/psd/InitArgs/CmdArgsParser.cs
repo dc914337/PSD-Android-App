@@ -37,6 +37,9 @@ namespace psd.InitArgs
                 case "list":
                     args.CmdType = CommandType.ListPasses;
                     break;
+                case "update":
+                    args.CmdType = CommandType.Update;
+                    break;
                 case "add":
                     args.CmdType = CommandType.AddPass;
                     args.PassItem = ParsePassItem(strArgs);

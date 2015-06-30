@@ -26,7 +26,8 @@ namespace psd.InitArgs
         AddPass,
         RemovePass,
         EditPass,
-        ShowPassInfo
+        ShowPassInfo,
+        Update
     }
 
 }
