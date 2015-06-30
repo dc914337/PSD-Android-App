@@ -38,7 +38,7 @@ namespace psd.InitArgs
                     args.CmdType = CommandType.AddPass;
                     args.PassItem = ParsePassItem(strArgs);
                     break;
-                case "rem":
+                case "del":
                     args.CmdType = CommandType.RemovePass;
                     args.FindPassById = ParseId(strArgs);
                     break;

@@ -87,9 +87,31 @@ namespace psd
             return _connetions.Passwords.AddPass(_args.PassItem);
         }
 
+        private static PassItem GetSelectedItemId()
+        {
+            if (!_args.FindPassById.HasValue)
+            {
+                Output("Need index to show pass", OutputType.Error);
+                return null;
+            }
+            var selectedPass = _connetions.Passwords.GetPassById(_args.FindPassById.Value);
+            if (selectedPass == null)
+            {
+                Output("No pass with such id", OutputType.Error);
+                return null;
+            }
+            return selectedPass;
+        }
+
+
+
         private static bool RemovePass()
         {
-            return false;
+            var selectedPass = GetSelectedItemId();
+            if (selectedPass == null)
+                return false;
+
+            return _connetions.Passwords.RemovePass(selectedPass.Id.Value);
         }
 
         private static bool ListPasses()
@@ -109,18 +131,10 @@ namespace psd
 
         private static bool ShowPass()
         {
-            if (!_args.FindPassById.HasValue)
-            {
-                Output("Need index to show pass", OutputType.Error);
-                return false;
-            }
-
-            var selectedPass = _connetions.Passwords.GetPassById(_args.FindPassById.Value);
+            var selectedPass = GetSelectedItemId();
             if (selectedPass == null)
-            {
-                Output("No pass with such id", OutputType.Error);
                 return false;
-            }
+
             Console.WriteLine("___[ Password info. Id: {0} ]___", selectedPass.Id);
             Console.WriteLine("Title: {0}", selectedPass.Title);
             Console.WriteLine("Login: {0}", selectedPass.Login);

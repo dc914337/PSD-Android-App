@@ -38,8 +38,11 @@ namespace PsdBasesSetter.Repositories.Objects
             return lastKey;
         }
 
-
-
-
+        public bool RemovePass(ushort id)
+        {
+            var result = this.Remove(id);
+            //may be move all elements to fill spaces
+            return result;
+        }
     }
 }
