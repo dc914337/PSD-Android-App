@@ -9,6 +9,7 @@ namespace psd.InitArgs
         public String PhonePath { get; set; }
         public bool UsePsd { get; set; }
         public bool Help { get; set; }
+        public String UserPassword { get; set; }
     }
 
     public enum CommandType

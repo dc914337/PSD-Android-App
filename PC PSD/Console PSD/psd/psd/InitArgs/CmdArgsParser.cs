@@ -6,7 +6,7 @@ namespace psd.InitArgs
     static class CmdArgsParser
     {
 
-        public static Args Parse(Args args, string[] strArgs)
+        public static bool Parse(Args args, string[] strArgs)
         {
 
             var success = ParseCmdType(strArgs, args);
@@ -19,9 +19,9 @@ namespace psd.InitArgs
             if (!success || args.Help)
             {
                 PrintHelp();
-                return null;
+                return false;
             }
-            return args;
+            return true;
         }
 
 
