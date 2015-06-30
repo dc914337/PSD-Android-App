@@ -9,6 +9,9 @@ namespace psd.InitArgs
 
         public static bool Parse(Args args, string[] strArgs)
         {
+            if (strArgs.Length < 1)
+                return false;
+
             var success = ParseCmdType(strArgs, args);
 
             args.UserPassword = GetArgVal(strArgs, "--userpassword");
@@ -17,12 +20,10 @@ namespace psd.InitArgs
             args.UsePsd = strArgs.Contains("--usepsd");
             args.Help = strArgs.Contains("--help");
 
-            if (!success || args.Help)
-            {
+            if (args.Help)
                 PrintHelp();
-                return false;
-            }
-            return true;
+
+            return success;
         }
 
 
