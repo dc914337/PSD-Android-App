@@ -85,16 +85,16 @@ namespace PsdBasesSetter
             return connectResult == ConnectResult.Success;
         }
 
-        public SetResult TrySetPsdBase(PSDDevice newDevice)
+        public bool TrySetPsdBase(PSDDevice newDevice)
         {
             if (_userPasses == null)
-                return SetResult.NoPassSet;
+                return false;
 
             var newPsdBase = new PSDRepository();
             if (!newPsdBase.Connect(newDevice))
-                return SetResult.Failed;
+                return false;
             PsdBase = newPsdBase;
-            return SetResult.Success;
+            return true;
         }
 
 
@@ -135,18 +135,6 @@ namespace PsdBasesSetter
         }
     }
 
-
-
-
-
-
-
-    public enum SetResult
-    {
-        Success,
-        Failed,
-        NoPassSet
-    }
 
     public enum WriteAllResult
     {

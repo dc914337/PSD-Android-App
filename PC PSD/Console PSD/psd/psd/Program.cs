@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using psd.InitArgs;
 using PsdBasesSetter;
+using PsdBasesSetter.Device.Hid;
 using PsdBasesSetter.Repositories.Objects;
 
 namespace psd
@@ -53,8 +54,58 @@ namespace psd
 
             if (!_connetions.TrySetPhoneBase(_args.PhonePath))
                 _connetions.TryCreateAndSetPhoneBase(_args.PhonePath);
+
+            if (_args.UsePsd)
+            {
+                ConnectPsd();
+            }
+
+
             return setPcResult;
         }
+
+
+
+        private static bool ConnectPsd()
+        {
+
+            var devices = new PSDFinder().FindConnectedPsds();
+            if (devices.Length < 1)
+            {
+                Output("No PSDs found", OutputType.Error);
+                return false;
+            }
+
+            var selectedPsd = SelectPsdDevice(devices);
+            if (selectedPsd == null)
+                return false;
+
+            if (!_connetions.TrySetPsdBase(selectedPsd))
+                return false;
+
+            return true;
+        }
+
+        private static PSDDevice SelectPsdDevice(PSDDevice[] devices)
+        {
+            if (_args.UseFirstFoundPsd)
+                return devices[0];
+            Console.WriteLine("Select psd: ");
+            for (int i = 0; i < devices.Length; i++)
+            {
+                Console.WriteLine("Id: {0}. Device: {1}", i, devices[i]);
+            }
+            int selected;
+            if (!int.TryParse(Console.ReadLine(), out selected) || selected > devices.Length - 1)
+            {
+                Output("Wrong device id.", OutputType.Error);
+                return null;
+            }
+            return devices[selected];
+        }
+
+
+
 
         private static bool ExecCommand()
         {

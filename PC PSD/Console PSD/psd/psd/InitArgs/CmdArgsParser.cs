@@ -21,6 +21,10 @@ namespace psd.InitArgs
             args.PcPath = GetArgVal(strArgs, "-b");
             args.PhonePath = GetArgVal(strArgs, "-p");
             args.UsePsd = strArgs.Contains("--usepsd");
+            args.UseFirstFoundPsd = strArgs.Contains("--use-first-found-psd");
+
+            
+
             args.Help = strArgs.Contains("--help");
 
             if (args.Help)

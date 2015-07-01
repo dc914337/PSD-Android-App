@@ -18,6 +18,21 @@ namespace psd.InitArgs
 
         public bool Verbose { get; set; } = false;
 
+
+        private bool _useFirstFoundPsd;
+        public bool UseFirstFoundPsd
+        {
+            get
+            {
+                return _useFirstFoundPsd;
+            }
+            set
+            {
+                if (value)
+                    UsePsd = true;
+                _useFirstFoundPsd = value;
+            }
+        }
     }
 
     public enum CommandType

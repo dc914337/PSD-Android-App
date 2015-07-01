@@ -5,7 +5,7 @@ using PsdBasesSetter.Config;
 
 namespace PsdBasesSetter.Device.Hid
 {
-    class PSDFinder
+    public class PSDFinder
     {
         private PSDConfigSection _configSection;
 
