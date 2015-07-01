@@ -42,13 +42,13 @@ namespace PsdBasesSetter.Device.Hid
             return _hidDevice.TryOpen(out _hidStream);
         }
 
-        public bool Login(String password)
+        public bool Login(byte[] password)
         {
             if (password.Length > MaxAuthPassLength)
                 return false;
             try
             {
-                byte[] result = WritePackage(Packages.Authorize, GetBytesFromString(password));
+                byte[] result = WritePackage(Packages.Authorize, password);
                 return CheckResult(result);
             }
             catch (IOException ex)

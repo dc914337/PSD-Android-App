@@ -12,11 +12,11 @@ namespace PsdBasesSetter.Repositories
         public Base Base { get; private set; }
 
         public DateTime LastUpdated { get; set; }
-        public String LoginPass { get; set; }
+        public byte[] LoginPass { get; set; }
 
         public String Name { get; set; }
 
-        public PSDRepository(String loginPass)
+        public PSDRepository(byte[] loginPass)
         {
             LoginPass = loginPass;
         }
@@ -40,7 +40,7 @@ namespace PsdBasesSetter.Repositories
         {
             Psd.Login(LoginPass);
             Psd.WriteKeys(Base.BTKey, Base.HBTKey);
-            Psd.WritePasswords(Base.Passwords);
+            //Psd.WritePasswords(Base.Passwords);
 
 
             return false;

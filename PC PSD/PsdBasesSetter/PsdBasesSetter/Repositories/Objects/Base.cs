@@ -8,12 +8,12 @@ namespace PsdBasesSetter.Repositories.Objects
     public class Base
     {
         [DataMember]
-        public string BTKey { get; set; }
+        public byte[] BTKey { get; set; }
         [DataMember]
-        public string HBTKey { get; set; }
+        public byte[] HBTKey { get; set; }
 
         public PasswordList Passwords { get; set; }
-        
+
         public Base()
         {
             Passwords = new PasswordList();
