@@ -90,7 +90,7 @@ namespace PsdBasesSetter
             if (_userPasses == null)
                 return false;
 
-            var newPsdBase = new PSDRepository();
+            var newPsdBase = new PSDRepository(_userPasses.PsdLoginPass);
             if (!newPsdBase.Connect(newDevice))
                 return false;
             PsdBase = newPsdBase;

@@ -12,19 +12,13 @@ namespace PsdBasesSetter.Repositories
         public Base Base { get; private set; }
 
         public DateTime LastUpdated { get; set; }
+        public String LoginPass { get; set; }
 
-        private String _name;
+        public String Name { get; set; }
 
-        public String Name
+        public PSDRepository(String loginPass)
         {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
+            LoginPass = loginPass;
         }
 
 
@@ -39,12 +33,16 @@ namespace PsdBasesSetter.Repositories
             }
             else
                 Psd = null;
-
             return connected;
         }
 
         public bool WriteChanges()
         {
+            Psd.Login(LoginPass);
+            Psd.WriteKeys(Base.BTKey, Base.HBTKey);
+            Psd.WritePasswords(Base.Passwords);
+
+
             return false;
         }
     }

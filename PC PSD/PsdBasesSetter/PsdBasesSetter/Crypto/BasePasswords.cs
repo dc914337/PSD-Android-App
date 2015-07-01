@@ -5,10 +5,11 @@ using System.Text;
 
 namespace PsdBasesSetter.Crypto
 {
-    public class BasePasswords : INotifyPropertyChanged
+    public class BasePasswords
     {
         public byte[] PhonePassword { get; private set; }
         public byte[] BasePassword { get; private set; }
+        public string PsdLoginPass { get; set; }
 
         private const int TimesByteNum = 0;
 
@@ -16,6 +17,7 @@ namespace PsdBasesSetter.Crypto
         {
             BasePassword = GenerateUserPassword(Encoding.ASCII.GetBytes(pass));
             PhonePassword = GeneratePhonePassword(Encoding.ASCII.GetBytes(pass));
+            PsdLoginPass = //create some pass
         }
 
 
@@ -41,11 +43,6 @@ namespace PsdBasesSetter.Crypto
             return result;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
     }
 }
