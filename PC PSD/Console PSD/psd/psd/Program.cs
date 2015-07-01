@@ -48,27 +48,25 @@ namespace psd
                 UserPass = _args.UserPassword
             };
 
-            bool setPcResult = true;
-            if (!_connetions.TrySetPcBase(_args.PcPath))
-                setPcResult = _connetions.TryCreateAndSetPcBase(_args.PcPath);
+            bool allConnected = true;
 
-            if (!_connetions.TrySetPhoneBase(_args.PhonePath))
-                _connetions.TryCreateAndSetPhoneBase(_args.PhonePath);
+            if (!_connetions.TrySetPcBase(_args.PcPath))
+                allConnected &= _connetions.TryCreateAndSetPcBase(_args.PcPath);
+
+            if (_args.PhonePath != null && !_connetions.TrySetPhoneBase(_args.PhonePath))
+                allConnected &= _connetions.TryCreateAndSetPhoneBase(_args.PhonePath);
 
             if (_args.UsePsd)
-            {
-                ConnectPsd();
-            }
+                allConnected &= ConnectPsd();
 
 
-            return setPcResult;
+            return allConnected;
         }
 
 
 
         private static bool ConnectPsd()
         {
-
             var devices = new PSDFinder().FindConnectedPsds();
             if (devices.Length < 1)
             {
