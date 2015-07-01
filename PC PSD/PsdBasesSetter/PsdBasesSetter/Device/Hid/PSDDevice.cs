@@ -10,7 +10,7 @@ namespace PsdBasesSetter.Device.Hid
     public class PSDDevice
     {
         private const int DefaultDataLength = 64;
-        private const int MaxAuthPassLength = 64;
+        private const int MaxAuthPassLength = 32;
         private const int MaxKeyLength = 32;
 
         private const byte ReportId = 0x00;
@@ -67,7 +67,6 @@ namespace PsdBasesSetter.Device.Hid
             byte[] passBytes = newPassword;
             Array.Copy(passBytes, data, passBytes.Length);
 
-            //SetLineEnd(data); 
             try
             {
                 byte[] result = WritePackage(Packages.ChangePassword, data);
