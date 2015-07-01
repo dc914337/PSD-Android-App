@@ -23,7 +23,7 @@ namespace psd.InitArgs
             args.UsePsd = strArgs.Contains("--usepsd");
             args.UseFirstFoundPsd = strArgs.Contains("--use-first-found-psd");
 
-            
+
 
             args.Help = strArgs.Contains("--help");
 
@@ -60,6 +60,9 @@ namespace psd.InitArgs
                 case "info":
                     args.CmdType = CommandType.ShowPassInfo;
                     args.FindPassById = ParseId(strArgs);
+                    break;
+                case "reset":
+                    args.CmdType = CommandType.ResetPsd;
                     break;
                 default:
                     return false;

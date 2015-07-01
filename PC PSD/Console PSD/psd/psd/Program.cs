@@ -38,7 +38,6 @@ namespace psd
             _connetions.WriteAll();
             Output("Success!", OutputType.Verbose);
 
-
         }
 
         private static bool Connect()
@@ -50,7 +49,7 @@ namespace psd
 
             bool allConnected = true;
 
-            if (!_connetions.TrySetPcBase(_args.PcPath))
+            if (_args.PcPath != null && !_connetions.TrySetPcBase(_args.PcPath))
                 allConnected &= _connetions.TryCreateAndSetPcBase(_args.PcPath);
 
             if (_args.PhonePath != null && !_connetions.TrySetPhoneBase(_args.PhonePath))
@@ -120,7 +119,9 @@ namespace psd
                 case CommandType.RemovePass:
                     return RemovePass();
                 case CommandType.Update:
-                    return true;//stub. it will be updated later
+                    return true;//stub. it will be updated in the end of execution
+                case CommandType.ResetPsd:
+                    return ResetPsd();
                 default:
                     Output("No such command. Magic enum", OutputType.Error);
                     return false;
@@ -154,6 +155,11 @@ namespace psd
             return selectedPass;
         }
 
+
+        private static bool ResetPsd()
+        {
+            return _connetions.PsdBase.Reset();
+        }
 
 
         private static bool RemovePass()

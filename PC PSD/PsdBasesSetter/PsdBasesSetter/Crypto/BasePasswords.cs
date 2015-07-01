@@ -35,7 +35,7 @@ namespace PsdBasesSetter.Crypto
             if (generateTimes <= 1)
                 generateTimes++;
 
-            byte[] result = pass;
+            byte[] result = new byte[pass.Length];
             for (byte i = 0; i < generateTimes; i++)
             {
                 result = mySha256.ComputeHash(result);
@@ -50,10 +50,10 @@ namespace PsdBasesSetter.Crypto
             if (generateTimes <= 1)
                 generateTimes++;
 
-            byte[] result = pass;
+            byte[] result = new byte[pass.Length];
             for (byte i = 0; i < generateTimes; i++)
             {
-                result = mySha256.ComputeHash(result);
+                result = mySha256.ComputeHash(pass);
             }
             return result;
         }

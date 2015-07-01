@@ -60,5 +60,10 @@ namespace PsdBasesSetter.Repositories
             }
             return psdConverted;
         }
+
+        public bool Reset()
+        {
+            return Psd.Reset(LoginPass);
+        }
     }
 }

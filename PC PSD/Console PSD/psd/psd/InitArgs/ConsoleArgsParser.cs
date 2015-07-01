@@ -11,13 +11,25 @@ namespace psd.InitArgs
         public static bool Fill(Args args)
         {
             bool success = true;
-
             FillUserPassword(args);
-            FillPcPath(args);
-           
-
+            switch (args.CmdType)
+            {
+                case CommandType.ResetPsd:
+                    break;
+                case CommandType.ListPasses:
+                case CommandType.AddPass:
+                case CommandType.EditPass:
+                case CommandType.RemovePass:
+                case CommandType.ShowPassInfo:
+                    FillPcPath(args);
+                    break;
+                default:
+                    Console.WriteLine("Error with console args parser commant type enum");
+                    break;
+            }
             return success;
         }
+
 
         private static void FillPcPath(Args args)
         {
