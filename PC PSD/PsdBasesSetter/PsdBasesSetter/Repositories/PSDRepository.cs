@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using PsdBasesSetter.Device.Hid;
 using PsdBasesSetter.Repositories.Objects;
 
@@ -40,10 +43,22 @@ namespace PsdBasesSetter.Repositories
         {
             Psd.Login(LoginPass);
             Psd.WriteKeys(Base.BTKey, Base.HBTKey);
-            //Psd.WritePasswords(Base.Passwords);
+            var psdConverted = GetPreparedPasswords(Base.Passwords);
+            int wrote = Psd.WritePasswords(psdConverted);
+
+            return wrote == psdConverted.Count();
+        }
 
 
-            return false;
+        //We think that here passwords are without spaces(no empty indexes). But it's not. We need either resort passwords or allow empty indexes
+        private List<byte[]> GetPreparedPasswords(PasswordList passes)
+        {
+            List<byte[]> psdConverted = new List<byte[]>();
+            foreach (var pass in passes)
+            {
+                psdConverted.Add(Encoding.ASCII.GetBytes(pass.Value.Pass));
+            }
+            return psdConverted;
         }
     }
 }
