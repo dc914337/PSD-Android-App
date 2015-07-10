@@ -9,7 +9,7 @@ public class PassItem
     public String Title;
     public String Login;
     public boolean EnterWithLogin;
-    public String Pass;
+    public byte[] Pass;
     public String Description;
 
 }
