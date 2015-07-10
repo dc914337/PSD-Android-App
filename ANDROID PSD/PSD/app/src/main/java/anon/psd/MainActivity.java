@@ -1,9 +1,11 @@
 package anon.psd;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import anon.psd.storage.secretBase.FileRepository;
 
 
 public class MainActivity extends ActionBarActivity
@@ -14,6 +16,17 @@ public class MainActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        testMethod();
+    }
+
+
+    private void testMethod()
+    {
+        FileRepository repo = new FileRepository();
+        repo.setUserPass("root");
+        repo.setBasePath("/sdcard/home/psd/phone.psd");
+        repo.update();
     }
 
 
