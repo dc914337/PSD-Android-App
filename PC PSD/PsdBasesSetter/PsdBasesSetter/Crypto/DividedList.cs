@@ -54,7 +54,7 @@ namespace PsdBasesSetter.Crypto
         private bool CheckCorrect(byte[] part1, byte[] part2, byte[] realPass)
         {
             String origPass = Encoding.ASCII.GetString(realPass);
-            String resPass = Encoding.ASCII.GetString(XORArrays(part1, part2));
+            String resPass = Encoding.ASCII.GetString(XORArrays(part1, part2)).TrimEnd('\0');
             return origPass.Equals(resPass);
         }
 

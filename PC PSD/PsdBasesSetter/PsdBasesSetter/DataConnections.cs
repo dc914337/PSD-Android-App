@@ -120,18 +120,18 @@ namespace PsdBasesSetter
             byte[] hBtKEy = KeyGenerator.GenerateByteKey(HBtKeyLength);
             byte[] btKey = KeyGenerator.GenerateByteKey(BtKeyLength);
 
-
+            DividedList dividedList = new DividedList(PcBase.Base.Passwords);
 
             if (PhoneBase != null)
             {
-                PhoneBase.Base.Passwords = PcBase.Base.Passwords;
+                PhoneBase.Base.Passwords = dividedList.Part1List;
                 PhoneBase.Base.BTKey = btKey;
                 PhoneBase.Base.HBTKey = hBtKEy;
             }
 
             if (PsdBase != null)
             {
-                PsdBase.Base.Passwords = PcBase.Base.Passwords;
+                PsdBase.Base.Passwords = dividedList.Part2List;
                 PsdBase.Base.BTKey = btKey;
                 PsdBase.Base.HBTKey = hBtKEy;
             }
