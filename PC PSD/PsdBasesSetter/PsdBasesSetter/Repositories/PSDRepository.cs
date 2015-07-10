@@ -56,7 +56,7 @@ namespace PsdBasesSetter.Repositories
             List<byte[]> psdConverted = new List<byte[]>();
             foreach (var pass in passes)
             {
-                psdConverted.Add(Encoding.ASCII.GetBytes(pass.Value.Pass));
+                psdConverted.Add(pass.Value.Pass);
             }
             return psdConverted;
         }

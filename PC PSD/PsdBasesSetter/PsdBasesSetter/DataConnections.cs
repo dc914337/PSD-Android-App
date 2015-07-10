@@ -119,6 +119,9 @@ namespace PsdBasesSetter
         {
             byte[] hBtKEy = KeyGenerator.GenerateByteKey(HBtKeyLength);
             byte[] btKey = KeyGenerator.GenerateByteKey(BtKeyLength);
+
+
+
             if (PhoneBase != null)
             {
                 PhoneBase.Base.Passwords = PcBase.Base.Passwords;

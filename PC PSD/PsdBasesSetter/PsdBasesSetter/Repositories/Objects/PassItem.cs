@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using PsdBasesSetter.Repositories.Serializers;
 
 namespace PsdBasesSetter.Repositories.Objects
 {
@@ -12,7 +14,7 @@ namespace PsdBasesSetter.Repositories.Objects
         }
 
 
-        public PassItem(string title, string password)
+        public PassItem(string title, byte[] password)
         {
             Id = null;
             Title = title;
@@ -22,7 +24,7 @@ namespace PsdBasesSetter.Repositories.Objects
             Description = null;
         }
 
-        public PassItem(string title, string login, bool enterWithLogin, string password, string description)
+        public PassItem(string title, string login, bool enterWithLogin, byte[] password, string description)
         {
             Id = null;
             Title = title;
@@ -32,7 +34,7 @@ namespace PsdBasesSetter.Repositories.Objects
             Description = description;
         }
 
-        public PassItem(ushort? index, string title, string login, bool enterWithLogin, string password, string description)
+        public PassItem(ushort? index, string title, string login, bool enterWithLogin, byte[] password, string description)
         {
             Id = index;
             Title = title;
@@ -56,7 +58,8 @@ namespace PsdBasesSetter.Repositories.Objects
         public bool EnterWithLogin { get; set; }
 
         [DataMember]
-        public string Pass { get; set; }
+        [JsonConverter(typeof(ByteArrayConverter))]
+        public byte[] Pass { get; set; }
 
         [DataMember]
         public string Description { get; set; }

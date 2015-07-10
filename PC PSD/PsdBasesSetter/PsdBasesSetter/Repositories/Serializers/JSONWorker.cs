@@ -79,7 +79,7 @@ namespace PsdBasesSetter.Repositories.Serializers
 
                 throw new Exception("Unexpected end when reading bytes.");
             }
-            else if(reader.TokenType==JsonToken.Null)
+            else if (reader.TokenType == JsonToken.Null)
             {
                 return null;
             }

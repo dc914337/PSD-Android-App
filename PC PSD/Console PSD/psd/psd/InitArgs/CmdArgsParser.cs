@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using PsdBasesSetter.Repositories.Objects;
 
 namespace psd.InitArgs
@@ -77,7 +78,7 @@ namespace psd.InitArgs
             var password = GetArgVal(strArgs, "--password");
             if (title == null || password == null)
                 return null;
-            var passItem = new PassItem(title, password);
+            var passItem = new PassItem(title, Encoding.ASCII.GetBytes(password));
 
             ushort parsedId;
             if (!ushort.TryParse(GetArgVal(strArgs, "--id"), out parsedId))
