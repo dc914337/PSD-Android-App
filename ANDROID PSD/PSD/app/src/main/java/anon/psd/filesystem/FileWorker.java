@@ -1,41 +1,33 @@
 package anon.psd.filesystem;
 
-import android.util.Log;
-
-import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import anon.psd.global.Constants;
 
 /**
  * Created by Dmitry on 10.07.2015.
  */
 public class FileWorker
 {
-    public static String readFromFile(String path)
+    public static byte[] readFromFile(String path)
     {
         File file = new File(path);
-
-        //Read text from file
-        StringBuilder text = new StringBuilder();
-
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
         try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                text.append('\n');
-            }
-            br.close();
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
-            Log.e(Constants.LTAG, "FileWorker IO exception", e);
-            return null;
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
-        return text.toString();
+        return bytes;
     }
 
 

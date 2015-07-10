@@ -1,8 +1,7 @@
 package anon.psd.storage.secretBase;
 
-import java.util.Arrays;
-
 import anon.psd.crypto.BaseCrypto;
+import anon.psd.crypto.KeyGenerator;
 import anon.psd.filesystem.FileWorker;
 import anon.psd.models.DataBase;
 
@@ -14,7 +13,7 @@ public class FileRepository
     public DataBase Base;
 
     private String _path;
-    private String _userPass;
+    private byte[] _userPass;
 
 
     public boolean setBasePath(String path)
@@ -26,7 +25,7 @@ public class FileRepository
 
     public void setUserPass(String pass)
     {
-        _userPass = pass;
+        _userPass = KeyGenerator.getBasekeyFromUserkey(pass);
     }
 
     public boolean rewrite()
@@ -36,12 +35,13 @@ public class FileRepository
 
     public boolean update()
     {
-        String read = FileWorker.readFromFile(_path);
-        byte[] decoded = new BaseCrypto(_userPass.getBytes()).decryptAll(read.getBytes());
+        byte[] read = FileWorker.readFromFile(_path);
+
+        byte[] decoded = new BaseCrypto(_userPass).decryptAll(read);
         if (decoded == null)
             return false;//invalid key or broken file
-        String jsonData = Arrays.toString(decoded);
-        
+        String jsonData = new String(decoded);
+
 
         return false;
     }

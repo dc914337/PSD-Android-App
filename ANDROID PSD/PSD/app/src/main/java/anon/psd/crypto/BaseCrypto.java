@@ -32,15 +32,23 @@ public class BaseCrypto
     public byte[] decryptAll(byte[] data)
     {
         byte[] IV = extractIV(data);
-
+        byte[] encryptedData = extractEncryptedData(data);
         if (IV == null)
             return null;
         try {
-            return decrypt(key, IV, data);
+            return decrypt(key, IV, encryptedData);
         } catch (Exception ex) {
             Log.e(Constants.LTAG, "Something broke", ex);
             return null;
         }
+    }
+
+    private static byte[] extractEncryptedData(byte[] data)
+    {
+        int encryptedDataLength = data.length - IVLength;
+        byte[] encryptedData = new byte[encryptedDataLength];
+        System.arraycopy(data, IVLength, encryptedData, 0, encryptedDataLength);
+        return encryptedData;
     }
 
 
@@ -61,7 +69,7 @@ public class BaseCrypto
         // Decrypt cipher
         Cipher decryptCipher = null;
         try {
-            decryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            decryptCipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -80,9 +88,10 @@ public class BaseCrypto
         }
 
         byte[] res = outputStream.toByteArray();
-        outputStream.close();
-        inStream.close();
+
         cipherInputStream.close();
+        inStream.close();
+        outputStream.close();
         return res;
     }
 

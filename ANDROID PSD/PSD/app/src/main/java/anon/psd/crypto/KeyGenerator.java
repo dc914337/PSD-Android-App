@@ -10,19 +10,21 @@ import anon.psd.global.Constants;
 /**
  * Created by Dmitry on 10.07.2015.
  */
-public class KeyConverter
+public class KeyGenerator
 {
+    public static final String BASE_PASS_SALT = "phone_base_salt-v1";
+
     public static byte[] getBasekeyFromUserkey(String userKey)
     {
         MessageDigest mda = null;
         try {
-            mda = MessageDigest.getInstance("SHA-512", "BC");
+            mda = MessageDigest.getInstance("SHA-256", "BC");
         } catch (Exception e) {
             Log.wtf(Constants.LTAG, e);
             e.printStackTrace();
         }
         byte[] passwordHash = mda.digest(userKey.getBytes());
-        byte[] saltBytes = Constants.BASE_PASS_SALT.getBytes();
+        byte[] saltBytes = BASE_PASS_SALT.getBytes();
         byte[] saltedHash = mda.digest(concatArrays(passwordHash, saltBytes));
         return saltedHash;
     }
