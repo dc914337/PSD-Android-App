@@ -1,5 +1,8 @@
 package anon.psd.serializers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import anon.psd.models.DataBase;
 
 /**
@@ -8,14 +11,19 @@ import anon.psd.models.DataBase;
 public class JSONWorker
 {
 
-    public static String Serialize(DataBase passwordsBase)
+    public static String serialize(DataBase passwordsBase)
     {
-        return "";// JsonConvert.SerializeObject(passwordsBase);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        return gson.toJson(passwordsBase);
     }
 
-    public static DataBase Deserialize(String json)
+    public static DataBase deserialize(String json)
     {
-        return new DataBase();//JsonConvert.DeserializeObject<DataBase>(json);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        DataBase base = gson.fromJson(json, DataBase.class);
+        return base;
     }
 
 }

@@ -9,11 +9,11 @@ public class Serializer
 {
     public static String Serialize(DataBase passwordsList)
     {
-        return JSONWorker.Serialize(passwordsList);
+        return JSONWorker.serialize(passwordsList);
     }
 
     public static DataBase Deserialize(String input)
     {
-        return JSONWorker.Deserialize(input);
+        return JSONWorker.deserialize(input);
     }
 }

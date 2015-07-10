@@ -4,6 +4,7 @@ import anon.psd.crypto.BaseCrypto;
 import anon.psd.crypto.KeyGenerator;
 import anon.psd.filesystem.FileWorker;
 import anon.psd.models.DataBase;
+import anon.psd.serializers.Serializer;
 
 /**
  * Created by Dmitry on 10.07.2015.
@@ -41,7 +42,7 @@ public class FileRepository
         if (decoded == null)
             return false;//invalid key or broken file
         String jsonData = new String(decoded);
-
+        DataBase base = Serializer.Deserialize(jsonData);
 
         return false;
     }
