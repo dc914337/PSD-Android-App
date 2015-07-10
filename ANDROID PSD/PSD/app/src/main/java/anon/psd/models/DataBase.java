@@ -3,7 +3,7 @@ package anon.psd.models;
 
 public class DataBase
 {
-    public String BTKey;
-    public String HBTKey;
+    public byte[] BTKey;
+    public byte[] HBTKey;
     public PasswordList Passwords;
 }
