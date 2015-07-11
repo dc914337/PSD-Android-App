@@ -24,14 +24,16 @@ public class FileWorker
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null;
         }
         return bytes;
     }
 
-    private static boolean writeFile(byte[] data, File file)
+    public static boolean writeFile(byte[] data, File file)
     {
         try {
             BufferedOutputStream buf = new BufferedOutputStream(new FileOutputStream(file, false));

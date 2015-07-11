@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import anon.psd.models.gui.PrettyPassword;
+import anon.psd.serializers.Serializer;
 
 /**
  * Created by Dmitry on 11.07.2015.
@@ -15,26 +16,33 @@ public class AppearanceCfg
 
     public AppearanceCfg(File cfgFile)
     {
+        _cfgFile = cfgFile;
         //if not exists create empty
         if (!cfgFile.exists()) {
             rewrite();//creates empty cfg
         }
-        _cfgFile = cfgFile;
+
     }
 
     public boolean update()
     {
         //load cfg
-        return false;
+        byte[] data = FileWorker.readFromFile(_cfgFile);
+        if (data == null)
+            return false;
+        String serialized = new String(data);
+        ArrayList<PrettyPassword> passes = Serializer.deserializePasswordAppearances(serialized);
+        if (passes == null)
+            return false;
+        _passwordAppearances = passes;
+        return true;
     }
 
     public boolean rewrite()
     {
         //save cfg
-
-
-
-        return false;
+        String serializedString = Serializer.serializePasswordAppearances(_passwordAppearances);
+        return FileWorker.writeFile(serializedString.getBytes(), _cfgFile);
     }
 
 

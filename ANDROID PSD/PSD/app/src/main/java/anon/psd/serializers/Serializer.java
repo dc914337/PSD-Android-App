@@ -24,7 +24,6 @@ public class Serializer
         return JSONWorker.deserializeDataBase(input);
     }
 
-
     public static String serializePasswordAppearances(ArrayList<PrettyPassword> passes)
     {
         return JSONWorker.serializePasswordAppearances(passes);

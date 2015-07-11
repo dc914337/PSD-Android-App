@@ -35,15 +35,13 @@ public class JSONWorker
 
     public static String serializePasswordAppearances(ArrayList<PrettyPassword> passwordAppearance)
     {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return gson.toJson(passwordAppearance);
     }
 
     public static ArrayList<PrettyPassword> deserializePasswordAppearances(String json)
     {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         Type listOfTestObject = new TypeToken<List<PrettyPassword>>()
         {
