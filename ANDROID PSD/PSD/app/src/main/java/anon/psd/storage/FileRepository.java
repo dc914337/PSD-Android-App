@@ -1,8 +1,9 @@
-package anon.psd.storage.secretBase;
+package anon.psd.storage;
+
+import java.io.File;
 
 import anon.psd.crypto.BaseCrypto;
 import anon.psd.crypto.KeyGenerator;
-import anon.psd.filesystem.FileWorker;
 import anon.psd.models.DataBase;
 import anon.psd.serializers.Serializer;
 
@@ -31,12 +32,13 @@ public class FileRepository
 
     public boolean rewrite()
     {
-        return false;
+        throw new UnsupportedOperationException();//not implemented exception
+        //return false;
     }
 
     public boolean update()
     {
-        byte[] read = FileWorker.readFromFile(_path);
+        byte[] read = FileWorker.readFromFile(new File(_path));
 
         byte[] decoded = new BaseCrypto(_userPass).decryptAll(read);
         if (decoded == null)

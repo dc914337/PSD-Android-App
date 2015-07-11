@@ -1,9 +1,11 @@
-package anon.psd.filesystem;
+package anon.psd.storage;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -11,9 +13,8 @@ import java.io.IOException;
  */
 public class FileWorker
 {
-    public static byte[] readFromFile(String path)
+    public static byte[] readFromFile(File file)
     {
-        File file = new File(path);
         int size = (int) file.length();
         byte[] bytes = new byte[size];
         try {
@@ -30,9 +31,22 @@ public class FileWorker
         return bytes;
     }
 
-
-    private static boolean writeToFile(String data)
+    private static boolean writeFile(byte[] data, File file)
     {
-        return false;
+        try {
+            BufferedOutputStream buf = new BufferedOutputStream(new FileOutputStream(file, false));
+            buf.write(data, 0, data.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            // TODO Auto-generated catch block
+            return false;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }
