@@ -27,6 +27,8 @@ public class PrettyPassword
     transient Bitmap pic;
 
 
+    transient public static Bitmap _defaultPic;
+
     transient private static final int MAX_COMPRESS_QUALITY = 100;
     transient private static File picsDir = new File(Environment.getDataDirectory(), "pics");
 
@@ -40,10 +42,9 @@ public class PrettyPassword
         passItem = origPass;
         //set default pic and path
         loadDefaultPic();
-        picName = null;
     }
 
-    public boolean setPic(File newPic) throws Exception
+    public boolean setPic(File newPic)
     {
         if (passItem == null)
             return false;//PasswordItem is null. You can't set pic to non existing password. I want to throw exception like this and not to handle it
@@ -72,7 +73,8 @@ public class PrettyPassword
 
     private void loadDefaultPic()
     {
-        
+        pic = _defaultPic;
+        picName = null;
     }
 
     private boolean savePic()
@@ -85,8 +87,8 @@ public class PrettyPassword
     }
 
 
-    public void setDefaultPic()
+    public static void setDefaultPic(Bitmap defaultPic)
     {
-
+        _defaultPic = defaultPic;
     }
 }

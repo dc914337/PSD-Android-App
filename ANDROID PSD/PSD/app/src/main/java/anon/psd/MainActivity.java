@@ -68,6 +68,8 @@ public class MainActivity extends ActionBarActivity
 
     private void testMethod()
     {
+        PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
+
         //load main base
         FileRepository repo = new FileRepository();
         repo.setUserPass("root");
