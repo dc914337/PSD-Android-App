@@ -10,23 +10,36 @@ import anon.psd.models.gui.PrettyPassword;
  */
 public class AppearanceCfg
 {
-    ArrayList<PrettyPassword> passwordAppearances;
+    ArrayList<PrettyPassword> _passwordAppearances = new ArrayList<>();
+    File _cfgFile;
 
-    public AppearanceCfg(File cfg)
+    public AppearanceCfg(File cfgFile)
     {
         //if not exists create empty
-
-        //load cfg
+        if (!cfgFile.exists()) {
+            rewrite();//creates empty cfg
+        }
+        _cfgFile = cfgFile;
     }
 
-    public void rewrite()
+    public boolean update()
+    {
+        //load cfg
+        return false;
+    }
+
+    public boolean rewrite()
     {
         //save cfg
+
+
+
+        return false;
     }
 
-    public void createEmptyCfg()
+
+    public ArrayList<PrettyPassword> getPassesAppearances()
     {
-
+        return _passwordAppearances;
     }
-
 }

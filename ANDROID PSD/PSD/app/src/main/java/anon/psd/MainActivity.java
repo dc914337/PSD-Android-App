@@ -10,7 +10,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import anon.psd.models.DataBase;
+import anon.psd.models.gui.PrettyPassword;
+import anon.psd.storage.AppearanceCfg;
 import anon.psd.storage.FileRepository;
 
 
@@ -63,10 +67,22 @@ public class MainActivity extends ActionBarActivity
 
     private void testMethod()
     {
+        //load main base
         FileRepository repo = new FileRepository();
         repo.setUserPass("root");
         repo.setBasePath("/sdcard/home/psd/phone.psd");
         repo.update();
+
+        DataBase passesBase = repo.getPassesBase();
+
+        //load appearance cfg
+        AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getExternalStorageDirectory(), "appearance.cfg"));
+        appearanceCfg.update();
+
+        //get prettyPasswords
+        ArrayList<PrettyPassword> passesAppearances = appearanceCfg.getPassesAppearances();
+
+        //merge passwords with pretty passwords using title
     }
 
 

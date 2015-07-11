@@ -12,7 +12,7 @@ import anon.psd.serializers.Serializer;
  */
 public class FileRepository
 {
-    public DataBase Base;
+    private DataBase _base;
 
     private String _path;
     private byte[] _userPass;
@@ -36,6 +36,12 @@ public class FileRepository
         //return false;
     }
 
+    public DataBase getPassesBase()
+    {
+        return _base;
+    }
+
+
     public boolean update()
     {
         byte[] read = FileWorker.readFromFile(new File(_path));
@@ -44,9 +50,9 @@ public class FileRepository
         if (decoded == null)
             return false;//invalid key or broken file
         String jsonData = new String(decoded);
-        DataBase base = Serializer.Deserialize(jsonData);
-
-        return false;
+        DataBase base = Serializer.deserializeDataBase(jsonData);
+        _base = base;
+        return true;
     }
 
 }
