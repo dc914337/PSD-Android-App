@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <anon.testdesign.PathPreference
+        android:key="db_path"
+        android:title="Set database path"
+        android:defaultValue="No path set"
+        />
+
+    <ListPreference
+        android:title="Passes order"
+        android:summary="%s"
+        android:key="order_by"
+        android:defaultValue="0"
+        android:entries="@array/listOrderNames"
+        android:entryValues="@array/listOrderValues"/>
+
+    <CheckBoxPreference
+        android:key="notify_low_signal"
+        android:summary="It can help if you forgot to unplug the device"
+        android:title="Notify is signal is low"/>
+
+    <ListPreference
+        android:title="Disconnect database policy"
+        android:summary="%s"
+        android:key="listPref"
+        android:defaultValue="0"
+        android:entries="@array/listPolicyNames"
+        android:entryValues="@array/listPolicyValues"/>
+
+</PreferenceScreen>
