@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <anon.testdesign.PathPreference
+    <anon.psd.gui.preferences.PathPreference
         android:key="db_path"
         android:title="Set database path"
         android:defaultValue="No path set"
