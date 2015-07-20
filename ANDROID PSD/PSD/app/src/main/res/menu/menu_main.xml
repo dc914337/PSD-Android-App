@@ -32,7 +32,7 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:onClick="openSettings"
+        android:onClick="openSettingsClick"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 

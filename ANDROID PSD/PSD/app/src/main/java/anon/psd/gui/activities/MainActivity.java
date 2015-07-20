@@ -4,18 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
+
 import anon.psd.R;
+import anon.psd.models.AppearancesList;
+import anon.psd.models.PassItem;
+import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
+import anon.psd.storage.AppearanceCfg;
+import anon.psd.storage.FileRepository;
 
 
 public class MainActivity extends ActionBarActivity
 {
     int debug_count = 0;
+    FileRepository baseRepo;
+
+    PasswordList _passes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,9 +36,8 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show();
-        loadBase();
-
+        Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
+        //loadPasses();
     }
 
 
@@ -33,7 +45,8 @@ public class MainActivity extends ActionBarActivity
     protected void onResume()
     {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "Resumed " + debug_count++, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Resumed " + debug_count++, Toast.LENGTH_SHORT).show(); //debug
+        loadPasses();
     }
 
 
@@ -62,25 +75,117 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-    private boolean loadBase()
+    private void loadPasses()
     {
-        //check if base path is set
+        if (passesLoaded()) {
+            refreshPassesList();
+            //todo show message
+            return;
+        }
+
+        if (!baseConnected()) {
+            openSettings();
+            //todo show message
+            return;
+        }
+
+        String userPass = getUserPass();
+        if (!loadBase(userPass)) {
+            //todo show message
+            return;
+        }
+
+        //load passes from base
+        _passes = baseRepo.getPassesBase().Passwords;
+
+        refreshPassesList();
+    }
+
+
+    private void refreshPassesList()
+    {
+        //todo: implement
+        //here we got working passes list
+        //load appearance cfg
+        ArrayList<PrettyPassword> passesAppearances = wrapPassesInAppearances(baseRepo.getPassesBase().Passwords);
+        //merge passwords with pretty passwords using title
+    }
+
+
+    private ArrayList<PrettyPassword> wrapPassesInAppearances(PasswordList passItems)
+    {
+        //load appearances
+        AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getDataDirectory(), "appearance.cfg"));
+        appearanceCfg.update();
+        AppearancesList loadedAppearances = appearanceCfg.getPassesAppearances();
+
+        AppearancesList mergedAppearances = new AppearancesList();
+
+        //merge appearances by title
+        for (Map.Entry<Short, PassItem> entry : passItems.entrySet()) {
+            PassItem currPass = entry.getValue();
+            PrettyPassword currAppearance = loadedAppearances.findByTitile(currPass.Title);
+            if (currAppearance == null)
+                currAppearance = new PrettyPassword(currPass);
+            else
+                currAppearance.setPassItem(currPass);
+
+            mergedAppearances.add(currAppearance);
+        }
+
+        return mergedAppearances;
+    }
+
+
+    private boolean passesLoaded()
+    {
+        return _passes != null;
+    }
+
+
+    /*
+    Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
+    */
+    private boolean baseConnected()
+    {
+        if (baseRepo != null && baseRepo.update())
+            return true;
+
+        //get path from shared prefs
+        String path = getPathFromSharedPrefs();
+
+        if (path == null)
+            return false;
+
+        baseRepo = new FileRepository(path);
+
+        return baseRepo.checkConnection();
+    }
+
+    private String getPathFromSharedPrefs()
+    {
         SharedPreferences prefs = this.getSharedPreferences(
-                "anon.psd", Context.MODE_PRIVATE);
-        String path = prefs.getString("db_path", null);
+                getString(R.string.prefs_file), Context.MODE_PRIVATE);
+        return prefs.getString("db_path", null);
+    }
 
-        //check if it exists
-        //+load base
-        //-redirect to setting to set path
+    private String getUserPass()
+    {
+        //todo: implement
 
-        //check if user pass set
-        //+load base using pass
         //-redirect to EnterUserPass page
+        return "root";
+    }
 
-        //check if loaded
-        //- reset user password and start over
 
-        return true;
+    private boolean loadBase(String userPass)
+    {
+        //todo: implement
+        //check if user pass set
+        if (userPass == null)
+            return false;
+        baseRepo.setUserPass(userPass);
+        return baseRepo.update();
     }
 
 
@@ -91,10 +196,18 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-    public void openSettings(MenuItem item)
+    /*
+    Opens settings activity
+    */
+    public void openSettings()
     {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    public void openSettingsClick(MenuItem item)
+    {
+        openSettings();
     }
 
 

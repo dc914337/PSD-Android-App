@@ -21,6 +21,7 @@ public class PrettyPassword
     //appearance cfg data
     String picName;
     ArrayList<Date> usedDates;
+    String _title;
 
     //real data
     transient PassItem passItem;
@@ -31,6 +32,7 @@ public class PrettyPassword
 
     transient private static final int MAX_COMPRESS_QUALITY = 100;
     transient private static File picsDir = new File(Environment.getDataDirectory(), "pics");
+
 
     public PrettyPassword()
     {
@@ -43,6 +45,25 @@ public class PrettyPassword
         //set default pic and path
         loadDefaultPic();
     }
+
+
+    public void setPassItem(PassItem pass)
+    {
+        passItem = pass;
+    }
+
+    public String getTitle()
+    {
+        if (passItem != null)
+            return passItem.Title;
+        return _title;
+    }
+
+    public void setTitle(String value)
+    {
+        _title = value;
+    }
+
 
     public boolean setPic(File newPic)
     {

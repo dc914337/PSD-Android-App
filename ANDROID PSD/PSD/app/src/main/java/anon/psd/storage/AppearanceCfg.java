@@ -3,6 +3,7 @@ package anon.psd.storage;
 import java.io.File;
 import java.util.ArrayList;
 
+import anon.psd.models.AppearancesList;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.serializers.Serializer;
 
@@ -11,7 +12,7 @@ import anon.psd.serializers.Serializer;
  */
 public class AppearanceCfg
 {
-    ArrayList<PrettyPassword> _passwordAppearances = new ArrayList<>();
+    AppearancesList _passwordAppearances = new AppearancesList();
     File _cfgFile;
 
     public AppearanceCfg(File cfgFile)
@@ -34,7 +35,7 @@ public class AppearanceCfg
         ArrayList<PrettyPassword> passes = Serializer.deserializePasswordAppearances(serialized);
         if (passes == null)
             return false;
-        _passwordAppearances = passes;
+        _passwordAppearances = (AppearancesList) passes;
         return true;
     }
 
@@ -46,7 +47,7 @@ public class AppearanceCfg
     }
 
 
-    public ArrayList<PrettyPassword> getPassesAppearances()
+    public AppearancesList getPassesAppearances()
     {
         return _passwordAppearances;
     }

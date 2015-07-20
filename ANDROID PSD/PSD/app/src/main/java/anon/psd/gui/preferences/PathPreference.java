@@ -1,12 +1,15 @@
 package anon.psd.gui.preferences;
 
 import android.content.Context;
+import android.os.Environment;
 import android.preference.Preference;
 import android.util.AttributeSet;
 
+import java.io.File;
+
 public class PathPreference extends Preference
 {
-    String value;
+    File value;
 
 
     public PathPreference(Context context, AttributeSet attrs)
@@ -19,17 +22,19 @@ public class PathPreference extends Preference
     {
         if (restorePersistedValue) {
             // Restore existing state
-            setValue(this.getPersistedString((String) defaultValue));
+            setValue(new File(
+                    this.getPersistedString(
+                            (String) defaultValue)));
         } else {
             // Set default state from the XML attribute
-            setValue((String) defaultValue);
+            setValue((File) defaultValue);
         }
     }
 
-    private void setValue(String value)
+    private void setValue(File value)
     {
-        persistString(value);
-        setSummary(value);
+        persistString(value.getAbsolutePath());
+        setSummary(value.getAbsolutePath());
     }
 
 
@@ -38,9 +43,7 @@ public class PathPreference extends Preference
     {
         //call open file dialog
         //set value to opened file
-        value = "/home/sdcard0/PSD/phonePsdBase.psd";
+        value = new File(Environment.getExternalStorageDirectory(), "home/psd/phone.psd");
         setValue(value);
-
-
     }
 }

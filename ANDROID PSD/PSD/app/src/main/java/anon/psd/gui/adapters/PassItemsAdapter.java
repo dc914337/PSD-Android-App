@@ -18,9 +18,9 @@ public class PassItemsAdapter<PassItem> extends ArrayAdapter<PassItem>
 {
     private static class ViewHolder
     {
-        TextView tvTitle;
-        TextView tvLogin;
-        TextView tvUsed;
+        TextView passTitle;
+        TextView passLogin;
+        TextView passUsedTimes;
     }
 
 
@@ -37,7 +37,7 @@ public class PassItemsAdapter<PassItem> extends ArrayAdapter<PassItem>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        /*PassItem passItem = (anon.testdesign.PassItem) getItem(position);
+       /* PassItem passItem = (anon.testdesign.PassItem) getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
