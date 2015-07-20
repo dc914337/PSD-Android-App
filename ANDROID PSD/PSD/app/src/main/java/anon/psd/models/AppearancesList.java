@@ -10,7 +10,7 @@ import anon.psd.models.gui.PrettyPassword;
 public class AppearancesList extends ArrayList<PrettyPassword>
 {
 
-    public PrettyPassword findByTitile(String title)
+    public PrettyPassword findByTitle(String title)
     {
         for (PrettyPassword pass : this) {
             if (pass.getTitle().equals(title))

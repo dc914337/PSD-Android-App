@@ -38,6 +38,17 @@ public class MainActivity extends ActionBarActivity
 
         Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
         //loadPasses();
+
+        //todo: remove debug code below
+        //load appearance cfg
+        AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getDataDirectory(), "appearance.cfg"));
+        appearanceCfg.update();
+
+        PassItem fakePassItem = new PassItem();
+        fakePassItem.Title = "title 2";
+        appearanceCfg.getPassesAppearances().add(new PrettyPassword(fakePassItem));
+        appearanceCfg.rewrite();
+
     }
 
 
@@ -124,7 +135,7 @@ public class MainActivity extends ActionBarActivity
         //merge appearances by title
         for (Map.Entry<Short, PassItem> entry : passItems.entrySet()) {
             PassItem currPass = entry.getValue();
-            PrettyPassword currAppearance = loadedAppearances.findByTitile(currPass.Title);
+            PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.Title);
             if (currAppearance == null)
                 currAppearance = new PrettyPassword(currPass);
             else

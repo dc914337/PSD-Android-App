@@ -21,7 +21,7 @@ public class PrettyPassword
     //appearance cfg data
     String picName;
     ArrayList<Date> usedDates;
-    String _title;
+    String title;
 
     //real data
     transient PassItem passItem;
@@ -41,7 +41,8 @@ public class PrettyPassword
 
     public PrettyPassword(PassItem origPass)
     {
-        passItem = origPass;
+        setPassItem(origPass);
+
         //set default pic and path
         loadDefaultPic();
     }
@@ -50,18 +51,7 @@ public class PrettyPassword
     public void setPassItem(PassItem pass)
     {
         passItem = pass;
-    }
-
-    public String getTitle()
-    {
-        if (passItem != null)
-            return passItem.Title;
-        return _title;
-    }
-
-    public void setTitle(String value)
-    {
-        _title = value;
+        title = pass.Title;
     }
 
 
@@ -111,5 +101,10 @@ public class PrettyPassword
     public static void setDefaultPic(Bitmap defaultPic)
     {
         _defaultPic = defaultPic;
+    }
+
+    public String getTitle()
+    {
+        return passItem.Title;
     }
 }
