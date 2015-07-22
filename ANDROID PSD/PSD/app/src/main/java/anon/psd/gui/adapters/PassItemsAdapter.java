@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import anon.psd.R;
@@ -22,6 +23,7 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
         TextView passTitle;
         TextView passLogin;
         TextView passUsedTimes;
+        ImageView passImg;
     }
 
     public PassItemsAdapter(Context context, int resource, AppearancesList objects)
