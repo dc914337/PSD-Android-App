@@ -6,15 +6,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 
 import anon.psd.R;
+import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.PasswordList;
@@ -23,23 +28,25 @@ import anon.psd.storage.AppearanceCfg;
 import anon.psd.storage.FileRepository;
 
 
-public class MainActivity extends ActionBarActivity
+public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     int debug_count = 0;
     FileRepository baseRepo;
     File appearanceCfgFile;
 
     PasswordList _passes;
+    DynamicListView lvPasses;
+
+    AppearancesList wrappedPasses;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        initVariables();
-
         setContentView(R.layout.activity_main);
 
+        initVariables();
         Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
 
 
@@ -59,7 +66,13 @@ public class MainActivity extends ActionBarActivity
 
     private void initVariables()
     {
+        //load path to appearance.cfg file
         appearanceCfgFile = new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg");
+
+        //init passes list element
+        lvPasses = (DynamicListView) findViewById(R.id.lvPassesList);
+        lvPasses.setOnItemClickListener(this);
+        lvPasses.setOnItemLongClickListener(this);
     }
 
 
@@ -100,7 +113,7 @@ public class MainActivity extends ActionBarActivity
     private void loadPasses()
     {
         if (passesLoaded()) {
-            refreshPassesList();
+
             //todo show message
             return;
         }
@@ -120,21 +133,22 @@ public class MainActivity extends ActionBarActivity
         //load passes from base
         _passes = baseRepo.getPassesBase().Passwords;
 
-        refreshPassesList();
+        loadAndWrapPasses();
     }
 
 
-    private void refreshPassesList()
+    private void loadAndWrapPasses()
     {
-        //todo: implement
-        //here we got working passes list
-        //load appearance cfg
-        ArrayList<PrettyPassword> passesAppearances = wrapPassesInAppearances(baseRepo.getPassesBase().Passwords);
-        //merge passwords with pretty passwords using title
+        //getting wrapped passes if passes were not loaded(loading 2 files from disk)
+        if (wrappedPasses == null)
+            wrappedPasses = wrapPassesInAppearances(baseRepo.getPassesBase().Passwords);
+
+        PassItemsAdapter adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
+        lvPasses.setAdapter(adapter);
     }
 
 
-    private ArrayList<PrettyPassword> wrapPassesInAppearances(PasswordList passItems)
+    private AppearancesList wrapPassesInAppearances(PasswordList passItems)
     {
         //load appearances
         AppearanceCfg appearanceCfg = new AppearanceCfg(appearanceCfgFile);
@@ -233,6 +247,29 @@ public class MainActivity extends ActionBarActivity
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+    {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        return false;
+    }
 }
 
 
@@ -291,7 +328,7 @@ public class MainActivity extends ActionBarActivity
             ArrayList<PrettyPassword> passesAppearances = appearanceCfg.getPassesAppearances();
 
 
-    addFakeAppearences(passesAppearances);
+    addFakeAppearances(passesAppearances);
 appearanceCfg.rewrite();
         passesAppearances=appearanceCfg.getPassesAppearances();
 
@@ -309,7 +346,7 @@ appearanceCfg.rewrite();
         appearanceCfg.rewrite();
         }
 
-private void addFakeAppearences(ArrayList<PrettyPassword>passwords)
+private void addFakeAppearances(ArrayList<PrettyPassword>passwords)
         {
         PassItem realPass=new PassItem();
         realPass.Id=1;
@@ -325,13 +362,4 @@ private void addFakeAppearences(ArrayList<PrettyPassword>passwords)
         passwords.add(currPPass);
         }
         }
-
-
         */
-
-
-
-
-
-
-

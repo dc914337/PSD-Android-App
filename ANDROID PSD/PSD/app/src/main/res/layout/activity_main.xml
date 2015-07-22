@@ -16,6 +16,6 @@
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"
         android:id="@+id/lvPassesList"
-        ></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+        />
 
 </LinearLayout>
