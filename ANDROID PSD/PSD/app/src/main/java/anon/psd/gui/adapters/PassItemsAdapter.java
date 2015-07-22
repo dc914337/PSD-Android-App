@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import anon.psd.R;
 import anon.psd.models.AppearancesList;
+import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
 /**
@@ -23,21 +24,15 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
         TextView passUsedTimes;
     }
 
-
-    private Context context;
-    private AppearancesList wrappedPasswords;
-
     public PassItemsAdapter(Context context, int resource, AppearancesList objects)
     {
         super(context, R.layout.lv_pass_item, (java.util.List<T>) objects);
-        this.context = context;
-        wrappedPasswords = objects;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        T passItem = (T) getItem(position);
+        PrettyPassword wrappedPass = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -51,9 +46,10 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.passTitle.setText(String.format("%s", passItem.getTitle()));
-        viewHolder.passLogin.setText(String.format("Login: %s %s", passItem.getTitle(), true ? "(will be entered)" : ""));//they don't have empty string.
-        viewHolder.passUsedTimes.setText(String.format("Used %s times", "0"));
+        PassItem passItem = wrappedPass.getPassItem();
+        viewHolder.passTitle.setText(String.format("%s", passItem.Title));
+        viewHolder.passLogin.setText(String.format("Login: %s %s", passItem.Login, passItem.EnterWithLogin ? "(will be entered)" : ""));//they don't have empty string.
+        viewHolder.passUsedTimes.setText(String.format("Used %s times", wrappedPass.UsedDates.size()));
 
         return convertView;
     }

@@ -18,7 +18,7 @@ public class PrettyPassword
 {
     //appearance cfg data
     String picName;
-    ArrayList<Date> usedDates;
+    public ArrayList<Date> UsedDates = new ArrayList<Date>();
     String title;
 
     //real data
@@ -56,6 +56,11 @@ public class PrettyPassword
     {
         passItem = pass;
         title = pass.Title;
+    }
+
+    public PassItem getPassItem()
+    {
+        return passItem;
     }
 
 
