@@ -1,10 +1,10 @@
 package anon.psd.gui.activities;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,28 +27,39 @@ public class MainActivity extends ActionBarActivity
 {
     int debug_count = 0;
     FileRepository baseRepo;
+    File appearanceCfgFile;
 
     PasswordList _passes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        initVariables();
+
         setContentView(R.layout.activity_main);
 
         Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
-        //loadPasses();
+
 
         //todo: remove debug code below
         //load appearance cfg
-        AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getDataDirectory(), "appearance.cfg"));
+       /* AppearanceCfg appearanceCfg = new AppearanceCfg(new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg"));
         appearanceCfg.update();
 
         PassItem fakePassItem = new PassItem();
-        fakePassItem.Title = "title 2";
-        appearanceCfg.getPassesAppearances().add(new PrettyPassword(fakePassItem));
-        appearanceCfg.rewrite();
+        fakePassItem.Title = "sometitle2";
+        PrettyPassword fakePrettyPassword = new PrettyPassword(fakePassItem);
+        fakePrettyPassword.setPic(new File(Environment.getExternalStorageDirectory(), "home/psd/pic1.png"));
+        appearanceCfg.getPassesAppearances().add(fakePrettyPassword);
+        appearanceCfg.rewrite();*/
+        loadPasses();
+    }
 
+    private void initVariables()
+    {
+        appearanceCfgFile = new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg");
     }
 
 
@@ -126,7 +137,7 @@ public class MainActivity extends ActionBarActivity
     private ArrayList<PrettyPassword> wrapPassesInAppearances(PasswordList passItems)
     {
         //load appearances
-        AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getDataDirectory(), "appearance.cfg"));
+        AppearanceCfg appearanceCfg = new AppearanceCfg(appearanceCfgFile);
         appearanceCfg.update();
         AppearancesList loadedAppearances = appearanceCfg.getPassesAppearances();
 

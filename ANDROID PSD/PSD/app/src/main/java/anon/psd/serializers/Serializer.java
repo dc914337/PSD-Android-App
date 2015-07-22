@@ -2,6 +2,7 @@ package anon.psd.serializers;
 
 import java.util.ArrayList;
 
+import anon.psd.models.AppearancesList;
 import anon.psd.models.DataBase;
 import anon.psd.models.gui.PrettyPassword;
 
@@ -29,7 +30,7 @@ public class Serializer
         return JSONWorker.serializePasswordAppearances(passes);
     }
 
-    public static ArrayList<PrettyPassword> deserializePasswordAppearances(String input)
+    public static AppearancesList deserializePasswordAppearances(String input)
     {
         return JSONWorker.deserializePasswordAppearances(input);
     }

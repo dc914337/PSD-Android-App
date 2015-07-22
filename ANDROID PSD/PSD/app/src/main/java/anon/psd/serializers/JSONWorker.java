@@ -2,12 +2,10 @@ package anon.psd.serializers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
+import anon.psd.models.AppearancesList;
 import anon.psd.models.DataBase;
 import anon.psd.models.gui.PrettyPassword;
 
@@ -39,15 +37,11 @@ public class JSONWorker
         return gson.toJson(passwordAppearance);
     }
 
-    public static ArrayList<PrettyPassword> deserializePasswordAppearances(String json)
+    public static AppearancesList deserializePasswordAppearances(String json)
     {
         Gson gson = new GsonBuilder().create();
 
-        Type listOfTestObject = new TypeToken<List<PrettyPassword>>()
-        {
-        }.getType();
-
-        ArrayList<PrettyPassword> passes = gson.fromJson(json, listOfTestObject);
+        AppearancesList passes = gson.fromJson(json, AppearancesList.class);
         return passes;
     }
 

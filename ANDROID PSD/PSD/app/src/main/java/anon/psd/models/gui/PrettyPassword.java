@@ -2,14 +2,12 @@ package anon.psd.models.gui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
-import anon.psd.crypto.HashProvider;
 import anon.psd.models.PassItem;
 import anon.psd.storage.FileWorker;
 
@@ -27,16 +25,22 @@ public class PrettyPassword
     transient PassItem passItem;
     transient Bitmap pic;
 
+    transient final String picPostfix = ".pic";
 
     transient public static Bitmap _defaultPic;
 
     transient private static final int MAX_COMPRESS_QUALITY = 100;
-    transient private static File picsDir = new File(Environment.getDataDirectory(), "pics");
+    transient private static File picsDir;
 
 
     public PrettyPassword()
     {
         //empty constructor for json
+    }
+
+    public void setPicsDir(File value)
+    {
+        picsDir = value;
     }
 
     public PrettyPassword(PassItem origPass)
@@ -65,8 +69,8 @@ public class PrettyPassword
             loadDefaultPic();
             return false;
         }
-        //generate name(sha256(title))
-        picName = HashProvider.sha256String(passItem.Title);
+        //generate
+        picName = String.valueOf(System.currentTimeMillis()) + picPostfix; //%timestamp%.pic
         //save to our dir
         return savePic();
     }
@@ -105,6 +109,9 @@ public class PrettyPassword
 
     public String getTitle()
     {
-        return passItem.Title;
+        if (passItem != null)
+            return passItem.Title;
+        else
+            return title;
     }
 }

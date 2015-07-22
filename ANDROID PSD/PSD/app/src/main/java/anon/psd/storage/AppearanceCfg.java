@@ -1,10 +1,8 @@
 package anon.psd.storage;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import anon.psd.models.AppearancesList;
-import anon.psd.models.gui.PrettyPassword;
 import anon.psd.serializers.Serializer;
 
 /**
@@ -32,7 +30,7 @@ public class AppearanceCfg
         if (data == null)
             return false;
         String serialized = new String(data);
-        ArrayList<PrettyPassword> passes = Serializer.deserializePasswordAppearances(serialized);
+        AppearancesList passes = Serializer.deserializePasswordAppearances(serialized);
         if (passes == null)
             return false;
         _passwordAppearances = (AppearancesList) passes;

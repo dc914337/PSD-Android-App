@@ -1,5 +1,6 @@
 package anon.psd.crypto;
 
+import android.util.Base64;
 import android.util.Log;
 
 import java.security.MessageDigest;
@@ -11,9 +12,9 @@ import anon.psd.global.Constants;
  */
 public class HashProvider
 {
-    public static String sha256String(String input)
+    public static String base64Sha256String(String input)
     {
-        return new String(sha256Bytes(input.getBytes()));
+        return Base64.encodeToString(sha256Bytes(input.getBytes()), Base64.DEFAULT);
     }
 
 
