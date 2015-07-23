@@ -28,9 +28,10 @@ public class PrettyPassword
     transient final String picPostfix = ".pic";
 
     transient public static Bitmap _defaultPic;
+    transient public static File _picsDir;
+
 
     transient private static final int MAX_COMPRESS_QUALITY = 100;
-    transient private static File picsDir;
 
 
     public PrettyPassword()
@@ -38,9 +39,9 @@ public class PrettyPassword
         //empty constructor for json
     }
 
-    public void setPicsDir(File value)
+    public static void setPicsDir(File value)
     {
-        picsDir = value;
+        _picsDir = value;
     }
 
     public PrettyPassword(PassItem origPass)
@@ -50,7 +51,6 @@ public class PrettyPassword
         //set default pic and path
         loadDefaultPic();
     }
-
 
     public void setPassItem(PassItem pass)
     {
@@ -64,7 +64,7 @@ public class PrettyPassword
     }
 
 
-    public boolean setPic(File newPic)
+    public boolean setPicFromFile(File newPic)
     {
         if (passItem == null)
             return false;//PasswordItem is null. You can't set pic to non existing password. I want to throw exception like this and not to handle it
@@ -80,6 +80,15 @@ public class PrettyPassword
         return savePic();
     }
 
+    public void loadPic()
+    {
+        if (picName == null) {
+            loadDefaultPic();
+        } else {
+            loadPic(new File(_picsDir, picName));
+        }
+    }
+
     private boolean loadPic(File newPic)
     {
         byte[] picBytes = FileWorker.readFromFile(newPic);
@@ -90,10 +99,8 @@ public class PrettyPassword
         return true;
     }
 
-
     private void loadDefaultPic()
     {
-        pic = _defaultPic;
         picName = null;
     }
 
@@ -102,14 +109,13 @@ public class PrettyPassword
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
         byte[] byteArray = stream.toByteArray();
-        File picFile = new File(picsDir, picName);
+        File picFile = new File(_picsDir, picName);
         return FileWorker.writeFile(byteArray, picFile);
     }
 
-
-    public static void setDefaultPic(Bitmap defaultPic)
+    public static void setDefaultPic(Bitmap newDefaultPic)
     {
-        _defaultPic = defaultPic;
+        _defaultPic = newDefaultPic;
     }
 
     public String getTitle()
@@ -118,5 +124,19 @@ public class PrettyPassword
             return passItem.Title;
         else
             return title;
+    }
+
+    /*
+    * If pic is set returns pic.
+    * if not returns default pic
+    * */
+    public Bitmap getImage()
+    {
+        if (pic == null) {
+            loadDefaultPic();
+            return _defaultPic;
+        }
+
+        return pic;
     }
 }

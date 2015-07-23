@@ -47,7 +47,6 @@ public class FileRepository
         return _base != null && _base.BTKey != null;
     }
 
-
     public DataBase getPassesBase()
     {
         return _base;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -73,6 +74,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         lvPasses = (DynamicListView) findViewById(R.id.lvPassesList);
         lvPasses.setOnItemClickListener(this);
         lvPasses.setOnItemLongClickListener(this);
+
+        //set default pic for passes
+        PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
+        PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
     }
 
 
@@ -165,6 +170,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
                 currAppearance = new PrettyPassword(currPass);
             else
                 currAppearance.setPassItem(currPass);
+
+            currAppearance.loadPic();
 
             mergedAppearances.add(currAppearance);
         }

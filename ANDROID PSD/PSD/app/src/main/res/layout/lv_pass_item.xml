@@ -8,73 +8,73 @@
               tools:ignore="MissingPrefix"
               android:orientation="horizontal">
 
-<RelativeLayout
-    android:layout_marginRight="1dp"
-    android:background="@color/white"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="78dp"
-    android:translationZ="100dp">
+    <RelativeLayout
+        android:layout_marginRight="1dp"
+        android:background="@color/white"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="78dp"
+        android:translationZ="100dp">
 
-    <ImageView
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="4dp"
-        android:id="@+id/imgNewsIcon"
-        android:src="@drawable/default_key_pic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:cropToPadding="false"
-        android:scaleType="fitCenter"/>
+        <ImageView
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/imgPassIcon"
+            android:src="@drawable/default_key_pic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:cropToPadding="false"
+            android:scaleType="fitCenter"/>
 
-    <TextView
-        android:id="@+id/passTitle"
-        android:layout_toRightOf="@+id/imgNewsIcon"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="4dp"
-        android:paddingRight="7dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/symbol_black"
-        fontPath="fonts/Roboto-Regular.ttf"
-        android:text="VK" />
+        <TextView
+            android:id="@+id/txtPassTitle"
+            android:layout_marginTop="4dp"
+            android:paddingRight="7dp"
+            android:layout_toRightOf="@+id/imgPassIcon"
+            android:layout_marginLeft="7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/symbol_black"
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:text="VK"/>
 
-    <TextView
-        fontPath="fonts/Roboto-Regular.ttf"
-        android:id="@+id/passLogin"
-        android:paddingRight="7dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/symbol_black"
-        android:text="Login: +79219223422  (will be entered)"
-        android:layout_below="@+id/passTitle"
-        android:layout_alignLeft="@+id/passTitle"
-        android:layout_alignStart="@+id/passTitle"
-        android:paddingTop="0dp"/>
+        <TextView
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:id="@+id/txtPassLogin"
+            android:paddingRight="7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/symbol_black"
+            android:text="Login: +79219223422  (will be entered)"
+            android:layout_below="@+id/txtPassTitle"
+            android:layout_alignLeft="@+id/txtPassTitle"
+            android:layout_alignStart="@+id/txtPassTitle"
+            android:paddingTop="0dp"/>
 
-    <TextView
-        fontPath="fonts/Roboto-Regular.ttf"
-        android:id="@+id/passUsed"
-        android:paddingRight="7dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/symbol_black"
-        android:text="Used 6 times"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/imgNewsIcon"
-        android:layout_alignStart="@+id/imgNewsIcon"/>
+        <TextView
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:id="@+id/passUsed"
+            android:paddingRight="7dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/symbol_black"
+            android:text="Used 6 times"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/imgPassIcon"
+            android:layout_alignStart="@+id/imgPassIcon"/>
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

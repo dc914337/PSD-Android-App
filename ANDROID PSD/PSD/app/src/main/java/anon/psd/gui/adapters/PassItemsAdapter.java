@@ -40,9 +40,10 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.lv_pass_item, parent, false);
-            viewHolder.passTitle = (TextView) convertView.findViewById(R.id.passTitle);
-            viewHolder.passLogin = (TextView) convertView.findViewById(R.id.passLogin);
+            viewHolder.passTitle = (TextView) convertView.findViewById(R.id.txtPassTitle);
+            viewHolder.passLogin = (TextView) convertView.findViewById(R.id.txtPassLogin);
             viewHolder.passUsedTimes = (TextView) convertView.findViewById(R.id.passUsed);
+            viewHolder.passImg = (ImageView) convertView.findViewById(R.id.imgPassIcon);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -52,7 +53,7 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
         viewHolder.passTitle.setText(String.format("%s", passItem.Title));
         viewHolder.passLogin.setText(String.format("Login: %s %s", passItem.Login, passItem.EnterWithLogin ? "(will be entered)" : ""));//they don't have empty string.
         viewHolder.passUsedTimes.setText(String.format("Used %s times", wrappedPass.UsedDates.size()));
-
+        viewHolder.passImg.setImageBitmap(wrappedPass.getImage());
         return convertView;
     }
 }
