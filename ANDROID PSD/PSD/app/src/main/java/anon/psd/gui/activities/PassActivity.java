@@ -1,6 +1,7 @@
 package anon.psd.gui.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
+import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
@@ -22,8 +24,13 @@ import anon.psd.models.gui.PrettyPassword;
  */
 public class PassActivity extends ActionBarActivity
 {
+    private static final String TAG = "FileChooserExampleActivity";
     PrettyPassword prettyPassword;
 
+    final int REQUEST_CODE = 1234;
+
+
+    ImageView imgViewPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +38,7 @@ public class PassActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
         prettyPassword = (PrettyPassword) ActivitiesTransfer.recieveTransferringObject("PRETTY_PASSWORD_ITEM");
+        imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
     }
 
@@ -61,18 +69,48 @@ public class PassActivity extends ActionBarActivity
                 String.format("Description: %s", replaceNullOrEmpty(String.valueOf(lastEntered),
                         "-")));
 
-        ((ImageView) findViewById(R.id.imgIcon)).setImageBitmap(prettyPassword.getImage());
-
+        imgViewPic.setImageBitmap(prettyPassword.getImage());
     }
 
 
     public void onPicClick(View view)
     {
-        Intent getContentIntent = FileUtils.createGetContentIntent();
-
-        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
-        startActivityForResult(intent, 1234);
+        openSelectPicDialog();
     }
+
+    private void openSelectPicDialog()
+    {
+        Intent getContentIntent = FileUtils.createGetContentIntent();
+        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    private void processSelectedPic(File picFile)
+    {
+        prettyPassword.setPicFromFile(picFile);
+        imgViewPic.setImageBitmap(prettyPassword.getImage());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+                    // Get the File path from the Uri
+                    String path = FileUtils.getPath(this, uri);
+                    // Alternatively, use FileUtils.getFile(Context, Uri)
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        processSelectedPic(file);
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private String replaceNullOrEmpty(String source, String replacement)
     {

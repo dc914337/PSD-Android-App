@@ -106,7 +106,7 @@ public class PrettyPassword
     private boolean savePic()
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
+        //pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
         byte[] byteArray = stream.toByteArray();
         File picFile = new File(_picsDir, picName);
         return FileWorker.writeFile(byteArray, picFile);
