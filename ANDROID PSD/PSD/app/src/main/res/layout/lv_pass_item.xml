@@ -27,7 +27,7 @@
             android:scaleType="fitCenter"/>
 
         <TextView
-            android:id="@+id/txtPassTitle"
+            android:id="@+id/txtTitle"
             android:layout_marginTop="4dp"
             android:paddingRight="7dp"
             android:layout_toRightOf="@+id/imgPassIcon"
@@ -54,9 +54,9 @@
             android:textStyle="bold"
             android:textColor="@color/symbol_black"
             android:text="Login: +79219223422  (will be entered)"
-            android:layout_below="@+id/txtPassTitle"
-            android:layout_alignLeft="@+id/txtPassTitle"
-            android:layout_alignStart="@+id/txtPassTitle"
+            android:layout_below="@+id/txtTitle"
+            android:layout_alignLeft="@+id/txtTitle"
+            android:layout_alignStart="@+id/txtTitle"
             android:paddingTop="0dp"/>
 
         <TextView

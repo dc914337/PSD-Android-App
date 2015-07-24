@@ -21,6 +21,7 @@ import java.util.Map;
 
 import anon.psd.R;
 import anon.psd.gui.adapters.PassItemsAdapter;
+import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.PasswordList;
@@ -49,7 +50,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         initVariables();
         Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
-
 
         //todo: remove debug code below
         //load appearance cfg
@@ -118,7 +118,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private void loadPasses()
     {
         if (passesLoaded()) {
-
             //todo show message
             return;
         }
@@ -231,14 +230,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return baseRepo.update();
     }
 
-
-    public void openItem(PrettyPassword item)
-    {
-        Intent intent = new Intent(this, PassActivity.class);
-        startActivity(intent);
-    }
-
-
     /*
     Opens settings activity
     */
@@ -253,11 +244,19 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         openSettings();
     }
 
+    public void openItem(PrettyPassword item)
+    {
+        Intent intent = new Intent(this, PassActivity.class);
+        ActivitiesTransfer.sendTransferringObject("PRETTY_PASSWORD_ITEM", item);
+        startActivity(intent);
+    }
+
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
     {
-
+        PrettyPassword item = (PrettyPassword) (lvPasses).getAdapter().getItem(position);
+        openItem(item);
     }
 
     @Override

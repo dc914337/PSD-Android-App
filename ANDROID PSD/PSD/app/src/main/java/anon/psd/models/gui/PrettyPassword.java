@@ -5,9 +5,8 @@ import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
+import anon.psd.models.HistoryList;
 import anon.psd.models.PassItem;
 import anon.psd.storage.FileWorker;
 
@@ -18,7 +17,7 @@ public class PrettyPassword
 {
     //appearance cfg data
     String picName;
-    public ArrayList<Date> UsedDates = new ArrayList<Date>();
+    HistoryList history = new HistoryList();
     String title;
 
     //real data
@@ -138,5 +137,11 @@ public class PrettyPassword
         }
 
         return pic;
+    }
+
+
+    public HistoryList getHistory()
+    {
+        return history;
     }
 }
