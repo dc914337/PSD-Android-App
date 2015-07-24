@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     AppearancesList passes;
     DynamicListView lvPasses;
-
+    PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
 
     @Override
@@ -106,6 +106,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         if (passesLoaded()) {
             //refresh existing prettyPasses
+            adapter.notifyDataSetChanged();
             saveChangedAppearances();
             return;
         }
@@ -134,7 +135,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         if (passes == null)
             wrappedPasses = wrapPassesInAppearances(passwords);
 
-        PassItemsAdapter adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
+        adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
         lvPasses.setAdapter(adapter);
 
         return wrappedPasses;
