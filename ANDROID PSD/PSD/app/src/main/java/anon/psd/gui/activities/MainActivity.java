@@ -36,11 +36,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     FileRepository baseRepo;
     File appearanceCfgFile;
 
-    PasswordList _passes;
+    AppearancesList passes;
     DynamicListView lvPasses;
 
-    AppearancesList wrappedPasses;
-
+    AppearanceCfg appearanceCfg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,18 +49,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         initVariables();
         Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
-
-        //todo: remove debug code below
-        //load appearance cfg
-       /* AppearanceCfg appearanceCfg = new AppearanceCfg(new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg"));
-        appearanceCfg.update();
-
-        PassItem fakePassItem = new PassItem();
-        fakePassItem.Title = "sometitle2";
-        PrettyPassword fakePrettyPassword = new PrettyPassword(fakePassItem);
-        fakePrettyPassword.setPic(new File(Environment.getExternalStorageDirectory(), "home/psd/pic1.png"));
-        appearanceCfg.getPassesAppearances().add(fakePrettyPassword);
-        appearanceCfg.rewrite();*/
         loadPasses();
     }
 
@@ -118,7 +105,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private void loadPasses()
     {
         if (passesLoaded()) {
-            //todo show message
+            //refresh existing prettyPasses
+            saveChangedAppearances();
             return;
         }
 
@@ -135,27 +123,33 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
         //load passes from base
-        _passes = baseRepo.getPassesBase().Passwords;
-
-        loadAndWrapPasses();
+        passes = loadAndWrapPasses(baseRepo.getPassesBase().Passwords);
     }
 
 
-    private void loadAndWrapPasses()
+    private AppearancesList loadAndWrapPasses(PasswordList passwords)
     {
+        AppearancesList wrappedPasses = null;
         //getting wrapped passes if passes were not loaded(loading 2 files from disk)
-        if (wrappedPasses == null)
-            wrappedPasses = wrapPassesInAppearances(baseRepo.getPassesBase().Passwords);
+        if (passes == null)
+            wrappedPasses = wrapPassesInAppearances(passwords);
 
         PassItemsAdapter adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
         lvPasses.setAdapter(adapter);
+
+        return wrappedPasses;
     }
 
+    private void saveChangedAppearances()
+    {
+        appearanceCfg.setPassesAppearances(passes);
+        appearanceCfg.rewrite();
+    }
 
     private AppearancesList wrapPassesInAppearances(PasswordList passItems)
     {
         //load appearances
-        AppearanceCfg appearanceCfg = new AppearanceCfg(appearanceCfgFile);
+        appearanceCfg = new AppearanceCfg(appearanceCfgFile);
         appearanceCfg.update();
         AppearancesList loadedAppearances = appearanceCfg.getPassesAppearances();
 
@@ -170,7 +164,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             else
                 currAppearance.setPassItem(currPass);
 
-            currAppearance.loadPic();
+            //currAppearance.loadPic();
 
             mergedAppearances.add(currAppearance);
         }
@@ -181,7 +175,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private boolean passesLoaded()
     {
-        return _passes != null;
+        return passes != null;
     }
 
 

@@ -2,6 +2,7 @@ package anon.psd.models.gui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,6 +16,7 @@ import anon.psd.storage.FileWorker;
  */
 public class PrettyPassword
 {
+    String TAG = "PrettyPassword";
     //appearance cfg data
     String picName;
     HistoryList history = new HistoryList();
@@ -26,7 +28,7 @@ public class PrettyPassword
 
     transient final String picPostfix = ".pic";
 
-    transient public static Bitmap _defaultPic;
+    transient public static Bitmap defaultPic;
     transient public static File _picsDir;
 
 
@@ -79,7 +81,7 @@ public class PrettyPassword
         return savePic();
     }
 
-    public void loadPic()
+    private void loadPic()
     {
         if (picName == null) {
             loadDefaultPic();
@@ -106,7 +108,7 @@ public class PrettyPassword
     private boolean savePic()
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        //pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
+        pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
         byte[] byteArray = stream.toByteArray();
         File picFile = new File(_picsDir, picName);
         return FileWorker.writeFile(byteArray, picFile);
@@ -114,7 +116,7 @@ public class PrettyPassword
 
     public static void setDefaultPic(Bitmap newDefaultPic)
     {
-        _defaultPic = newDefaultPic;
+        defaultPic = newDefaultPic;
     }
 
     public String getTitle()
@@ -131,11 +133,14 @@ public class PrettyPassword
     * */
     public Bitmap getImage()
     {
+        if (pic == null)
+            loadPic();
+        //if pic still == null(not loaded)
         if (pic == null) {
-            loadDefaultPic();
-            return _defaultPic;
+            Log.i(TAG, String.format("getImage of prettyPassword %s returned defaultPic", title));
+            return defaultPic;
         }
-
+        Log.i(TAG, String.format("getImage of prettyPassword %s returned pic", title));
         return pic;
     }
 
