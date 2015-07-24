@@ -1,9 +1,14 @@
 package anon.psd.gui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.util.Date;
 
@@ -50,13 +55,23 @@ public class PassActivity extends ActionBarActivity
         Date lastEntered = prettyPassword.getHistory().getLastDate();
         ((TextView) findViewById(R.id.txtLastEntered)).setText(
                 String.format("Last entered: %s", replaceNullOrEmpty(String.valueOf(lastEntered),
-                                                  "was not entered yet")));
+                        "was not entered yet")));
 
         ((TextView) findViewById(R.id.txtDescription)).setText(
                 String.format("Description: %s", replaceNullOrEmpty(String.valueOf(lastEntered),
                         "-")));
 
+        ((ImageView) findViewById(R.id.imgIcon)).setImageBitmap(prettyPassword.getImage());
 
+    }
+
+
+    public void onPicClick(View view)
+    {
+        Intent getContentIntent = FileUtils.createGetContentIntent();
+
+        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+        startActivityForResult(intent, 1234);
     }
 
     private String replaceNullOrEmpty(String source, String replacement)
