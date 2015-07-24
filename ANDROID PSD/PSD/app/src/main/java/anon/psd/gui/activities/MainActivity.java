@@ -164,9 +164,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
                 currAppearance = new PrettyPassword(currPass);
             else
                 currAppearance.setPassItem(currPass);
-
-            //currAppearance.loadPic();
-
             mergedAppearances.add(currAppearance);
         }
 

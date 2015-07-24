@@ -1,20 +1,25 @@
 package anon.psd.gui.preferences;
 
 import android.content.Context;
-import android.os.Environment;
 import android.preference.Preference;
 import android.util.AttributeSet;
 
 import java.io.File;
 
+import anon.psd.gui.activities.SettingsActivity;
+
 public class PathPreference extends Preference
 {
+    private final String TAG = "PathPreference";
+
     File value;
+    Context context;
 
 
     public PathPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+        this.context = context;
     }
 
     @Override
@@ -31,19 +36,28 @@ public class PathPreference extends Preference
         }
     }
 
-    private void setValue(File value)
+    public void setValue(File value)
     {
         persistString(value.getAbsolutePath());
         setSummary(value.getAbsolutePath());
     }
 
-
+    /*
+    (i don't like android anymore. I thought how to call activity from preference for too long)
+    * Okay! What happens here:
+    * onClick -> calls SettingsActivity and SettingsActivity remembers THIS PathPreference
+    * SettingsActivity opens aFileChooser(file dialog) and handles it's result
+    * after that, SettingsActivity calls setValue of remembered PathPreference(THIS) and calls
+      * setValue(result)
+      *
+      * I don't know good solution for this but i do want to finish this code.
+    */
     @Override
     public void onClick()
     {
-        //call open file dialog
-        //set value to opened file
-        value = new File(Environment.getExternalStorageDirectory(), "home/psd/phone.psd");
-        setValue(value);
+        SettingsActivity activity = (SettingsActivity) context;
+        activity.getPath(this);
     }
+
+
 }

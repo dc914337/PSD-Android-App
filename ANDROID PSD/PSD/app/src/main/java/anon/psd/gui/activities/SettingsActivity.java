@@ -1,15 +1,24 @@
 package anon.psd.gui.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ipaulpro.afilechooser.utils.FileUtils;
+
+import java.io.File;
+
 import anon.psd.R;
 import anon.psd.gui.fragments.SettingsFragment;
+import anon.psd.gui.preferences.PathPreference;
 
 public class SettingsActivity extends ActionBarActivity
 {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -44,4 +53,43 @@ public class SettingsActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+//I HATE CODE BELOW
+
+    public static final int REQUEST_CODE = 1233;
+    PathPreference pathPref;
+
+
+    public void getPath(PathPreference pathPrefToSetValue)
+    {
+        pathPref = pathPrefToSetValue;
+        Intent getContentIntent = FileUtils.createGetContentIntent();
+        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    final Uri uri = data.getData();
+
+                    // Get the File path from the Uri
+                    String path = FileUtils.getPath(this, uri);
+
+                    // Alternatively, use FileUtils.getFile(Context, Uri)
+                    if (path != null && FileUtils.isLocal(path)) {
+                        File file = new File(path);
+                        pathPref.setValue(file);
+                    }
+                }
+                break;
+        }
+        getPreferences(0);
+    }
+
+
 }
