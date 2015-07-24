@@ -29,7 +29,7 @@ public class PrettyPassword
     transient final String picPostfix = ".pic";
 
     transient public static Bitmap defaultPic;
-    transient public static File _picsDir;
+    transient public static File picsDir;
 
 
     transient private static final int MAX_COMPRESS_QUALITY = 100;
@@ -42,7 +42,7 @@ public class PrettyPassword
 
     public static void setPicsDir(File value)
     {
-        _picsDir = value;
+        picsDir = value;
     }
 
     public PrettyPassword(PassItem origPass)
@@ -86,7 +86,7 @@ public class PrettyPassword
         if (picName == null) {
             loadDefaultPic();
         } else {
-            loadPic(new File(_picsDir, picName));
+            loadPic(new File(picsDir, picName));
         }
     }
 
@@ -110,7 +110,8 @@ public class PrettyPassword
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         pic.compress(Bitmap.CompressFormat.PNG, MAX_COMPRESS_QUALITY, stream);
         byte[] byteArray = stream.toByteArray();
-        File picFile = new File(_picsDir, picName);
+        File picFile = new File(picsDir, picName);
+        picsDir.mkdirs();
         return FileWorker.writeFile(byteArray, picFile);
     }
 
