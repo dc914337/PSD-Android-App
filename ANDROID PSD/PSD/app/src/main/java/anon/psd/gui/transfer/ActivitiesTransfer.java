@@ -12,19 +12,19 @@ Use ONLY if activities are in one process!
  */
 public class ActivitiesTransfer
 {
-    private static Hashtable<String, Object> _innerDict = new Hashtable<>();
+    private static Hashtable<String, Object> innerDict = new Hashtable<>();
 
     public static void sendTransferringObject(String key, Object value)
     {
-        _innerDict.put(key, value);
+        innerDict.put(key, value);
     }
 
     public static Object recieveTransferringObject(String key)
     {
-        Object recievedObject = _innerDict.get(key);
+        Object receivedObject = innerDict.get(key);
         //remove from dict
-        _innerDict.remove(key);
-        return recievedObject;
+        innerDict.remove(key);
+        return receivedObject;
     }
 
 }

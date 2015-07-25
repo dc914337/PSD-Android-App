@@ -14,13 +14,13 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import anon.psd.global.Constants;
-
 /**
  * Created by Dmitry on 10.07.2015.
  */
 public class BaseCrypto
 {
+    public static final String TAG = "BaseCrypto";
+
     public static final int IVLength = 16;
     private byte[] key;
 
@@ -38,7 +38,7 @@ public class BaseCrypto
         try {
             return decrypt(key, IV, encryptedData);
         } catch (Exception ex) {
-            Log.e(Constants.LTAG, "Something broke", ex);
+            Log.e(TAG, "Something broke", ex);
             return null;
         }
     }

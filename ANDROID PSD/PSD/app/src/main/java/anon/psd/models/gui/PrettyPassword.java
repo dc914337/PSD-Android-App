@@ -16,7 +16,9 @@ import anon.psd.storage.FileWorker;
  */
 public class PrettyPassword
 {
-    String TAG = "PrettyPassword";
+    transient private static final String TAG = "PrettyPassword";
+    transient private static final int MAX_COMPRESS_QUALITY = 100;
+
     //appearance cfg data
     String picName;
     HistoryList history = new HistoryList();
@@ -25,15 +27,9 @@ public class PrettyPassword
     //real data
     transient PassItem passItem;
     transient Bitmap pic;
-
     transient final String picPostfix = ".pic";
-
     transient public static Bitmap defaultPic;
     transient public static File picsDir;
-
-
-    transient private static final int MAX_COMPRESS_QUALITY = 100;
-
 
     public PrettyPassword()
     {

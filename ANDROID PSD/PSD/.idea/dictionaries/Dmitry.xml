@@ -1,7 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Dmitry">
     <words>
+      <w>basekey</w>
+      <w>concat</w>
+      <w>crypto</w>
       <w>deserialize</w>
+      <w>pkcs</w>
+      <w>userkey</w>
     </words>
   </dictionary>
 </component>

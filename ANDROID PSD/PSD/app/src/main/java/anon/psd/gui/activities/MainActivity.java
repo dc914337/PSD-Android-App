@@ -32,7 +32,7 @@ import anon.psd.storage.FileRepository;
 
 public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    int debug_count = 0;
+    int debugCount = 0;
     FileRepository baseRepo;
     File appearanceCfgFile;
 
@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onResume()
     {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "Resumed " + debug_count++, Toast.LENGTH_SHORT).show(); //debug
+        Toast.makeText(getApplicationContext(), "Resumed " + debugCount++, Toast.LENGTH_SHORT).show(); //debug
         loadPasses();
     }
 
@@ -269,95 +269,3 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return false;
     }
 }
-
-
-    /*
-
-        private void testStorage()
-    {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-
-        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory(), "testdir1");
-// have the object build the directory structure, if needed.
-        wallpaperDirectory.mkdirs();
-
-
-        File imgFile = new File(Environment.getExternalStorageDirectory(), "title.jpg");
-
-        if (imgFile.exists()) {
-
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
-            ImageView myImage = (ImageView) findViewById(R.id.imageView);
-
-            myImage.setImageBitmap(myBitmap);
-
-        }
-
-    }
-
-
-     private void setPic()
-        {
-            ImageView testImgVies = (ImageView) findViewById(R.id.imageView);
-            testImgVies.setImageResource(R.drawable.ic_launcher);
-        }
-
-        private void testMethod()
-        {
-            PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
-
-            //load main base
-            FileRepository repo = new FileRepository();
-            repo.setUserPass("root");
-            repo.setBasePath("/sdcard/home/psd/phone.psd");
-            repo.update();
-
-            DataBase passesBase = repo.getPassesBase();
-
-
-            //load appearance cfg
-            AppearanceCfg appearanceCfg = new AppearanceCfg(new File(Environment.getDataDirectory(), "appearance.cfg"));
-            appearanceCfg.update();
-            clean(appearanceCfg);
-            appearanceCfg.update();
-
-            //get prettyPasswords
-            ArrayList<PrettyPassword> passesAppearances = appearanceCfg.getPassesAppearances();
-
-
-    addFakeAppearances(passesAppearances);
-appearanceCfg.rewrite();
-        passesAppearances=appearanceCfg.getPassesAppearances();
-
-
-
-        int i=0+1;
-        //merge passwords with pretty passwords using title
-        }
-
-
-        private void clean(AppearanceCfg appearanceCfg)
-        {
-        ArrayList<PrettyPassword>passesAppearances=appearanceCfg.getPassesAppearances();
-        passesAppearances.clear();
-        appearanceCfg.rewrite();
-        }
-
-private void addFakeAppearances(ArrayList<PrettyPassword>passwords)
-        {
-        PassItem realPass=new PassItem();
-        realPass.Id=1;
-        realPass.Description="Description";
-        realPass.EnterWithLogin=true;
-        realPass.Login="Login";
-        realPass.Pass="pass".getBytes();
-        realPass.Title="title1";
-
-        for(int i=0;i<3;i++){
-        PrettyPassword currPPass=new PrettyPassword(realPass);
-        currPPass.setPic(new File("pic"+i));
-        passwords.add(currPPass);
-        }
-        }
-        */

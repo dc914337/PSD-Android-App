@@ -25,11 +25,9 @@ import anon.psd.models.gui.PrettyPassword;
 public class PassActivity extends ActionBarActivity
 {
     private static final String TAG = "FileChooserExampleActivity";
+    private static final int REQUEST_CODE = 1234;
+
     PrettyPassword prettyPassword;
-
-    final int REQUEST_CODE = 1234;
-
-
     ImageView imgViewPic;
 
     @Override
