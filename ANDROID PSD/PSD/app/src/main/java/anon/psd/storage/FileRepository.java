@@ -12,17 +12,17 @@ import anon.psd.serializers.Serializer;
  */
 public class FileRepository
 {
-    private DataBase _base;
+    private DataBase base;
 
-    private String _path;
-    private byte[] _userPass;
+    private String path;
+    private byte[] userPass;
 
-    private byte[] _encryptedData;
+    private byte[] encryptedData;
 
     public boolean setBasePath(String path)
     {
         //todo check path. check if file exists
-        _path = path;
+        this.path = path;
         return false;
     }
 
@@ -33,7 +33,7 @@ public class FileRepository
 
     public void setUserPass(String pass)
     {
-        _userPass = KeyGenerator.getBasekeyFromUserkey(pass);
+        userPass = KeyGenerator.getBasekeyFromUserkey(pass);
     }
 
     public boolean rewrite()
@@ -44,12 +44,12 @@ public class FileRepository
 
     public boolean isLoaded()
     {
-        return _base != null && _base.BTKey != null;
+        return base != null && base.BTKey != null;
     }
 
     public DataBase getPassesBase()
     {
-        return _base;
+        return base;
     }
 
     public boolean checkConnection()
@@ -62,20 +62,20 @@ public class FileRepository
         if (!loadData())
             return false;
 
-        byte[] decoded = new BaseCrypto(_userPass).decryptAll(_encryptedData);
+        byte[] decoded = new BaseCrypto(userPass).decryptAll(encryptedData);
         if (decoded == null)
             return false;//invalid key or broken file
         String jsonData = new String(decoded);
         DataBase base = Serializer.deserializeDataBase(jsonData);
-        _base = base;
+        this.base = base;
         return true;
     }
 
 
     private boolean loadData()
     {
-        _encryptedData = FileWorker.readFromFile(new File(_path));
-        if (_encryptedData == null)
+        encryptedData = FileWorker.readFromFile(new File(path));
+        if (encryptedData == null)
             return false;
         return true;
     }

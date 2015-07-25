@@ -8,7 +8,6 @@ import java.util.Date;
  */
 public class HistoryList extends ArrayList<Date>
 {
-
     public Date getLastDate()
     {
         if (this.size() == 0)
@@ -22,6 +21,4 @@ public class HistoryList extends ArrayList<Date>
         }
         return lastDate;
     }
-
-
 }

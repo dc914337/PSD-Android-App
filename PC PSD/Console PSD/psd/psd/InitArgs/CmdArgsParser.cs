@@ -114,6 +114,11 @@ namespace psd.InitArgs
             return strArgs.ElementAtOrDefault(indexOfArgValue);
         }
 
+
+        private const char delimeter = '"';
+        private const byte maxDelimeterCount = 2;
+
+
         private static String GetArgVal(string[] strArgs, String argKey, String longKey)
         {
             String result;

@@ -64,7 +64,7 @@ public class PassActivity extends ActionBarActivity
                         "was not entered yet")));
 
         ((TextView) findViewById(R.id.txtDescription)).setText(
-                String.format("Description: %s", replaceNullOrEmpty(String.valueOf(lastEntered),
+                String.format("Description: %s", replaceNullOrEmpty(pass.Description,
                         "-")));
 
         imgViewPic.setImageBitmap(prettyPassword.getImage());
