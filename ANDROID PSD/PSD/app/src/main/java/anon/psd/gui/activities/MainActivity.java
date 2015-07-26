@@ -206,7 +206,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private String getUserPass()
     {
         //todo: implement
-
+        openEnterUserPassword();
         //-redirect to EnterUserPass page
         return "root";
     }
@@ -228,6 +228,12 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     public void openSettings()
     {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void openEnterUserPassword()
+    {
+        Intent intent = new Intent(this, EnterPassActivity.class);
         startActivity(intent);
     }
 

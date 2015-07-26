@@ -36,7 +36,18 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".gui.activities.EnterPassActivity"
+            android:label="@string/enter_pass_label"
+            android:parentActivityName=".gui.activities.MainActivity"
+            android:theme="@android:style/Theme.Material.Dialog"
+            android:excludeFromRecents="true">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 
