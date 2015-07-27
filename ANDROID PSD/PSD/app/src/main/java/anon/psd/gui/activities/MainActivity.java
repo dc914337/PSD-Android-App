@@ -137,6 +137,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         //try load base
         if (!loadBase(userPass)) {
             Alerts.showMessage(getApplicationContext(), "Password is incorrect or base is broken");
+            prefs.setUserPass(null);//clear pass
             openEnterUserPassword();
             return;
         }
