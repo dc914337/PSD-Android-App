@@ -19,6 +19,8 @@ import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
+import static anon.psd.utils.TextWorker.replaceNullOrEmpty;
+
 /**
  * Created by Dmitry on 06.07.2015.
  */
@@ -107,14 +109,6 @@ public class PassActivity extends ActionBarActivity
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    private String replaceNullOrEmpty(String source, String replacement)
-    {
-        if (source == null || source.isEmpty() || source.equals("null"))
-            return replacement;
-        return source;
     }
 
 

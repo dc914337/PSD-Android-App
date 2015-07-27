@@ -13,6 +13,8 @@ import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
+import static anon.psd.utils.TextWorker.replaceNullOrEmpty;
+
 /**
  * Created by Dmitry on 04.07.2015.
  */
@@ -51,9 +53,12 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
 
         PassItem passItem = wrappedPass.getPassItem();
         viewHolder.passTitle.setText(String.format("%s", passItem.Title));
-        viewHolder.passLogin.setText(String.format("Login: %s %s", passItem.Login, passItem.EnterWithLogin ? "(will be entered)" : ""));//they don't have empty string.
+
+        viewHolder.passLogin.setText(String.format("Login: %s %s", replaceNullOrEmpty(passItem.Login, "-"), passItem.EnterWithLogin ? "(will be entered)" : ""));//they don't have empty string.
         viewHolder.passUsedTimes.setText(String.format("Used %s times", wrappedPass.getHistory().size()));
         viewHolder.passImg.setImageBitmap(wrappedPass.getImage());
         return convertView;
     }
+
+
 }

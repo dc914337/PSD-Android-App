@@ -31,11 +31,12 @@ import anon.psd.storage.PreferencesProvider;
 
 public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    FileRepository baseRepo;
+    DynamicListView lvPasses;
+
     File appearanceCfgFile;
 
+    FileRepository baseRepo;
     AppearancesList passes;
-    DynamicListView lvPasses;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
 
@@ -101,15 +102,22 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private void loadPasses()
     {
-        //if passes are already loaded - skip loading and refresh representation
-        if (passesLoaded()) {
+        PreferencesProvider prefs = new PreferencesProvider(this);
+
+        //if changed base path then refresh all
+        if (baseRepo != null &&
+                !baseRepo.getBasePath().equals(prefs.getDbPath())) {
+            passes = null;
+        }
+
+        //if passes are already loaded - skip loading and refresh representation and base path is the same
+        if (passes != null) {
             //refresh existing prettyPasses
             adapter.notifyDataSetChanged();
             saveChangedAppearances();
             return;
         }
 
-        PreferencesProvider prefs = new PreferencesProvider(this);
 
         //check or set pass
         String userPass = prefs.getUserPass();
@@ -187,12 +195,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
         return mergedAppearances;
-    }
-
-
-    private boolean passesLoaded()
-    {
-        return passes != null;
     }
 
 
