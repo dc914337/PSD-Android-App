@@ -5,6 +5,5 @@ package anon.psd.global;
  */
 public class Constants
 {
-    public static final String LTAG = "psd";
     public static final String BASE_PASS_SALT = "phone_base_salt-v1";
 }
