@@ -89,9 +89,7 @@ namespace psd.InitArgs
 
             passItem.Login = GetArgVal(strArgs, "--login");
 
-            bool enterWithLogin;
-            bool.TryParse(GetArgVal(strArgs, "--enter-with-login"), out enterWithLogin);
-            passItem.EnterWithLogin = enterWithLogin;
+            passItem.EnterWithLogin = strArgs.Contains("--enter-with-login");
 
             passItem.Description = GetArgVal(strArgs, "--description");
 
