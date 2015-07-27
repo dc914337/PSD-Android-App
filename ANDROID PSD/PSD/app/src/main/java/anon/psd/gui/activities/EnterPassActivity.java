@@ -2,6 +2,7 @@ package anon.psd.gui.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 import anon.psd.R;
 
@@ -15,6 +16,17 @@ public class EnterPassActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_password);
+
+    }
+
+
+    public void btnOnClick(View view)
+    {
+
+    }
+
+    public void btnSettingsClick(View view)
+    {
 
     }
 }

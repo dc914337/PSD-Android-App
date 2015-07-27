@@ -113,13 +113,14 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         if (!baseConnected()) {
             openSettings();
-            //todo show message
+            Toast.makeText(getApplicationContext(), "You need to set correct path to database", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String userPass = getUserPass();
+
         if (!loadBase(userPass)) {
-            //todo show message
+            Toast.makeText(getApplicationContext(), "Password is incorrect or base is broken", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -182,6 +183,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     */
     private boolean baseConnected()
     {
+        //if already connected
         if (baseRepo != null && baseRepo.update())
             return true;
 
