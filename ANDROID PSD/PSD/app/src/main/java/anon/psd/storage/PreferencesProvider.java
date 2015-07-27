@@ -31,4 +31,9 @@ public class PreferencesProvider
     }
 
 
+    public String getDbPath()
+    {
+        return sharedPrefs.getString("db_path", null);
+    }
+
 }

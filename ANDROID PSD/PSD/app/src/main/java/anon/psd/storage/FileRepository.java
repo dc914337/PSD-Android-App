@@ -80,4 +80,8 @@ public class FileRepository
         return true;
     }
 
+    public String getBasePath()
+    {
+        return path;
+    }
 }

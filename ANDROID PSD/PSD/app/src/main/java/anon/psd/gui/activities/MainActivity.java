@@ -1,9 +1,7 @@
 package anon.psd.gui.activities;
 
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
@@ -20,6 +17,7 @@ import java.io.File;
 import java.util.Map;
 
 import anon.psd.R;
+import anon.psd.gui.Alerts;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -28,11 +26,11 @@ import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.storage.AppearanceCfg;
 import anon.psd.storage.FileRepository;
+import anon.psd.storage.PreferencesProvider;
 
 
 public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    int debugCount = 0;
     FileRepository baseRepo;
     File appearanceCfgFile;
 
@@ -46,9 +44,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initVariables();
-        Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_SHORT).show(); //debug
+
         loadPasses();
     }
 
@@ -72,7 +69,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onResume()
     {
         super.onResume();
-        Toast.makeText(getApplicationContext(), "Resumed " + debugCount++, Toast.LENGTH_SHORT).show(); //debug
+
         loadPasses();
     }
 
@@ -104,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private void loadPasses()
     {
+        //if passes are already loaded - skip loading and refresh representation
         if (passesLoaded()) {
             //refresh existing prettyPasses
             adapter.notifyDataSetChanged();
@@ -111,16 +109,35 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             return;
         }
 
-        if (!baseConnected()) {
-            openSettings();
-            Toast.makeText(getApplicationContext(), "You need to set correct path to database", Toast.LENGTH_SHORT).show();
+        PreferencesProvider prefs = new PreferencesProvider(this);
+
+        //check or set pass
+        String userPass = prefs.getUserPass();
+        if (userPass == null) {
+            Alerts.showMessage(getApplicationContext(), "Set user pass");
+            openEnterUserPassword();
             return;
         }
 
-        String userPass = getUserPass();
+        //check or set path
+        String dbPath = prefs.getDbPath();
+        if (dbPath == null) {
+            Alerts.showMessage(getApplicationContext(), "Set database path");
+            openSettings();
+            return;
+        }
 
+        //try load file
+        if (!connectBase(dbPath)) {
+            Alerts.showMessage(getApplicationContext(), "Can't access file or file doesn't exist");
+            openSettings();
+            return;
+        }
+
+        //try load base
         if (!loadBase(userPass)) {
-            Toast.makeText(getApplicationContext(), "Password is incorrect or base is broken", Toast.LENGTH_SHORT).show();
+            Alerts.showMessage(getApplicationContext(), "Password is incorrect or base is broken");
+            openEnterUserPassword();
             return;
         }
 
@@ -181,42 +198,15 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     /*
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
     */
-    private boolean baseConnected()
+    private boolean connectBase(String path)
     {
-        //if already connected
-        if (baseRepo != null && baseRepo.update())
-            return true;
-
-        //get path from shared prefs
-        String path = getPathFromSharedPrefs();
-
-        if (path == null)
-            return false;
-
         baseRepo = new FileRepository(path);
-
         return baseRepo.checkConnection();
-    }
-
-    private String getPathFromSharedPrefs()
-    {
-        SharedPreferences prefs = this.getSharedPreferences(
-                getString(R.string.prefs_file), Context.MODE_PRIVATE);
-        return prefs.getString("db_path", null);
-    }
-
-    private String getUserPass()
-    {
-        //todo: implement
-        openEnterUserPassword();
-        //-redirect to EnterUserPass page
-        return "root";
     }
 
 
     private boolean loadBase(String userPass)
     {
-        //todo: implement
         //check if user pass set
         if (userPass == null)
             return false;
