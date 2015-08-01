@@ -19,7 +19,7 @@ public class PsdComService extends IntentService
 {
     Date created;
     public static final String SERVICE_NAME = "PsdComService";
-    final String TAG = "PsdComService";
+    private final String TAG = "PsdComService";
 
 
     final Messenger mMessenger = new Messenger(new ServiceHandler());

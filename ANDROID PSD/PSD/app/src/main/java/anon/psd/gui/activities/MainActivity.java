@@ -1,20 +1,11 @@
 package anon.psd.gui.activities;
 
-import android.content.ComponentName;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +16,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
-import anon.psd.background.MessageTypes;
-import anon.psd.background.PsdComService;
+import anon.psd.background.ServiceWorker;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -51,95 +41,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
 
-
-    /**
-     * SERVICE STUFF
-     */
-    boolean serviceBound;
-    /**
-     * Messenger for communicating with service.
-     */
-    Messenger mService = null;
-    /**
-     * Handler of incoming messages from service.
-     */
-    final Messenger mMessenger = new Messenger(new ActivityHandler());
-    private ServiceConnection mConnection;
-
-    private class ActivityHandler extends Handler
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            MessageTypes type = MessageTypes.fromInteger(msg.what);
-            switch (type) {
-                /*case Connected:
-                    Alerts.showMessage(getApplicationContext(), "PSD connected");
-                    break;*/
-                default:
-                    super.handleMessage(msg);
-            }
-        }
-    }
-
-    private class MyServiceConnection implements ServiceConnection
-    {
-        public void onServiceConnected(ComponentName name, IBinder service)
-        {
-            Log.d(TAG, "Activity onServiceConnected");
-            mService = new Messenger(service);
-            serviceBound = true;
-            sendMessenger();
-        }
-
-        public void onServiceDisconnected(ComponentName name)
-        {
-            Log.d(TAG, "Activity onServiceDisconnected");
-            mService = null;
-            serviceBound = false;
-        }
-    }
-
-    /*
-        we are starting and binding service to have it alive all the time. It won't die when
-        this activity will die. We sending fake intent
-    */
-    private void startService()
-    {
-        mConnection = new MyServiceConnection();
-        Intent mServiceIntent = new Intent(this, PsdComService.class);
-        //mServiceIntent.setData(Uri.parse("connect"));
-        startService(mServiceIntent);
-        bindService(mServiceIntent, mConnection, BIND_AUTO_CREATE);
-    }
-
-    private void sendMessenger()
-    {
-        Message msg = Message.obtain(null, MessageTypes.ConnectService.getInt());
-        msg.replyTo = mMessenger;
-        try {
-            mService.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "Activity Sent messenger to service");
-    }
-
-    private void sendCommandToService(MessageTypes msgType)
-    {
-        if (!serviceBound) {
-            Log.e(TAG, "Activity Service is not bound");
-            return;
-        }
-
-        Message msg = Message.obtain(null, msgType.getInt());
-        try {
-            mService.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, String.format("Activity Sent %s command", msgType.toString()));
-    }
+    ServiceWorker serviceWorker;
 
 
     /**
@@ -151,7 +53,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService();
+        serviceWorker=new ServiceWorker(this);
+        serviceWorker.connectService();
+
         initVariables();
         loadPasses();
     }
@@ -205,11 +109,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-
-        Intent mServiceIntent = new Intent(this, PsdComService.class);
-        mServiceIntent.setData(Uri.parse("connect"));
-        startService(mServiceIntent);
-        bindService(mServiceIntent, mConnection, BIND_AUTO_CREATE);
 
     }
 
