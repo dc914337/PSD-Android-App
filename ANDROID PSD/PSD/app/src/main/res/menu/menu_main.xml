@@ -14,6 +14,7 @@
         android:id="@+id/led_connected"
         android:title="@string/led_connected"
         android:icon="@drawable/ic_little_red"
+        android:onClick="onConnectPsdClick"
         app:showAsAction="always"/>
 
 
@@ -21,6 +22,7 @@
         android:id="@+id/action_connect_psd"
         android:title="@string/action_connect_psd"
         android:orderInCategory="100"
+        android:onClick="onConnectPsdClick"
         app:showAsAction="never"/>
 
     <item

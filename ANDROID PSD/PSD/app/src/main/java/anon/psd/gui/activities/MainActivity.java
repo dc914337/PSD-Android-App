@@ -14,16 +14,14 @@ import android.widget.AdapterView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import java.io.File;
-import java.util.Map;
 
 import anon.psd.R;
-import anon.psd.notifications.Alerts;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
-import anon.psd.models.PassItem;
 import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
+import anon.psd.notifications.Alerts;
 import anon.psd.storage.AppearanceCfg;
 import anon.psd.storage.FileRepository;
 import anon.psd.storage.PreferencesProvider;
@@ -40,6 +38,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
 
+
+    /**
+     * Activity events
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,7 +67,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
     }
 
-
     @Override
     protected void onResume()
     {
@@ -73,7 +74,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         loadPasses();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -83,20 +83,80 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return true;
     }
 
+
+    /**
+     * Action bar
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onConnectPsdClick(MenuItem item)
+    {
+
+    }
+
+    /**
+     * Search
+     */
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        return false;
+    }
+
+
+    /**
+     * Menu entries
+     */
+    public void openSettingsClick(MenuItem item)
+    {
+        openSettings();
+    }
+
+    public void openSettings()
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+
+    /**
+     * Items
+     */
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
+    {
+        PrettyPassword item = (PrettyPassword) (lvPasses).getAdapter().getItem(position);
+        openItem(item);
+    }
+
+    public void openItem(PrettyPassword item)
+    {
+        Intent intent = new Intent(this, PassActivity.class);
+        ActivitiesTransfer.sendTransferringObject("PRETTY_PASSWORD_ITEM", item);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        return false;
     }
 
 
@@ -154,13 +214,17 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         passes = loadAndWrapPasses(baseRepo.getPassesBase().Passwords);
     }
 
-
     private AppearancesList loadAndWrapPasses(PasswordList passwords)
     {
         AppearancesList wrappedPasses = null;
         //getting wrapped passes if passes were not loaded(loading 2 files from disk)
-        if (passes == null)
-            wrappedPasses = wrapPassesInAppearances(passwords);
+        if (passes == null) {
+            //loading appearanceCfg
+            appearanceCfg = new AppearanceCfg(appearanceCfgFile);
+            appearanceCfg.update();
+            //merging passes and loaded appearances
+            wrappedPasses = AppearancesList.Merge(passwords, appearanceCfg.getPassesAppearances());
+        }
 
         adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
         lvPasses.setAdapter(adapter);
@@ -173,30 +237,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         appearanceCfg.setPassesAppearances(passes);
         appearanceCfg.rewrite();
     }
-
-    private AppearancesList wrapPassesInAppearances(PasswordList passItems)
-    {
-        //load appearances
-        appearanceCfg = new AppearanceCfg(appearanceCfgFile);
-        appearanceCfg.update();
-        AppearancesList loadedAppearances = appearanceCfg.getPassesAppearances();
-
-        AppearancesList mergedAppearances = new AppearancesList();
-
-        //merge appearances by title
-        for (Map.Entry<Short, PassItem> entry : passItems.entrySet()) {
-            PassItem currPass = entry.getValue();
-            PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.Title);
-            if (currAppearance == null)
-                currAppearance = new PrettyPassword(currPass);
-            else
-                currAppearance.setPassItem(currPass);
-            mergedAppearances.add(currAppearance);
-        }
-
-        return mergedAppearances;
-    }
-
 
     /*
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
@@ -217,56 +257,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return baseRepo.update();
     }
 
-    /*
-    Opens settings activity
-    */
-    public void openSettings()
-    {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
     public void openEnterUserPassword()
     {
         Intent intent = new Intent(this, EnterPassActivity.class);
         startActivity(intent);
     }
 
-    public void openSettingsClick(MenuItem item)
-    {
-        openSettings();
-    }
 
-    public void openItem(PrettyPassword item)
-    {
-        Intent intent = new Intent(this, PassActivity.class);
-        ActivitiesTransfer.sendTransferringObject("PRETTY_PASSWORD_ITEM", item);
-        startActivity(intent);
-    }
-
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
-    {
-        PrettyPassword item = (PrettyPassword) (lvPasses).getAdapter().getItem(position);
-        openItem(item);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText)
-    {
-        return false;
-    }
 }
