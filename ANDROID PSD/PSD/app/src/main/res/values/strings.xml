@@ -10,4 +10,5 @@
     <string name="pref_syncConnectionTypes_default"/>
     <string name="prefs_file">anon.psd_preferences</string>
     <string name="enter_pass_label">Enter user password</string>
+    <string name="notification_title">PSD</string>
 </resources>

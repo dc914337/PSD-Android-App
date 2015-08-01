@@ -8,6 +8,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
+import java.util.Date;
+
 import anon.psd.notifications.ServiceNotification;
 
 /**
@@ -15,6 +17,7 @@ import anon.psd.notifications.ServiceNotification;
  */
 public class PsdComService extends IntentService
 {
+    Date created;
     public static final String SERVICE_NAME = "PsdComService";
     final String TAG = "PsdComService";
 
@@ -28,44 +31,45 @@ public class PsdComService extends IntentService
     public PsdComService()
     {
         super(SERVICE_NAME);
+        created = new Date();
     }
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "Service onCreate");
     }
 
     @Override
     protected void onHandleIntent(Intent workIntent)
     {
-        Log.d(TAG, "onHandleIntent");
+        Log.d(TAG, "Service onHandleIntent " + created.toString());
     }
 
     @Override
     public IBinder onBind(Intent intent)
     {
-        Log.d(TAG, "onBind");
+        Log.d(TAG, "Service onBind " + created.toString());
         return mMessenger.getBinder();
     }
 
     public void onRebind(Intent intent)
     {
         super.onRebind(intent);
-        Log.d(TAG, "onRebind");
+        Log.d(TAG, "Service onRebind " + created.toString());
     }
 
     public boolean onUnbind(Intent intent)
     {
-        Log.d(TAG, "onUnbind");
+        Log.d(TAG, "Service onUnbind " + created.toString());
         return super.onUnbind(intent);
     }
 
     public void onDestroy()
     {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
+        Log.d(TAG, "Service onDestroy " + created.toString());
     }
 
 
@@ -76,8 +80,8 @@ public class PsdComService extends IntentService
         @Override
         public void handleMessage(Message msg)
         {
-            Log.d(TAG, "handleMessage");
             MessageTypes type = MessageTypes.fromInteger(msg.what);
+            Log.d(TAG, String.format("Service handleMessage %s %s", type.toString(), created.toString()));
             switch (type) {
                 case ConnectService:
                     mClient = msg.replyTo;

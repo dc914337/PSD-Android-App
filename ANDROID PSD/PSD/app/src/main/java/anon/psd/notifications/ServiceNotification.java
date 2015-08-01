@@ -14,7 +14,6 @@ import anon.psd.gui.activities.MainActivity;
  */
 public class ServiceNotification
 {
-
     NotificationManager nm;
     private Context ctx;
 
