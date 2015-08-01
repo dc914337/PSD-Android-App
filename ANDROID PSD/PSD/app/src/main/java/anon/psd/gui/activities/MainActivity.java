@@ -1,5 +1,6 @@
 package anon.psd.gui.activities;
 
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.ServiceWorker;
+import anon.psd.device.ConnectionStates;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -43,17 +45,36 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     ServiceWorker serviceWorker;
 
+    private class MainServiceWorker extends ServiceWorker
+    {
+        public MainServiceWorker(Context context)
+        {
+            super(context);
+        }
+
+        @Override
+        public void onStateChanged(ConnectionStates newState)
+        {
+
+        }
+
+        @Override
+        public void onReceivedMessage(byte[] message)
+        {
+
+        }
+    }
+
 
     /**
      * Activity events
      */
     @Override
-
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        serviceWorker=new ServiceWorker(this);
+        serviceWorker = new MainServiceWorker(this);
         serviceWorker.connectService();
 
         initVariables();
@@ -106,6 +127,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         return super.onOptionsItemSelected(item);
     }
+
 
     public void onConnectPsdClick(MenuItem item)
     {
@@ -160,13 +182,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         startActivity(intent);
     }
 
-
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
     {
         return false;
     }
-
 
     private void loadPasses()
     {
@@ -185,8 +205,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             saveChangedAppearances();
             return;
         }
-
-
         //check or set pass
         String userPass = prefs.getUserPass();
         if (userPass == null) {
@@ -217,7 +235,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             openEnterUserPassword();
             return;
         }
-
         //load passes from base
         passes = loadAndWrapPasses(baseRepo.getPassesBase().Passwords);
     }
@@ -255,7 +272,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return baseRepo.checkConnection();
     }
 
-
     private boolean loadBase(String userPass)
     {
         //check if user pass set
@@ -270,6 +286,4 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         Intent intent = new Intent(this, EnterPassActivity.class);
         startActivity(intent);
     }
-
-
 }
