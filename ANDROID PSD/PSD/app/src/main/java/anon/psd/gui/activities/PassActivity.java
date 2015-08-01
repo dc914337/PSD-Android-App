@@ -37,7 +37,7 @@ public class PassActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
-        prettyPassword = (PrettyPassword) ActivitiesTransfer.recieveTransferringObject("PRETTY_PASSWORD_ITEM");
+        prettyPassword = (PrettyPassword) ActivitiesTransfer.receiveTransferringObject("PRETTY_PASSWORD_ITEM");
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
     }

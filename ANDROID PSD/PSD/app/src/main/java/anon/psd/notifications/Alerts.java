@@ -1,4 +1,4 @@
-package anon.psd.gui;
+package anon.psd.notifications;
 
 import android.content.Context;
 import android.widget.Toast;

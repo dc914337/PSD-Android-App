@@ -19,11 +19,11 @@ public class ActivitiesTransfer
         innerDict.put(key, value);
     }
 
-    public static Object recieveTransferringObject(String key)
+    public static Object receiveTransferringObject(String key)
     {
         Object receivedObject = innerDict.get(key);
         //remove from dict
-        innerDict.remove(key);
+        //innerDict.remove(key); //activity will crash if couldn't find this value
         return receivedObject;
     }
 

@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.Map;
 
 import anon.psd.R;
-import anon.psd.gui.Alerts;
+import anon.psd.notifications.Alerts;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
