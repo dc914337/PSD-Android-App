@@ -78,11 +78,13 @@ public class BaseCrypto
         decryptCipher.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));
 
         // Decrypt
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
         ByteArrayInputStream inStream = new ByteArrayInputStream(encryptedBytes);
         CipherInputStream cipherInputStream = new CipherInputStream(inStream, decryptCipher);
+
         byte[] buf = new byte[1024];
         int bytesRead;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         while ((bytesRead = cipherInputStream.read(buf)) > 0) {
             outputStream.write(buf, 0, bytesRead);
         }

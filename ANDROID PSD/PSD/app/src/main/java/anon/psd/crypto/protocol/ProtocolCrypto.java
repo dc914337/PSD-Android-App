@@ -1,0 +1,82 @@
+package anon.psd.crypto.protocol;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import anon.psd.crypto.KeyGenerator;
+
+/**
+ * Created by Dmitry on 03.08.2015.
+ */
+public class ProtocolCrypto
+{
+    byte[] btKey;
+    byte[] hBtKey;
+    byte[] IV;
+
+    public ProtocolCrypto(byte[] btKey, byte[] hBtKey)
+    {
+        this.btKey = btKey;
+        this.hBtKey = hBtKey;
+        this.IV = KeyGenerator.generateIV();
+    }
+
+
+    public byte[] generateSignedEncryptedMessage(byte[] payload) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
+    {
+        //encrypt tempMessage
+        byte[] encryptedTempMessage = encryptAes(payload);
+        //count HMAC
+
+        //concat
+
+
+    }
+
+
+    private byte[] encryptAes(byte[] tempMessage) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
+    {
+        SecretKey aesKey = new SecretKeySpec(btKey, 0, btKey.length, "AES");
+        // Encrypt cipher
+        Cipher encryptCipher = null;
+        try {
+            encryptCipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(IV));
+
+        //Encrypt
+        ByteArrayInputStream inStream = new ByteArrayInputStream(tempMessage);
+        CipherInputStream cipherInputStream = new CipherInputStream(inStream, encryptCipher);
+
+        byte[] buf = new byte[1024];
+        int bytesRead;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        while ((bytesRead = cipherInputStream.read(buf)) > 0) {
+            outputStream.write(buf, 0, bytesRead);
+        }
+
+        byte[] res = outputStream.toByteArray();
+
+        cipherInputStream.close();
+        inStream.close();
+        outputStream.close();
+        return res;
+    }
+
+    private byte[] HMAC(byte[] tempMessage)
+    {
+
+    }
+}

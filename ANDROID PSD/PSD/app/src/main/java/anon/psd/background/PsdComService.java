@@ -14,6 +14,7 @@ import anon.psd.notifications.ServiceNotification;
 
 /**
  * Created by Dmitry on 01.08.2015.
+ * Happy birthday me, yay!
  */
 public class PsdComService extends IntentService
 {
