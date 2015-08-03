@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
-import anon.psd.background.ServiceWorker;
+import anon.psd.background.PSDServiceWorker;
 import anon.psd.device.ConnectionStates;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
@@ -43,11 +44,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
 
-    ServiceWorker serviceWorker;
+    PSDServiceWorker serviceWorker;
 
-    private class MainServiceWorker extends ServiceWorker
+    private class MainPSDServiceWorker extends PSDServiceWorker
     {
-        public MainServiceWorker(Context context)
+        public MainPSDServiceWorker(Context context)
         {
             super(context);
         }
@@ -55,13 +56,13 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         @Override
         public void onStateChanged(ConnectionStates newState)
         {
-
+            Log.d(TAG, String.format("Activity State changed on %s", newState));
         }
 
         @Override
         public void onReceivedMessage(byte[] message)
         {
-
+            Log.d(TAG, String.format("Activity Received message %s", message.length));
         }
     }
 
@@ -74,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        serviceWorker = new MainServiceWorker(this);
+        serviceWorker = new MainPSDServiceWorker(this);
         serviceWorker.connectService();
 
         initVariables();
@@ -131,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-
+        serviceWorker.connectPsd();
     }
 
     /**
@@ -185,7 +186,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
     {
-        return false;
+        serviceWorker.sendMessage(new byte[1337]);
+        return true;
     }
 
     private void loadPasses()

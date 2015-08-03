@@ -16,7 +16,7 @@ import anon.psd.device.ConnectionStates;
 /**
  * Created by Dmitry on 01.08.2015.
  */
-public abstract class ServiceWorker
+public abstract class PSDServiceWorker
 {
     private final String TAG = "ServiceWorker";
     Context ctx;
@@ -34,7 +34,7 @@ public abstract class ServiceWorker
 
     public abstract void onReceivedMessage(byte[] message);
 
-    public ServiceWorker(Context context)
+    public PSDServiceWorker(Context context)
     {
         this.ctx = context;
     }
@@ -55,17 +55,17 @@ public abstract class ServiceWorker
 
     public void connectPsd()
     {
-
+        Log.d(TAG, "ServiceWorker Connect PSD");
     }
 
     public void sendMessage(byte[] message)
     {
-
+        Log.d(TAG, String.format("ServiceWorker Send message %s", message.length));
     }
 
     public void disconnectPsd()
     {
-
+        Log.d(TAG, "ServiceWorker Disconnect PSD");
     }
 
 
