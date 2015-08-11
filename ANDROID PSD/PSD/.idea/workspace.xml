@@ -57,8 +57,6 @@
     <ignored path="PSD.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
-    <ignored path="$PROJECT_DIR$/build/classes/main/" />
-    <ignored path="$PROJECT_DIR$/build/classes/test/" />
     <ignored path="$PROJECT_DIR$/aFileChooser/build/intermediates/assets/" />
     <ignored path="$PROJECT_DIR$/aFileChooser/build/intermediates/bundles/" />
     <ignored path="$PROJECT_DIR$/aFileChooser/build/intermediates/classes/" />
@@ -101,6 +99,8 @@
     <ignored path="$PROJECT_DIR$/app/build/intermediates/symbols/" />
     <ignored path="$PROJECT_DIR$/app/build/outputs/" />
     <ignored path="$PROJECT_DIR$/app/build/tmp/" />
+    <ignored path="$PROJECT_DIR$/build/classes/" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,11 +124,11 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="BaseCrypto.java" pinned="false" current="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/BaseCrypto.java">
+            <file leaf-file-name="HashProvider.java" pinned="false" current="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/HashProvider.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.85839736" vertical-offset="595" max-vertical-offset="1564">
-                    <caret line="96" column="19" selection-start-line="84" selection-start-column="8" selection-end-line="96" selection-end-column="19" />
+                  <state vertical-scroll-proportion="0.81339186" vertical-offset="24" max-vertical-offset="935">
+                    <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
                     <folding />
                   </state>
                 </provider>
@@ -145,61 +145,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="IBluetoothWrapper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/IBluetoothWrapper.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-              <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionStates.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/device/ConnectionStates.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-              <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="PsdComService.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="177" max-vertical-offset="1598">
+              <caret line="58" column="5" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PsdProtocolV1.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/PsdProtocolV1.java">
+      <file leaf-file-name="ProtocolCrypto.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolCrypto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="1343">
-              <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#generateTempMessagePayload#0;class#PsdProtocolV1#0" expanded="false" />
-                <element signature="method#concatArrays#0;class#PsdProtocolV1#0" expanded="false" />
-                <element signature="e#2163#2164#0" expanded="true" />
-                <element signature="e#2191#2192#0" expanded="true" />
+                <element signature="method#encryptTempMessage#0;class#ProtocolCrypto#0" expanded="false" />
+                <element signature="e#2608#2609#0" expanded="true" />
+                <element signature="e#2659#2660#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProtocolCrypto.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolCrypto.java">
+      <file leaf-file-name="TextWorker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/utils/TextWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5708013" vertical-offset="92" max-vertical-offset="1003">
-              <caret line="36" column="58" selection-start-line="36" selection-start-column="58" selection-end-line="36" selection-end-column="58" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#encryptAes#0;class#ProtocolCrypto#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="-7.285714" vertical-offset="0" max-vertical-offset="340">
+              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -207,21 +182,38 @@
       <file leaf-file-name="KeyGenerator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/KeyGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="24" max-vertical-offset="935">
-              <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
-              <folding>
-                <element signature="e#1258#1259#0" expanded="true" />
-                <element signature="e#1320#1321#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+              <caret line="19" column="48" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java">
+      <file leaf-file-name="System.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-              <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1275">
+              <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Arrays.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/util/Arrays.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2884" max-vertical-offset="3808">
+              <caret line="184" column="25" selection-start-line="184" selection-start-column="25" selection-end-line="184" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IProtocol.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/IProtocol.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -231,17 +223,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolEncryption.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="System.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
+      <file leaf-file-name="PsdProtocolV1.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/PsdProtocolV1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="1275">
-              <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.3358946" vertical-offset="306" max-vertical-offset="1581">
+              <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -1613,70 +1605,12 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/cc834d833ada2ae95c63eedfc87efcd2d842f3d6/gradle-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/79f4ed9b6582ecec4d7b35aecfa45fbc48dadb96/gradle-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/5937e1bdf4c807a0c2adf3e1269838238d05da2b/builder-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/528fdfb8a4d51ae4177e7d913e88767916a84758/builder-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/53093824fcd36168d0650952def5e050d65c384d/lint-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/e3d6e09a113af66fd2e5dc6e4d2321d7b0d82328/lint-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/1052878364479b1eb101e52e625713d2362973bb/proguard-gradle-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/672d43cbfde4765080e5bea19c51a2cc45dfc00/proguard-gradle-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ea9eac1abbb8e43a76135e7aaf821e2b8ec39795/sdk-common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ebb1e063b8c370a88a38bf46036dce3892fe6c01/sdk-common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/3824866f059053c43b118eb5a067ea1800d8c913/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/960dea7c9181ba0b17e8bab0c06a43f0a5f04e65/bcprov-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/1b2a0925ff06220c0261b6fd468183cd9e9a9a47/javawriter-2.5.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/6ecc67ffd7b05df1977b5a94d7d6a7e4d00bff4c/common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/271771234c82097345fb73c9571c403e22f62faf/common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/c42ebed2433b72f099bb697f56829bfcfc3a79e0/builder-test-api-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/2d6ea74b74f8d928e468ff623825d22a5d8a1649/builder-test-api-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/7dfed086e2e0fdd5434179d1a631357ac1376de8/ddmlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/25b4cd0c917c47ce599008f4431ecffa0a57b51a/ddmlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/ab95699556df591e0ba4d45666290b18883a1b9b/manifest-merger-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/d0193672ed299817e4be2ba1caeeda4924b0e447/manifest-merger-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/82702af4c805d26822b0465219f20821b815f529/builder-model-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/2a3969a9082b47a4855395de918682eee946285a/builder-model-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/13407e220c83f2fe2cc3386e139cf833d55b72fa/sdklib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/df228874ac1c933b64492bdbe2d9bab5ab434166/sdklib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/8cff777fce5ef53cc35fa569faa8d12faaf34a78/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/28b7614b908a47844bb27e3c94b45b6893656265/bcpkix-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/cc34e98c3842611e9ab9cc01617232e894671fee/lint-checks-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/9cb8d9c675a7716ac6f4d20df0ef0aba0e4519f5/lint-checks-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/fb9dc21349d06dd00b395af5c42f299df828f9da/ecj-4.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/d9fd79499c664bccaf24dbe04be417de6c6af64a/ecj-4.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/8fe59a34d305b39211bec38479c0e23114d87805/proguard-base-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/dc606dd778fe4685be16d5a171782ccfe0ef5637/proguard-base-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/309cd2cff7260e465792fda3dcbb063b730d8050/kxml2-2.3.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/e4d961e21d04d9888864269b31619ae8fee0341d/layoutlib-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/a43d5bf045da108875a860767c453078b0d77795/layoutlib-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/42f6189003f355107f53b937770092517de69710/httpclient-4.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/3d1d918f32709e33ba7ddb2c4e8d1c543ebe713e/httpclient-4.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/3ac83213baeab2b21fde6c0bf47ed68ea3e6a8da/httpmime-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/9ba2dcdf94ce35c8a8e9bff242db0618ca932e92/httpmime-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/4435987ff2ed5c04657e2aaf1be48b8ce33e907f/dvlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/ae24752eb30a9154f5a3d822b64d28d709b9c30b/dvlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/3caea4421428752206c7a94c3e3097f0c47f1bb8/commons-compress-1.8.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/a698750c16740fd5b3871425f4cb3bbaa87f529d/commons-compress-1.8.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/78a156b170a550e48077b6cb3e46a5616d84437b/lint-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/f7b3b232bc6a2a48a48dd3aedb80113c82d6acba/lint-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-analysis-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/1c45d52b6f6c638db13cf3ac12adeb56b254cdd7/asm-analysis-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/1fdf61e5ba87e0e4676c22677e0b2fe3a05c2fd8/httpcore-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/33fc26c02f8043ab0ede19eadc8c9885386b255c/httpcore-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/5310da9f90e843883309e9e0bf5950faa79882a0/commons-codec-1.4-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/47ebe619db7def288aad08bd65d26eea6d67f8ee/lombok-ast-0.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/57e560b535ceaa14fb6f15422d74594acd6c5b64/lombok-ast-0.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-tree-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/67bd266cd17adcee486b76952ece4cc85fe248b8/asm-tree-4.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$" />
@@ -1688,71 +1622,12 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/cc834d833ada2ae95c63eedfc87efcd2d842f3d6/gradle-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/79f4ed9b6582ecec4d7b35aecfa45fbc48dadb96/gradle-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/5937e1bdf4c807a0c2adf3e1269838238d05da2b/builder-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/528fdfb8a4d51ae4177e7d913e88767916a84758/builder-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/53093824fcd36168d0650952def5e050d65c384d/lint-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/e3d6e09a113af66fd2e5dc6e4d2321d7b0d82328/lint-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/1052878364479b1eb101e52e625713d2362973bb/proguard-gradle-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/672d43cbfde4765080e5bea19c51a2cc45dfc00/proguard-gradle-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ea9eac1abbb8e43a76135e7aaf821e2b8ec39795/sdk-common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ebb1e063b8c370a88a38bf46036dce3892fe6c01/sdk-common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/3824866f059053c43b118eb5a067ea1800d8c913/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/960dea7c9181ba0b17e8bab0c06a43f0a5f04e65/bcprov-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/1b2a0925ff06220c0261b6fd468183cd9e9a9a47/javawriter-2.5.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/6ecc67ffd7b05df1977b5a94d7d6a7e4d00bff4c/common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/271771234c82097345fb73c9571c403e22f62faf/common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/c42ebed2433b72f099bb697f56829bfcfc3a79e0/builder-test-api-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/2d6ea74b74f8d928e468ff623825d22a5d8a1649/builder-test-api-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/7dfed086e2e0fdd5434179d1a631357ac1376de8/ddmlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/25b4cd0c917c47ce599008f4431ecffa0a57b51a/ddmlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/ab95699556df591e0ba4d45666290b18883a1b9b/manifest-merger-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/d0193672ed299817e4be2ba1caeeda4924b0e447/manifest-merger-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/82702af4c805d26822b0465219f20821b815f529/builder-model-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/2a3969a9082b47a4855395de918682eee946285a/builder-model-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/13407e220c83f2fe2cc3386e139cf833d55b72fa/sdklib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/df228874ac1c933b64492bdbe2d9bab5ab434166/sdklib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/8cff777fce5ef53cc35fa569faa8d12faaf34a78/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/28b7614b908a47844bb27e3c94b45b6893656265/bcpkix-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/cc34e98c3842611e9ab9cc01617232e894671fee/lint-checks-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/9cb8d9c675a7716ac6f4d20df0ef0aba0e4519f5/lint-checks-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/fb9dc21349d06dd00b395af5c42f299df828f9da/ecj-4.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/d9fd79499c664bccaf24dbe04be417de6c6af64a/ecj-4.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/8fe59a34d305b39211bec38479c0e23114d87805/proguard-base-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/dc606dd778fe4685be16d5a171782ccfe0ef5637/proguard-base-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/309cd2cff7260e465792fda3dcbb063b730d8050/kxml2-2.3.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/e4d961e21d04d9888864269b31619ae8fee0341d/layoutlib-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/a43d5bf045da108875a860767c453078b0d77795/layoutlib-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/42f6189003f355107f53b937770092517de69710/httpclient-4.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/3d1d918f32709e33ba7ddb2c4e8d1c543ebe713e/httpclient-4.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/3ac83213baeab2b21fde6c0bf47ed68ea3e6a8da/httpmime-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/9ba2dcdf94ce35c8a8e9bff242db0618ca932e92/httpmime-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/4435987ff2ed5c04657e2aaf1be48b8ce33e907f/dvlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/ae24752eb30a9154f5a3d822b64d28d709b9c30b/dvlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/3caea4421428752206c7a94c3e3097f0c47f1bb8/commons-compress-1.8.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/a698750c16740fd5b3871425f4cb3bbaa87f529d/commons-compress-1.8.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/78a156b170a550e48077b6cb3e46a5616d84437b/lint-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/f7b3b232bc6a2a48a48dd3aedb80113c82d6acba/lint-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-analysis-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/1c45d52b6f6c638db13cf3ac12adeb56b254cdd7/asm-analysis-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/1fdf61e5ba87e0e4676c22677e0b2fe3a05c2fd8/httpcore-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/33fc26c02f8043ab0ede19eadc8c9885386b255c/httpcore-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/5310da9f90e843883309e9e0bf5950faa79882a0/commons-codec-1.4-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/47ebe619db7def288aad08bd65d26eea6d67f8ee/lombok-ast-0.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/57e560b535ceaa14fb6f15422d74594acd6c5b64/lombok-ast-0.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-tree-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/67bd266cd17adcee486b76952ece4cc85fe248b8/asm-tree-4.0.jar" />
-                            <option value="C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/aFileChooser" />
@@ -1764,76 +1639,12 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/cc834d833ada2ae95c63eedfc87efcd2d842f3d6/gradle-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/gradle/1.0.0/79f4ed9b6582ecec4d7b35aecfa45fbc48dadb96/gradle-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/5937e1bdf4c807a0c2adf3e1269838238d05da2b/builder-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder/1.0.0/528fdfb8a4d51ae4177e7d913e88767916a84758/builder-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/53093824fcd36168d0650952def5e050d65c384d/lint-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint/24.0.0/e3d6e09a113af66fd2e5dc6e4d2321d7b0d82328/lint-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/1052878364479b1eb101e52e625713d2362973bb/proguard-gradle-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-gradle/5.1/672d43cbfde4765080e5bea19c51a2cc45dfc00/proguard-gradle-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ea9eac1abbb8e43a76135e7aaf821e2b8ec39795/sdk-common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdk-common/24.0.0/ebb1e063b8c370a88a38bf46036dce3892fe6c01/sdk-common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/3824866f059053c43b118eb5a067ea1800d8c913/bcprov-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.48/960dea7c9181ba0b17e8bab0c06a43f0a5f04e65/bcprov-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/1b2a0925ff06220c0261b6fd468183cd9e9a9a47/javawriter-2.5.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/6ecc67ffd7b05df1977b5a94d7d6a7e4d00bff4c/common-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/common/24.0.0/271771234c82097345fb73c9571c403e22f62faf/common-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/c42ebed2433b72f099bb697f56829bfcfc3a79e0/builder-test-api-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-test-api/1.0.0/2d6ea74b74f8d928e468ff623825d22a5d8a1649/builder-test-api-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/7dfed086e2e0fdd5434179d1a631357ac1376de8/ddmlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.ddms/ddmlib/24.0.0/25b4cd0c917c47ce599008f4431ecffa0a57b51a/ddmlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/ab95699556df591e0ba4d45666290b18883a1b9b/manifest-merger-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/manifest-merger/24.0.0/d0193672ed299817e4be2ba1caeeda4924b0e447/manifest-merger-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/82702af4c805d26822b0465219f20821b815f529/builder-model-1.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.build/builder-model/1.0.0/2a3969a9082b47a4855395de918682eee946285a/builder-model-1.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/13407e220c83f2fe2cc3386e139cf833d55b72fa/sdklib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/sdklib/24.0.0/df228874ac1c933b64492bdbe2d9bab5ab434166/sdklib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/8cff777fce5ef53cc35fa569faa8d12faaf34a78/bcpkix-jdk15on-1.48-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.48/28b7614b908a47844bb27e3c94b45b6893656265/bcpkix-jdk15on-1.48.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/cc34e98c3842611e9ab9cc01617232e894671fee/lint-checks-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-checks/24.0.0/9cb8d9c675a7716ac6f4d20df0ef0aba0e4519f5/lint-checks-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/fb9dc21349d06dd00b395af5c42f299df828f9da/ecj-4.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.eclipse.jdt.core.compiler/ecj/4.2.2/d9fd79499c664bccaf24dbe04be417de6c6af64a/ecj-4.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/8fe59a34d305b39211bec38479c0e23114d87805/proguard-base-5.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.1/dc606dd778fe4685be16d5a171782ccfe0ef5637/proguard-base-5.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/309cd2cff7260e465792fda3dcbb063b730d8050/kxml2-2.3.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/net.sf.kxml/kxml2/2.3.0/ccbc77a5fd907ef863c29f3596c6f54ffa4e9442/kxml2-2.3.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/e4d961e21d04d9888864269b31619ae8fee0341d/layoutlib-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.layoutlib/layoutlib-api/24.0.0/a43d5bf045da108875a860767c453078b0d77795/layoutlib-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/42f6189003f355107f53b937770092517de69710/httpclient-4.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.1.1/3d1d918f32709e33ba7ddb2c4e8d1c543ebe713e/httpclient-4.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/3ac83213baeab2b21fde6c0bf47ed68ea3e6a8da/httpmime-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.1/9ba2dcdf94ce35c8a8e9bff242db0618ca932e92/httpmime-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/4435987ff2ed5c04657e2aaf1be48b8ce33e907f/dvlib-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools/dvlib/24.0.0/ae24752eb30a9154f5a3d822b64d28d709b9c30b/dvlib-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/3caea4421428752206c7a94c3e3097f0c47f1bb8/commons-compress-1.8.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/a698750c16740fd5b3871425f4cb3bbaa87f529d/commons-compress-1.8.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/78a156b170a550e48077b6cb3e46a5616d84437b/lint-api-24.0.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.lint/lint-api/24.0.0/f7b3b232bc6a2a48a48dd3aedb80113c82d6acba/lint-api-24.0.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-analysis-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/4.0/1c45d52b6f6c638db13cf3ac12adeb56b254cdd7/asm-analysis-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/1fdf61e5ba87e0e4676c22677e0b2fe3a05c2fd8/httpcore-4.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.1/33fc26c02f8043ab0ede19eadc8c9885386b255c/httpcore-4.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/5310da9f90e843883309e9e0bf5950faa79882a0/commons-codec-1.4-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/commons-codec/commons-codec/1.4/4216af16d38465bbab0f3dff8efa14204f7a399a/commons-codec-1.4.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm/4.0/659add6efc75a4715d738e73f07505246edf4d66/asm-4.0.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/47ebe619db7def288aad08bd65d26eea6d67f8ee/lombok-ast-0.2.2-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.android.tools.external.lombok/lombok-ast/0.2.2/57e560b535ceaa14fb6f15422d74594acd6c5b64/lombok-ast-0.2.2.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/4a33d6206d6d442446a8edbd2b0798ecfaebc229/asm-tree-4.0-sources.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/4.0/67bd266cd17adcee486b76952ece4cc85fe248b8/asm-tree-4.0.jar" />
-                            <option value="C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/appcompat-v7/22.2.0/appcompat-v7-22.2.0.aar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.nhaarman.listviewanimations/lib-core/3.1.0/ac92a702bd5ae6cca970aca90d4213a61df0924d/lib-core-3.1.0.aar" />
-                            <option value="C:/Program Files/gradle-2.3/caches/modules-2/files-2.1/com.nhaarman.listviewanimations/lib-manipulation/3.1.0/78220e196ce45a12cd29e9fd149be1042720fdf7/lib-manipulation-3.1.0.aar" />
-                            <option value="C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/support-v4/22.2.0/support-v4-22.2.0.aar" />
-                            <option value="C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/1.0.0/builder-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/1.0.0/gradle-1.0.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/1.0.0/builder-model-1.0.0.jar" />
                           </list>
                         </option>
                         <option name="path" value="$PROJECT_DIR$/app" />
@@ -1911,17 +1722,9 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/IBluetoothWrapper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/device/ConnectionStates.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/IProtocol.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/utils/Constants.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolEncryption.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/PsdProtocolV1.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/HashProvider.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/utils/ArraysWorker.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/KeyGenerator.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/BaseCrypto.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolCrypto.java" />
       </list>
     </option>
@@ -1962,8 +1765,164 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="psd" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="psd" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hardware" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PSD" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2040,62 +1999,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -2105,108 +2008,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="psd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="storage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="psd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="serializers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="psd" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="notifications" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2366,162 +2167,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="psd" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="psd" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hardware" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PSD" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scratches" />
     </panes>
   </component>
@@ -2536,7 +2181,7 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="192.168.1.11:5555" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AVD_GalaxyNexus_ToolsForApacheCordova" />
     <property name="FullScreen" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/PSD-test_service/ANDROID PSD/PSD" />
+    <property name="last_opened_file_path" value="Y:/loyaltyplant/Coding" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -2730,14 +2375,15 @@
       <created>1436469522947</created>
       <updated>1436469522947</updated>
       <workItem from="1438585146273" duration="201000" />
+      <workItem from="1439202188923" duration="38000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="201000" />
+    <option name="totallyTimeSpent" value="239000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2752,6 +2398,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18530351" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2769,7 +2416,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18530351" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2799,6 +2445,110 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1292">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/IBluetoothWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/device/ConnectionStates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/KeyGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/IBluetoothWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/device/ConnectionStates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/KeyGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/android/preference/Preference.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15232974" vertical-offset="0" max-vertical-offset="0">
@@ -2831,18 +2581,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.07822086" vertical-offset="0" max-vertical-offset="0">
           <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/android/content/SharedPreferences.class">
@@ -2937,64 +2686,78 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="2125">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
           <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2302483" vertical-offset="0" max-vertical-offset="0">
+          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/BaseCrypto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1598">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.8663883" vertical-offset="0" max-vertical-offset="0">
+          <caret line="98" column="0" selection-start-line="86" selection-start-column="72" selection-end-line="98" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/sources/android-19/java/lang/System.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70911086" vertical-offset="102" max-vertical-offset="10183">
+          <caret line="97" column="19" selection-start-line="97" selection-start-column="19" selection-end-line="97" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24259056" vertical-offset="0" max-vertical-offset="911">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/device/ConnectionStates.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.13062568" vertical-offset="0" max-vertical-offset="911">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/IBluetoothWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.22392975" vertical-offset="0" max-vertical-offset="911">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/security/InvalidKeyException.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/javax/crypto/spec/SecretKeySpec.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/IProtocol.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20526893" vertical-offset="0" max-vertical-offset="911">
-          <caret line="11" column="41" selection-start-line="11" selection-start-column="41" selection-end-line="11" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2302483" vertical-offset="0" max-vertical-offset="886">
-          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/HashProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3" max-vertical-offset="1275">
-          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
           <folding />
         </state>
       </provider>
@@ -3002,60 +2765,84 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolEncryption.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/PsdProtocolV1.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdComService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="1343">
-          <caret line="20" column="28" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#generateTempMessagePayload#0;class#PsdProtocolV1#0" expanded="false" />
-            <element signature="method#concatArrays#0;class#PsdProtocolV1#0" expanded="false" />
-            <element signature="e#2163#2164#0" expanded="true" />
-            <element signature="e#2191#2192#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="177" max-vertical-offset="1598">
+          <caret line="58" column="5" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/utils/TextWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.285714" vertical-offset="0" max-vertical-offset="340">
+          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/util/Arrays.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2884" max-vertical-offset="3808">
+          <caret line="184" column="25" selection-start-line="184" selection-start-column="25" selection-end-line="184" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/java/lang/System.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1275">
+          <caret line="19" column="30" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/utils/ArraysWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39941263" vertical-offset="0" max-vertical-offset="681">
+          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/KeyGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="24" max-vertical-offset="935">
-          <caret line="49" column="53" selection-start-line="49" selection-start-column="53" selection-end-line="49" selection-end-column="53" />
-          <folding>
-            <element signature="e#1258#1259#0" expanded="true" />
-            <element signature="e#1320#1321#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/global/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
+          <caret line="19" column="48" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/BaseCrypto.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/HashProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.85839736" vertical-offset="595" max-vertical-offset="1564">
-          <caret line="96" column="19" selection-start-line="84" selection-start-column="8" selection-end-line="96" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.81339186" vertical-offset="24" max-vertical-offset="935">
+          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/ProtocolCrypto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5708013" vertical-offset="92" max-vertical-offset="1003">
-          <caret line="36" column="58" selection-start-line="36" selection-start-column="58" selection-end-line="36" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#encryptAes#0;class#ProtocolCrypto#0" expanded="false" />
+            <element signature="method#encryptTempMessage#0;class#ProtocolCrypto#0" expanded="false" />
+            <element signature="e#2608#2609#0" expanded="true" />
+            <element signature="e#2659#2660#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/crypto/protocol/PsdProtocolV1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3358946" vertical-offset="306" max-vertical-offset="1581">
+          <caret line="37" column="28" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>

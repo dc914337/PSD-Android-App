@@ -14,6 +14,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import anon.psd.crypto.KeyGenerator;
 
+import static anon.psd.crypto.HashProvider.HMAC_SHA256;
+import static anon.psd.utils.ArraysWorker.concatArrays;
+
 /**
  * Created by Dmitry on 03.08.2015.
  */
@@ -34,16 +37,16 @@ public class ProtocolCrypto
     public byte[] generateSignedEncryptedMessage(byte[] payload) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
     {
         //encrypt tempMessage
-        byte[] encryptedTempMessage = encryptAes(payload);
+        byte[] encryptedTempMessage = encryptTempMessage(payload);
         //count HMAC
-
+        byte[] hmac = countTempMessageHMAC(encryptedTempMessage);
         //concat
-
-
+        byte[] resMessage = new byte[encryptedTempMessage.length + hmac.length + IV.length];
+        return concatArrays(IV, encryptedTempMessage, hmac);
     }
 
 
-    private byte[] encryptAes(byte[] tempMessage) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
+    private byte[] encryptTempMessage(byte[] tempMessage) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
     {
         SecretKey aesKey = new SecretKeySpec(btKey, 0, btKey.length, "AES");
         // Encrypt cipher
@@ -75,8 +78,8 @@ public class ProtocolCrypto
         return res;
     }
 
-    private byte[] HMAC(byte[] tempMessage)
+    private byte[] countTempMessageHMAC(byte[] message)
     {
-
+        return HMAC_SHA256(message, hBtKey);
     }
 }
