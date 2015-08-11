@@ -77,9 +77,9 @@ public abstract class PSDServiceWorker
         {
             MessageTypes type = MessageTypes.fromInteger(msg.what);
             switch (type) {
-                /*case Connected:
-                    Alerts.showMessage(getApplicationContext(), "PSD connected");
-                    break;*/
+                case ConnectionState:
+
+                    break;
                 default:
                     super.handleMessage(msg);
             }

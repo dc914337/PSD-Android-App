@@ -10,13 +10,14 @@ import android.util.Log;
 
 import java.util.Date;
 
+import anon.psd.hardware.IBtObserver;
 import anon.psd.notifications.ServiceNotification;
 
 /**
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
  */
-public class PsdComService extends IntentService
+public class PsdComService extends IntentService implements IBtObserver
 {
     Date created;
     public static final String SERVICE_NAME = "PsdComService";
@@ -74,6 +75,20 @@ public class PsdComService extends IntentService
     }
 
 
+    //On receive message from PSD through bluetooth
+    @Override
+    public void onReceive(byte[] message)
+    {
+
+    }
+
+    @Override
+    public void onLowSignal()
+    {
+
+    }
+
+
     class ServiceHandler extends Handler
     {
         Messenger mClient;
@@ -92,7 +107,5 @@ public class PsdComService extends IntentService
                     super.handleMessage(msg);
             }
         }
-
-
     }
 }

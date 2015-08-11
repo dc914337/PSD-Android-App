@@ -2,13 +2,17 @@ package anon.psd.hardware;
 
 import java.util.Random;
 
+import anon.psd.device.ConnectionStates;
+
 /**
  * Created by Dmitry on 03.08.2015.
  */
-public class BluetoothStub implements IBluetoothWrapper
+public class BluetoothStub implements IBtObservable
 {
     Random rnd = new Random();
     boolean connected = false;
+    IBtObserver listener;
+
 
     @Override
     public void enableBluetooth()
@@ -37,20 +41,36 @@ public class BluetoothStub implements IBluetoothWrapper
     }
 
     @Override
-    public boolean getConnected()
+    public ConnectionStates getConnectionState()
     {
-        return connected;
+        return ConnectionStates.Connected;
     }
 
     @Override
-    public int getSignalStrength()
+    public void registerObserver(IBtObserver newListener)
     {
-        randomSleep(1000, 1500);
-        if (!connected)
-            return 0;
-        return properRandom(1, 100);
+        listener = newListener;
     }
 
+    @Override
+    public void removeObserver()
+    {
+        listener = null;
+    }
+
+    @Override
+    public void notifyOnReceive(byte[] message)
+    {
+        if (listener != null)
+            listener.onReceive(message);
+    }
+
+    @Override
+    public void notifyOnLowSignal()
+    {
+        if (listener != null)
+            listener.onLowSignal();
+    }
 
     private void randomSleep(int from, int to)
     {

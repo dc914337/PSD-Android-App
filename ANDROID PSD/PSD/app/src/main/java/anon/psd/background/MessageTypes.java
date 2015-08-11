@@ -10,7 +10,7 @@ public enum MessageTypes
     Disconnect,
     Send,
     Receive,
-    CheckConnection;
+    ConnectionState;
 
     public static MessageTypes fromInteger(int x)
     {
