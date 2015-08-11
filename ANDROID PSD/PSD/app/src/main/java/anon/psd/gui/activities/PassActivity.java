@@ -19,7 +19,7 @@ import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
-import static anon.psd.utils.TextWorker.replaceNullOrEmpty;
+import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
 
 /**
  * Created by Dmitry on 06.07.2015.

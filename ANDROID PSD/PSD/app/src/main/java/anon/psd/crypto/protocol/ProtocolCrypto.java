@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import anon.psd.crypto.KeyGenerator;
 
 import static anon.psd.crypto.HashProvider.HMAC_SHA256;
-import static anon.psd.utils.ArraysWorker.concatArrays;
+import static anon.psd.utils.ArraysUtils.concatArrays;
 
 /**
  * Created by Dmitry on 03.08.2015.
@@ -34,7 +34,7 @@ public class ProtocolCrypto
     }
 
 
-    public byte[] generateSignedEncryptedMessage(byte[] payload) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
+    public byte[] generateSignedEncryptedMessage(byte[] payload) throws InvalidKeyException, IOException
     {
         //encrypt tempMessage
         byte[] encryptedTempMessage = encryptTempMessage(payload);
@@ -46,7 +46,7 @@ public class ProtocolCrypto
     }
 
 
-    private byte[] encryptTempMessage(byte[] tempMessage) throws InvalidAlgorithmParameterException, InvalidKeyException, IOException
+    private byte[] encryptTempMessage(byte[] tempMessage) throws InvalidKeyException, IOException
     {
         SecretKey aesKey = new SecretKeySpec(btKey, 0, btKey.length, "AES");
         // Encrypt cipher
@@ -57,7 +57,11 @@ public class ProtocolCrypto
             e.printStackTrace();
             return null;
         }
-        encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(IV));
+        try {
+            encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(IV));
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
 
         //Encrypt
         ByteArrayInputStream inStream = new ByteArrayInputStream(tempMessage);

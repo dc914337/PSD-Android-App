@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 
 import anon.psd.global.Constants;
 
-import static anon.psd.utils.ArraysWorker.concatArrays;
+import static anon.psd.utils.ArraysUtils.concatArrays;
 
 /**
  * Created by Dmitry on 10.07.2015.

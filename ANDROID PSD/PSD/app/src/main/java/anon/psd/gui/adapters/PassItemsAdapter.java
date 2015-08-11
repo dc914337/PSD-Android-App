@@ -13,7 +13,7 @@ import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
-import static anon.psd.utils.TextWorker.replaceNullOrEmpty;
+import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
 
 /**
  * Created by Dmitry on 04.07.2015.

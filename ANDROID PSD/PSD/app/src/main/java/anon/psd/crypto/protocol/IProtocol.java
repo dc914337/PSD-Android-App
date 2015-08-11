@@ -9,6 +9,6 @@ public interface IProtocol
 
     public boolean checkResponse(byte[] message);
 
-    public void setEncryptionData(byte[] btKey,byte[] hBtKey);
+    public void setEncryptionData(byte[] btKey, byte[] hBtKey);
 
 }

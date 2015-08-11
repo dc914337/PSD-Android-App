@@ -6,6 +6,4 @@ package anon.psd.crypto.protocol;
 public class ProtocolEncryption
 {
 
-
-
 }
