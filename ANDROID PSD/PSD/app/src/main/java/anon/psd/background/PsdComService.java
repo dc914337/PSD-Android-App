@@ -10,6 +10,7 @@ import android.util.Log;
 
 import java.util.Date;
 
+import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
 import anon.psd.notifications.ServiceNotification;
 
@@ -22,12 +23,9 @@ public class PsdComService extends IntentService implements IBtObserver
     Date created;
     public static final String SERVICE_NAME = "PsdComService";
     private final String TAG = "PsdComService";
-
-
     final Messenger mMessenger = new Messenger(new ServiceHandler());
-
-
     ServiceNotification notification;
+    IBtObservable bt;
 
 
     public PsdComService()

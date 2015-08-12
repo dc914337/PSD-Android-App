@@ -5,7 +5,7 @@ import anon.psd.device.ConnectionStates;
 /**
  * Created by Dmitry on 03.08.2015.
  */
-public class BluetoothObservable implements IBtObservable
+public class BluetoothWrap implements IBtObservable
 {
     @Override
     public void enableBluetooth()
