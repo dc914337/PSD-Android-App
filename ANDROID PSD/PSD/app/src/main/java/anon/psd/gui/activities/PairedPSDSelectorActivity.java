@@ -22,11 +22,10 @@ import anon.psd.gui.adapters.PairedDevicesAdapter;
  */
 public class PairedPSDSelectorActivity extends Activity
 {
-
+    private static final int REQUEST_ENABLE_BT = 3433;
     ListView lvPairedDevices;
     ArrayList<BluetoothDevice> pairedDevices = new ArrayList<>();
     PairedDevicesAdapter<BluetoothDevice> btArrayAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,6 +60,9 @@ public class PairedPSDSelectorActivity extends Activity
 
     private void returnSelectedDeviceToParentActivity(BluetoothDevice selectedDevice)
     {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter.disable();
+
         Intent intent = this.getIntent();
         intent.putExtra(getString(R.string.extras_return_name), selectedDevice.getName());
         intent.putExtra(getString(R.string.extras_return_mac), selectedDevice.getAddress());
@@ -68,23 +70,38 @@ public class PairedPSDSelectorActivity extends Activity
         finish();
     }
 
-
     private void fillPairedDevices()
+    {
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        } else {
+            fillDevices();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                fillDevices();
+            }
+        }
+    }
+
+
+    private void fillDevices()
     {
         BluetoothAdapter bluetoothAdapter
                 = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices
-                = bluetoothAdapter.getBondedDevices();
-
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         btArrayAdapter.clear();
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
                 btArrayAdapter.add(device);
             }
         }
-
     }
-
 
     public void openBluetoothSettings(View view)
     {
