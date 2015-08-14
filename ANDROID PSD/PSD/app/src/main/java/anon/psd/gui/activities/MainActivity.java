@@ -60,10 +60,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
         @Override
-        public void onReceivedMessage(byte[] message)
+        public void onReceivedResult(boolean res)
         {
-            Log.d(TAG, String.format("Activity Received message %s", message.length));
+            Log.d(TAG, String.format("Activity Received resilt %s", res));
         }
+
     }
 
 
@@ -183,9 +184,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l)
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id)
     {
-        serviceWorker.sendMessage(new byte[1337]);
+        PrettyPassword selectedPassWrapper = (PrettyPassword) adapterView.getItemAtPosition(position);
+        serviceWorker.sendPass(selectedPassWrapper.getPassItem());
         return true;
     }
 

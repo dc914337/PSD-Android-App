@@ -58,19 +58,6 @@ public class BluetoothStub implements IBtObservable
         listener = null;
     }
 
-    @Override
-    public void notifyOnReceive(byte[] message)
-    {
-        if (listener != null)
-            listener.onReceive(message);
-    }
-
-    @Override
-    public void notifyOnLowSignal()
-    {
-        if (listener != null)
-            listener.onLowSignal();
-    }
 
     private void randomSleep(int from, int to)
     {

@@ -94,13 +94,21 @@ public class PsdComService extends IntentService implements IBtObserver
         @Override
         public void handleMessage(Message msg)
         {
-            MessageTypes type = MessageTypes.fromInteger(msg.what);
+            MessageType type = MessageType.fromInteger(msg.what);
             Log.d(TAG, String.format("Service handleMessage %s %s", type.toString(), created.toString()));
             switch (type) {
                 case ConnectService:
                     mClient = msg.replyTo;
                     break;
+                case Connect:
 
+                    break;
+                case Disconnect:
+
+                    break;
+                case Password:
+
+                    break;
                 default:
                     super.handleMessage(msg);
             }

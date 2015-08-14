@@ -3,16 +3,16 @@ package anon.psd.background;
 /**
  * Created by Dmitry on 31.07.2015.
  */
-public enum MessageTypes
+public enum MessageType
 {
     ConnectService,
     Connect,
     Disconnect,
-    Send,
-    Receive,
+    Password,
+    Result,
     ConnectionState;
 
-    public static MessageTypes fromInteger(int x)
+    public static MessageType fromInteger(int x)
     {
         return values()[x];
     }

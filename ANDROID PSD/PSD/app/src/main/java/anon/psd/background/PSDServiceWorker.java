@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import anon.psd.device.ConnectionState;
+import anon.psd.models.PassItem;
 
 /**
  * Created by Dmitry on 01.08.2015.
@@ -30,11 +31,6 @@ public abstract class PSDServiceWorker
     final Messenger mMessenger = new Messenger(new ActivityHandler());
     private ServiceConnection mConnection;
 
-
-    public abstract void onStateChanged(ConnectionState newState);
-
-    public abstract void onReceivedMessage(byte[] message);
-
     public PSDServiceWorker(Context context)
     {
         this.ctx = context;
@@ -49,24 +45,26 @@ public abstract class PSDServiceWorker
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public ConnectionState getConnectionState()
-    {
-        return ConnectionState.Connected;
-    }
+    public abstract void onStateChanged(ConnectionState newState);
+
+    public abstract void onReceivedResult(boolean res);
 
     public void connectPsd()
     {
         Log.d(TAG, "ServiceWorker Connect PSD");
-    }
-
-    public void sendMessage(byte[] message)
-    {
-        Log.d(TAG, String.format("ServiceWorker Send message %s", message.length));
+        sendCommandToService(MessageType.Connect);
     }
 
     public void disconnectPsd()
     {
         Log.d(TAG, "ServiceWorker Disconnect PSD");
+        sendCommandToService(MessageType.Disconnect);
+    }
+
+    public void sendPass(PassItem pass)
+    {
+        Log.d(TAG, String.format("ServiceWorker Sent pass id: %s", pass.Id));
+        sendPassToService(pass);
     }
 
 
@@ -75,7 +73,7 @@ public abstract class PSDServiceWorker
         @Override
         public void handleMessage(Message msg)
         {
-            MessageTypes type = MessageTypes.fromInteger(msg.what);
+            MessageType type = MessageType.fromInteger(msg.what);
             switch (type) {
                 case ConnectionState:
 
@@ -112,7 +110,7 @@ public abstract class PSDServiceWorker
 
     private void sendMessenger()
     {
-        Message msg = Message.obtain(null, MessageTypes.ConnectService.getInt());
+        Message msg = Message.obtain(null, MessageType.ConnectService.getInt());
         msg.replyTo = mMessenger;
         try {
             mService.send(msg);
@@ -122,21 +120,33 @@ public abstract class PSDServiceWorker
         Log.d(TAG, "ServiceWorker Sent messenger to service");
     }
 
-    private void sendCommandToService(MessageTypes msgType)
+    private void sendCommandToService(MessageType msgType)
+    {
+        Message msg = Message.obtain(null, msgType.getInt());
+        sendMessage(msg, msgType);
+    }
+
+
+    private void sendPassToService(PassItem pass)
+    {
+        Message msg = Message.obtain(null, MessageType.Password.getInt(), pass);
+        sendMessage(msg, MessageType.Password);
+    }
+
+
+    private void sendMessage(Message msg, MessageType type)
     {
         if (!serviceBound) {
             Log.e(TAG, "ServiceWorker Service is not bound");
             return;
         }
-
-        Message msg = Message.obtain(null, msgType.getInt());
         try {
             mService.send(msg);
         } catch (RemoteException e) {
             e.printStackTrace();
+            return;
         }
-        Log.d(TAG, String.format("ServiceWorker Sent %s command", msgType.toString()));
+        Log.d(TAG, String.format("ServiceWorker Sent %s command", type.toString()));
     }
-
 
 }
