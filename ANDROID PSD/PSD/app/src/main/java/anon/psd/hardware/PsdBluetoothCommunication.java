@@ -28,6 +28,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     IBtObserver listener;
 
 
+
     public PsdBluetoothCommunication()
     {
         btAdapter = BluetoothAdapter.getDefaultAdapter();

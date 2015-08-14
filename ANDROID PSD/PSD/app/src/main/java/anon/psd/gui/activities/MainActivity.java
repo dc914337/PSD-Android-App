@@ -131,13 +131,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-       
         serviceWorker.connectPsd();
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-
     }
 
     /**
