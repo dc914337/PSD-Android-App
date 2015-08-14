@@ -12,7 +12,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -25,6 +24,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".gui.activities.MainActivity"/>
         </activity>
+
+        <activity
+            android:name=".gui.activities.PairedPSDSelectorActivity"
+            android:label="Select your PSD from paired devices:"
+            android:theme="@android:style/Theme.Material.Dialog.NoActionBar"
+            android:parentActivityName=".gui.activities.SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".gui.activities.SettingsActivity"/>
+        </activity>
+
 
         <activity
             android:name=".gui.activities.PassActivity"
@@ -58,7 +68,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
 </manifest>

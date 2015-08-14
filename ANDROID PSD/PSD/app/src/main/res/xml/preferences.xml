@@ -27,4 +27,9 @@
         android:entries="@array/listPolicyNames"
         android:entryValues="@array/listPolicyValues"/>
 
+    <anon.psd.gui.preferences.BtDeviceSelectorPreference
+        android:title="Set PSD"
+        android:key="psd_mac"
+        android:defaultValue="No PSD selected"/>
+
 </PreferenceScreen>

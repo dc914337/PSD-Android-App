@@ -11,4 +11,9 @@
     <string name="prefs_file">anon.psd_preferences</string>
     <string name="enter_pass_label">Enter user password</string>
     <string name="notification_title">PSD</string>
+    <string name="empty_list">No paired devices..</string>
+    <string name="select_psd_lbl">Select PSD from paired devices:</string>
+    <string name="go_to_android_settings_to_pair">Pair some devices</string>
+    <string name="extras_return_name">SELECTED_NAME</string>
+    <string name="extras_return_mac">SELECTED_MAC</string>
 </resources>

@@ -101,7 +101,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onResume()
     {
         super.onResume();
-
         loadPasses();
     }
 

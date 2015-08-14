@@ -41,7 +41,7 @@ public class PathPreference extends Preference
     }
 
     /*
-    (i don't like android anymore. I thought how to call activity from preference for too long)
+    (I don't like android anymore. I thought how to call activity from preference for too long)
     * Okay! What happens here:
     * onClick -> calls SettingsActivity and SettingsActivity remembers THIS PathPreference
     * SettingsActivity opens aFileChooser(file dialog) and handles it's result
