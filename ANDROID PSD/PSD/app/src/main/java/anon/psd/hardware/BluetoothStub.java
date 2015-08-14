@@ -2,7 +2,7 @@ package anon.psd.hardware;
 
 import java.util.Random;
 
-import anon.psd.device.ConnectionStates;
+import anon.psd.device.ConnectionState;
 
 /**
  * Created by Dmitry on 03.08.2015.
@@ -41,9 +41,9 @@ public class BluetoothStub implements IBtObservable
     }
 
     @Override
-    public ConnectionStates getConnectionState()
+    public ConnectionState getConnectionState()
     {
-        return ConnectionStates.Connected;
+        return ConnectionState.Connected;
     }
 
     @Override

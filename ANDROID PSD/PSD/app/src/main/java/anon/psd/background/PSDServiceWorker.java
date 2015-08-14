@@ -11,7 +11,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import anon.psd.device.ConnectionStates;
+import anon.psd.device.ConnectionState;
 
 /**
  * Created by Dmitry on 01.08.2015.
@@ -31,7 +31,7 @@ public abstract class PSDServiceWorker
     private ServiceConnection mConnection;
 
 
-    public abstract void onStateChanged(ConnectionStates newState);
+    public abstract void onStateChanged(ConnectionState newState);
 
     public abstract void onReceivedMessage(byte[] message);
 
@@ -49,9 +49,9 @@ public abstract class PSDServiceWorker
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public ConnectionStates getConnectionState()
+    public ConnectionState getConnectionState()
     {
-        return ConnectionStates.Connected;
+        return ConnectionState.Connected;
     }
 
     public void connectPsd()

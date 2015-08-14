@@ -19,7 +19,7 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.PSDServiceWorker;
-import anon.psd.device.ConnectionStates;
+import anon.psd.device.ConnectionState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
         @Override
-        public void onStateChanged(ConnectionStates newState)
+        public void onStateChanged(ConnectionState newState)
         {
             Log.d(TAG, String.format("Activity State changed on %s", newState));
         }
