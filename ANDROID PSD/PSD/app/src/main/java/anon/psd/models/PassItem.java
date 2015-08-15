@@ -1,5 +1,9 @@
 package anon.psd.models;
 
+import java.io.UnsupportedEncodingException;
+
+import anon.psd.utils.ArraysUtils;
+
 /**
  * Created by Dmitry on 10.07.2015.
  */
@@ -16,4 +20,20 @@ public class PassItem
     public byte[] Pass;
     public String Description;
 
+
+    public byte[] getPasswordBytes()
+    {
+        if (EnterWithLogin) {
+            byte[] loginBytes = new byte[0];
+            try {
+                loginBytes = Login.getBytes("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return Pass;
+            }
+            return ArraysUtils.concatArrays(loginBytes, Pass);
+        } else {
+            return Pass;
+        }
+    }
 }

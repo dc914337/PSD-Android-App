@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import anon.psd.R;
+import anon.psd.crypto.KeyGenerator;
 import anon.psd.storage.PreferencesProvider;
 
 /**
@@ -28,7 +29,8 @@ public class EnterPassActivity extends Activity
 
     public void btnOnClick(View view)
     {
-        new PreferencesProvider(this).setUserPass(txtPass.getText().toString());
+        byte[] dbPass = KeyGenerator.getBasekeyFromUserkey(txtPass.getText().toString());
+        new PreferencesProvider(this).setDbPass(dbPass);
         finish();
     }
 

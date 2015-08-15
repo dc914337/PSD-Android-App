@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import anon.psd.device.ConnectionState;
+import anon.psd.models.DataBase;
 import anon.psd.models.PassItem;
 
 /**
@@ -36,13 +37,20 @@ public abstract class PSDServiceWorker
         this.ctx = context;
     }
 
-    public void connectService()
+    public void connectService(String dbPath,String dbPass,String psdMacAddress)
     {
         mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(ctx, PsdComService.class);
         //mServiceIntent.setData(Uri.parse("connect"));
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    public void initService(DataBase base, String macAddress)
+    {
+        ServiceInitObject initObj = new ServiceInitObject(base, macAddress);
+        sendInitDataToService(initObj);
     }
 
     public abstract void onStateChanged(ConnectionState newState);
@@ -123,18 +131,26 @@ public abstract class PSDServiceWorker
     private void sendCommandToService(MessageType msgType)
     {
         Message msg = Message.obtain(null, msgType.getInt());
-        sendMessage(msg, msgType);
+        sendMessage(msg);
+        Log.d(TAG, String.format("ServiceWorker Sent %s command", msgType.toString()));
     }
 
+    private void sendInitDataToService(ServiceInitObject initObj)
+    {
+        Message msg = Message.obtain(null, MessageType.Init.getInt(), initObj);
+        sendMessage(msg);
+        Log.d(TAG, "ServiceWorker Sent [ Init ] command");
+    }
 
     private void sendPassToService(PassItem pass)
     {
         Message msg = Message.obtain(null, MessageType.Password.getInt(), pass);
-        sendMessage(msg, MessageType.Password);
+        sendMessage(msg);
+        Log.d(TAG, "ServiceWorker Sent [ PASS ] command");
     }
 
 
-    private void sendMessage(Message msg, MessageType type)
+    private void sendMessage(Message msg)
     {
         if (!serviceBound) {
             Log.e(TAG, "ServiceWorker Service is not bound");
@@ -144,9 +160,8 @@ public abstract class PSDServiceWorker
             mService.send(msg);
         } catch (RemoteException e) {
             e.printStackTrace();
-            return;
         }
-        Log.d(TAG, String.format("ServiceWorker Sent %s command", type.toString()));
+
     }
 
 }

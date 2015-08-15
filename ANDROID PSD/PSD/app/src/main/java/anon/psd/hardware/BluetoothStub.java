@@ -2,8 +2,6 @@ package anon.psd.hardware;
 
 import java.util.Random;
 
-import anon.psd.device.ConnectionState;
-
 /**
  * Created by Dmitry on 03.08.2015.
  */
@@ -27,11 +25,10 @@ public class BluetoothStub implements IBtObservable
     }
 
     @Override
-    public boolean tryConnectDevice()
+    public void connectDevice(String mac)
     {
         randomSleep(1000, 1500);
         connected = trueRandom(80);
-        return connected;
     }
 
     @Override
@@ -41,10 +38,11 @@ public class BluetoothStub implements IBtObservable
     }
 
     @Override
-    public ConnectionState getConnectionState()
+    public void sendPasswordBytes(byte[] passBytes)
     {
-        return ConnectionState.Connected;
+        randomSleep(1000, 1500);
     }
+
 
     @Override
     public void registerObserver(IBtObserver newListener)

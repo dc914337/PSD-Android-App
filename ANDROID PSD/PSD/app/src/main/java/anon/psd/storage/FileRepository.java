@@ -36,6 +36,11 @@ public class FileRepository
         userPass = KeyGenerator.getBasekeyFromUserkey(pass);
     }
 
+    public void setDbPass(byte[] pass)
+    {
+        userPass = pass;
+    }
+
     public boolean rewrite()
     {
         throw new UnsupportedOperationException();//not implemented exception

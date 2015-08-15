@@ -10,8 +10,12 @@ import android.util.Log;
 
 import java.util.Date;
 
+import anon.psd.device.ConnectionState;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
+import anon.psd.hardware.PsdBluetoothCommunication;
+import anon.psd.models.DataBase;
+import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 
 /**
@@ -27,6 +31,9 @@ public class PsdComService extends IntentService implements IBtObserver
     ServiceNotification notification;
     IBtObservable bt;
 
+    String PsdMacAddress;
+    DataBase Base;
+
 
     public PsdComService()
     {
@@ -39,6 +46,8 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         super.onCreate();
         Log.d(TAG, "Service onCreate");
+        bt = new PsdBluetoothCommunication();
+        notification = new ServiceNotification(this);
     }
 
     @Override
@@ -81,7 +90,7 @@ public class PsdComService extends IntentService implements IBtObserver
     }
 
     @Override
-    public void onLowSignal()
+    public void onStateChanged(ConnectionState newState)
     {
 
     }
@@ -100,18 +109,53 @@ public class PsdComService extends IntentService implements IBtObserver
                 case ConnectService:
                     mClient = msg.replyTo;
                     break;
+                case Init:
+                    init((ServiceInitObject) msg.obj);
+                    break;
                 case Connect:
-
+                    connect();
                     break;
                 case Disconnect:
-
+                    disconnect();
                     break;
                 case Password:
-
+                    sendPassword((PassItem) msg.obj);
                     break;
                 default:
                     super.handleMessage(msg);
             }
         }
+    }
+
+    private void init(ServiceInitObject initObject)
+    {
+        PsdMacAddress = initObject.PSDMacAddress;
+        this.Base = initObject.Base;
+    }
+
+    private void connect()
+    {
+        if (bt == null)
+            return;
+
+        bt.enableBluetooth();
+        bt.registerObserver(this);
+        bt.connectDevice(PsdMacAddress);
+    }
+
+    private void disconnect()
+    {
+        if (bt == null)
+            return;
+        bt.disconnectDevice();
+        bt.disableBluetooth();
+        bt.disconnectDevice();
+    }
+
+    private void sendPassword(PassItem pass)
+    {
+        if (bt == null)
+            return;
+        bt.sendPasswordBytes(pass.getPasswordBytes());
     }
 }

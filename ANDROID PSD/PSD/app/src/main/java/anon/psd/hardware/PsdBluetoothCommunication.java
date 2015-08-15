@@ -23,10 +23,9 @@ public class PsdBluetoothCommunication implements IBtObservable
     OutputStream outStream = null;
     InputStream inputStream = null;
     IBluetoothLowLevelProtocol lowLevelProtocol = new BluetoothLowLevelProtocolStub();
-    ConnectionState conState = ConnectionState.Disconnected;
+    ConnectionState connectionState = ConnectionState.Disconnected;
 
     IBtObserver listener;
-
 
 
     public PsdBluetoothCommunication()
@@ -45,13 +44,16 @@ public class PsdBluetoothCommunication implements IBtObservable
         btAdapter.disable();
     }
 
-    @Override
-    public boolean tryConnectDevice()
+    public void setConnectionState(ConnectionState newConnectionState)
     {
-        return false;
+        if (newConnectionState != connectionState) {
+            listener.onStateChanged(newConnectionState); //send that state changed
+        }
+        connectionState = newConnectionState;
     }
 
-    public boolean tryConnectDevice(String mac)
+    @Override
+    public void connectDevice(String mac)
     {
         //if bt not enabled - wait
         waitBtToEnable();
@@ -62,7 +64,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
 
         btAdapter.cancelDiscovery();//just in case cuz discovery is resource intensive
@@ -76,7 +78,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             } catch (IOException e2) {
                 e.printStackTrace();
             }
-            return false;
+            return;
         }
 
         //getting output stream
@@ -85,7 +87,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             inputStream = btSocket.getInputStream();
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
 
 
@@ -93,24 +95,53 @@ public class PsdBluetoothCommunication implements IBtObservable
             outStream.write(lowLevelProtocol.prepareConnectionMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
-        conState = ConnectionState.Connected;
+        setConnectionState(ConnectionState.Connected);
         beginListenForData();
-        return true;
+
     }
 
 
-    public boolean sendData(byte[] message)
+    @Override
+    public void registerObserver(IBtObserver listener)
+    {
+        this.listener = listener;
+    }
+
+    @Override
+    public void removeObserver()
+    {
+        listener = null;
+    }
+
+    public void disconnectDevice()
+    {
+        try {
+            outStream.write(lowLevelProtocol.prepareDisconnectMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        btSocket = null;
+        setConnectionState(ConnectionState.Disconnected);
+    }
+
+    @Override
+    public void sendPasswordBytes(byte[] passBytes)
+    {
+        sendBytes(passBytes);
+    }
+
+    private boolean sendBytes(byte[] message)
     {
         try {
             outStream.write(lowLevelProtocol.prepareSendMessage(message));
         } catch (IOException e) {
-            conState = ConnectionState.Disconnected;
+            setConnectionState(ConnectionState.Disconnected);
             e.printStackTrace();
             return false;
         }
-        return false;
+        return true;
     }
 
 
@@ -128,7 +159,7 @@ public class PsdBluetoothCommunication implements IBtObservable
                         dataAvailable = inputStream.available() > 0;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        conState = ConnectionState.Disconnected;
+                        setConnectionState(ConnectionState.Disconnected);
                         stopWorker = true;
                     }
 
@@ -156,35 +187,6 @@ public class PsdBluetoothCommunication implements IBtObservable
                 e.printStackTrace();
             }
         }
-    }
-
-    public void disconnectDevice()
-    {
-        try {
-            outStream.write(lowLevelProtocol.prepareDisconnectMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        btSocket = null;
-        conState = ConnectionState.Disconnected;
-
-    }
-
-    public ConnectionState getConnectionState()
-    {
-        return conState;
-    }
-
-    @Override
-    public void registerObserver(IBtObserver listener)
-    {
-        this.listener = listener;
-    }
-
-    @Override
-    public void removeObserver()
-    {
-        listener = null;
     }
 
 }

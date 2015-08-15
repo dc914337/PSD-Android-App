@@ -19,6 +19,7 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.PSDServiceWorker;
+import anon.psd.crypto.KeyGenerator;
 import anon.psd.device.ConnectionState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         @Override
         public void onReceivedResult(boolean res)
         {
-            Log.d(TAG, String.format("Activity Received resilt %s", res));
+            Log.d(TAG, String.format("Activity Received result %s", res));
         }
 
     }
@@ -77,10 +78,22 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         serviceWorker = new MainPSDServiceWorker(this);
-        serviceWorker.connectService();
-
         initVariables();
-        loadPasses();
+        tryLoadPasses();
+        connectAndInitService();
+    }
+
+    private void testCase()
+    {
+        byte[] key = KeyGenerator.getBasekeyFromUserkey("root");
+        key = KeyGenerator.getBasekeyFromUserkey("root");
+    }
+
+
+    private void connectAndInitService()
+    {
+        PreferencesProvider prefs = new PreferencesProvider(this);
+        //serviceWorker.connectService(prefs.getDbPath(), prefs.getUserPass(), prefs.);
     }
 
     private void initVariables()
@@ -102,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onResume()
     {
         super.onResume();
-        loadPasses();
+        tryLoadPasses();
     }
 
     @Override
@@ -191,7 +204,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return true;
     }
 
-    private void loadPasses()
+    private boolean tryLoadPasses()
     {
         PreferencesProvider prefs = new PreferencesProvider(this);
 
@@ -206,14 +219,14 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             //refresh existing prettyPasses
             adapter.notifyDataSetChanged();
             saveChangedAppearances();
-            return;
+            return false;
         }
         //check or set pass
-        String userPass = prefs.getUserPass();
-        if (userPass == null) {
+        byte[] dbPass = prefs.getDbPass();
+        if (dbPass == null || dbPass.length <= 0) {
             Alerts.showMessage(getApplicationContext(), "Set user pass");
             openEnterUserPassword();
-            return;
+            return false;
         }
 
         //check or set path
@@ -221,25 +234,26 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         if (dbPath == null) {
             Alerts.showMessage(getApplicationContext(), "Set database path");
             openSettings();
-            return;
+            return false;
         }
 
         //try load file
         if (!connectBase(dbPath)) {
             Alerts.showMessage(getApplicationContext(), "Can't access file or file doesn't exist");
             openSettings();
-            return;
+            return false;
         }
 
         //try load base
-        if (!loadBase(userPass)) {
+        if (!loadBase(dbPass)) {
             Alerts.showMessage(getApplicationContext(), "Password is incorrect or base is broken");
-            prefs.setUserPass(null);//clear pass
+            prefs.setDbPass(null);//clear pass
             openEnterUserPassword();
-            return;
+            return false;
         }
         //load passes from base
         passes = loadAndWrapPasses(baseRepo.getPassesBase().Passwords);
+        return true;
     }
 
     private AppearancesList loadAndWrapPasses(PasswordList passwords)
@@ -275,12 +289,12 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         return baseRepo.checkConnection();
     }
 
-    private boolean loadBase(String userPass)
+    private boolean loadBase(byte[] dbPass)
     {
         //check if user pass set
-        if (userPass == null)
+        if (dbPass == null)
             return false;
-        baseRepo.setUserPass(userPass);
+        baseRepo.setDbPass(dbPass);
         return baseRepo.update();
     }
 

@@ -3,13 +3,16 @@ package anon.psd.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 
 /**
  * Created by Dmitry on 27.07.2015.
  */
 public class PreferencesProvider
 {
-    private final String USER_PASSWORD_KEY = "user_password";
+    private final String USER_PASSWORD_KEY = "db_password";
+    private final String DB_PATH = "db_path";
+
     SharedPreferences sharedPrefs;
 
     public PreferencesProvider(Context context)
@@ -17,23 +20,30 @@ public class PreferencesProvider
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-
-    public String getUserPass()
-    {
-        return sharedPrefs.getString(USER_PASSWORD_KEY, null);
-    }
-
-    public void setUserPass(String value)
+    public void setDbPass(byte[] value)
     {
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putString(USER_PASSWORD_KEY, value);
+        if (value == null) {
+            editor.putString(USER_PASSWORD_KEY, null);
+        }else {
+            editor.putString(USER_PASSWORD_KEY, Base64.encodeToString(value, Base64.DEFAULT));
+        }
         editor.commit();
+    }
+
+    public byte[] getDbPass()
+    {
+        String base64 = sharedPrefs.getString(USER_PASSWORD_KEY, null);
+        if (base64 == null)
+            return null;
+        return Base64.decode(base64, Base64.DEFAULT);
     }
 
 
     public String getDbPath()
     {
-        return sharedPrefs.getString("db_path", null);
+        return sharedPrefs.getString(DB_PATH, null);
     }
+
 
 }

@@ -6,6 +6,7 @@ package anon.psd.background;
 public enum MessageType
 {
     ConnectService,
+    Init,
     Connect,
     Disconnect,
     Password,
