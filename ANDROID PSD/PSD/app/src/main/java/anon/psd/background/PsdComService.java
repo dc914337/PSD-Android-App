@@ -109,9 +109,6 @@ public class PsdComService extends IntentService implements IBtObserver
                 case ConnectService:
                     mClient = msg.replyTo;
                     break;
-                case Init:
-                    init((ServiceInitObject) msg.obj);
-                    break;
                 case Connect:
                     connect();
                     break;
@@ -125,12 +122,6 @@ public class PsdComService extends IntentService implements IBtObserver
                     super.handleMessage(msg);
             }
         }
-    }
-
-    private void init(ServiceInitObject initObject)
-    {
-        PsdMacAddress = initObject.PSDMacAddress;
-        this.Base = initObject.Base;
     }
 
     private void connect()

@@ -12,6 +12,7 @@ public class PreferencesProvider
 {
     private final String USER_PASSWORD_KEY = "db_password";
     private final String DB_PATH = "db_path";
+    private final String PSD_MAC = "psd_mac";
 
     SharedPreferences sharedPrefs;
 
@@ -25,7 +26,7 @@ public class PreferencesProvider
         SharedPreferences.Editor editor = sharedPrefs.edit();
         if (value == null) {
             editor.putString(USER_PASSWORD_KEY, null);
-        }else {
+        } else {
             editor.putString(USER_PASSWORD_KEY, Base64.encodeToString(value, Base64.DEFAULT));
         }
         editor.commit();
@@ -46,4 +47,8 @@ public class PreferencesProvider
     }
 
 
+    public String getPsdMacAddress()
+    {
+        return sharedPrefs.getString(PSD_MAC, null);
+    }
 }

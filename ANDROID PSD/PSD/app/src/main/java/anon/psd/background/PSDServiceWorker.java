@@ -12,7 +12,6 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import anon.psd.device.ConnectionState;
-import anon.psd.models.DataBase;
 import anon.psd.models.PassItem;
 
 /**
@@ -37,20 +36,17 @@ public abstract class PSDServiceWorker
         this.ctx = context;
     }
 
-    public void connectService(String dbPath,String dbPass,String psdMacAddress)
+    public void connectService(String dbPath,byte[] dbPass,String psdMacAddress)
     {
         mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(ctx, PsdComService.class);
-        //mServiceIntent.setData(Uri.parse("connect"));
+
+        mServiceIntent.putExtra("DB_PATH",dbPath);
+        mServiceIntent.putExtra("DB_PASS",dbPass);
+        mServiceIntent.putExtra("PSD_MAC_ADDRESS",psdMacAddress);
+
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
-
-    }
-
-    public void initService(DataBase base, String macAddress)
-    {
-        ServiceInitObject initObj = new ServiceInitObject(base, macAddress);
-        sendInitDataToService(initObj);
     }
 
     public abstract void onStateChanged(ConnectionState newState);
@@ -133,13 +129,6 @@ public abstract class PSDServiceWorker
         Message msg = Message.obtain(null, msgType.getInt());
         sendMessage(msg);
         Log.d(TAG, String.format("ServiceWorker Sent %s command", msgType.toString()));
-    }
-
-    private void sendInitDataToService(ServiceInitObject initObj)
-    {
-        Message msg = Message.obtain(null, MessageType.Init.getInt(), initObj);
-        sendMessage(msg);
-        Log.d(TAG, "ServiceWorker Sent [ Init ] command");
     }
 
     private void sendPassToService(PassItem pass)

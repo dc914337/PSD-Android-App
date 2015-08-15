@@ -62,7 +62,7 @@
         <service
             android:name=".background.PsdComService"
             android:exported="false"
-            android:enabled="false"
+            android:enabled="true"
             />
 
     </application>

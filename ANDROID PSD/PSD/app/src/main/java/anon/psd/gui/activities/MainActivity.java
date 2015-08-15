@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private void connectAndInitService()
     {
         PreferencesProvider prefs = new PreferencesProvider(this);
-        //serviceWorker.connectService(prefs.getDbPath(), prefs.getUserPass(), prefs.);
+        serviceWorker.connectService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
     }
 
     private void initVariables()
