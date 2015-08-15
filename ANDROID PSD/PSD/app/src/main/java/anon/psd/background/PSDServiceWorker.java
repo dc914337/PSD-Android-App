@@ -124,7 +124,7 @@ public abstract class PSDServiceWorker
         Log.d(TAG, "ServiceWorker Sent messenger to service");
     }
 
-    private void sendCommandToService(MessageType msgType)
+    private void  sendCommandToService(MessageType msgType)
     {
         Message msg = Message.obtain(null, msgType.getInt());
         sendMessage(msg);
@@ -150,7 +150,6 @@ public abstract class PSDServiceWorker
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
     }
 
 }

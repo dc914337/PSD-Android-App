@@ -3,7 +3,6 @@ package anon.psd.storage;
 import java.io.File;
 
 import anon.psd.crypto.BaseCrypto;
-import anon.psd.crypto.KeyGenerator;
 import anon.psd.models.DataBase;
 import anon.psd.serializers.Serializer;
 
@@ -15,7 +14,7 @@ public class FileRepository
     private DataBase base;
 
     private String path;
-    private byte[] userPass;
+    private byte[] dbPass;
 
     private byte[] encryptedData;
 
@@ -31,14 +30,9 @@ public class FileRepository
         setBasePath(path);
     }
 
-    public void setUserPass(String pass)
-    {
-        userPass = KeyGenerator.getBasekeyFromUserkey(pass);
-    }
-
     public void setDbPass(byte[] pass)
     {
-        userPass = pass;
+        dbPass = pass;
     }
 
     public boolean rewrite()
@@ -67,7 +61,7 @@ public class FileRepository
         if (!loadData())
             return false;
 
-        byte[] decoded = new BaseCrypto(userPass).decryptAll(encryptedData);
+        byte[] decoded = new BaseCrypto(dbPass).decryptAll(encryptedData);
         if (decoded == null)
             return false;//invalid key or broken file
         String jsonData = new String(decoded);

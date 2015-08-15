@@ -62,8 +62,12 @@
         <service
             android:name=".background.PsdComService"
             android:exported="false"
-            android:enabled="true"
-            />
+            android:enabled="true">
+            <intent-filter>
+                <action
+                    android:name="anon.psd.background.PsdComService"/>
+            </intent-filter>
+        </service>
 
     </application>
 

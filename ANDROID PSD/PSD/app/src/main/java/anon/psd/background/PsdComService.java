@@ -2,6 +2,7 @@ package anon.psd.background;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -14,9 +15,9 @@ import anon.psd.device.ConnectionState;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
 import anon.psd.hardware.PsdBluetoothCommunication;
-import anon.psd.models.DataBase;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
+import anon.psd.storage.FileRepository;
 
 /**
  * Created by Dmitry on 01.08.2015.
@@ -32,7 +33,7 @@ public class PsdComService extends IntentService implements IBtObserver
     IBtObservable bt;
 
     String PsdMacAddress;
-    DataBase Base;
+    FileRepository baseRepo;
 
 
     public PsdComService()
@@ -50,11 +51,23 @@ public class PsdComService extends IntentService implements IBtObserver
         notification = new ServiceNotification(this);
     }
 
+    private void initService(String dbPath, byte[] dbPass, String psdMacAddress)
+    {
+        baseRepo = new FileRepository(dbPath);
+        baseRepo.setDbPass(dbPass);
+        baseRepo.update();
+        PsdMacAddress = psdMacAddress;
+    }
+
+
     @Override
     protected void onHandleIntent(Intent workIntent)
     {
         Log.d(TAG, "Service onHandleIntent " + created.toString());
+        Bundle extras = workIntent.getExtras();
+        initService(extras.getString("DB_PATH"), extras.getByteArray("DB_PASS"), extras.getString("PSD_MAC_ADDRESS"));
     }
+
 
     @Override
     public IBinder onBind(Intent intent)
@@ -92,7 +105,7 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     public void onStateChanged(ConnectionState newState)
     {
-
+        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
     }
 
 
