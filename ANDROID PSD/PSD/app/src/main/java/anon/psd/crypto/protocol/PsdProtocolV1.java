@@ -34,8 +34,8 @@ public class PsdProtocolV1 implements IProtocol
     public byte[] generateNextMessage(int index, byte[] passPart1)
     {
         //generate new keys
-        KeyGenerator.generateRandomBtKey();
-        KeyGenerator.generateRandomHBtKey();
+        nextBtKey = KeyGenerator.generateRandomBtKey();
+        nextHBtKey = KeyGenerator.generateRandomHBtKey();
 
         //do crypto
         byte[] tempMessagePayload = generateTempMessagePayload(index, passPart1, nextBtKey, nextHBtKey);

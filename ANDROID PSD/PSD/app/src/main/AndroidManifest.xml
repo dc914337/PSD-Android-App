@@ -62,7 +62,6 @@
         <service
             android:name=".background.PsdComService"
             android:exported="false"
-            android:process=":remote"
             android:enabled="true">
             <intent-filter>
                 <action

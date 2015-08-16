@@ -28,8 +28,10 @@ public class ProtocolCrypto
 
     public ProtocolCrypto(byte[] btKey, byte[] hBtKey)
     {
-        this.btKey = btKey;
-        this.hBtKey = hBtKey;
+
+        //todo remove debug code
+        this.btKey = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //btKey;
+        this.hBtKey = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //hBtKey;
         this.IV = KeyGenerator.generateIV();
     }
 
@@ -41,7 +43,6 @@ public class ProtocolCrypto
         //count HMAC
         byte[] hmac = countTempMessageHMAC(encryptedTempMessage);
         //concat
-        byte[] resMessage = new byte[encryptedTempMessage.length + hmac.length + IV.length];
         return concatArrays(IV, encryptedTempMessage, hmac);
     }
 

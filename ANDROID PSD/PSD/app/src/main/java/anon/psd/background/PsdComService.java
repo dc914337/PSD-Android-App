@@ -63,6 +63,7 @@ public class PsdComService extends IntentService implements IBtObserver
         baseRepo.setDbPass(dbPass);
         baseRepo.update();
         PsdMacAddress = psdMacAddress;
+        protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().BTKey, baseRepo.getPassesBase().HBTKey);
     }
 
 
@@ -143,7 +144,7 @@ public class PsdComService extends IntentService implements IBtObserver
                     break;
                 case PasswordId:
                     Bundle bundle = (Bundle) msg.obj;
-                    sendPassword(bundle.getInt("pass_item_id"));
+                    sendPassword(bundle.getShort("pass_item_id"));
                     break;
                 default:
                     super.handleMessage(msg);
@@ -169,15 +170,13 @@ public class PsdComService extends IntentService implements IBtObserver
         bt.removeObserver();
     }
 
-    private void sendPassword(int passId)
+    private void sendPassword(short passId)
     {
         if (bt == null)
             return;
         PassItem passItem = baseRepo.getPassesBase().Passwords.get(passId);
-
         //do encoding shit
-
-
-        bt.sendPasswordBytes(passItem.getPasswordBytes());
+        byte[] encryptedMessage = protocolV1.generateNextMessage(passId, passItem.getPasswordBytes());
+        bt.sendPasswordBytes(encryptedMessage);
     }
 }
