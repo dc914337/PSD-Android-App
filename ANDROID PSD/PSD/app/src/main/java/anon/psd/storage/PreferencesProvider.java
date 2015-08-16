@@ -10,9 +10,9 @@ import android.util.Base64;
  */
 public class PreferencesProvider
 {
-    private final String USER_PASSWORD_KEY = "db_password";
-    private final String DB_PATH = "db_path";
-    private final String PSD_MAC = "psd_mac";
+    private static  final String USER_PASSWORD_KEY = "db_password";
+    private static final String DB_PATH = "db_path";
+    private static final String PSD_MAC = "psd_mac";
 
     SharedPreferences sharedPrefs;
 

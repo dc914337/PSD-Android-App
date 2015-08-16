@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     PSDServiceWorker serviceWorker;
 
-    boolean PsdConnected = false;
+    boolean psdConnected = false;
 
 
     private class MainPSDServiceWorker extends PSDServiceWorker
@@ -67,11 +67,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             switch (newState) {
                 case Connected:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-                    PsdConnected = true;
+                    psdConnected = true;
                     break;
                 case Disconnected:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-                    PsdConnected = false;
+                    psdConnected = false;
                     break;
             }
         }
@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (!PsdConnected)
+        if (!psdConnected)
             serviceWorker.connectPsd();
         else
             serviceWorker.disconnectPsd();
@@ -266,7 +266,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             return false;
         }
         //load passes from base
-        passes = loadAndWrapPasses(baseRepo.getPassesBase().Passwords);
+        passes = loadAndWrapPasses(baseRepo.getPassesBase().passwords);
         return true;
     }
 

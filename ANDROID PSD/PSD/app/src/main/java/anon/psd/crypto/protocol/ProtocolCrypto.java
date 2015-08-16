@@ -24,13 +24,13 @@ public class ProtocolCrypto
 {
     byte[] btKey;
     byte[] hBtKey;
-    byte[] IV;
+    byte[] iv;
 
     public ProtocolCrypto(byte[] btKey, byte[] hBtKey)
     {
         this.btKey = btKey;
         this.hBtKey = hBtKey;
-        this.IV = KeyGenerator.generateIV();
+        this.iv = KeyGenerator.generateIV();
     }
 
 
@@ -41,7 +41,7 @@ public class ProtocolCrypto
         //count HMAC
         byte[] hmac = countTempMessageHMAC(encryptedTempMessage);
         //concat
-        return concatArrays(IV, encryptedTempMessage, hmac);
+        return concatArrays(iv, encryptedTempMessage, hmac);
     }
 
 
@@ -57,7 +57,7 @@ public class ProtocolCrypto
             return null;
         }
         try {
-            encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(IV));
+            encryptCipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(iv));
         } catch (InvalidAlgorithmParameterException e) {
             e.printStackTrace();
         }

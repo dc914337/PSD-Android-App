@@ -20,6 +20,15 @@ public class ArraysUtils
         return result;
     }
 
+    public static String getHexArray(byte[] arr)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (byte c : arr) {
+            sb.append(String.format("%02X ", c));
+        }
+        return sb.toString();
+    }
+
     private static int countArraysLength(byte[]... arrays)
     {
         int resLength = 0;

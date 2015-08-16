@@ -1,5 +1,7 @@
 package anon.psd.crypto.protocol;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.security.InvalidKeyException;
 
@@ -17,11 +19,10 @@ public class PsdProtocolV1 implements IProtocol
     private byte[] btKey;
     private byte[] hBtKey;
 
-    private byte[] prevBtKey;
-    private byte[] prevHBtKey;
-
     private byte[] nextBtKey;
     private byte[] nextHBtKey;
+
+   public static String TAG = "protocol_debug";
 
     public PsdProtocolV1(byte[] currBtKey, byte[] currHBtKey)
     {
@@ -36,6 +37,13 @@ public class PsdProtocolV1 implements IProtocol
         //generate new keys
         nextBtKey = KeyGenerator.generateRandomBtKey();
         nextHBtKey = KeyGenerator.generateRandomHBtKey();
+
+        Log.i(TAG, String.format("HBTKey: %s", ArraysUtils.getHexArray(hBtKey)));
+        Log.i(TAG, String.format("BTKey: %s", ArraysUtils.getHexArray(btKey)));
+        Log.i(TAG, "-------------------");
+        Log.i(TAG, String.format("Next HBTKey: %s", ArraysUtils.getHexArray(nextHBtKey)));
+        Log.i(TAG, String.format("Next BTKey: %s", ArraysUtils.getHexArray(nextBtKey)));
+        Log.i(TAG, "-----------------------------------------------------");
 
         //do crypto
         byte[] tempMessagePayload = generateTempMessagePayload(index, passPart1, nextBtKey, nextHBtKey);
@@ -83,13 +91,11 @@ public class PsdProtocolV1 implements IProtocol
 
     public void rollKeys()
     {
-        //remember keys to check response from psd later or recover if error
-        //also switch current keys on new ones
-        prevBtKey = btKey;
-        prevHBtKey = hBtKey;
-
         btKey = nextBtKey;
         hBtKey = nextHBtKey;
+
+        Log.i(TAG, "\t\t\t\t\t\t [ Keys roll ]");
+
     }
 
     @Override

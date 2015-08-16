@@ -38,7 +38,7 @@ public class PsdComService extends IntentService implements IBtObserver
     PsdProtocolV1 protocolV1;
 
 
-    String PsdMacAddress;
+    String psdMacAddress;
     FileRepository baseRepo;
 
 
@@ -62,8 +62,8 @@ public class PsdComService extends IntentService implements IBtObserver
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         baseRepo.update();
-        PsdMacAddress = psdMacAddress;
-        protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().BTKey, baseRepo.getPassesBase().HBTKey);
+        this.psdMacAddress = psdMacAddress;
+        protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
     }
 
 
@@ -102,11 +102,13 @@ public class PsdComService extends IntentService implements IBtObserver
     }
 
 
+
     //On receive message from PSD through bluetooth
     @Override
     public void onReceive(LowLevelMessage message)
     {
         Log.i(TAG, message.type.toString());
+        protocolV1.checkResponse(message.message);
     }
 
     @Override
@@ -158,7 +160,7 @@ public class PsdComService extends IntentService implements IBtObserver
             return;
         bt.enableBluetooth();
         bt.registerObserver(this);
-        bt.connectDevice(PsdMacAddress);
+        bt.connectDevice(psdMacAddress);
     }
 
     private void disconnect()
@@ -174,7 +176,7 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         if (bt == null)
             return;
-        PassItem passItem = baseRepo.getPassesBase().Passwords.get(passId);
+        PassItem passItem = baseRepo.getPassesBase().passwords.get(passId);
         //do encoding shit
         byte[] encryptedMessage = protocolV1.generateNextMessage(passId, passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);

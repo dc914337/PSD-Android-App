@@ -10,7 +10,6 @@ import anon.psd.device.ConnectionState;
 public class BluetoothStub implements IBtObservable
 {
     Random rnd = new Random();
-    boolean connected = false;
     IBtObserver listener;
     ConnectionState connectionState = ConnectionState.Disconnected;
 

@@ -11,8 +11,6 @@ import anon.psd.gui.activities.SettingsActivity;
  */
 public class BtDeviceSelectorPreference extends Preference
 {
-    private final String TAG = "BtDeviceSelectorPreference";
-    private String Mac;
     Context context;
 
     public BtDeviceSelectorPreference(Context context, AttributeSet attrs)

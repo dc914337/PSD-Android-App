@@ -21,7 +21,7 @@ public class BaseCrypto
 {
     public static final String TAG = "BaseCrypto";
 
-    public static final int IVLength = 16;
+    public static final int ivLength = 16;
     private byte[] key;
 
     public BaseCrypto(byte[] key)
@@ -45,19 +45,19 @@ public class BaseCrypto
 
     private static byte[] extractEncryptedData(byte[] data)
     {
-        int encryptedDataLength = data.length - IVLength;
+        int encryptedDataLength = data.length - ivLength;
         byte[] encryptedData = new byte[encryptedDataLength];
-        System.arraycopy(data, IVLength, encryptedData, 0, encryptedDataLength);
+        System.arraycopy(data, ivLength, encryptedData, 0, encryptedDataLength);
         return encryptedData;
     }
 
 
     private static byte[] extractIV(byte[] data)
     {
-        if (data.length < IVLength)
+        if (data.length < ivLength)
             return null;
-        byte[] IV = new byte[IVLength];
-        System.arraycopy(data, 0, IV, 0, IVLength);
+        byte[] IV = new byte[ivLength];
+        System.arraycopy(data, 0, IV, 0, ivLength);
         return IV;
     }
 

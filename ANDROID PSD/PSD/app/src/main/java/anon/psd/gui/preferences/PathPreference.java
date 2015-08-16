@@ -10,9 +10,7 @@ import anon.psd.gui.activities.SettingsActivity;
 
 public class PathPreference extends Preference
 {
-    private final String TAG = "PathPreference";
     Context context;
-
 
     public PathPreference(Context context, AttributeSet attrs)
     {

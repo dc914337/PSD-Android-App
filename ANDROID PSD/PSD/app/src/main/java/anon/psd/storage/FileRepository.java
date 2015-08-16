@@ -43,7 +43,7 @@ public class FileRepository
 
     public boolean isLoaded()
     {
-        return base != null && base.BTKey != null;
+        return base != null && base.btKey != null;
     }
 
     public DataBase getPassesBase()
