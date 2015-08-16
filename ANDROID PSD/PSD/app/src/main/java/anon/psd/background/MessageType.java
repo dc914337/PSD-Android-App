@@ -11,7 +11,7 @@ public enum MessageType
     Disconnect,
     Password,
     Result,
-    ConnectionState;
+    ConnectionStateChanged;
 
     public static MessageType fromInteger(int x)
     {

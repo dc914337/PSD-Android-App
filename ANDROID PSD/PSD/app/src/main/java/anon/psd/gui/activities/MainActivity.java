@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +20,6 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.PSDServiceWorker;
-import anon.psd.crypto.KeyGenerator;
 import anon.psd.device.ConnectionState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
@@ -47,6 +47,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     PSDServiceWorker serviceWorker;
 
+    boolean PsdConnected = false;
+
+
     private class MainPSDServiceWorker extends PSDServiceWorker
     {
         public MainPSDServiceWorker(Context context)
@@ -54,10 +57,23 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             super(context);
         }
 
+
         @Override
         public void onStateChanged(ConnectionState newState)
         {
+            ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
             Log.d(TAG, String.format("Activity State changed on %s", newState));
+
+            switch (newState) {
+                case Connected:
+                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
+                    PsdConnected = true;
+                    break;
+                case Disconnected:
+                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+                    PsdConnected = false;
+                    break;
+            }
         }
 
         @Override
@@ -83,12 +99,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         connectAndInitService();
     }
 
-    private void testCase()
-    {
-        byte[] key = KeyGenerator.getBasekeyFromUserkey("root");
-        key = KeyGenerator.getBasekeyFromUserkey("root");
-    }
-
 
     private void connectAndInitService()
     {
@@ -105,6 +115,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         lvPasses = (DynamicListView) findViewById(R.id.lvPassesList);
         lvPasses.setOnItemClickListener(this);
         lvPasses.setOnItemLongClickListener(this);
+
 
         //set default pic for passes
         PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
@@ -145,7 +156,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        serviceWorker.connectPsd();
+        if (!PsdConnected)
+            serviceWorker.connectPsd();
+        else
+            serviceWorker.disconnectPsd();
     }
 
     /**

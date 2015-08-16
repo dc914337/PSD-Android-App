@@ -7,14 +7,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 import java.util.Date;
 
 import anon.psd.device.ConnectionState;
+import anon.psd.hardware.BluetoothStub;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
-import anon.psd.hardware.PsdBluetoothCommunication;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.storage.FileRepository;
@@ -29,6 +30,7 @@ public class PsdComService extends IntentService implements IBtObserver
     public static final String SERVICE_NAME = "PsdComService";
     private final String TAG = "PsdComService";
     final Messenger mMessenger = new Messenger(new ServiceHandler());
+    Messenger mClient;
     ServiceNotification notification;
     IBtObservable bt;
 
@@ -47,7 +49,7 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         super.onCreate();
         Log.d(TAG, "Service onCreate");
-        bt = new PsdBluetoothCommunication();
+        bt = new BluetoothStub();
         notification = new ServiceNotification(this);
     }
 
@@ -105,14 +107,21 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     public void onStateChanged(ConnectionState newState)
     {
+        Bundle bundle = new Bundle();
+        bundle.putInt("connection_state", newState.getInt());
+
+        Message msg = Message.obtain(null, MessageType.ConnectionStateChanged.getInt(), bundle);
+        try {
+            mClient.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
     }
 
 
     class ServiceHandler extends Handler
     {
-        Messenger mClient;
-
         @Override
         public void handleMessage(Message msg)
         {
@@ -160,6 +169,7 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         if (bt == null)
             return;
+        //IProtocol protocol =new PsdProtocolV1();
         bt.sendPasswordBytes(pass.getPasswordBytes());
     }
 }

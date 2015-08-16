@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -36,22 +37,19 @@ public abstract class PSDServiceWorker
         this.ctx = context;
     }
 
-    public void connectService(String dbPath,byte[] dbPass,String psdMacAddress)
+    public void connectService(String dbPath, byte[] dbPass, String psdMacAddress)
     {
         mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(ctx, PsdComService.class);
 
-        mServiceIntent.putExtra("DB_PATH",dbPath);
-        mServiceIntent.putExtra("DB_PASS",dbPass);
-        mServiceIntent.putExtra("PSD_MAC_ADDRESS",psdMacAddress);
+        mServiceIntent.putExtra("DB_PATH", dbPath);
+        mServiceIntent.putExtra("DB_PASS", dbPass);
+        mServiceIntent.putExtra("PSD_MAC_ADDRESS", psdMacAddress);
 
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public abstract void onStateChanged(ConnectionState newState);
-
-    public abstract void onReceivedResult(boolean res);
 
     public void connectPsd()
     {
@@ -78,9 +76,11 @@ public abstract class PSDServiceWorker
         public void handleMessage(Message msg)
         {
             MessageType type = MessageType.fromInteger(msg.what);
-            switch (type) {
-                case ConnectionState:
+            ConnectionState state = ConnectionState.fromInteger((int) ((Bundle) msg.obj).get("connection_state"));
 
+            switch (type) {
+                case ConnectionStateChanged:
+                    onStateChanged(state);
                     break;
                 default:
                     super.handleMessage(msg);
@@ -124,7 +124,7 @@ public abstract class PSDServiceWorker
         Log.d(TAG, "ServiceWorker Sent messenger to service");
     }
 
-    private void  sendCommandToService(MessageType msgType)
+    private void sendCommandToService(MessageType msgType)
     {
         Message msg = Message.obtain(null, msgType.getInt());
         sendMessage(msg);
@@ -151,5 +151,10 @@ public abstract class PSDServiceWorker
             e.printStackTrace();
         }
     }
+
+
+    public abstract void onStateChanged(ConnectionState newState);
+
+    public abstract void onReceivedResult(boolean res);
 
 }

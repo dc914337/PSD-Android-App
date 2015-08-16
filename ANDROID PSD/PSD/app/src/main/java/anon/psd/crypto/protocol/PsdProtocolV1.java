@@ -56,25 +56,7 @@ public class PsdProtocolV1 implements IProtocol
     private byte[] generateTempMessagePayload(int index, byte[] passPart1, byte[] nextBtKey, byte[] nextHBtKey)
     {
         byte[] indexBytes = getIndexBytes(index);
-        byte[] tempMessage = concatArrays(new byte[][]{indexBytes, passPart1, nextBtKey, nextHBtKey});
-        return tempMessage;
-    }
-
-    private byte[] concatArrays(byte[][] arrays)
-    {
-        int totalLength = 0;
-        for (byte[] arr : arrays) {
-            totalLength += arr.length;
-        }
-
-        byte[] resArr = new byte[totalLength];
-
-        int offset = 0;
-        for (byte[] arr : arrays) {
-            System.arraycopy(arr, 0, resArr, offset, arr.length);
-            offset += arr.length;
-        }
-        return resArr;
+        return ArraysUtils.concatArrays(indexBytes, passPart1, nextBtKey, nextHBtKey);
     }
 
     private byte[] getIndexBytes(int index)
