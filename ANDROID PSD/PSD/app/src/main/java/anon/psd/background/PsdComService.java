@@ -12,9 +12,11 @@ import android.util.Log;
 
 import java.util.Date;
 
+import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.ConnectionState;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
+import anon.psd.hardware.LowLevelMessage;
 import anon.psd.hardware.PsdBluetoothCommunication;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
@@ -33,6 +35,8 @@ public class PsdComService extends IntentService implements IBtObserver
     Messenger mClient;
     ServiceNotification notification;
     IBtObservable bt;
+    PsdProtocolV1 protocolV1;
+
 
     String PsdMacAddress;
     FileRepository baseRepo;
@@ -99,9 +103,9 @@ public class PsdComService extends IntentService implements IBtObserver
 
     //On receive message from PSD through bluetooth
     @Override
-    public void onReceive(byte[] message)
+    public void onReceive(LowLevelMessage message)
     {
-
+        Log.i(TAG, message.type.toString());
     }
 
     @Override
@@ -170,8 +174,8 @@ public class PsdComService extends IntentService implements IBtObserver
         if (bt == null)
             return;
         PassItem passItem = baseRepo.getPassesBase().Passwords.get(passId);
-        //do encoding shit
 
+        //do encoding shit
 
 
         bt.sendPasswordBytes(passItem.getPasswordBytes());

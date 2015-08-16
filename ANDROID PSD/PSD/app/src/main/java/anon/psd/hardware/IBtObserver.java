@@ -7,6 +7,7 @@ import anon.psd.device.ConnectionState;
  */
 public interface IBtObserver
 {
-    void onReceive(byte[] message);
+    void onReceive(LowLevelMessage message);
+
     void onStateChanged(ConnectionState newState);
 }

@@ -50,6 +50,16 @@ public class PsdBluetoothCommunication implements IBtObservable
         if (newConnectionState != connectionState) {
             listener.onStateChanged(newConnectionState); //send that state changed
         }
+
+        switch (newConnectionState) {
+            case Connected:
+                beginListenForData();
+                break;
+            case Disconnected:
+
+                break;
+        }
+
         connectionState = newConnectionState;
     }
 
@@ -98,9 +108,6 @@ public class PsdBluetoothCommunication implements IBtObservable
             e.printStackTrace();
             return;
         }
-        setConnectionState(ConnectionState.Connected);
-        beginListenForData();
-
     }
 
 
@@ -145,10 +152,11 @@ public class PsdBluetoothCommunication implements IBtObservable
         return true;
     }
 
+    Thread workerThread;
 
     private void beginListenForData()
     {
-        Thread workerThread = new Thread(new Runnable()
+        workerThread = new Thread(new Runnable()
         {
             public void run()
             {
@@ -166,9 +174,17 @@ public class PsdBluetoothCommunication implements IBtObservable
 
                     //start receiving if available
                     if (dataAvailable) {
-                        byte[] received = lowLevelProtocol.receiveMessage(inputStream);
-                        if (received != null)
-                            listener.onReceive(received);
+                        LowLevelMessage received = lowLevelProtocol.receiveMessage(inputStream);
+
+                        switch (received.type) {
+                            case Pong:
+                                setConnectionState(ConnectionState.Connected);
+                                break;
+                            case Response:
+                                if (received.message != null)
+                                    listener.onReceive(received);
+                                break;
+                        }
                     }
 
                 }
@@ -176,6 +192,11 @@ public class PsdBluetoothCommunication implements IBtObservable
         });
 
         workerThread.start();
+    }
+
+    private void stopListenForData()
+    {
+        workerThread.interrupt();
     }
 
 

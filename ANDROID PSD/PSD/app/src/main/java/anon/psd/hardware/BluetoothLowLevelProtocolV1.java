@@ -31,7 +31,27 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     }
 
     @Override
-    public byte[] receiveMessage(InputStream stream)
+    public LowLevelMessage receiveMessage(InputStream stream)
+    {
+        byte[] typeBytes = new byte[1];
+        try {
+            stream.read(typeBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LowLevelMsgType type = LowLevelMsgType.fromByte(typeBytes[0]);
+        switch (type) {
+            case Pong:
+                return new LowLevelMessage(LowLevelMsgType.Pong, null);
+            case Response:
+                return new LowLevelMessage(LowLevelMsgType.Response, receiveResponse(stream));
+            default:
+                return null;
+        }
+    }
+
+
+    private byte[] receiveResponse(InputStream stream)
     {
         byte[] buffer = new byte[32];
         try {
@@ -42,4 +62,5 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
         }
         return buffer;
     }
+
 }

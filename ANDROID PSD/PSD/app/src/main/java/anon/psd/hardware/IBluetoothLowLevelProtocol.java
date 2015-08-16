@@ -13,5 +13,5 @@ public interface IBluetoothLowLevelProtocol
 
     public byte[] prepareDisconnectMessage();
 
-    public byte[] receiveMessage(InputStream stream);
+    public LowLevelMessage receiveMessage(InputStream stream);
 }
