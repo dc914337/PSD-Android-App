@@ -46,7 +46,7 @@ namespace PsdBasesSetter.Crypto
             Part1List.Add(part1Pass.Id.Value, part1Pass);
 
             var part2Pass = pass.GetCopy();
-            part2Pass.Pass = passPart1Bytes;
+            part2Pass.Pass = passPart2Bytes;
             Part2List.Add(part2Pass.Id.Value, part2Pass);
         }
 
