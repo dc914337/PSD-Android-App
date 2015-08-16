@@ -30,8 +30,8 @@ public class ProtocolCrypto
     {
 
         //todo remove debug code
-        this.btKey = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //btKey;
-        this.hBtKey = new byte[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //hBtKey;
+        this.btKey = btKey;
+        this.hBtKey = hBtKey;
         this.IV = KeyGenerator.generateIV();
     }
 

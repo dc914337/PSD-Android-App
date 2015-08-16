@@ -20,9 +20,10 @@ namespace PsdBasesSetter.Device.Hid
         public PSDDevice[] FindConnectedPsds()
         {
             var psds = _loader.GetDevices().Where(
-                d => d.MaxInputReportLength == _configSection.InputReportLength &&
-                d.VendorID == _configSection.VID &&
-                d.ProductID == _configSection.PID);
+                    d => d.MaxInputReportLength == _configSection.InputReportLength &&
+                    d.VendorID == _configSection.VID &&
+                    d.ProductID == _configSection.PID);
+
             return psds.Select(a => new PSDDevice(a)).ToArray();
         }
     }

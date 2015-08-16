@@ -9,7 +9,7 @@ namespace PsdBasesSetter.Crypto
     public class BasePasswords
     {
 
-        private const String PsdPassSalt = "psd_salt_v1";
+        private const String PsdPassSalt = "psd_salt-v1";
         private const String PCBasePassSalt = "pc_base_salt-v1";
         private const String PhoneBasePassSalt = "phone_base_salt-v1";
 

@@ -27,7 +27,7 @@ namespace PsdBasesSetter.Device.Hid
             Authorize = 0,
             ReadEepromPage = 1,
             WriteEepromPage = 2,
-            ChangePassword = 3
+            Reset = 3
         };
 
         private HidDevice _hidDevice;
@@ -69,7 +69,7 @@ namespace PsdBasesSetter.Device.Hid
 
             try
             {
-                byte[] result = WritePackage(Packages.ChangePassword, data);
+                byte[] result = WritePackage(Packages.Reset, data);
                 return CheckResult(result);
             }
             catch (Exception ex)
