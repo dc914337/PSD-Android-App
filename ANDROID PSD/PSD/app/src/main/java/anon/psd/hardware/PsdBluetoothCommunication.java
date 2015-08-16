@@ -22,7 +22,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     BluetoothSocket btSocket = null;
     OutputStream outStream = null;
     InputStream inputStream = null;
-    IBluetoothLowLevelProtocol lowLevelProtocol = new BluetoothLowLevelProtocolStub();
+    IBluetoothLowLevelProtocol lowLevelProtocol = new BluetoothLowLevelProtocolV1();
     ConnectionState connectionState = ConnectionState.Disconnected;
 
     IBtObserver listener;
@@ -36,7 +36,8 @@ public class PsdBluetoothCommunication implements IBtObservable
     //will not enable bluetooth immediately. It will wait for bt when will send first message
     public void enableBluetooth()
     {
-        btAdapter.enable();
+        if (!btAdapter.isEnabled())
+            btAdapter.enable();
     }
 
     public void disableBluetooth()

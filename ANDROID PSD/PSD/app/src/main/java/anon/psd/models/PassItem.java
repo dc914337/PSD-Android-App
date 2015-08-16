@@ -31,7 +31,7 @@ public class PassItem
                 e.printStackTrace();
                 return Pass;
             }
-            return ArraysUtils.concatArrays(loginBytes, Pass);
+            return ArraysUtils.concatArrays(loginBytes,new byte[]{'\t'}, Pass);
         } else {
             return Pass;
         }

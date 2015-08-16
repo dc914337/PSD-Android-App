@@ -133,7 +133,9 @@ public abstract class PSDServiceWorker
 
     private void sendPassToService(PassItem pass)
     {
-        Message msg = Message.obtain(null, MessageType.Password.getInt(), pass);
+        Bundle bundle = new Bundle();
+        bundle.putInt("pass_item_id", pass.Id);
+        Message msg = Message.obtain(null, MessageType.PasswordId.getInt(), bundle);
         sendMessage(msg);
         Log.d(TAG, "ServiceWorker Sent [ PASS ] command");
     }

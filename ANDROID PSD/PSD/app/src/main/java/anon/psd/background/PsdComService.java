@@ -13,9 +13,9 @@ import android.util.Log;
 import java.util.Date;
 
 import anon.psd.device.ConnectionState;
-import anon.psd.hardware.BluetoothStub;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
+import anon.psd.hardware.PsdBluetoothCommunication;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.storage.FileRepository;
@@ -49,7 +49,7 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         super.onCreate();
         Log.d(TAG, "Service onCreate");
-        bt = new BluetoothStub();
+        bt = new PsdBluetoothCommunication();
         notification = new ServiceNotification(this);
     }
 
@@ -137,8 +137,9 @@ public class PsdComService extends IntentService implements IBtObserver
                 case Disconnect:
                     disconnect();
                     break;
-                case Password:
-                    sendPassword((PassItem) msg.obj);
+                case PasswordId:
+                    Bundle bundle = (Bundle) msg.obj;
+                    sendPassword(bundle.getInt("pass_item_id"));
                     break;
                 default:
                     super.handleMessage(msg);
@@ -150,7 +151,6 @@ public class PsdComService extends IntentService implements IBtObserver
     {
         if (bt == null)
             return;
-
         bt.enableBluetooth();
         bt.registerObserver(this);
         bt.connectDevice(PsdMacAddress);
@@ -162,14 +162,18 @@ public class PsdComService extends IntentService implements IBtObserver
             return;
         bt.disconnectDevice();
         bt.disableBluetooth();
-        bt.disconnectDevice();
+        bt.removeObserver();
     }
 
-    private void sendPassword(PassItem pass)
+    private void sendPassword(int passId)
     {
         if (bt == null)
             return;
-        //IProtocol protocol =new PsdProtocolV1();
-        bt.sendPasswordBytes(pass.getPasswordBytes());
+        PassItem passItem = baseRepo.getPassesBase().Passwords.get(passId);
+        //do encoding shit
+
+
+
+        bt.sendPasswordBytes(passItem.getPasswordBytes());
     }
 }

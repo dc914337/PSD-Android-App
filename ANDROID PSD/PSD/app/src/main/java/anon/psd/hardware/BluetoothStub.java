@@ -29,7 +29,7 @@ public class BluetoothStub implements IBtObservable
     @Override
     public void connectDevice(String mac)
     {
-        randomSleep(1000, 1500);
+        randomSleep(100, 500);
         setConnectionState(ConnectionState.Connected);
     }
 

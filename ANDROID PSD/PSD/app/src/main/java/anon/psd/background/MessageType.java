@@ -9,7 +9,7 @@ public enum MessageType
     Init,
     Connect,
     Disconnect,
-    Password,
+    PasswordId,
     Result,
     ConnectionStateChanged;
 
