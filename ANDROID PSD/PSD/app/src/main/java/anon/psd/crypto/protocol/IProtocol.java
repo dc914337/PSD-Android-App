@@ -5,7 +5,7 @@ package anon.psd.crypto.protocol;
  */
 public interface IProtocol
 {
-    public byte[] generateNextMessage(int index, byte[] passPart1);
+    public byte[] generateNextMessage(short index, byte[] passPart1);
 
     public boolean checkResponse(byte[] message);
 

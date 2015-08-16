@@ -14,8 +14,7 @@ namespace PsdBasesSetter.Device.Hid
         private const int MaxKeyLength = 32;
 
         private const byte ReportId = 0x00;
-        private const int MaxPart2KeyLength = 126;
-        private const int PageIndexSize = 2;
+        private const int MaxPart2KeyLength = 128;
 
         private const byte PasswordsStartPageNum = 8;
 
@@ -113,13 +112,10 @@ namespace PsdBasesSetter.Device.Hid
         public int WritePasswords(List<byte[]> passwords)
         {
             var wrote = 0;
-            var pagesPerPassword = (int)Math.Ceiling((double)(MaxPart2KeyLength + PageIndexSize) / PageSize);
+            var pagesPerPassword = (int)Math.Ceiling((double)MaxPart2KeyLength / PageSize);
             for (var passIndex = 0; passIndex < passwords.Count; passIndex++)
             {
                 var password = passwords[passIndex];
-                byte[] buff = new byte[MaxPart2KeyLength + PageIndexSize];
-                Array.Copy(BitConverter.GetBytes(passIndex), 0, buff, 0, PageIndexSize);//copying 2 little bytes of pageCount to start of the buff
-                Array.Copy(password, 0, buff, PageIndexSize, password.Length);//copying data with offset 2(PageIndexSize)
 
                 bool success = true;
                 for (var currentPasswordPage = 0; currentPasswordPage < pagesPerPassword; currentPasswordPage++)
@@ -128,11 +124,13 @@ namespace PsdBasesSetter.Device.Hid
                     try
                     {
                         byte[] currentPasswordPageBuff = new byte[PageSize];
-                        Array.Copy(buff, (int)(currentPasswordPage * PageSize), currentPasswordPageBuff, 0, PageSize);
+                        Array.Copy(password, (int)(currentPasswordPage * PageSize), currentPasswordPageBuff, 0, PageSize);
 
-                        if (WriteEepromPage(pageNum, currentPasswordPageBuff)) continue;
-                        success = false;
-                        break;
+                        if (!WriteEepromPage(pageNum, currentPasswordPageBuff))
+                        {
+                            success = false;
+                            break;
+                        }
                     }
                     catch (Exception ex)
                     {

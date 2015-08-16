@@ -11,7 +11,7 @@ namespace PsdBasesSetter.Crypto
 
     class DividedList
     {
-        public const int MaxPassLength = 126;
+        public const int MaxPassLength = 128;
 
         public PasswordList Part1List { get; set; } = new PasswordList();
         public PasswordList Part2List { get; set; } = new PasswordList();

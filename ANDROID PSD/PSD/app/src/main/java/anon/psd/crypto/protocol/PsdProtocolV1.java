@@ -31,7 +31,7 @@ public class PsdProtocolV1 implements IProtocol
 
 
     @Override
-    public byte[] generateNextMessage(int index, byte[] passPart1)
+    public byte[] generateNextMessage(short index, byte[] passPart1)
     {
         //generate new keys
         nextBtKey = KeyGenerator.generateRandomBtKey();
@@ -53,20 +53,18 @@ public class PsdProtocolV1 implements IProtocol
     }
 
 
-    private byte[] generateTempMessagePayload(int index, byte[] passPart1, byte[] nextBtKey, byte[] nextHBtKey)
+    private byte[] generateTempMessagePayload(short index, byte[] passPart1, byte[] nextBtKey, byte[] nextHBtKey)
     {
         byte[] indexBytes = getIndexBytes(index);
         return ArraysUtils.concatArrays(indexBytes, passPart1, nextBtKey, nextHBtKey);
     }
 
-    private byte[] getIndexBytes(int index)
+    private byte[] getIndexBytes(short index)
     {
         byte[] res = new byte[Constants.INDEX_BYTES];
         int offset = 0;
-        res[offset++] = (byte) index;
         res[offset++] = (byte) (index >> 8);
-        res[offset++] = (byte) (index >> 16);
-        res[offset] = (byte) (index >> 24);
+        res[offset] = (byte) index;
         return res;
     }
 
