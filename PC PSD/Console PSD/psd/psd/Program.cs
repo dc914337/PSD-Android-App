@@ -37,7 +37,12 @@ namespace psd
             }
             _connetions.WriteAll();
             Output("Success!", OutputType.Verbose);
-
+            //debug 
+            var v = _connetions?.PhoneBase?.Base?.HBTKey;
+            if (v != null)
+                Console.WriteLine("Phone base's BtKey first byte: {0}", _connetions.PhoneBase?.Base?.HBTKey[0].ToString());
+            if (_connetions?.PsdBase?.Base?.HBTKey != null)
+                Console.WriteLine("PSD base's BtKey first byte: {0}", _connetions?.PsdBase?.Base?.HBTKey[0].ToString());
         }
 
         private static bool Connect()
@@ -87,6 +92,9 @@ namespace psd
         {
             if (_args.UseFirstFoundPsd)
                 return devices[0];
+            if (devices.Length == 1)
+                return devices[0];
+
             Console.WriteLine("Select psd: ");
             for (int i = 0; i < devices.Length; i++)
             {

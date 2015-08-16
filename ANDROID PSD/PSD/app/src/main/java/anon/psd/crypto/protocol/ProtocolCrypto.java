@@ -28,8 +28,6 @@ public class ProtocolCrypto
 
     public ProtocolCrypto(byte[] btKey, byte[] hBtKey)
     {
-
-        //todo remove debug code
         this.btKey = btKey;
         this.hBtKey = hBtKey;
         this.IV = KeyGenerator.generateIV();
