@@ -17,7 +17,7 @@ public class AppearancesList extends ArrayList<PrettyPassword>
         //merge appearances by title
         for (Map.Entry<Short, PassItem> entry : passItems.entrySet()) {
             PassItem currPass = entry.getValue();
-            PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.Title);
+            PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.title);
             if (currAppearance == null)
                 currAppearance = new PrettyPassword(currPass);
             else
@@ -27,7 +27,6 @@ public class AppearancesList extends ArrayList<PrettyPassword>
 
         return mergedAppearances;
     }
-
 
     public PrettyPassword findByTitle(String title)
     {

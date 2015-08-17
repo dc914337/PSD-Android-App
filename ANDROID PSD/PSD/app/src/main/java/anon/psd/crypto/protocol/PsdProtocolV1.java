@@ -7,7 +7,7 @@ import java.security.InvalidKeyException;
 
 import anon.psd.crypto.KeyGenerator;
 import anon.psd.global.Constants;
-import anon.psd.utils.ArraysUtils;
+import anon.psd.utils.ArrayUtils;
 
 import static anon.psd.crypto.HashProvider.sha256Bytes;
 
@@ -38,11 +38,11 @@ public class PsdProtocolV1 implements IProtocol
         nextBtKey = KeyGenerator.generateRandomBtKey();
         nextHBtKey = KeyGenerator.generateRandomHBtKey();
 
-        Log.i(TAG, String.format("HBTKey: %s", ArraysUtils.getHexArray(hBtKey)));
-        Log.i(TAG, String.format("BTKey: %s", ArraysUtils.getHexArray(btKey)));
+        Log.i(TAG, String.format("HBTKey: %s", ArrayUtils.getHexArray(hBtKey)));
+        Log.i(TAG, String.format("BTKey: %s", ArrayUtils.getHexArray(btKey)));
         Log.i(TAG, "-------------------");
-        Log.i(TAG, String.format("Next HBTKey: %s", ArraysUtils.getHexArray(nextHBtKey)));
-        Log.i(TAG, String.format("Next BTKey: %s", ArraysUtils.getHexArray(nextBtKey)));
+        Log.i(TAG, String.format("Next HBTKey: %s", ArrayUtils.getHexArray(nextHBtKey)));
+        Log.i(TAG, String.format("Next BTKey: %s", ArrayUtils.getHexArray(nextBtKey)));
         Log.i(TAG, "-----------------------------------------------------");
 
         //do crypto
@@ -64,7 +64,7 @@ public class PsdProtocolV1 implements IProtocol
     private byte[] generateTempMessagePayload(short index, byte[] passPart1, byte[] nextBtKey, byte[] nextHBtKey)
     {
         byte[] indexBytes = getIndexBytes(index);
-        return ArraysUtils.concatArrays(indexBytes, passPart1, nextBtKey, nextHBtKey);
+        return ArrayUtils.concatArrays(indexBytes, passPart1, nextBtKey, nextHBtKey);
     }
 
     private byte[] getIndexBytes(short index)
@@ -81,7 +81,7 @@ public class PsdProtocolV1 implements IProtocol
     public boolean checkResponse(byte[] message)
     {
         byte[] expectedMessage = sha256Bytes(hBtKey);
-        boolean responseCorrect = ArraysUtils.safeCompare(expectedMessage, message);
+        boolean responseCorrect = ArrayUtils.safeCompare(expectedMessage, message);
 
         if (responseCorrect)
             rollKeys();

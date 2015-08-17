@@ -95,8 +95,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         serviceWorker = new MainPSDServiceWorker(this);
         initVariables();
-        tryLoadPasses();
-        connectAndInitService();
+        if (tryLoadPasses())
+            connectAndInitService();
     }
 
 

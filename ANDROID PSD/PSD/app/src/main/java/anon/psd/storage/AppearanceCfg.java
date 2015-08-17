@@ -31,8 +31,10 @@ public class AppearanceCfg
             return false;
         String serialized = new String(data);
         AppearancesList passes = Serializer.deserializePasswordAppearances(serialized);
-        if (passes == null)
+        if (passes == null) {
+            passwordAppearances = new AppearancesList();
             return false;
+        }
         passwordAppearances = passes;
         return true;
     }
@@ -47,6 +49,7 @@ public class AppearanceCfg
 
     public AppearancesList getPassesAppearances()
     {
+
         return passwordAppearances;
     }
 

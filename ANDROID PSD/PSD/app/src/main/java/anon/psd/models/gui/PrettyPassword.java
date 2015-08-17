@@ -52,7 +52,7 @@ public class PrettyPassword
     public void setPassItem(PassItem pass)
     {
         passItem = pass;
-        title = pass.Title;
+        title = pass.title;
     }
 
     public PassItem getPassItem()
@@ -119,7 +119,7 @@ public class PrettyPassword
     public String getTitle()
     {
         if (passItem != null)
-            return passItem.Title;
+            return passItem.title;
         else
             return title;
     }

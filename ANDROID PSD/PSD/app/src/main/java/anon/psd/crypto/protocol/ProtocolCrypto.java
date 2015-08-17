@@ -15,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 import anon.psd.crypto.KeyGenerator;
 
 import static anon.psd.crypto.HashProvider.HMAC_SHA256;
-import static anon.psd.utils.ArraysUtils.concatArrays;
+import static anon.psd.utils.ArrayUtils.concatArrays;
 
 /**
  * Created by Dmitry on 03.08.2015.

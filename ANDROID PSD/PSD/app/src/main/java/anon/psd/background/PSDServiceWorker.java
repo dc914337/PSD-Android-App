@@ -65,7 +65,7 @@ public abstract class PSDServiceWorker
 
     public void sendPass(PassItem pass)
     {
-        Log.d(TAG, String.format("ServiceWorker Sent pass id: %s", pass.Id));
+        Log.d(TAG, String.format("ServiceWorker Sent pass id: %s", pass.id));
         sendPassToService(pass);
     }
 
@@ -134,7 +134,7 @@ public abstract class PSDServiceWorker
     private void sendPassToService(PassItem pass)
     {
         Bundle bundle = new Bundle();
-        bundle.putShort("pass_item_id", pass.Id);
+        bundle.putShort("pass_item_id", pass.id);
         Message msg = Message.obtain(null, MessageType.PasswordId.getInt(), bundle);
         sendMessage(msg);
         Log.d(TAG, "ServiceWorker Sent [ PASS ] command");

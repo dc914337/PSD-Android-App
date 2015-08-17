@@ -1,5 +1,7 @@
 package anon.psd.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Dmitry on 10.07.2015.
  */
@@ -9,16 +11,21 @@ package anon.psd.models;
 */
 public class PassItem
 {
-    public short Id;    //was unsigned short. i don't like java so much.
-    public String Title;
-    public String Login;
-    public boolean EnterWithLogin;
-    public byte[] Pass;
-    public String Description;
-
+    @SerializedName("Id")
+    public short id;    //was unsigned short. i don't like java so much.
+    @SerializedName("Title")
+    public String title;
+    @SerializedName("Login")
+    public String login;
+    @SerializedName("EnterWithLogin")
+    public boolean enterWithLogin;
+    @SerializedName("Pass")
+    public byte[] pass;
+    @SerializedName("Description")
+    public String description;
 
     public byte[] getPasswordBytes()
     {
-        return Pass;
+        return pass;
     }
 }

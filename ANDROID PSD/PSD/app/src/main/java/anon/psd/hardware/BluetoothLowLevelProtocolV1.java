@@ -3,13 +3,16 @@ package anon.psd.hardware;
 import java.io.IOException;
 import java.io.InputStream;
 
-import anon.psd.utils.ArraysUtils;
+import anon.psd.utils.ArrayUtils;
 
 /**
  * Created by Dmitry on 14.08.2015.
  */
 public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
 {
+    private final static int MESSAGE_LENGTH = 32;
+    private final static int TYPE_LENGTH = 1;
+
     @Override
     public byte[] prepareConnectionMessage()
     {
@@ -21,7 +24,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     public byte[] prepareSendMessage(byte[] data)
     {
         byte[] header = new byte[]{(byte) 0xDE, (byte) 0xAD};
-        return ArraysUtils.concatArrays(header, data);
+        return ArrayUtils.concatArrays(header, data);
     }
 
     @Override
@@ -33,34 +36,36 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     @Override
     public LowLevelMessage receiveMessage(InputStream stream)
     {
-        byte[] typeBytes = new byte[1];
+        byte[] typeBytes = new byte[TYPE_LENGTH];
         try {
             stream.read(typeBytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         LowLevelMsgType type = LowLevelMsgType.fromByte(typeBytes[0]);
         switch (type) {
             case Pong:
                 return new LowLevelMessage(LowLevelMsgType.Pong, null);
             case Response:
-                return new LowLevelMessage(LowLevelMsgType.Response, receiveResponse(stream));
+                return new LowLevelMessage(LowLevelMsgType.Response, receiveMessageBytes(stream));
             default:
-                return null;
+                return new LowLevelMessage(LowLevelMsgType.Unknown, typeBytes);
         }
     }
 
-
-    private byte[] receiveResponse(InputStream stream)
+    private byte[] receiveMessageBytes(InputStream stream)
     {
-        byte[] buffer = new byte[32];
+        byte[] message = new byte[MESSAGE_LENGTH];
         try {
-            stream.read(buffer);
+            stream.read(message);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return new byte[0];
         }
-        return buffer;
+
+        return message;
     }
 
 }

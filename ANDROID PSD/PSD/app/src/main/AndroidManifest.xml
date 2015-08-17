@@ -38,7 +38,7 @@
 
         <activity
             android:name=".gui.activities.PassActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
             android:parentActivityName=".gui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

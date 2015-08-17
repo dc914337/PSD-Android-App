@@ -48,12 +48,12 @@ public class PassActivity extends ActionBarActivity
         PassItem pass = prettyPassword.getPassItem();
 
 
-        ((TextView) findViewById(R.id.txtTitle)).setText(pass.Title);
+        ((TextView) findViewById(R.id.txtTitle)).setText(pass.title);
         ((TextView) findViewById(R.id.txtLogin)).setText(
-                String.format("Login: %s", replaceNullOrEmpty(pass.Login, "-")));
+                String.format("Login: %s", replaceNullOrEmpty(pass.login, "-")));
 
         ((TextView) findViewById(R.id.txtWillBeEntered)).setText(
-                pass.EnterWithLogin ? "(will be entered)" : "(will NOT be entered)");
+                pass.enterWithLogin ? "(will be entered)" : "(will NOT be entered)");
 
         int timesEntered = prettyPassword.getHistory().size();
         ((TextView) findViewById(R.id.txtTimesEntered)).setText(
@@ -66,7 +66,7 @@ public class PassActivity extends ActionBarActivity
                         "was not entered yet")));
 
         ((TextView) findViewById(R.id.txtDescription)).setText(
-                String.format("Description: %s", replaceNullOrEmpty(pass.Description,
+                String.format("Description: %s", replaceNullOrEmpty(pass.description,
                         "-")));
 
         imgViewPic.setImageBitmap(prettyPassword.getImage());

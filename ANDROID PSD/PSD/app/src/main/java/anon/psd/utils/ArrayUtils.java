@@ -3,7 +3,7 @@ package anon.psd.utils;
 /**
  * Created by Dmitry on 11.08.2015.
  */
-public class ArraysUtils
+public class ArrayUtils
 {
     public static byte[] concatArrays(byte[]... arrays)
     {

@@ -3,6 +3,7 @@ package anon.psd.hardware;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 import anon.psd.device.ConnectionState;
+import anon.psd.utils.ArrayUtils;
 
 /**
  * Created by Dmitry on 03.08.2015.
@@ -184,6 +186,9 @@ public class PsdBluetoothCommunication implements IBtObservable
                             case Response:
                                 if (received.message != null)
                                     listener.onReceive(received);
+                                break;
+                            case Unknown:
+                                Log.wtf("WTF", ArrayUtils.getHexArray(received.message));
                                 break;
                         }
                     }

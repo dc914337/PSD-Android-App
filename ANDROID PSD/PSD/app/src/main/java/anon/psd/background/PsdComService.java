@@ -10,8 +10,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import java.util.Date;
-
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.ConnectionState;
 import anon.psd.hardware.IBtObservable;
@@ -28,7 +26,6 @@ import anon.psd.storage.FileRepository;
  */
 public class PsdComService extends IntentService implements IBtObserver
 {
-    Date created;
     public static final String SERVICE_NAME = "PsdComService";
     private final String TAG = "PsdComService";
     final Messenger mMessenger = new Messenger(new ServiceHandler());
@@ -45,7 +42,6 @@ public class PsdComService extends IntentService implements IBtObserver
     public PsdComService()
     {
         super(SERVICE_NAME);
-        created = new Date();
     }
 
     @Override
@@ -70,7 +66,7 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     protected void onHandleIntent(Intent workIntent)
     {
-        Log.d(TAG, "Service onHandleIntent " + created.toString());
+        Log.d(TAG, "Service onHandleIntent");
         Bundle extras = workIntent.getExtras();
         initService(extras.getString("DB_PATH"), extras.getByteArray("DB_PASS"), extras.getString("PSD_MAC_ADDRESS"));
     }
@@ -79,28 +75,27 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     public IBinder onBind(Intent intent)
     {
-        Log.d(TAG, "Service onBind " + created.toString());
+        Log.d(TAG, "Service onBind");
         return mMessenger.getBinder();
     }
 
     public void onRebind(Intent intent)
     {
         super.onRebind(intent);
-        Log.d(TAG, "Service onRebind " + created.toString());
+        Log.d(TAG, "Service onRebind");
     }
 
     public boolean onUnbind(Intent intent)
     {
-        Log.d(TAG, "Service onUnbind " + created.toString());
+        Log.d(TAG, "Service onUnbind");
         return super.onUnbind(intent);
     }
 
     public void onDestroy()
     {
         super.onDestroy();
-        Log.d(TAG, "Service onDestroy " + created.toString());
+        Log.d(TAG, "Service onDestroy");
     }
-
 
 
     //On receive message from PSD through bluetooth
@@ -108,7 +103,8 @@ public class PsdComService extends IntentService implements IBtObserver
     public void onReceive(LowLevelMessage message)
     {
         Log.i(TAG, message.type.toString());
-        protocolV1.checkResponse(message.message);
+        if (protocolV1.checkResponse(message.message))
+            notification.sendNotification("Password successfully sent");
     }
 
     @Override
@@ -133,7 +129,7 @@ public class PsdComService extends IntentService implements IBtObserver
         public void handleMessage(Message msg)
         {
             MessageType type = MessageType.fromInteger(msg.what);
-            Log.d(TAG, String.format("Service handleMessage %s %s", type.toString(), created.toString()));
+            Log.d(TAG, String.format("Service handleMessage %s", type.toString()));
             switch (type) {
                 case ConnectService:
                     mClient = msg.replyTo;
