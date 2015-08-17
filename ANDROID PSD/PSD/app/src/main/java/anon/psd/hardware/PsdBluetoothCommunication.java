@@ -103,13 +103,15 @@ public class PsdBluetoothCommunication implements IBtObservable
             return;
         }
 
-        beginListenForData();
         try {
             outStream.write(lowLevelProtocol.prepareConnectionMessage());
+            outStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
+
+        beginListenForData();
     }
 
 
@@ -129,6 +131,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     {
         try {
             outStream.write(lowLevelProtocol.prepareDisconnectMessage());
+            outStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,6 +150,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     {
         try {
             outStream.write(lowLevelProtocol.prepareSendMessage(message));
+            outStream.flush();
         } catch (IOException e) {
             setConnectionState(ConnectionState.Disconnected);
             e.printStackTrace();

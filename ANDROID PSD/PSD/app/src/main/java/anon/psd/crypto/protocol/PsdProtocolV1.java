@@ -22,7 +22,7 @@ public class PsdProtocolV1 implements IProtocol
     private byte[] nextBtKey;
     private byte[] nextHBtKey;
 
-   public static String TAG = "protocol_debug";
+    public static String TAG = "protocol_debug";
 
     public PsdProtocolV1(byte[] currBtKey, byte[] currHBtKey)
     {
