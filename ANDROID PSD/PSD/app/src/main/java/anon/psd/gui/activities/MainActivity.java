@@ -79,7 +79,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         @Override
         public void onReceivedResult(boolean res)
         {
-            Log.d(TAG, String.format("Activity Received result %s", res));
+            if (res)
+                Alerts.showMessage(getApplicationContext(), "Password entered successfully");
+            else
+                Alerts.showMessage(getApplicationContext(), "Errors sending password");
         }
 
     }

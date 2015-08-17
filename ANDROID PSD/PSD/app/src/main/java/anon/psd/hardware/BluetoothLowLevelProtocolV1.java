@@ -1,5 +1,6 @@
 package anon.psd.hardware;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -57,15 +58,26 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
 
     private byte[] receiveMessageBytes(InputStream stream)
     {
-        byte[] message = new byte[MESSAGE_LENGTH];
         try {
-            stream.read(message);
+            int read = 0;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            while (read < MESSAGE_LENGTH) {
+                Thread.sleep(10);
+                int available = stream.available();
+                if (available <= 0)
+                    continue;
+                byte[] buff = new byte[available];
+                read += stream.read(buff);
+                baos.write(buff);
+            }
+            return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
             return new byte[0];
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return new byte[0];
         }
-
-        return message;
     }
 
 }

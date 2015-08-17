@@ -103,23 +103,32 @@ public class PsdComService extends IntentService implements IBtObserver
     public void onReceive(LowLevelMessage message)
     {
         Log.i(TAG, message.type.toString());
-        if (protocolV1.checkResponse(message.message))
-            notification.sendNotification("Password successfully sent");
+        if (protocolV1.checkResponse(message.message)) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("success", true);
+            sendToClients(bundle, MessageType.Result);
+        }
     }
 
     @Override
     public void onStateChanged(ConnectionState newState)
     {
+        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
         Bundle bundle = new Bundle();
         bundle.putInt("connection_state", newState.getInt());
+        sendToClients(bundle, MessageType.ConnectionStateChanged);
+    }
 
-        Message msg = Message.obtain(null, MessageType.ConnectionStateChanged.getInt(), bundle);
+
+    private void sendToClients(Bundle bundle, MessageType msgType)
+    {
+        Message msg = Message.obtain(null, msgType.getInt(), bundle);
         try {
             mClient.send(msg);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+
     }
 
 

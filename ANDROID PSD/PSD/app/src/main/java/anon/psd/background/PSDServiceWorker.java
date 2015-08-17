@@ -76,17 +76,32 @@ public abstract class PSDServiceWorker
         public void handleMessage(Message msg)
         {
             MessageType type = MessageType.fromInteger(msg.what);
-            ConnectionState state = ConnectionState.fromInteger((int) ((Bundle) msg.obj).get("connection_state"));
-
             switch (type) {
                 case ConnectionStateChanged:
-                    onStateChanged(state);
+                    receivedStateChanged(msg);
+                    break;
+                case Result:
+                    receivedResult(msg);
                     break;
                 default:
                     super.handleMessage(msg);
             }
         }
     }
+
+
+    private void receivedStateChanged(Message msg)
+    {
+        ConnectionState state = ConnectionState.fromInteger((int) ((Bundle) msg.obj).get("connection_state"));
+        onStateChanged(state);
+    }
+
+    private void receivedResult(Message msg)
+    {
+        boolean success = ((Bundle) msg.obj).getBoolean("success");
+        onReceivedResult(success);
+    }
+
 
     private class MyServiceConnection implements ServiceConnection
     {
