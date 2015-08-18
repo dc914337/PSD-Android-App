@@ -14,6 +14,7 @@ import anon.psd.utils.ArrayUtils;
 public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
 {
     private final static int MESSAGE_LENGTH = 32;
+    private final static int PONG_LENGTH = 1;
     private final static int TYPE_LENGTH = 1;
     private final static String TAG = "LowLevel";
 
@@ -54,12 +55,24 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
         Log.d(TAG, "[ RECEIVED ] [ TYPE ] " + type.toString());
         switch (type) {
             case Pong:
-                return new LowLevelMessage(LowLevelMsgType.Pong, null);
+                return checkPong(stream);
             case Response:
                 return new LowLevelMessage(LowLevelMsgType.Response, receiveMessageBytes(stream));
             default:
                 return new LowLevelMessage(LowLevelMsgType.Unknown, typeBytes);
         }
+    }
+
+    private LowLevelMessage checkPong(InputStream stream)
+    {
+        byte[] receivedBytes = new byte[PONG_LENGTH];
+        try {
+            stream.read(receivedBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new LowLevelMessage(LowLevelMsgType.Unknown, receivedBytes);
+        }
+        return new LowLevelMessage(LowLevelMsgType.Pong, receivedBytes);
     }
 
     private byte[] receiveMessageBytes(InputStream stream)
