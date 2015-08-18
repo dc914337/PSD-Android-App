@@ -20,7 +20,7 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.PSDServiceWorker;
-import anon.psd.device.ConnectionState;
+import anon.psd.device.ServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     PSDServiceWorker serviceWorker;
 
-    boolean psdConnected = false;
+    ServiceState psdState = ServiceState.NotInitialised;
 
 
     private class MainPSDServiceWorker extends PSDServiceWorker
@@ -57,21 +57,19 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             super(context);
         }
 
-
         @Override
-        public void onStateChanged(ConnectionState newState)
+        public void onStateChanged(ServiceState newState)
         {
             ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
             Log.d(TAG, String.format("Activity State changed on %s", newState));
-
+            psdState = newState;
             switch (newState) {
-                case Connected:
+                case ReadyToSend:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-                    psdConnected = true;
                     break;
-                case Disconnected:
+                case NotConnected:
+                case NotInitialised:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-                    psdConnected = false;
                     break;
             }
         }
@@ -159,10 +157,16 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (!psdConnected)
-            serviceWorker.connectPsd();
-        else
-            serviceWorker.disconnectPsd();
+        switch (psdState) {
+            case NotConnected:
+                serviceWorker.connectPsd();
+                break;
+            case ReadyToSend:
+            case LowSignal:
+            case WaitingResponse:
+                serviceWorker.disconnectPsd();
+                break;
+        }
     }
 
     /**

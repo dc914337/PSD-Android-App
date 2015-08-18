@@ -1,15 +1,15 @@
-package anon.psd.background;
+package anon.psd.device;
 
 /**
  * Created by Dmitry on 17.08.2015.
  */
-enum ServiceState
+public enum ServiceState
 {
     NotInitialised,
-    Initialised,
-    Ready,
+    NotConnected,
+    ReadyToSend,
     LowSignal,
-    WaitingPSDResponse;
+    WaitingResponse;
 
     public static ServiceState fromInteger(int x)
     {

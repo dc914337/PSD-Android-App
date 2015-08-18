@@ -7,10 +7,10 @@ public enum MessageType
 {
     ConnectService,
     Init,
-    Connect,
-    Disconnect,
-    PasswordId,
-    Result,
+    ConnectPSD,
+    DisconnectPSD,
+    SendPass,
+    PassSendResult,
     ConnectionStateChanged;
 
     public static MessageType fromInteger(int x)

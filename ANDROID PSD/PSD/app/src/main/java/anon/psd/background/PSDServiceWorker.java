@@ -12,7 +12,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import anon.psd.device.ConnectionState;
+import anon.psd.device.ServiceState;
 import anon.psd.models.PassItem;
 
 /**
@@ -54,13 +54,13 @@ public abstract class PSDServiceWorker
     public void connectPsd()
     {
         Log.d(TAG, "ServiceWorker Connect PSD");
-        sendCommandToService(MessageType.Connect);
+        sendCommandToService(MessageType.ConnectPSD);
     }
 
     public void disconnectPsd()
     {
         Log.d(TAG, "ServiceWorker Disconnect PSD");
-        sendCommandToService(MessageType.Disconnect);
+        sendCommandToService(MessageType.DisconnectPSD);
     }
 
     public void sendPass(PassItem pass)
@@ -80,7 +80,7 @@ public abstract class PSDServiceWorker
                 case ConnectionStateChanged:
                     receivedStateChanged(msg);
                     break;
-                case Result:
+                case PassSendResult:
                     receivedResult(msg);
                     break;
                 default:
@@ -92,7 +92,7 @@ public abstract class PSDServiceWorker
 
     private void receivedStateChanged(Message msg)
     {
-        ConnectionState state = ConnectionState.fromInteger((int) ((Bundle) msg.obj).get("connection_state"));
+        ServiceState state = ServiceState.fromInteger((int) ((Bundle) msg.obj).get("service_state"));
         onStateChanged(state);
     }
 
@@ -136,23 +136,20 @@ public abstract class PSDServiceWorker
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "ServiceWorker Sent messenger to service");
     }
 
     private void sendCommandToService(MessageType msgType)
     {
         Message msg = Message.obtain(null, msgType.getInt());
         sendMessage(msg);
-        Log.d(TAG, String.format("ServiceWorker Sent %s command", msgType.toString()));
     }
 
     private void sendPassToService(PassItem pass)
     {
         Bundle bundle = new Bundle();
         bundle.putShort("pass_item_id", pass.id);
-        Message msg = Message.obtain(null, MessageType.PasswordId.getInt(), bundle);
+        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
         sendMessage(msg);
-        Log.d(TAG, "ServiceWorker Sent [ PASS ] command");
     }
 
 
@@ -170,7 +167,7 @@ public abstract class PSDServiceWorker
     }
 
 
-    public abstract void onStateChanged(ConnectionState newState);
+    public abstract void onStateChanged(ServiceState newState);
 
     public abstract void onReceivedResult(boolean res);
 
