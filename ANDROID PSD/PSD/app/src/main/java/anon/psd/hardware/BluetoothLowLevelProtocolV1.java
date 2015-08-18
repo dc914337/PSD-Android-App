@@ -72,6 +72,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             e.printStackTrace();
             return new LowLevelMessage(LowLevelMsgType.Unknown, receivedBytes);
         }
+        Log.d(TAG, "[ RECEIVED ] [ MESSAGE ] PONG CONFIRM");
         return new LowLevelMessage(LowLevelMsgType.Pong, receivedBytes);
     }
 

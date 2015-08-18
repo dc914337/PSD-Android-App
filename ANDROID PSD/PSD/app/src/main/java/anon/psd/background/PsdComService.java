@@ -115,12 +115,17 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     public void onReceive(LowLevelMessage message)
     {
-        if (protocolV1.checkResponse(message.message)) {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("success", true);
-            sendToClients(bundle, MessageType.PassSendResult);
-            onStateChanged(ServiceState.ReadyToSend);
-        }
+        if (!protocolV1.checkResponse(message.message))
+            return;
+
+        //save new keys to db
+        baseRepo.updateKeys(protocolV1.btKey, protocolV1.hBtKey);
+
+        //send success to application
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("success", true);
+        sendToClients(bundle, MessageType.PassSendResult);
+        onStateChanged(ServiceState.ReadyToSend);
     }
 
     @Override

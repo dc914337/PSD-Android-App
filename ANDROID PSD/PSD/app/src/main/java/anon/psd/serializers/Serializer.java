@@ -15,9 +15,9 @@ import anon.psd.models.gui.PrettyPassword;
  */
 public class Serializer
 {
-    public static String serializeDataBase(DataBase passwordsList)
+    public static String serializeDataBase(DataBase base)
     {
-        return JSONWorker.serializeDataBase(passwordsList);
+        return JSONWorker.serializeDataBase(base);
     }
 
     public static DataBase deserializeDataBase(String input)

@@ -22,7 +22,7 @@ public class FileRepository
     {
         //todo check path. check if file exists
         this.path = path;
-        return false;
+        return true;
     }
 
     public FileRepository(String path)
@@ -35,11 +35,28 @@ public class FileRepository
         dbPass = pass;
     }
 
+    public boolean updateKeys(byte[] newBtKey, byte[] newHBtKey)
+    {
+        base.btKey = newBtKey;
+        base.hBTKey = newHBtKey;
+        return rewrite();
+    }
+
+
     public boolean rewrite()
     {
-        throw new UnsupportedOperationException();//not implemented exception
-        //return false;
+        byte[] data = Serializer.serializeDataBase(base).getBytes();
+        encryptedData = new BaseCrypto(dbPass).encryptAll(data);
+        return writeData();
     }
+
+    private boolean writeData()
+    {
+        if (encryptedData == null)
+            return false;
+        return FileWorker.writeFile(encryptedData, new File(path));
+    }
+
 
     public boolean isLoaded()
     {
@@ -69,7 +86,6 @@ public class FileRepository
         this.base = base;
         return true;
     }
-
 
     private boolean loadData()
     {

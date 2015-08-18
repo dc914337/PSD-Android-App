@@ -14,10 +14,10 @@ import static anon.psd.crypto.HashProvider.sha256Bytes;
 /**
  * Created by Dmitry on 03.08.2015.
  */
-public class PsdProtocolV1 implements IProtocol
+public class PsdProtocolV1
 {
-    private byte[] btKey;
-    private byte[] hBtKey;
+    public byte[] btKey;
+    public byte[] hBtKey;
 
     private byte[] nextBtKey;
     private byte[] nextHBtKey;
@@ -31,7 +31,6 @@ public class PsdProtocolV1 implements IProtocol
     }
 
 
-    @Override
     public byte[] generateNextMessage(short index, byte[] passPart1)
     {
         //generate new keys
@@ -67,7 +66,8 @@ public class PsdProtocolV1 implements IProtocol
         return ArrayUtils.concatArrays(indexBytes, passPart1, nextBtKey, nextHBtKey);
     }
 
-    private byte[] getIndexBytes(short index)
+    //why the fuck short serializer is here?
+    private static byte[] getIndexBytes(short index)
     {
         byte[] res = new byte[Constants.INDEX_BYTES];
         int offset = 0;
@@ -77,7 +77,6 @@ public class PsdProtocolV1 implements IProtocol
     }
 
 
-    @Override
     public boolean checkResponse(byte[] message)
     {
         byte[] expectedMessage = sha256Bytes(hBtKey);
@@ -94,14 +93,6 @@ public class PsdProtocolV1 implements IProtocol
         btKey = nextBtKey;
         hBtKey = nextHBtKey;
 
-        Log.i(TAG, "\t\t\t\t\t\t [ Keys roll ]");
-
-    }
-
-    @Override
-    public void setEncryptionData(byte[] newBtKey, byte[] newHBtKey)
-    {
-        btKey = newBtKey;
-        hBtKey = newHBtKey;
+        Log.i(TAG, "                     [ Keys roll ]");
     }
 }
