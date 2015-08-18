@@ -1,5 +1,7 @@
 package anon.psd.device;
 
+import android.util.Log;
+
 /**
  * Created by Dmitry on 17.08.2015.
  */
@@ -14,6 +16,22 @@ public enum ServiceState
     public static ServiceState fromInteger(int x)
     {
         return values()[x];
+    }
+
+    public boolean getConnectedState()
+    {
+        switch (this) {
+            case NotInitialised:
+            case NotConnected:
+                return false;
+            case ReadyToSend:
+            case LowSignal:
+            case WaitingResponse:
+                return true;
+            default:
+                Log.wtf("WTF", "ServiceState unknown state");
+                return false;
+        }
     }
 
     public int getInt()

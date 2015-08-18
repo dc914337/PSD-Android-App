@@ -37,6 +37,11 @@ public abstract class PSDServiceWorker
         this.ctx = context;
     }
 
+
+    /*
+    we are starting and binding service to have it alive all the time. It won't die when
+    this activity will die.
+    */
     public void connectService(String dbPath, byte[] dbPass, String psdMacAddress)
     {
         mConnection = new MyServiceConnection();
@@ -53,19 +58,16 @@ public abstract class PSDServiceWorker
 
     public void connectPsd()
     {
-        Log.d(TAG, "ServiceWorker Connect PSD");
         sendCommandToService(MessageType.ConnectPSD);
     }
 
     public void disconnectPsd()
     {
-        Log.d(TAG, "ServiceWorker Disconnect PSD");
         sendCommandToService(MessageType.DisconnectPSD);
     }
 
     public void sendPass(PassItem pass)
     {
-        Log.d(TAG, String.format("ServiceWorker Sent pass id: %s", pass.id));
         sendPassToService(pass);
     }
 
@@ -120,11 +122,6 @@ public abstract class PSDServiceWorker
             serviceBound = false;
         }
     }
-
-    /*
-        we are starting and binding service to have it alive all the time. It won't die when
-        this activity will die. We sending fake intent
-    */
 
 
     private void sendMessenger()

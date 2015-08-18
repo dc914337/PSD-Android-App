@@ -44,10 +44,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     AppearancesList passes;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
-
     PSDServiceWorker serviceWorker;
-
     ServiceState psdState = ServiceState.NotInitialised;
+
+    boolean userWantsPsdOn = true;
 
 
     private class MainPSDServiceWorker extends PSDServiceWorker
@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
                 case NotConnected:
                 case NotInitialised:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+                    setDesirablePsdState();//if app is open we always are trying to set desirable state
                     break;
             }
         }
@@ -98,6 +99,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         initVariables();
         if (tryLoadPasses())
             connectAndInitService();
+
     }
 
 
@@ -157,17 +159,13 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        switch (psdState) {
-            case NotConnected:
-                serviceWorker.connectPsd();
-                break;
-            case ReadyToSend:
-            case LowSignal:
-            case WaitingResponse:
-                serviceWorker.disconnectPsd();
-                break;
+        if (userWantsPsdOn == psdState.getConnectedState()) //if current state is what user wanted, then switch user desirable state
+        {
+            userWantsPsdOn = !userWantsPsdOn;
         }
+        setDesirablePsdState();
     }
+
 
     /**
      * Search
@@ -300,6 +298,15 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         appearanceCfg.setPassesAppearances(passes);
         appearanceCfg.rewrite();
     }
+
+    private void setDesirablePsdState()
+    {
+        if (userWantsPsdOn)
+            serviceWorker.connectPsd();
+        else
+            serviceWorker.disconnectPsd();
+    }
+
 
     /*
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
