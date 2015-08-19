@@ -12,7 +12,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
-import anon.psd.device.ServiceState;
+import anon.psd.device.state.CurrentServiceState;
 import anon.psd.models.PassItem;
 
 /**
@@ -108,7 +108,8 @@ public abstract class PSDServiceWorker
 
     private void receivedStateChanged(Message msg)
     {
-        ServiceState state = ServiceState.fromInteger((int) ((Bundle) msg.obj).get("service_state"));
+        CurrentServiceState state = CurrentServiceState.fromByteArray(
+                (byte[]) ((Bundle) msg.obj).get("service_state"));
         onStateChanged(state);
     }
 
@@ -170,7 +171,7 @@ public abstract class PSDServiceWorker
     }
 
 
-    public abstract void onStateChanged(ServiceState newState);
+    public abstract void onStateChanged(CurrentServiceState newState);
 
     public abstract void onReceivedResult(boolean res);
 

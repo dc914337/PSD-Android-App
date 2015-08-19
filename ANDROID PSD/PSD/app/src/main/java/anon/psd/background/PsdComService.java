@@ -11,7 +11,10 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import anon.psd.crypto.protocol.PsdProtocolV1;
-import anon.psd.device.ServiceState;
+import anon.psd.device.state.ConnectionState;
+import anon.psd.device.state.CurrentServiceState;
+import anon.psd.device.state.ProtocolState;
+import anon.psd.device.state.ServiceState;
 import anon.psd.hardware.IBtObservable;
 import anon.psd.hardware.IBtObserver;
 import anon.psd.hardware.LowLevelMessage;
@@ -28,8 +31,8 @@ public class PsdComService extends IntentService implements IBtObserver
 {
     public static final String SERVICE_NAME = "PsdComService";
     private final String TAG = "PsdComService";
-    private ServiceState serviceState = ServiceState.NotInitialised;
 
+    private CurrentServiceState serviceState = new CurrentServiceState();
     final Messenger mMessenger = new Messenger(new ServiceHandler());
     Messenger mClient;
     ServiceNotification notification;
@@ -73,11 +76,11 @@ public class PsdComService extends IntentService implements IBtObserver
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         if (!baseRepo.update()) {
-            onStateChanged(ServiceState.NotInitialised);
+            sendError(ErrorType.DBError, "Couldn't load database");
             return;
         }
         protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
-        onStateChanged(ServiceState.NotConnected); //here we don't have client messenger(mClient) yet. We will call sendState  when we will get mClient
+        serviceState.setServiceState(ServiceState.Initialised); //here we don't have client messenger(mClient) yet. We will call sendState  when we will get mClient
     }
 
     class ServiceHandler extends Handler
@@ -90,10 +93,7 @@ public class PsdComService extends IntentService implements IBtObserver
             switch (type) {
                 case ConnectService:
                     mClient = msg.replyTo;
-                    //init sending of current state. Not changing it
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("service_state", serviceState.getInt());
-                    sendToClients(bundle, MessageType.ConnectionStateChanged);
+                    sendServiceState();
                     break;
                 case ConnectPSD:
                     connect();
@@ -125,20 +125,39 @@ public class PsdComService extends IntentService implements IBtObserver
         Bundle bundle = new Bundle();
         bundle.putBoolean("success", true);
         sendToClients(bundle, MessageType.PassSendResult);
-        onStateChanged(ServiceState.ReadyToSend);
+        onProtocolStateChanged(ProtocolState.ReadyToSend);
     }
 
     @Override
-    public void onStateChanged(ServiceState newState)
+    public void onConnectionStateChanged(ConnectionState newState)
     {
-        if (newState == serviceState)
+        if (serviceState.is(newState))
             return;
-        serviceState = newState;
+
+        serviceState.setConnectionState(newState);
         Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        sendServiceState();
+    }
+
+    @Override
+    public void onProtocolStateChanged(ProtocolState newState)
+    {
+        if (serviceState.is(newState))
+            return;
+
+        serviceState.setProtocolState(newState);
+        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        sendServiceState();
+    }
+
+    private void sendServiceState()
+    {
+
         Bundle bundle = new Bundle();
-        bundle.putInt("service_state", newState.getInt());
+        bundle.putByteArray("service_state", serviceState.toByteArray());
         sendToClients(bundle, MessageType.ConnectionStateChanged);
     }
+
 
     private void sendError(ErrorType err, String errMessage)
     {
@@ -165,11 +184,11 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void connect()
     {
-        if (serviceState != ServiceState.NotConnected) {
-            if (serviceState.isPsdConnected())
-                sendError(ErrorType.WrongState, "PSD is already connected");
-            else
-                sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
+        if (serviceState.is(ConnectionState.Connected)) {
+            sendError(ErrorType.WrongState, "PSD is already connected");
+            return;
+        } else if (serviceState.is(ServiceState.NotInitialised)) {
+            sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
             return;
         }
 
@@ -180,8 +199,11 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void disconnect()
     {
-        if (!serviceState.isPsdConnected()) {
+        if (serviceState.is(ConnectionState.NotConnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
+            return;
+        } else if (serviceState.is(ServiceState.NotInitialised)) {
+            sendError(ErrorType.WrongState, "Service is not initialised");
             return;
         }
         bt.disconnectDevice();
@@ -192,12 +214,12 @@ public class PsdComService extends IntentService implements IBtObserver
     private void sendPassword(Bundle bundle)
     {
         short passId = bundle.getShort("pass_item_id");
-        if (!serviceState.isPsdConnected()) {
+        if (serviceState.is(ConnectionState.NotConnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
         }
 
-        if (serviceState == ServiceState.WaitingResponse) {
+        if (serviceState.is(ProtocolState.WaitingResponse)) {
             sendError(ErrorType.WrongState, "We are still waiting for response from PSD");
             return;
         }
@@ -205,6 +227,6 @@ public class PsdComService extends IntentService implements IBtObserver
         PassItem passItem = baseRepo.getPassesBase().passwords.get(passId);
         byte[] encryptedMessage = protocolV1.generateNextMessage(passId, passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
-        onStateChanged(ServiceState.WaitingResponse);
+        onProtocolStateChanged(ProtocolState.WaitingResponse);
     }
 }

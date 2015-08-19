@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import anon.psd.device.ServiceState;
+import anon.psd.device.state.ConnectionState;
 import anon.psd.utils.ArrayUtils;
 
 /**
@@ -41,14 +41,14 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     public void disableBluetooth()
     {
-        setConnectionState(ServiceState.NotConnected);
+        setConnectionState(ConnectionState.NotConnected);
         btAdapter.disable();
     }
 
-    public void setConnectionState(ServiceState newConnectionState)
+    public void setConnectionState(ConnectionState newConnectionState)
     {
         if (listener != null)
-            listener.onStateChanged(newConnectionState); //send that state changed
+            listener.onConnectionStateChanged(newConnectionState); //send that state changed
     }
 
     @Override
@@ -123,7 +123,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             e.printStackTrace();
         }
         btSocket = null;
-        setConnectionState(ServiceState.NotConnected);
+        setConnectionState(ConnectionState.NotConnected);
         stopListenForData();
     }
 
@@ -139,7 +139,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             outStream.write(lowLevelProtocol.prepareSendMessage(message));
             outStream.flush();
         } catch (IOException e) {
-            setConnectionState(ServiceState.NotConnected);
+            setConnectionState(ConnectionState.NotConnected);
             e.printStackTrace();
             return false;
         }
@@ -162,7 +162,7 @@ public class PsdBluetoothCommunication implements IBtObservable
                         dataAvailable = inStream.available() > 0;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        setConnectionState(ServiceState.NotConnected);
+                        setConnectionState(ConnectionState.NotConnected);
                         stopWorker = true;
                     }
 
@@ -172,7 +172,7 @@ public class PsdBluetoothCommunication implements IBtObservable
 
                         switch (received.type) {
                             case Pong:
-                                setConnectionState(ServiceState.ReadyToSend);
+                                setConnectionState(ConnectionState.Connected);
                                 break;
                             case Response:
                                 if (received.message != null)

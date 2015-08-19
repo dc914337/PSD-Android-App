@@ -21,7 +21,8 @@ import java.io.File;
 import anon.psd.R;
 import anon.psd.background.ErrorType;
 import anon.psd.background.PSDServiceWorker;
-import anon.psd.device.ServiceState;
+import anon.psd.device.state.ConnectionState;
+import anon.psd.device.state.CurrentServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -46,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
     PSDServiceWorker serviceWorker;
-    ServiceState psdState = ServiceState.NotInitialised;
+    CurrentServiceState psdState = new CurrentServiceState();
 
     boolean userWantsPsdOn = true;
 
@@ -59,24 +60,25 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
         @Override
-        public void onStateChanged(ServiceState newState)
+        public void onStateChanged(CurrentServiceState newState)
         {
             ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
             Log.d(TAG, String.format("Activity State changed on %s", newState));
             psdState = newState;
-            switch (newState) {
-                case ReadyToSend:
-                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-                    Alerts.showMessage(getApplicationContext(),"PSD connected");
-                    break;
-                case NotConnected:
-                    Alerts.showMessage(getApplicationContext(),"PSD disconnected");
-                case NotInitialised:
-                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+            if (newState.is(ConnectionState.Connected)) {
+                connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
+                Alerts.showMessage(getApplicationContext(), "PSD connected");
+            }
+
+            if (newState.is(ConnectionState.NotConnected)) {
+                Alerts.showMessage(getApplicationContext(), "PSD disconnected");
+                connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+                if (!newState.is(ConnectionState.NotAvailable))
                     setDesirablePsdState();//if app is open we always are trying to set desirable state
-                    break;
+                return;
             }
         }
+
 
         @Override
         public void onReceivedResult(boolean res)
@@ -175,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (userWantsPsdOn == psdState.isPsdConnected()) //if current state is what user wanted, then switch user desirable state
+        if (userWantsPsdOn == psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
         {
             userWantsPsdOn = !userWantsPsdOn;
         }
