@@ -34,7 +34,7 @@ namespace PsdBasesSetter.Crypto
             var passPart1Bytes = new byte[MaxPassLength];
             _rngCsp.GetBytes(passPart1Bytes);
 
-            var realPassBytes = pass.Pass;
+            var realPassBytes = pass.GetBytes();
 
             var passPart2Bytes = XORArrays(passPart1Bytes, realPassBytes);
 

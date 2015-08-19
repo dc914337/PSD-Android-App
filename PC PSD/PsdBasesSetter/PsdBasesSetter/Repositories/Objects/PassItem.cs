@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using Newtonsoft.Json;
 using PsdBasesSetter.Repositories.Serializers;
 
@@ -9,6 +11,8 @@ namespace PsdBasesSetter.Repositories.Objects
     [DataContract]
     public class PassItem
     {
+        private const char SEPARATOR = '\t';
+
         public PassItem()
         {
         }
@@ -42,6 +46,24 @@ namespace PsdBasesSetter.Repositories.Objects
             EnterWithLogin = enterWithLogin;
             Pass = password;
             Description = description;
+        }
+
+
+        public byte[] GetBytes()
+        {
+            if (EnterWithLogin)
+                return Encoding.UTF8.GetBytes(Login).Concat(GetBytesFromChar(SEPARATOR)).Concat(Pass).ToArray();
+
+            return Pass;
+        }
+
+        private static byte[] GetBytesFromChar(char ch)
+        {
+            return Encoding.UTF8.GetBytes(
+                new char[]
+                {
+                    ch
+                });
         }
 
 
