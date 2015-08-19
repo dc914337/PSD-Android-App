@@ -152,7 +152,6 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void sendServiceState()
     {
-
         Bundle bundle = new Bundle();
         bundle.putByteArray("service_state", serviceState.toByteArray());
         sendToClients(bundle, MessageType.ConnectionStateChanged);

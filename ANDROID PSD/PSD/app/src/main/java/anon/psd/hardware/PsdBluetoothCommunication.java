@@ -68,13 +68,13 @@ public class PsdBluetoothCommunication implements IBtObservable
 
         btAdapter.cancelDiscovery();//just in case cuz discovery is resource intensive
 
-
         //connecting
         try {
             btSocket.connect();
         } catch (IOException e) {
             try {
                 btSocket.close();
+                e.printStackTrace();
             } catch (IOException e2) {
                 e.printStackTrace();
             }
@@ -150,6 +150,9 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     private void beginListenForData()
     {
+        if (workerThread != null && workerThread.isAlive() && !workerThread.isInterrupted())
+            return;
+
         workerThread = new Thread(new Runnable()
         {
             public void run()
@@ -187,7 +190,6 @@ public class PsdBluetoothCommunication implements IBtObservable
                 }
             }
         });
-
         workerThread.start();
     }
 

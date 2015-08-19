@@ -62,21 +62,23 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         @Override
         public void onStateChanged(CurrentServiceState newState)
         {
+            CurrentServiceState oldState = psdState;
+            psdState = newState;
+
             ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
             Log.d(TAG, String.format("Activity State changed on %s", newState));
-            psdState = newState;
-            if (newState.is(ConnectionState.Connected)) {
+            if (newState.is(ConnectionState.Connected) && !oldState.is(ConnectionState.Connected)) {
                 connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
                 Alerts.showMessage(getApplicationContext(), "PSD connected");
             }
 
-            if (newState.is(ConnectionState.NotConnected)) {
-                Alerts.showMessage(getApplicationContext(), "PSD disconnected");
+            if (newState.is(ConnectionState.NotConnected) && !oldState.is(ConnectionState.NotConnected)) {
                 connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-                if (!newState.is(ConnectionState.NotAvailable))
-                    setDesirablePsdState();//if app is open we always are trying to set desirable state
-                return;
+                Alerts.showMessage(getApplicationContext(), "PSD disconnected");
             }
+
+            if (!newState.is(ConnectionState.NotAvailable))
+                setDesirablePsdState();//if app is open we always are trying to set desirable state
         }
 
 
@@ -319,9 +321,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private void setDesirablePsdState()
     {
-        if (userWantsPsdOn)
+        if (userWantsPsdOn && !psdState.is(ConnectionState.Connected))
             serviceWorker.connectPsd();
-        else
+        else if (!userWantsPsdOn && psdState.is(ConnectionState.Connected))
             serviceWorker.disconnectPsd();
     }
 

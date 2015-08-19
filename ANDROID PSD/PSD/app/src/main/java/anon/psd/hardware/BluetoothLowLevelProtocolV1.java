@@ -17,6 +17,8 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     private final static int PONG_LENGTH = 1;
     private final static int TYPE_LENGTH = 1;
     private final static String TAG = "LowLevel";
+    private final static int nextByteTimeoutMs = 200;
+    private final static int SLEEP_BETWEEN_TRIES = 10;
 
     @Override
     public byte[] prepareConnectionMessage()
@@ -50,14 +52,13 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             e.printStackTrace();
         }
 
-
         LowLevelMsgType type = LowLevelMsgType.fromByte(typeBytes[0]);
         Log.d(TAG, "[ RECEIVED ] [ TYPE ] " + type.toString());
         switch (type) {
             case Pong:
                 return checkPong(stream);
             case Response:
-                return new LowLevelMessage(LowLevelMsgType.Response, receiveMessageBytes(stream));
+                return new LowLevelMessage(LowLevelMsgType.Response, receiveNextBytes(MESSAGE_LENGTH, stream));
             default:
                 return new LowLevelMessage(LowLevelMsgType.Unknown, typeBytes);
         }
@@ -65,27 +66,29 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
 
     private LowLevelMessage checkPong(InputStream stream)
     {
-        byte[] receivedBytes = new byte[PONG_LENGTH];
-        try {
-            stream.read(receivedBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
+        byte[] receivedBytes = receiveNextBytes(PONG_LENGTH, stream);
+        if (receivedBytes == null ||
+                LowLevelMsgType.fromByte(receivedBytes[0]) != LowLevelMsgType.Pong)
             return new LowLevelMessage(LowLevelMsgType.Unknown, receivedBytes);
-        }
         Log.d(TAG, "[ RECEIVED ] [ MESSAGE ] PONG CONFIRM");
         return new LowLevelMessage(LowLevelMsgType.Pong, receivedBytes);
     }
 
-    private byte[] receiveMessageBytes(InputStream stream)
+
+    private byte[] receiveNextBytes(int count, InputStream stream)
     {
         try {
             int read = 0;
+            int failedTries = 0;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            while (read < MESSAGE_LENGTH) {
-                Thread.sleep(10);
+            while (read < count && failedTries * SLEEP_BETWEEN_TRIES < nextByteTimeoutMs) {
                 int available = stream.available();
-                if (available <= 0)
+                if (available <= 0) {
+                    Thread.sleep(SLEEP_BETWEEN_TRIES);
+                    failedTries++;
                     continue;
+                }
+                failedTries = 0;
                 byte[] buff = new byte[available];
                 read += stream.read(buff);
                 baos.write(buff);
@@ -94,10 +97,10 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
-            return new byte[0];
+            return null;
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return new byte[0];
+            return null;
         }
     }
 
