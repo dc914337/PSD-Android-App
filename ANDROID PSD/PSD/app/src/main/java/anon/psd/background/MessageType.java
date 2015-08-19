@@ -11,7 +11,8 @@ public enum MessageType
     DisconnectPSD,
     SendPass,
     PassSendResult,
-    ConnectionStateChanged;
+    ConnectionStateChanged,
+    Error;
 
     public static MessageType fromInteger(int x)
     {

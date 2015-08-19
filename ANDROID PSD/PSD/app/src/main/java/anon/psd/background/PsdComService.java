@@ -140,6 +140,13 @@ public class PsdComService extends IntentService implements IBtObserver
         sendToClients(bundle, MessageType.ConnectionStateChanged);
     }
 
+    private void sendError(ErrorType err, String errMessage)
+    {
+        Bundle errBundle = new Bundle();
+        errBundle.putInt("err_type", err.getInt());
+        errBundle.putString("err_msg", errMessage);
+        sendToClients(errBundle, MessageType.Error);
+    }
 
     private void sendToClients(Bundle bundle, MessageType msgType)
     {
@@ -158,8 +165,14 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void connect()
     {
-        if (serviceState != ServiceState.NotConnected)
+        if (serviceState != ServiceState.NotConnected) {
+            if (serviceState.isPsdConnected())
+                sendError(ErrorType.WrongState, "PSD is already connected");
+            else
+                sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
             return;
+        }
+
         bt.enableBluetooth();
         bt.registerObserver(this);
         bt.connectDevice(psdMacAddress);
@@ -167,9 +180,10 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void disconnect()
     {
-        if (serviceState == ServiceState.NotInitialised ||
-                serviceState == ServiceState.NotConnected)
+        if (!serviceState.isPsdConnected()) {
+            sendError(ErrorType.WrongState, "PSD is not connected");
             return;
+        }
         bt.disconnectDevice();
         bt.disableBluetooth();
         bt.removeObserver();
@@ -178,10 +192,15 @@ public class PsdComService extends IntentService implements IBtObserver
     private void sendPassword(Bundle bundle)
     {
         short passId = bundle.getShort("pass_item_id");
-        //We can send password only if connected or low signal
-        if (!(serviceState == ServiceState.ReadyToSend ||
-                serviceState == ServiceState.LowSignal))
+        if (!serviceState.isPsdConnected()) {
+            sendError(ErrorType.WrongState, "PSD is not connected");
             return;
+        }
+
+        if (serviceState == ServiceState.WaitingResponse) {
+            sendError(ErrorType.WrongState, "We are still waiting for response from PSD");
+            return;
+        }
 
         PassItem passItem = baseRepo.getPassesBase().passwords.get(passId);
         byte[] encryptedMessage = protocolV1.generateNextMessage(passId, passItem.getPasswordBytes());

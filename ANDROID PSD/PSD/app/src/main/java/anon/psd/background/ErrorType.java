@@ -6,7 +6,7 @@ package anon.psd.background;
 public enum ErrorType
 {
     DeviceNotConnected,
-    DBEror,
+    DBError,
     IOError,
     WrongState;
 

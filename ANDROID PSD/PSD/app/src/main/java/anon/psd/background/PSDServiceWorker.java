@@ -30,7 +30,6 @@ public abstract class PSDServiceWorker
 
     //Handler of incoming messages from service.
     final Messenger mMessenger = new Messenger(new ActivityHandler());
-    private ServiceConnection mConnection;
 
     public PSDServiceWorker(Context context)
     {
@@ -44,7 +43,7 @@ public abstract class PSDServiceWorker
     */
     public void connectService(String dbPath, byte[] dbPass, String psdMacAddress)
     {
-        mConnection = new MyServiceConnection();
+        ServiceConnection mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(ctx, PsdComService.class);
 
         mServiceIntent.putExtra("DB_PATH", dbPath);
@@ -68,7 +67,10 @@ public abstract class PSDServiceWorker
 
     public void sendPass(PassItem pass)
     {
-        sendPassToService(pass);
+        Bundle bundle = new Bundle();
+        bundle.putShort("pass_item_id", pass.id);
+        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
+        sendMessage(msg);
     }
 
 
@@ -85,12 +87,24 @@ public abstract class PSDServiceWorker
                 case PassSendResult:
                     receivedResult(msg);
                     break;
+                case Error:
+                    receivedError(msg);
+
+                    break;
                 default:
                     super.handleMessage(msg);
             }
         }
     }
 
+
+    private void receivedError(Message msg)
+    {
+        Bundle bundle = (Bundle) msg.obj;
+        String message = bundle.getString("err_msg");
+        ErrorType type = ErrorType.fromInteger(bundle.getInt("err_type"));
+        onReceivedError(type, message);
+    }
 
     private void receivedStateChanged(Message msg)
     {
@@ -141,14 +155,6 @@ public abstract class PSDServiceWorker
         sendMessage(msg);
     }
 
-    private void sendPassToService(PassItem pass)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putShort("pass_item_id", pass.id);
-        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
-        sendMessage(msg);
-    }
-
 
     private void sendMessage(Message msg)
     {
@@ -168,4 +174,5 @@ public abstract class PSDServiceWorker
 
     public abstract void onReceivedResult(boolean res);
 
+    public abstract void onReceivedError(ErrorType err, String msg);
 }

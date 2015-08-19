@@ -19,6 +19,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
+import anon.psd.background.ErrorType;
 import anon.psd.background.PSDServiceWorker;
 import anon.psd.device.ServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
@@ -66,8 +67,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             switch (newState) {
                 case ReadyToSend:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
+                    Alerts.showMessage(getApplicationContext(),"PSD connected");
                     break;
                 case NotConnected:
+                    Alerts.showMessage(getApplicationContext(),"PSD disconnected");
                 case NotInitialised:
                     connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
                     setDesirablePsdState();//if app is open we always are trying to set desirable state
@@ -84,8 +87,21 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
                 Alerts.showMessage(getApplicationContext(), "Errors sending password");
         }
 
-    }
 
+        @Override
+        public void onReceivedError(ErrorType err, String msg)
+        {
+            Alerts.showMessage(getApplicationContext(), msg);
+
+            //do something if needed
+            switch (err) {
+                case IOError:
+                    serviceWorker.disconnectPsd();
+                    break;
+            }
+        }
+
+    }
 
     /**
      * Activity events
@@ -159,7 +175,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (userWantsPsdOn == psdState.getConnectedState()) //if current state is what user wanted, then switch user desirable state
+        if (userWantsPsdOn == psdState.isPsdConnected()) //if current state is what user wanted, then switch user desirable state
         {
             userWantsPsdOn = !userWantsPsdOn;
         }

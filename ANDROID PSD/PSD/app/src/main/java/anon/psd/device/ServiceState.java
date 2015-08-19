@@ -18,7 +18,7 @@ public enum ServiceState
         return values()[x];
     }
 
-    public boolean getConnectedState()
+    public boolean isPsdConnected()
     {
         switch (this) {
             case NotInitialised:
