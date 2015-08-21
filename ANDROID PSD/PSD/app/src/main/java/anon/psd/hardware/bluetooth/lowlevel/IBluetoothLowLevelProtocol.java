@@ -1,4 +1,4 @@
-package anon.psd.hardware;
+package anon.psd.hardware.bluetooth.lowlevel;
 
 import java.io.InputStream;
 

@@ -1,4 +1,4 @@
-package anon.psd.hardware;
+package anon.psd.hardware.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,9 +8,13 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.UUID;
 
 import anon.psd.device.state.ConnectionState;
+import anon.psd.hardware.bluetooth.lowlevel.BluetoothLowLevelProtocolV1;
+import anon.psd.hardware.bluetooth.lowlevel.IBluetoothLowLevelProtocol;
+import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 import anon.psd.utils.ArrayUtils;
 
 /**
@@ -18,6 +22,26 @@ import anon.psd.utils.ArrayUtils;
  */
 public class PsdBluetoothCommunication implements IBtObservable
 {
+    public Date lastReceivedPong = new Date();
+    public Date lastRequestWithoutResponse = new Date();
+
+    //todo make thread safe
+    public void updateTimeReceivedPong()
+    {
+        lastReceivedPong = new Date();
+    }
+
+    public void updateLastRequestWithoutResponse()
+    {
+        lastRequestWithoutResponse = new Date();
+    }
+
+    public void receivedResponse()
+    {
+        lastRequestWithoutResponse = null;
+    }
+
+
     // SPP UUID сервиса
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothAdapter btAdapter;
@@ -26,6 +50,10 @@ public class PsdBluetoothCommunication implements IBtObservable
     InputStream inStream = null;
     IBluetoothLowLevelProtocol lowLevelProtocol = new BluetoothLowLevelProtocolV1();
     IBtObserver listener;
+
+    Thread listenerThread;
+    Thread liveCheckerThread;
+
 
     public PsdBluetoothCommunication()
     {
@@ -39,10 +67,17 @@ public class PsdBluetoothCommunication implements IBtObservable
             btAdapter.enable();
     }
 
+
     public void disableBluetooth()
     {
         setConnectionState(ConnectionState.NotConnected);
         btAdapter.disable();
+    }
+
+    @Override
+    public boolean isBluetoothEnabled()
+    {
+        return btAdapter.isEnabled();
     }
 
     public void setConnectionState(ConnectionState newConnectionState)
@@ -130,6 +165,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     @Override
     public void sendPasswordBytes(byte[] passBytes)
     {
+        updateLastRequestWithoutResponse();
         sendBytes(passBytes);
     }
 
@@ -146,14 +182,13 @@ public class PsdBluetoothCommunication implements IBtObservable
         return true;
     }
 
-    Thread workerThread;
 
     private void beginListenForData()
     {
-        if (workerThread != null && workerThread.isAlive() && !workerThread.isInterrupted())
+        if (listenerThread != null && listenerThread.isAlive() && !listenerThread.isInterrupted())
             return;
 
-        workerThread = new Thread(new Runnable()
+        listenerThread = new Thread(new Runnable()
         {
             public void run()
             {
@@ -175,11 +210,14 @@ public class PsdBluetoothCommunication implements IBtObservable
 
                         switch (received.type) {
                             case Pong:
+                                updateTimeReceivedPong();
                                 setConnectionState(ConnectionState.Connected);
                                 break;
                             case Response:
-                                if (received.message != null)
+                                if (received.message != null) {
+                                    receivedResponse();
                                     listener.onReceive(received);
+                                }
                                 break;
                             case Unknown:
                                 Log.wtf("WTF", ArrayUtils.getHexArray(received.message));
@@ -190,14 +228,43 @@ public class PsdBluetoothCommunication implements IBtObservable
                 }
             }
         });
-        workerThread.start();
+        listenerThread.start();
     }
 
     private void stopListenForData()
     {
-        workerThread.interrupt();
+        listenerThread.interrupt();
     }
 
+
+    private void beginLiveChecker()
+    {
+        if (liveCheckerThread != null && liveCheckerThread.isAlive() && !liveCheckerThread.isInterrupted())
+            return;
+
+        liveCheckerThread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                boolean stopWorker = false;
+                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+
+                    //ping
+                    //wait ping retry time
+                    //check time in LastReceived
+                    //set new state
+                    //check last requestWithout receive
+                    //send error
+                }
+            }
+        });
+        listenerThread.start();
+    }
+
+    private void stopLiveChecker()
+    {
+        liveCheckerThread.interrupt();
+    }
 
     private void waitBtToEnable()
     {

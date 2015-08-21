@@ -15,10 +15,10 @@ import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
-import anon.psd.hardware.IBtObservable;
-import anon.psd.hardware.IBtObserver;
-import anon.psd.hardware.LowLevelMessage;
-import anon.psd.hardware.PsdBluetoothCommunication;
+import anon.psd.hardware.bluetooth.IBtObservable;
+import anon.psd.hardware.bluetooth.IBtObserver;
+import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
+import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.storage.FileRepository;
@@ -38,7 +38,7 @@ public class PsdComService extends IntentService implements IBtObserver
     ServiceNotification notification;
     IBtObservable bt;
     PsdProtocolV1 protocolV1;
-
+    boolean rememberedBtState;
 
     String psdMacAddress;
     FileRepository baseRepo;
@@ -139,7 +139,6 @@ public class PsdComService extends IntentService implements IBtObserver
         sendServiceState();
     }
 
-    @Override
     public void onProtocolStateChanged(ProtocolState newState)
     {
         if (serviceState.is(newState))
@@ -190,6 +189,7 @@ public class PsdComService extends IntentService implements IBtObserver
             sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
             return;
         }
+        rememberedBtState = bt.isBluetoothEnabled();
 
         bt.enableBluetooth();
         bt.registerObserver(this);
@@ -206,7 +206,8 @@ public class PsdComService extends IntentService implements IBtObserver
             return;
         }
         bt.disconnectDevice();
-        bt.disableBluetooth();
+        if (!rememberedBtState)
+            bt.disableBluetooth();
         bt.removeObserver();
     }
 
