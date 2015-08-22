@@ -8,6 +8,7 @@ public enum ErrorType
     DeviceNotConnected,
     DBError,
     IOError,
+    Dissynchronization,
     WrongState;
 
 

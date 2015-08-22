@@ -7,7 +7,7 @@ import java.io.InputStream;
  */
 public interface IBluetoothLowLevelProtocol
 {
-    public byte[] prepareConnectionMessage();
+    public byte[] preparePingMessage();
 
     public byte[] prepareSendMessage(byte[] data);
 

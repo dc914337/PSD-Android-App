@@ -17,14 +17,14 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     private final static int PONG_LENGTH = 1;
     private final static int TYPE_LENGTH = 1;
     private final static String TAG = "LowLevel";
-    private final static int nextByteTimeoutMs = 200;
+    private final static int NEXT_BYTE_TIMEOUT_MS = 200;
     private final static int SLEEP_BETWEEN_TRIES = 10;
 
     @Override
-    public byte[] prepareConnectionMessage()
+    public byte[] preparePingMessage()
     {
         byte[] alive = new byte[]{(byte) 0xFF};
-        Log.d(TAG, "[ SEND ] Connect");
+        Log.d(TAG, "[ SEND ] Ping");
         return alive;
     }
 
@@ -81,7 +81,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             int read = 0;
             int failedTries = 0;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            while (read < count && failedTries * SLEEP_BETWEEN_TRIES < nextByteTimeoutMs) {
+            while (read < count && failedTries * SLEEP_BETWEEN_TRIES < NEXT_BYTE_TIMEOUT_MS) {
                 int available = stream.available();
                 if (available <= 0) {
                     Thread.sleep(SLEEP_BETWEEN_TRIES);

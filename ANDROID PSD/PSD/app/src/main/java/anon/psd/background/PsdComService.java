@@ -17,8 +17,8 @@ import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.hardware.bluetooth.IBtObservable;
 import anon.psd.hardware.bluetooth.IBtObserver;
-import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
+import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.storage.FileRepository;
@@ -156,8 +156,8 @@ public class PsdComService extends IntentService implements IBtObserver
         sendToClients(bundle, MessageType.ConnectionStateChanged);
     }
 
-
-    private void sendError(ErrorType err, String errMessage)
+    @Override
+    public void sendError(ErrorType err, String errMessage)
     {
         Bundle errBundle = new Bundle();
         errBundle.putInt("err_type", err.getInt());
@@ -198,7 +198,7 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void disconnect()
     {
-        if (serviceState.is(ConnectionState.NotConnected)) {
+        if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
         } else if (serviceState.is(ServiceState.NotInitialised)) {
@@ -214,7 +214,7 @@ public class PsdComService extends IntentService implements IBtObserver
     private void sendPassword(Bundle bundle)
     {
         short passId = bundle.getShort("pass_item_id");
-        if (serviceState.is(ConnectionState.NotConnected)) {
+        if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
         }

@@ -8,39 +8,23 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.UUID;
 
+import anon.psd.background.ErrorType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.hardware.bluetooth.lowlevel.BluetoothLowLevelProtocolV1;
 import anon.psd.hardware.bluetooth.lowlevel.IBluetoothLowLevelProtocol;
 import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 import anon.psd.utils.ArrayUtils;
+import anon.psd.utils.DelayUtils;
 
 /**
  * Created by Dmitry on 03.08.2015.
  */
 public class PsdBluetoothCommunication implements IBtObservable
 {
-    public Date lastReceivedPong = new Date();
-    public Date lastRequestWithoutResponse = new Date();
 
-    //todo make thread safe
-    public void updateTimeReceivedPong()
-    {
-        lastReceivedPong = new Date();
-    }
-
-    public void updateLastRequestWithoutResponse()
-    {
-        lastRequestWithoutResponse = new Date();
-    }
-
-    public void receivedResponse()
-    {
-        lastRequestWithoutResponse = null;
-    }
-
+    BTRegistrar btRegistrar;
 
     // SPP UUID сервиса
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -53,6 +37,7 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     Thread listenerThread;
     Thread liveCheckerThread;
+    public static final int LIVE_CHECKER_SLEEP_MS = 300;
 
 
     public PsdBluetoothCommunication()
@@ -70,7 +55,7 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     public void disableBluetooth()
     {
-        setConnectionState(ConnectionState.NotConnected);
+        setConnectionState(ConnectionState.Disconnected);
         btAdapter.disable();
     }
 
@@ -80,10 +65,21 @@ public class PsdBluetoothCommunication implements IBtObservable
         return btAdapter.isEnabled();
     }
 
+
     public void setConnectionState(ConnectionState newConnectionState)
     {
+        if (newConnectionState == ConnectionState.Disconnected) {
+            stopService();
+        }
+
         if (listener != null)
             listener.onConnectionStateChanged(newConnectionState); //send that state changed
+    }
+
+    public void sendError(ErrorType err, String errMessage)
+    {
+        if (listener != null)
+            listener.sendError(err, errMessage); //send error
     }
 
     @Override
@@ -125,15 +121,10 @@ public class PsdBluetoothCommunication implements IBtObservable
             return;
         }
 
-        try {
-            outStream.write(lowLevelProtocol.prepareConnectionMessage());
-            outStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
+        btRegistrar = new BTRegistrar();
+        sendPing();
         beginListenForData();
+        beginLiveChecker();
     }
 
 
@@ -158,15 +149,36 @@ public class PsdBluetoothCommunication implements IBtObservable
             e.printStackTrace();
         }
         btSocket = null;
-        setConnectionState(ConnectionState.NotConnected);
+        stopService();
+
+        setConnectionState(ConnectionState.Disconnected);
+    }
+
+
+    public void stopService()
+    {
         stopListenForData();
+        stopLiveChecker();
+        btRegistrar = null;
     }
 
     @Override
     public void sendPasswordBytes(byte[] passBytes)
     {
-        updateLastRequestWithoutResponse();
+        btRegistrar.registerRequest();
         sendBytes(passBytes);
+    }
+
+    public void sendPing()
+    {
+        try {
+            outStream.write(lowLevelProtocol.preparePingMessage());
+            outStream.flush();
+            btRegistrar.registerPing();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private boolean sendBytes(byte[] message)
@@ -175,7 +187,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             outStream.write(lowLevelProtocol.prepareSendMessage(message));
             outStream.flush();
         } catch (IOException e) {
-            setConnectionState(ConnectionState.NotConnected);
+            setConnectionState(ConnectionState.Disconnected);
             e.printStackTrace();
             return false;
         }
@@ -193,15 +205,15 @@ public class PsdBluetoothCommunication implements IBtObservable
             public void run()
             {
                 boolean stopWorker = false;
-                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
+                while (!Thread.currentThread().isInterrupted()) {
                     boolean dataAvailable = false;
                     //check if data available
                     try {
                         dataAvailable = inStream.available() > 0;
                     } catch (IOException e) {
                         e.printStackTrace();
-                        setConnectionState(ConnectionState.NotConnected);
-                        stopWorker = true;
+                        setConnectionState(ConnectionState.Disconnected);
+                        break;
                     }
 
                     //start receiving if available
@@ -210,12 +222,12 @@ public class PsdBluetoothCommunication implements IBtObservable
 
                         switch (received.type) {
                             case Pong:
-                                updateTimeReceivedPong();
+                                btRegistrar.registerPong();
                                 setConnectionState(ConnectionState.Connected);
                                 break;
                             case Response:
                                 if (received.message != null) {
-                                    receivedResponse();
+                                    btRegistrar.registerResponse();
                                     listener.onReceive(received);
                                 }
                                 break;
@@ -241,24 +253,37 @@ public class PsdBluetoothCommunication implements IBtObservable
     {
         if (liveCheckerThread != null && liveCheckerThread.isAlive() && !liveCheckerThread.isInterrupted())
             return;
-
+        btRegistrar = new BTRegistrar();
         liveCheckerThread = new Thread(new Runnable()
         {
             public void run()
             {
-                boolean stopWorker = false;
-                while (!Thread.currentThread().isInterrupted() && !stopWorker) {
-
+                boolean stopThread = false;
+                while (!Thread.currentThread().isInterrupted()) {
                     //ping
+                    if (btRegistrar.pingReady())
+                        sendPing();
                     //wait ping retry time
+                    DelayUtils.threadSleep(LIVE_CHECKER_SLEEP_MS);
                     //check time in LastReceived
-                    //set new state
+                    if (btRegistrar.responseTimedOut()) {
+                        //set disconnected state
+                        setConnectionState(ConnectionState.Disconnected);
+                        return;
+                    }
                     //check last requestWithout receive
-                    //send error
+                    if (btRegistrar.pongTimedOut()) {
+                        //send error
+                        sendError(ErrorType.Dissynchronization, "");//String.empty
+                        setConnectionState(ConnectionState.Disconnected);
+                        return;
+                    }
+
+
                 }
             }
         });
-        listenerThread.start();
+        liveCheckerThread.start();
     }
 
     private void stopLiveChecker()

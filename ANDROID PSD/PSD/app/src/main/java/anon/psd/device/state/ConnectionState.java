@@ -6,7 +6,7 @@ package anon.psd.device.state;
 public enum ConnectionState
 {
     NotAvailable,
-    NotConnected,
+    Disconnected,
     LowSignal,
     Connected;
 

@@ -1,5 +1,6 @@
 package anon.psd.hardware.bluetooth;
 
+import anon.psd.background.ErrorType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 
@@ -9,6 +10,8 @@ import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 public interface IBtObserver
 {
     void onReceive(LowLevelMessage message);
+
+    public void sendError(ErrorType err, String errMessage);
 
     void onConnectionStateChanged(ConnectionState newState);
 

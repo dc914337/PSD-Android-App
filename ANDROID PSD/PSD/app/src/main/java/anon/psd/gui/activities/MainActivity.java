@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
                 Alerts.showMessage(getApplicationContext(), "PSD connected");
             }
 
-            if (newState.is(ConnectionState.NotConnected) && !oldState.is(ConnectionState.NotConnected)) {
+            if (newState.is(ConnectionState.Disconnected) && !oldState.is(ConnectionState.Disconnected)) {
                 connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
                 Alerts.showMessage(getApplicationContext(), "PSD disconnected");
             }

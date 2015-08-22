@@ -41,7 +41,7 @@ public class CurrentServiceState
         if (serviceState == ServiceState.NotInitialised)
             setConnectionState(ConnectionState.NotAvailable);
         else
-            setConnectionState(ConnectionState.NotConnected);
+            setConnectionState(ConnectionState.Disconnected);
     }
 
 
@@ -58,7 +58,7 @@ public class CurrentServiceState
             return;
 
         serviceState = ServiceState.Initialised;
-        if (connectionState == ConnectionState.NotConnected)
+        if (connectionState == ConnectionState.Disconnected)
             setProtocolState(ProtocolState.NotAvailable);
         else
             setProtocolState(ProtocolState.ReadyToSend);
