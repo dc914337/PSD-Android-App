@@ -1,6 +1,8 @@
 package anon.psd.background;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,11 +12,13 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
+import anon.psd.R;
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
+import anon.psd.gui.activities.MainActivity;
 import anon.psd.hardware.bluetooth.IBtObservable;
 import anon.psd.hardware.bluetooth.IBtObserver;
 import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
@@ -55,6 +59,31 @@ public class PsdComService extends IntentService implements IBtObserver
         super.onCreate();
         bt = new PsdBluetoothCommunication();
         notification = new ServiceNotification(this);
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+
+        Notification note = new Notification(R.drawable.ic_little_green,
+                "Can you hear the music?",
+                System.currentTimeMillis());
+        Intent i = new Intent(this, MainActivity.class);
+
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pi = PendingIntent.getActivity(this, 0,
+                i, 0);
+
+        note.setLatestEventInfo(this, "Fake Player",
+                "Now Playing: \"Ummmm, Nothing\"",
+                pi);
+        note.flags |= Notification.FLAG_NO_CLEAR;
+
+        startForeground(1337, note);
+        return START_STICKY;
     }
 
     @Override
@@ -209,6 +238,7 @@ public class PsdComService extends IntentService implements IBtObserver
         if (!rememberedBtState)
             bt.disableBluetooth();
         bt.removeObserver();
+        stopForeground(true);
     }
 
     private void sendPassword(Bundle bundle)

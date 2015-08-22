@@ -83,6 +83,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             listener.sendError(err, errMessage); //send error
     }
 
+
     @Override
     public void connectDevice(String mac)
     {
