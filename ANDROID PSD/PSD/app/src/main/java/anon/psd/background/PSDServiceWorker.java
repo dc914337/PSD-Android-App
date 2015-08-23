@@ -44,7 +44,7 @@ public abstract class PSDServiceWorker
     public void connectService()
     {
         ServiceConnection mConnection = new MyServiceConnection();
-        Intent mServiceIntent = new Intent(ctx, PsdComService.class);
+        Intent mServiceIntent = new Intent(ctx, PsdConnectionService.class);
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -55,32 +55,32 @@ public abstract class PSDServiceWorker
         bundle.putString("DB_PATH", dbPath);
         bundle.putByteArray("DB_PASS", dbPass);
         bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
-        Message msg = Message.obtain(null, MessageType.Init.getInt(), bundle);
+        Message msg = Message.obtain(null, RequestType.Init.getInt(), bundle);
         sendMessage(msg);
     }
 
     public void connectPsd()
     {
-        sendCommandToService(MessageType.ConnectPSD);
+        sendCommandToService(RequestType.ConnectPSD);
     }
 
     public void disconnectPsd()
     {
-        sendCommandToService(MessageType.DisconnectPSD);
+        sendCommandToService(RequestType.DisconnectPSD);
     }
 
     public void sendPass(PassItem pass)
     {
         Bundle bundle = new Bundle();
         bundle.putShort("pass_item_id", pass.id);
-        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
+        Message msg = Message.obtain(null, RequestType.SendPass.getInt(), bundle);
         sendMessage(msg);
     }
 
 
     public void updateState()
     {
-        sendCommandToService(MessageType.UpdateState);
+        sendCommandToService(RequestType.UpdateState);
     }
 
     private class ActivityHandler extends Handler
@@ -88,7 +88,7 @@ public abstract class PSDServiceWorker
         @Override
         public void handleMessage(Message msg)
         {
-            MessageType type = MessageType.fromInteger(msg.what);
+            RequestType type = RequestType.fromInteger(msg.what);
             switch (type) {
                 case ConnectionStateChanged:
                     receivedStateChanged(msg);
@@ -150,7 +150,7 @@ public abstract class PSDServiceWorker
 
     private void sendMessenger()
     {
-        Message msg = Message.obtain(null, MessageType.ConnectService.getInt());
+        Message msg = Message.obtain(null, RequestType.ConnectService.getInt());
         msg.replyTo = mMessenger;
         try {
             mService.send(msg);
@@ -159,7 +159,7 @@ public abstract class PSDServiceWorker
         }
     }
 
-    private void sendCommandToService(MessageType msgType)
+    private void sendCommandToService(RequestType msgType)
     {
         Message msg = Message.obtain(null, msgType.getInt());
         sendMessage(msg);

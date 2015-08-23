@@ -27,10 +27,10 @@ import anon.psd.storage.FileRepository;
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
  */
-public class PsdComService extends IntentService implements IBtObserver
+public class PsdConnectionService extends IntentService implements IBtObserver
 {
-    public static final String SERVICE_NAME = "PsdComService";
-    private final String TAG = "PsdComService";
+    public static final String SERVICE_NAME = "PsdConnectionService";
+    private final String TAG = "SERVICE";
 
     private CurrentServiceState serviceState = new CurrentServiceState();
     final Messenger mMessenger = new Messenger(new ServiceHandler());
@@ -43,8 +43,42 @@ public class PsdComService extends IntentService implements IBtObserver
     String psdMacAddress;
     FileRepository baseRepo;
 
+    //On receive message from PSD through bluetooth
+    @Override
+    public void onReceive(LowLevelMessage message)
+    {
+        if (!protocolV1.checkResponse(message.message))
+            return;
+        //save new keys to db
+        baseRepo.updateKeys(protocolV1.btKey, protocolV1.hBtKey);
+        sendSuccess();
+    }
 
-    public PsdComService()
+
+    public void onProtocolStateChanged(ProtocolState newState)
+    {
+        if (serviceState.is(newState))
+            return;
+
+        serviceState.setProtocolState(newState);
+        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        sendServiceState();
+    }
+
+
+    @Override
+    public void onConnectionStateChanged(ConnectionState newState)
+    {
+        if (serviceState.is(newState))
+            return;
+
+        serviceState.setConnectionState(newState);
+        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        sendServiceState();
+    }
+
+
+    public PsdConnectionService()
     {
         super(SERVICE_NAME);
     }
@@ -69,6 +103,73 @@ public class PsdComService extends IntentService implements IBtObserver
 
     }
 
+    class ServiceHandler extends Handler
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            RequestType type = RequestType.fromInteger(msg.what);
+            Log.d(TAG, String.format("Service handleMessage %s", type.toString()));
+            switch (type) {
+                case ConnectService:
+                    mClient = msg.replyTo;
+                    sendServiceState();
+                    break;
+                case Init:
+                    initService((Bundle) msg.obj);
+                case ConnectPSD:
+                    connect((Bundle) msg.obj);
+                    break;
+                case SendPass:
+                    sendPassword((Bundle) msg.obj);
+                    break;
+                case DisconnectPSD:
+                    disconnect();
+                    break;
+                case UpdateState:
+                    sendServiceState();
+                    break;
+                case RollKeys:
+                    rollKeys();
+                    break;
+                case Kill:
+                    die();
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
+
+    private void sendSuccess()
+    {
+        sendToClients(null, ResponseType.PassSentSuccess);
+        onProtocolStateChanged(ProtocolState.ReadyToSend);
+    }
+
+    public void sendError(ErrorType err, String errMessage)
+    {
+        Bundle errBundle = new Bundle();
+        errBundle.putInt("ERR_TYPE", err.getInt());
+        errBundle.putString("ERR_MSG", errMessage);
+        sendToClients(errBundle, ResponseType.Error);
+    }
+
+    private void sendToClients(Bundle bundle, ResponseType msgType)
+    {
+        if (mClient == null)
+            return;
+
+        Message msg = Message.obtain(null, msgType.getInt(), bundle);
+        try {
+            mClient.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private void initService(Bundle bundle)
     {
         String dbPath = bundle.getString("DB_PATH");
@@ -84,107 +185,9 @@ public class PsdComService extends IntentService implements IBtObserver
         serviceState.setServiceState(ServiceState.Initialised); //here we don't have client messenger(mClient) yet. We will call sendState  when we will get mClient
     }
 
-    class ServiceHandler extends Handler
+    private void connect(Bundle bundle)
     {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            MessageType type = MessageType.fromInteger(msg.what);
-            Log.d(TAG, String.format("Service handleMessage %s", type.toString()));
-            switch (type) {
-                case ConnectService:
-                    mClient = msg.replyTo;
-                    sendServiceState();
-                    break;
-                case Init:
-                    initService((Bundle) msg.obj);
-                case ConnectPSD:
-                    connect();
-                    break;
-                case SendPass:
-                    sendPassword((Bundle) msg.obj);
-                    break;
-                case DisconnectPSD:
-                    disconnect();
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
-        }
-    }
-
-
-    //On receive message from PSD through bluetooth
-    @Override
-    public void onReceive(LowLevelMessage message)
-    {
-        if (!protocolV1.checkResponse(message.message))
-            return;
-
-        //save new keys to db
-        baseRepo.updateKeys(protocolV1.btKey, protocolV1.hBtKey);
-
-        //send success to application
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("success", true);
-        sendToClients(bundle, MessageType.PassSendResult);
-        onProtocolStateChanged(ProtocolState.ReadyToSend);
-    }
-
-    @Override
-    public void onConnectionStateChanged(ConnectionState newState)
-    {
-        if (serviceState.is(newState))
-            return;
-
-        serviceState.setConnectionState(newState);
-        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
-        sendServiceState();
-    }
-
-    public void onProtocolStateChanged(ProtocolState newState)
-    {
-        if (serviceState.is(newState))
-            return;
-
-        serviceState.setProtocolState(newState);
-        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
-        sendServiceState();
-    }
-
-    private void sendServiceState()
-    {
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("service_state", serviceState.toByteArray());
-        sendToClients(bundle, MessageType.ConnectionStateChanged);
-    }
-
-    @Override
-    public void sendError(ErrorType err, String errMessage)
-    {
-        Bundle errBundle = new Bundle();
-        errBundle.putInt("err_type", err.getInt());
-        errBundle.putString("err_msg", errMessage);
-        sendToClients(errBundle, MessageType.Error);
-    }
-
-    private void sendToClients(Bundle bundle, MessageType msgType)
-    {
-        if (mClient == null)
-            return;
-
-        Message msg = Message.obtain(null, msgType.getInt(), bundle);
-        try {
-            mClient.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    private void connect()
-    {
+        boolean persist = bundle.getBoolean("PERSIST");
         if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
             return;
@@ -216,7 +219,7 @@ public class PsdComService extends IntentService implements IBtObserver
 
     private void sendPassword(Bundle bundle)
     {
-        short passId = bundle.getShort("pass_item_id");
+        short passId = bundle.getShort("PASS_ITEM_ID");
         if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
@@ -232,4 +235,27 @@ public class PsdComService extends IntentService implements IBtObserver
         bt.sendPasswordBytes(encryptedMessage);
         onProtocolStateChanged(ProtocolState.WaitingResponse);
     }
+
+
+    private void die()
+    {
+        disconnect();
+        stopSelf();
+    }
+
+    private void rollKeys()
+    {
+        if (protocolV1 != null)
+            protocolV1.rollKeys();
+    }
+
+
+    private void sendServiceState()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("SERVICE_STATE", serviceState.toByteArray());
+        sendToClients(bundle, ResponseType.StateChanged);
+    }
+
+
 }

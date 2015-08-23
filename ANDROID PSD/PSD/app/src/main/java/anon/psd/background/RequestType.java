@@ -3,7 +3,7 @@ package anon.psd.background;
 /**
  * Created by Dmitry on 31.07.2015.
  */
-public enum MessageType
+public enum RequestType
 {
     ConnectService,
     Init,
@@ -11,11 +11,10 @@ public enum MessageType
     DisconnectPSD,
     SendPass,
     UpdateState,
-    PassSendResult,
-    ConnectionStateChanged,
-    Error;
+    RollKeys,
+    Kill;
 
-    public static MessageType fromInteger(int x)
+    public static RequestType fromInteger(int x)
     {
         return values()[x];
     }
