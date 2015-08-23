@@ -66,13 +66,14 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     protected void onHandleIntent(Intent workIntent)
     {
-        Bundle extras = workIntent.getExtras();
-        initService(extras.getString("DB_PATH"), extras.getByteArray("DB_PASS"), extras.getString("PSD_MAC_ADDRESS"));
+
     }
 
-    private void initService(String dbPath, byte[] dbPass, String psdMacAddress)
+    private void initService(Bundle bundle)
     {
-        this.psdMacAddress = psdMacAddress;
+        String dbPath = bundle.getString("DB_PATH");
+        byte[] dbPass = bundle.getByteArray("DB_PASS");
+        this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         if (!baseRepo.update()) {
@@ -95,6 +96,8 @@ public class PsdComService extends IntentService implements IBtObserver
                     mClient = msg.replyTo;
                     sendServiceState();
                     break;
+                case Init:
+                    initService((Bundle) msg.obj);
                 case ConnectPSD:
                     connect();
                     break;

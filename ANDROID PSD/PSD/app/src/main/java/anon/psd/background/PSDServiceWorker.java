@@ -55,7 +55,7 @@ public abstract class PSDServiceWorker
         bundle.putString("DB_PATH", dbPath);
         bundle.putByteArray("DB_PASS", dbPass);
         bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
-        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
+        Message msg = Message.obtain(null, MessageType.Init.getInt(), bundle);
         sendMessage(msg);
     }
 
@@ -77,6 +77,11 @@ public abstract class PSDServiceWorker
         sendMessage(msg);
     }
 
+
+    public void updateState()
+    {
+        sendCommandToService(MessageType.UpdateState);
+    }
 
     private class ActivityHandler extends Handler
     {

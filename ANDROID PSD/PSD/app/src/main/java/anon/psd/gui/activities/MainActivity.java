@@ -23,6 +23,7 @@ import anon.psd.background.ErrorType;
 import anon.psd.background.PSDServiceWorker;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
+import anon.psd.device.state.ServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -79,6 +80,12 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
             if (!newState.is(ConnectionState.NotAvailable))
                 setDesirablePsdState();//if app is open we always are trying to set desirable state
+
+            if (newState.is(ServiceState.NotInitialised)) {
+                PreferencesProvider prefs = new PreferencesProvider(getApplicationContext());
+                serviceWorker.initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
+            }
+
         }
 
 
@@ -115,22 +122,22 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        serviceWorker = new MainPSDServiceWorker(this);
         initVariables();
         if (tryLoadPasses())
-            connectAndInitService();
+            connectServiceAndGetInitState();
 
     }
 
-
-    private void connectAndInitService()
+    private void connectServiceAndGetInitState()
     {
-        PreferencesProvider prefs = new PreferencesProvider(this);
-        serviceWorker.connectService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
+        serviceWorker.connectService();
+        serviceWorker.updateState();
     }
+
 
     private void initVariables()
     {
+        serviceWorker = new MainPSDServiceWorker(this);
         //load path to appearance.cfg file
         appearanceCfgFile = new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg");
 

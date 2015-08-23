@@ -10,6 +10,7 @@ public enum MessageType
     ConnectPSD,
     DisconnectPSD,
     SendPass,
+    UpdateState,
     PassSendResult,
     ConnectionStateChanged,
     Error;
