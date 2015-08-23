@@ -179,11 +179,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (userWantsPsdOn == psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
-        {
-            userWantsPsdOn = !userWantsPsdOn;
-        }
-        setDesirablePsdState();
+        serviceWorker = new MainPSDServiceWorker(this);
+        connectAndInitService();
     }
 
 

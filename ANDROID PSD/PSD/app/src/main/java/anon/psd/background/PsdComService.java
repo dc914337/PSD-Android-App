@@ -12,6 +12,8 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
+import java.util.Date;
+
 import anon.psd.R;
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.state.ConnectionState;
@@ -44,6 +46,9 @@ public class PsdComService extends IntentService implements IBtObserver
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
 
+    Date created = null;
+
+
     String psdMacAddress;
     FileRepository baseRepo;
 
@@ -59,13 +64,13 @@ public class PsdComService extends IntentService implements IBtObserver
         super.onCreate();
         bt = new PsdBluetoothCommunication();
         notification = new ServiceNotification(this);
+        created = new Date();
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-
         Notification note = new Notification(R.drawable.ic_little_green,
                 "Can you hear the music?",
                 System.currentTimeMillis());
@@ -89,6 +94,7 @@ public class PsdComService extends IntentService implements IBtObserver
     @Override
     public IBinder onBind(Intent intent)
     {
+        Log.d("ALIVE", created.toString());
         return mMessenger.getBinder();
     }
 
