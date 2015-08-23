@@ -41,19 +41,23 @@ public abstract class PSDServiceWorker
     we are starting and binding service to have it alive all the time. It won't die when
     this activity will die.
     */
-    public void connectService(String dbPath, byte[] dbPass, String psdMacAddress)
+    public void connectService()
     {
         ServiceConnection mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(ctx, PsdComService.class);
-
-        mServiceIntent.putExtra("DB_PATH", dbPath);
-        mServiceIntent.putExtra("DB_PASS", dbPass);
-        mServiceIntent.putExtra("PSD_MAC_ADDRESS", psdMacAddress);
-
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
+    public void initService(String dbPath, byte[] dbPass, String psdMacAddress)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("DB_PATH", dbPath);
+        bundle.putByteArray("DB_PASS", dbPass);
+        bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
+        Message msg = Message.obtain(null, MessageType.SendPass.getInt(), bundle);
+        sendMessage(msg);
+    }
 
     public void connectPsd()
     {
