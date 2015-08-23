@@ -7,7 +7,6 @@ public enum ConnectionState
 {
     NotAvailable,
     Disconnected,
-    LowSignal,
     Connected;
 
     public static ConnectionState fromInteger(int x)

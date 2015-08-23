@@ -59,9 +59,12 @@ public abstract class PSDServiceWorker
         sendMessage(msg);
     }
 
-    public void connectPsd()
+    public void connectPsd(boolean persist)
     {
-        sendCommandToService(RequestType.ConnectPSD);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("PERSIST", persist);
+        Message msg = Message.obtain(null, RequestType.ConnectPSD.getInt(), bundle);
+        sendMessage(msg);
     }
 
     public void disconnectPsd()
@@ -72,79 +75,24 @@ public abstract class PSDServiceWorker
     public void sendPass(PassItem pass)
     {
         Bundle bundle = new Bundle();
-        bundle.putShort("pass_item_id", pass.id);
+        bundle.putShort("PASS_ITEM_ID", pass.id);
         Message msg = Message.obtain(null, RequestType.SendPass.getInt(), bundle);
         sendMessage(msg);
     }
-
 
     public void updateState()
     {
         sendCommandToService(RequestType.UpdateState);
     }
 
-    private class ActivityHandler extends Handler
+    public void rollKeys()
     {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            RequestType type = RequestType.fromInteger(msg.what);
-            switch (type) {
-                case ConnectionStateChanged:
-                    receivedStateChanged(msg);
-                    break;
-                case PassSendResult:
-                    receivedResult(msg);
-                    break;
-                case Error:
-                    receivedError(msg);
-
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
-        }
+        sendCommandToService(RequestType.RollKeys);
     }
 
-
-    private void receivedError(Message msg)
+    public void killService()
     {
-        Bundle bundle = (Bundle) msg.obj;
-        String message = bundle.getString("err_msg");
-        ErrorType type = ErrorType.fromInteger(bundle.getInt("err_type"));
-        onReceivedError(type, message);
-    }
-
-    private void receivedStateChanged(Message msg)
-    {
-        CurrentServiceState state = CurrentServiceState.fromByteArray(
-                (byte[]) ((Bundle) msg.obj).get("service_state"));
-        onStateChanged(state);
-    }
-
-    private void receivedResult(Message msg)
-    {
-        boolean success = ((Bundle) msg.obj).getBoolean("success");
-        onReceivedResult(success);
-    }
-
-
-    private class MyServiceConnection implements ServiceConnection
-    {
-        public void onServiceConnected(ComponentName name, IBinder service)
-        {
-            Log.d(TAG, "ServiceWorker onServiceConnected");
-            mService = new Messenger(service);
-            serviceBound = true;
-            sendMessenger();
-        }
-
-        public void onServiceDisconnected(ComponentName name)
-        {
-            Log.d(TAG, "ServiceWorker onServiceDisconnected");
-            mService = null;
-            serviceBound = false;
-        }
+        sendCommandToService(RequestType.Kill);
     }
 
 
@@ -180,9 +128,68 @@ public abstract class PSDServiceWorker
     }
 
 
+
+    private class ActivityHandler extends Handler
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            ResponseType type = ResponseType.fromInteger(msg.what);
+            switch (type) {
+                case StateChanged:
+                    receivedStateChanged(msg);
+                    break;
+                case PassSentSuccess:
+                    onPassSentSuccess();
+                    break;
+                case Error:
+                    receivedError(msg);
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    }
+
+
+    private void receivedError(Message msg)
+    {
+        Bundle bundle = (Bundle) msg.obj;
+        String message = bundle.getString("ERR_MSG");
+        ErrorType type = ErrorType.fromInteger(bundle.getInt("ERR_TYPE"));
+        onError(type, message);
+    }
+
+    private void receivedStateChanged(Message msg)
+    {
+        CurrentServiceState state = CurrentServiceState.fromByteArray(
+                (byte[]) ((Bundle) msg.obj).get("SERVICE_STATE"));
+        onStateChanged(state);
+    }
+
+
+    private class MyServiceConnection implements ServiceConnection
+    {
+        public void onServiceConnected(ComponentName name, IBinder service)
+        {
+            Log.d(TAG, "[ APP ] Service connected");
+            mService = new Messenger(service);
+            serviceBound = true;
+            sendMessenger();
+        }
+
+        public void onServiceDisconnected(ComponentName name)
+        {
+            Log.d(TAG, "[ APP ] Service disconnected");
+            mService = null;
+            serviceBound = false;
+        }
+    }
+
+
     public abstract void onStateChanged(CurrentServiceState newState);
 
-    public abstract void onReceivedResult(boolean res);
+    public abstract void onPassSentSuccess();
 
-    public abstract void onReceivedError(ErrorType err, String msg);
+    public abstract void onError(ErrorType err, String msg);
 }

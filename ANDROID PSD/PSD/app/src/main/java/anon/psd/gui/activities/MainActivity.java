@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +22,7 @@ import anon.psd.background.ErrorType;
 import anon.psd.background.PSDServiceWorker;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
+import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
@@ -66,41 +66,57 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             CurrentServiceState oldState = psdState;
             psdState = newState;
 
-            ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
-            Log.d(TAG, String.format("Activity State changed on %s", newState));
-            if (newState.is(ConnectionState.Connected) && !oldState.is(ConnectionState.Connected)) {
-                connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-                Alerts.showMessage(getApplicationContext(), "PSD connected");
-            }
+            if (newState.getConnectionState() != oldState.getConnectionState())
+                connectionStateChanged(newState.getConnectionState());
 
-            if (newState.is(ConnectionState.Disconnected) && !oldState.is(ConnectionState.Disconnected)) {
-                connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-                Alerts.showMessage(getApplicationContext(), "PSD disconnected");
-            }
+            if (newState.getServiceState() != oldState.getServiceState())
+                serviceStateChanged(newState.getServiceState());
 
-            if (!newState.is(ConnectionState.NotAvailable))
-                setDesirablePsdState();//if app is open we always are trying to set desirable state
-
-            if (newState.is(ServiceState.NotInitialised)) {
-                PreferencesProvider prefs = new PreferencesProvider(getApplicationContext());
-                serviceWorker.initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
-            }
-
+            if (newState.getProtocolState() != oldState.getProtocolState())
+                protocolStateChanged(newState.getProtocolState());
         }
 
-
-        @Override
-        public void onReceivedResult(boolean res)
+        private void connectionStateChanged(ConnectionState newState)
         {
-            if (res)
-                Alerts.showMessage(getApplicationContext(), "Password entered successfully");
-            else
-                Alerts.showMessage(getApplicationContext(), "Errors sending password");
+            switch (newState) {
+                case NotAvailable:
+                    showPsdConnectionState(false);
+                    break;
+                case Disconnected:
+                    showPsdConnectionState(false);
+                    setDesirablePsdState();//falls down to Disconnected
+                    break;
+                case Connected:
+                    showPsdConnectionState(true);
+                    setDesirablePsdState();//falls down to Disconnected
+                    break;
+            }
+        }
+
+        private void serviceStateChanged(ServiceState newState)
+        {
+            switch (newState) {
+                case NotInitialised:
+                    PreferencesProvider prefs = new PreferencesProvider(getApplicationContext());
+                    serviceWorker.initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
+                    break;
+            }
+        }
+
+        private void protocolStateChanged(ProtocolState newState)
+        {
+
         }
 
 
         @Override
-        public void onReceivedError(ErrorType err, String msg)
+        public void onPassSentSuccess()
+        {
+            Alerts.showMessage(getApplicationContext(), "Password sent successfully");
+        }
+
+        @Override
+        public void onError(ErrorType err, String msg)
         {
             Alerts.showMessage(getApplicationContext(), msg);
 
@@ -113,6 +129,20 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         }
 
     }
+
+
+    private void showPsdConnectionState(boolean connected)
+    {
+        ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
+        if (connected) {
+            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+            Alerts.showMessage(getApplicationContext(), "PSD disconnected");
+        } else {
+            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
+            Alerts.showMessage(getApplicationContext(), "PSD disconnected");
+        }
+    }
+
 
     /**
      * Activity events
@@ -156,7 +186,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onResume()
     {
         super.onResume();
-        tryLoadPasses();
+        if (tryLoadPasses())
+            connectServiceAndGetInitState();
     }
 
     @Override
@@ -329,7 +360,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private void setDesirablePsdState()
     {
         if (userWantsPsdOn && !psdState.is(ConnectionState.Connected))
-            serviceWorker.connectPsd();
+            serviceWorker.connectPsd(true);//persist
         else if (!userWantsPsdOn && psdState.is(ConnectionState.Connected))
             serviceWorker.disconnectPsd();
     }
