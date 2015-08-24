@@ -65,9 +65,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         {
             Log(this,
                     "[ Activity ] State changed.\n" +
-                            "\tService state: %s \n" +
-                            "\tConnection state: %s \n" +
-                            "\tProtocol state: %s",
+                            "                          Service state: %s \n" +
+                            "                          Connection state: %s \n" +
+                            "                          Protocol state: %s",
                     newState.getServiceState(),
                     newState.getConnectionState(),
                     newState.getProtocolState());
