@@ -92,6 +92,14 @@ public class PsdService extends IntentService implements IBtObserver
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        startForeground(1337, notification.getServiceWorkingNotification());
+        return START_STICKY;
+    }
+
+
+    @Override
     public IBinder onBind(Intent intent)
     {
         return mMessenger.getBinder();

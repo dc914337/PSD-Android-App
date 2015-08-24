@@ -17,11 +17,10 @@ public class ServiceNotification
     NotificationManager nm;
     private Context ctx;
 
-    private final String TITLE;
+    private final static String TITLE = "PSD";
 
     public ServiceNotification(Context context)
     {
-        TITLE = context.getString(R.string.notification_title);
         ctx = context;
         nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
@@ -35,7 +34,7 @@ public class ServiceNotification
         Intent intent = new Intent(ctx, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
-        // 2-я часть
+        //2-nd part
         notification.setLatestEventInfo(ctx, TITLE, text, pIntent);
 
         //notification will disappear after click
@@ -43,6 +42,19 @@ public class ServiceNotification
 
         //send notification
         nm.notify(1, notification);
+    }
+
+
+    public Notification getServiceWorkingNotification()
+    {
+        Intent clickIntent = new Intent(ctx, MainActivity.class);
+        clickIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pi = PendingIntent.getActivity(ctx, 0, clickIntent, 0);
+
+        Notification note = new Notification.Builder(ctx).setContentTitle(TITLE).setContentText("PSD service is running").setSmallIcon(R.drawable.notification_template_icon_bg).setContentIntent(pi).build();
+        note.flags |= Notification.FLAG_NO_CLEAR;
+        return note;
     }
 
 }

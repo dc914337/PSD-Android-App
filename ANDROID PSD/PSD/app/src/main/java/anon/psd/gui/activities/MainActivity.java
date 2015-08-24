@@ -192,7 +192,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         super.onResume();
         if (tryLoadPasses())
             serviceWorker.connectService();
-
         Log(this, "[ ACTIVITY ] [ RESUME ]");
     }
 
