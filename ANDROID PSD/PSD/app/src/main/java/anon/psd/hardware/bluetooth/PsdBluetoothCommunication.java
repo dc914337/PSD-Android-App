@@ -225,6 +225,10 @@ public class PsdBluetoothCommunication implements IBtObservable
                     if (dataAvailable) {
                         LowLevelMessage received = lowLevelProtocol.receiveMessage(inStream);
 
+                        //receiveMessage is long running operation.
+                        if (Thread.currentThread().isInterrupted())
+                            return;
+
                         switch (received.type) {
                             case Pong:
                                 btRegistrar.registerPong();

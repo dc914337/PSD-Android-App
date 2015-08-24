@@ -10,9 +10,9 @@ import anon.psd.utils.TimeUtils;
 //todo make thread safe
 public class BTRegistrar
 {
-    public static final int RETRY_PING_MS = 100000;//4000
-    public static final int PONG_TIMEOUT = 200000;//6000
-    public static final int RESPONSE_TIMEOUT = 15000;//5000
+    public static final int RETRY_PING_MS = 4000;//4000
+    public static final int PONG_TIMEOUT = 6000;//6000
+    public static final int RESPONSE_TIMEOUT = 5000;//5000
 
     private Date lastSentPing = null;
     private Date lastReceivedPong = null;
