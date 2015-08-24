@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     AppearanceCfg appearanceCfg;
     PSDServiceWorker serviceWorker;
     CurrentServiceState psdState = null;
-
     boolean userWantsPsdOn = true;
 
 
@@ -87,8 +86,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
         private void connectionStateChanged(ConnectionState newState)
         {
+            ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);//fix later
             switch (newState) {
                 case NotAvailable:
+                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
+                    break;
                 case Disconnected:
                     showPsdConnectionState(false);
                     break;

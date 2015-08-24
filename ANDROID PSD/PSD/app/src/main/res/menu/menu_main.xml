@@ -13,7 +13,7 @@
     <item
         android:id="@+id/led_connected"
         android:title="@string/led_connected"
-        android:icon="@drawable/ic_little_red"
+        android:icon="@drawable/ic_little_white"
         android:onClick="onConnectPsdClick"
         app:showAsAction="always"/>
 
