@@ -10,9 +10,9 @@ import anon.psd.utils.TimeUtils;
 //todo make thread safe
 public class BTRegistrar
 {
-    public static final int RETRY_PING_MS = 4000;
-    public static final int PONG_TIMEOUT = 6000;
-    public static final int RESPONSE_TIMEOUT = 5000;
+    public static final int RETRY_PING_MS = 1000;//4000
+    public static final int PONG_TIMEOUT = 200000;//6000
+    public static final int RESPONSE_TIMEOUT = 15000;//5000
 
     private Date lastSentPing = null;
     private Date lastReceivedPong = null;
@@ -36,7 +36,7 @@ public class BTRegistrar
 
     public void registerResponse()
     {
-        lastRequestWithoutResponse = new Date();
+        lastRequestWithoutResponse = null;
     }
 
 
@@ -51,7 +51,7 @@ public class BTRegistrar
     public boolean pongTimedOut()
     {
         Date now = new Date();
-        if(lastReceivedPong==null)
+        if (lastReceivedPong == null)
             return false;
         return TimeUtils.msBetweenDates(now, lastReceivedPong) > PONG_TIMEOUT;
     }
@@ -59,7 +59,7 @@ public class BTRegistrar
     public boolean responseTimedOut()
     {
         Date now = new Date();
-        if(lastRequestWithoutResponse==null)
+        if (lastRequestWithoutResponse == null)
             return false;
         return TimeUtils.msBetweenDates(now, lastRequestWithoutResponse) > RESPONSE_TIMEOUT;
     }

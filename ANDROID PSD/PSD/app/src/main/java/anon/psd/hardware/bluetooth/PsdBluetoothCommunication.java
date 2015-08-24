@@ -69,7 +69,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     public void setConnectionState(ConnectionState newConnectionState)
     {
         if (newConnectionState == ConnectionState.Disconnected) {
-            stopService();
+            stopPsdConnect();
         }
 
         if (listener != null)
@@ -149,13 +149,13 @@ public class PsdBluetoothCommunication implements IBtObservable
             e.printStackTrace();
         }
         btSocket = null;
-        stopService();
+        stopPsdConnect();
 
         setConnectionState(ConnectionState.Disconnected);
     }
 
 
-    public void stopService()
+    public void stopPsdConnect()
     {
         stopListenForData();
         stopLiveChecker();
