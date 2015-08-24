@@ -16,6 +16,8 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
+import anon.psd.background.PSDServiceWorker;
+import anon.psd.device.state.CurrentServiceState;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
@@ -31,6 +33,16 @@ public class PassActivity extends ActionBarActivity
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
+    PSDServiceWorker serviceWorker;
+
+    CurrentServiceState psdState = null;
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -122,7 +134,7 @@ public class PassActivity extends ActionBarActivity
 
     public void onConnectPsdClick(MenuItem item)
     {
-            
+
     }
 
     public void openSettingsClick(MenuItem item)
