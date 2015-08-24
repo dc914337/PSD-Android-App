@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
     PSDServiceWorker serviceWorker;
-    CurrentServiceState psdState = new CurrentServiceState();
+    CurrentServiceState psdState = null;
 
     boolean userWantsPsdOn = true;
 
@@ -66,13 +66,13 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             CurrentServiceState oldState = psdState;
             psdState = newState;
 
-            if (newState.getConnectionState() != oldState.getConnectionState())
+            if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
                 connectionStateChanged(newState.getConnectionState());
 
-            if (newState.getServiceState() != oldState.getServiceState())
+            if (oldState == null || newState.getServiceState() != oldState.getServiceState())
                 serviceStateChanged(newState.getServiceState());
 
-            if (newState.getProtocolState() != oldState.getProtocolState())
+            if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
                 protocolStateChanged(newState.getProtocolState());
         }
 
@@ -135,8 +135,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
         if (connected) {
-            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-            Alerts.showMessage(getApplicationContext(), "PSD disconnected");
+            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
+            Alerts.showMessage(getApplicationContext(), "PSD connected");
         } else {
             connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
             Alerts.showMessage(getApplicationContext(), "PSD disconnected");
@@ -154,14 +154,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         initVariables();
         if (tryLoadPasses())
-            connectServiceAndGetInitState();
+            serviceWorker.connectService();
 
-    }
-
-    private void connectServiceAndGetInitState()
-    {
-        serviceWorker.connectService();
-        serviceWorker.updateState();
     }
 
 
@@ -187,8 +181,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         super.onResume();
         if (tryLoadPasses())
-            connectServiceAndGetInitState();
+            serviceWorker.connectService();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
