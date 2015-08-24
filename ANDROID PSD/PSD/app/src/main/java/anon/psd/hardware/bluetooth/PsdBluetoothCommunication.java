@@ -8,7 +8,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.UUID;
 
 import anon.psd.background.ErrorType;
@@ -260,19 +259,18 @@ public class PsdBluetoothCommunication implements IBtObservable
             {
                 while (!Thread.currentThread().isInterrupted()) {
                     //ping
-                    Log.d("ALIVE", "service is alive " + (new Date().getTime()));
                     if (btRegistrar.pingReady())
                         sendPing();
                     //wait ping retry time
                     DelayUtils.threadSleep(LIVE_CHECKER_SLEEP_MS);
                     //check time in LastReceived
-                    if (btRegistrar.responseTimedOut()) {
+                    if (btRegistrar.pongTimedOut()) {
                         //set disconnected state
                         setConnectionState(ConnectionState.Disconnected);
                         return;
                     }
                     //check last requestWithout receive
-                    if (btRegistrar.pongTimedOut()) {
+                    if (btRegistrar.responseTimedOut()) {
                         //send error
                         sendError(ErrorType.Desynchronization, "Keys desynchronization");//String.empty
                         return;

@@ -44,7 +44,7 @@ public abstract class PSDServiceWorker
     public void connectService()
     {
         ServiceConnection mConnection = new MyServiceConnection();
-        Intent mServiceIntent = new Intent(ctx, PsdConnectionService.class);
+        Intent mServiceIntent = new Intent(ctx, PsdService.class);
         ctx.startService(mServiceIntent);
         ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }

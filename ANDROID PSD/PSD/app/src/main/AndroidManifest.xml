@@ -60,7 +60,7 @@
         </activity>
 
         <service
-            android:name=".background.PsdConnectionService"
+            android:name=".background.PsdService"
             android:exported="false"
             android:enabled="true">
             <intent-filter>

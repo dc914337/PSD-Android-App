@@ -27,9 +27,9 @@ import anon.psd.storage.FileRepository;
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
  */
-public class PsdConnectionService extends IntentService implements IBtObserver
+public class PsdService extends IntentService implements IBtObserver
 {
-    public static final String SERVICE_NAME = "PsdConnectionService";
+    public static final String SERVICE_NAME = "PsdService";
     private final String TAG = "SERVICE";
 
     private CurrentServiceState serviceState = new CurrentServiceState();
@@ -78,7 +78,7 @@ public class PsdConnectionService extends IntentService implements IBtObserver
     }
 
 
-    public PsdConnectionService()
+    public PsdService()
     {
         super(SERVICE_NAME);
     }
