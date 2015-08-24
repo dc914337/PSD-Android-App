@@ -10,6 +10,14 @@
         <option name="packageNamePattern" value="" />
         <option name="pid" value="" />
       </filter>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="BluetoothLowLevelProtocolV1" />
+        <option name="name" value="Low level" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
     </filters>
   </component>
   <component name="AndroidLayouts">
@@ -121,11 +129,11 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="PsdService.java" pinned="false" current="false" current-in-tab="false">
+            <file leaf-file-name="PsdService.java" pinned="false" current="true" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdService.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4012">
-                    <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+                  <state vertical-scroll-proportion="0.33265513" vertical-offset="2410" max-vertical-offset="4012">
+                    <caret line="189" column="11" selection-start-line="189" selection-start-column="11" selection-end-line="189" selection-end-column="11" />
                     <folding>
                       <element signature="method#rollKeys#0;class#PsdService#0" expanded="false" />
                     </folding>
@@ -133,11 +141,11 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="PsdBluetoothCommunication.java" pinned="false" current="false" current-in-tab="true">
+            <file leaf-file-name="PsdBluetoothCommunication.java" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/PsdBluetoothCommunication.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="-1.5308901" vertical-offset="1581" max-vertical-offset="4692">
-                    <caret line="24" column="38" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="38" />
+                  <state vertical-scroll-proportion="-21.071428" vertical-offset="1110" max-vertical-offset="4726">
+                    <caret line="123" column="77" selection-start-line="123" selection-start-column="77" selection-end-line="123" selection-end-column="77" />
                     <folding />
                   </state>
                 </provider>
@@ -146,7 +154,7 @@
             <file leaf-file-name="BluetoothLowLevelProtocolV1.java" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1751">
                     <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
                     <folding />
                   </state>
@@ -174,11 +182,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PSDServiceWorker.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="PSDServiceWorker.java" pinned="false" current="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2771">
-              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.35126236" vertical-offset="496" max-vertical-offset="2941">
+              <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
               <folding>
                 <element signature="e#2380#2381#0" expanded="true" />
                 <element signature="e#2441#2442#0" expanded="true" />
@@ -187,7 +195,6 @@
                 <element signature="e#2570#2571#0" expanded="true" />
                 <element signature="e#2624#2625#0" expanded="true" />
                 <element signature="method#sendMessenger#0;class#PSDServiceWorker#0" expanded="false" />
-                <element signature="method#sendMessage#0;class#PSDServiceWorker#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -203,11 +210,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5883644" vertical-offset="450" max-vertical-offset="4658">
-              <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3509" max-vertical-offset="4624">
+              <caret line="371" column="31" selection-start-line="371" selection-start-column="31" selection-end-line="371" selection-end-column="31" />
               <folding>
                 <element signature="method#initVariables#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
@@ -1742,7 +1749,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/device/state/ConnectionState.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdConnectionService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/PsdBluetoothCommunication.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/PassActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/models/gui/PrettyPassword.java" />
@@ -1753,6 +1759,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/BTRegistrar.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/PsdBluetoothCommunication.java" />
       </list>
     </option>
   </component>
@@ -2577,7 +2584,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2665,7 +2672,15 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="492" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java</url>
+          <line>119</line>
+          <properties />
+          <option name="timeStamp" value="495" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="496" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -2790,6 +2805,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15564598" vertical-offset="0" max-vertical-offset="983">
           <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3007,10 +3023,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/RequestType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
-          <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3023,36 +3039,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/RequestType.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
+          <caret line="71" column="48" selection-start-line="71" selection-start-column="48" selection-end-line="71" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4012">
-          <caret line="29" column="3" selection-start-line="29" selection-start-column="3" selection-end-line="29" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3509" max-vertical-offset="4624">
+          <caret line="371" column="31" selection-start-line="371" selection-start-column="31" selection-end-line="371" selection-end-column="31" />
           <folding>
-            <element signature="method#rollKeys#0;class#PsdService#0" expanded="false" />
+            <element signature="method#initVariables#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#tryLoadPasses#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#loadAndWrapPasses#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/PsdBluetoothCommunication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5308901" vertical-offset="1581" max-vertical-offset="4692">
-          <caret line="24" column="38" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="38" />
+        <state vertical-scroll-proportion="-21.071428" vertical-offset="1110" max-vertical-offset="4726">
+          <caret line="123" column="77" selection-start-line="123" selection-start-column="77" selection-end-line="123" selection-end-column="77" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PSDServiceWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2771">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.35126236" vertical-offset="496" max-vertical-offset="2941">
+          <caret line="65" column="31" selection-start-line="65" selection-start-column="31" selection-end-line="65" selection-end-column="31" />
           <folding>
             <element signature="e#2380#2381#0" expanded="true" />
             <element signature="e#2441#2442#0" expanded="true" />
@@ -3061,21 +3081,16 @@
             <element signature="e#2570#2571#0" expanded="true" />
             <element signature="e#2624#2625#0" expanded="true" />
             <element signature="method#sendMessenger#0;class#PSDServiceWorker#0" expanded="false" />
-            <element signature="method#sendMessage#0;class#PSDServiceWorker#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5883644" vertical-offset="450" max-vertical-offset="4658">
-          <caret line="95" column="71" selection-start-line="95" selection-start-column="71" selection-end-line="95" selection-end-column="71" />
+        <state vertical-scroll-proportion="0.33265513" vertical-offset="2410" max-vertical-offset="4012">
+          <caret line="189" column="11" selection-start-line="189" selection-start-column="11" selection-end-line="189" selection-end-column="11" />
           <folding>
-            <element signature="method#initVariables#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#tryLoadPasses#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#loadAndWrapPasses#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#rollKeys#0;class#PsdService#0" expanded="false" />
           </folding>
         </state>
       </provider>

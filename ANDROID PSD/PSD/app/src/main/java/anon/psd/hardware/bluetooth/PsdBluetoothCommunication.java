@@ -95,6 +95,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             e.printStackTrace();
+            Log(this, "[ ERROR ] Error creating socket: %s", e.getMessage());
             return;
         }
 
@@ -107,6 +108,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             try {
                 btSocket.close();
                 e.printStackTrace();
+                Log(this, "[ ERROR ] Error connecting device: %s", e.getMessage());
             } catch (IOException e2) {
                 e.printStackTrace();
             }
@@ -119,6 +121,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             inStream = btSocket.getInputStream();
         } catch (IOException e) {
             e.printStackTrace();
+            Log(this, "[ ERROR ] Error getting connection streams for device: %s", e.getMessage());
             return;
         }
 
@@ -153,13 +156,13 @@ public class PsdBluetoothCommunication implements IBtObservable
         }
         btSocket = null;
         stopPsdConnect();
-
         setConnectionState(ConnectionState.Disconnected);
     }
 
 
     public void stopPsdConnect()
     {
+        Log(this, "[ SERVICE ] Stop PSD connect");
         stopListenForData();
         stopLiveChecker();
         btRegistrar = null;
@@ -262,26 +265,25 @@ public class PsdBluetoothCommunication implements IBtObservable
             {
                 while (!Thread.currentThread().isInterrupted()) {
                     //ping
-                    if (btRegistrar.pingReady())
+                    if (btRegistrar != null && btRegistrar.pingReady())
                         sendPing();
                     //wait ping retry time
-                    DelayUtils.threadSleep(LIVE_CHECKER_SLEEP_MS);
                     //check time in LastReceived
-                    if (btRegistrar.pongTimedOut()) {
+                    if (btRegistrar != null && btRegistrar.pongTimedOut()) {
                         //set disconnected state
                         Log(this, "[ SERVICE ] [ ERROR ] Pong timed out");
                         setConnectionState(ConnectionState.Disconnected);
                         return;
                     }
                     //check last requestWithout receive
-                    if (btRegistrar.responseTimedOut()) {
+                    if (btRegistrar != null && btRegistrar.responseTimedOut()) {
                         //send error
                         Log(this, "[ SERVICE ] [ ERROR ] Keys desynchronization");
                         sendError(ErrorType.Desynchronization, "Keys desynchronization");//String.empty
                         return;
                     }
 
-
+                    DelayUtils.threadSleep(LIVE_CHECKER_SLEEP_MS);
                 }
             }
         });

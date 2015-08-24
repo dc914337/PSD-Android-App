@@ -65,9 +65,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         {
             Log(this,
                     "[ Activity ] State changed.\n" +
-                            "                          Service state: %s \n" +
-                            "                          Connection state: %s \n" +
-                            "                          Protocol state: %s",
+                            "Service state: %s \n" +
+                            "Connection state: %s \n" +
+                            "Protocol state: %s",
                     newState.getServiceState(),
                     newState.getConnectionState(),
                     newState.getProtocolState());
@@ -89,15 +89,11 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         {
             switch (newState) {
                 case NotAvailable:
-                    showPsdConnectionState(false);
-                    break;
                 case Disconnected:
                     showPsdConnectionState(false);
-                    setDesirablePsdState();//falls down to Disconnected
                     break;
                 case Connected:
                     showPsdConnectionState(true);
-                    setDesirablePsdState();//falls down to Disconnected
                     break;
             }
         }
@@ -403,3 +399,4 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         startActivity(intent);
     }
 }
+
