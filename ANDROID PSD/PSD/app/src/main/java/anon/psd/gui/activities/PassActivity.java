@@ -26,7 +26,6 @@ import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
  */
 public class PassActivity extends ActionBarActivity
 {
-    private static final String TAG = "FileChooserExampleActivity";
     private static final int REQUEST_CODE = 1234;
 
     PrettyPassword prettyPassword;

@@ -10,10 +10,11 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.models.PassItem;
+
+import static anon.psd.utils.DebugUtils.Log;
 
 /**
  * Created by Dmitry on 01.08.2015.
@@ -21,7 +22,6 @@ import anon.psd.models.PassItem;
  */
 public abstract class PSDServiceWorker
 {
-    private final String TAG = "ServiceWorker";
     Context ctx;
     boolean serviceBound;
 
@@ -117,7 +117,7 @@ public abstract class PSDServiceWorker
     private void sendMessage(Message msg)
     {
         if (!serviceBound) {
-            Log.e(TAG, "ServiceWorker Service is not bound");
+            Log(this, "[ ACTIVITY ] [ ERROR ] Service is not bound");
             return;
         }
         try {
@@ -172,7 +172,7 @@ public abstract class PSDServiceWorker
     {
         public void onServiceConnected(ComponentName name, IBinder service)
         {
-            Log.d(TAG, "[ APP ] Service connected");
+            Log(this, "[ ACTIVITY ] Service connected");
             mService = new Messenger(service);
             serviceBound = true;
             sendMessenger();
@@ -180,7 +180,7 @@ public abstract class PSDServiceWorker
 
         public void onServiceDisconnected(ComponentName name)
         {
-            Log.d(TAG, "[ APP ] Service disconnected");
+            Log(this, "[ ACTIVITY ] Service disconnected");
             mService = null;
             serviceBound = false;
         }

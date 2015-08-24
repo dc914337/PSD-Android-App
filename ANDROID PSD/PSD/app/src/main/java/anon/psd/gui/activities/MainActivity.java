@@ -34,11 +34,11 @@ import anon.psd.storage.AppearanceCfg;
 import anon.psd.storage.FileRepository;
 import anon.psd.storage.PreferencesProvider;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 
 public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    private static final String TAG = "MainActivity";
-
     DynamicListView lvPasses;
 
     File appearanceCfgFile;
@@ -63,6 +63,15 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         @Override
         public void onStateChanged(CurrentServiceState newState)
         {
+            Log(this,
+                    "[ Activity ] State changed.\n" +
+                            "\tService state: %s \n" +
+                            "\tConnection state: %s \n" +
+                            "\tProtocol state: %s",
+                    newState.getServiceState(),
+                    newState.getConnectionState(),
+                    newState.getProtocolState());
+
             CurrentServiceState oldState = psdState;
             psdState = newState;
 
@@ -113,15 +122,17 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         public void onPassSentSuccess()
         {
             Alerts.showMessage(getApplicationContext(), "Password sent successfully");
+            Log(this, "[ ACTIVITY ] Password sent successfully");
         }
 
         @Override
-        public void onError(ErrorType err, String msg)
+        public void onError(ErrorType err_type, String msg)
         {
             Alerts.showMessage(getApplicationContext(), msg);
-
+            Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
+                    "\t%s", err_type, msg);
             //do something if needed
-            switch (err) {
+            switch (err_type) {
                 case IOError:
                     serviceWorker.disconnectPsd();
                     break;
@@ -153,9 +164,12 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVariables();
+
+
         if (tryLoadPasses())
             serviceWorker.connectService();
 
+        Log(this, "[ ACTIVITY ] [ CREATE ]");
     }
 
 
@@ -182,6 +196,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         super.onResume();
         if (tryLoadPasses())
             serviceWorker.connectService();
+
+        Log(this, "[ ACTIVITY ] [ RESUME ]");
     }
 
 
@@ -215,6 +231,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         if (userWantsPsdOn == psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
         {
             userWantsPsdOn = !userWantsPsdOn;
+            Log(this, "[ ACTIVITY ] User wants PSD changed");
         }
         setDesirablePsdState();
     }
@@ -354,6 +371,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private void setDesirablePsdState()
     {
+        Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
         if (userWantsPsdOn && !psdState.is(ConnectionState.Connected))
             serviceWorker.connectPsd(true);//persist
         else if (!userWantsPsdOn && psdState.is(ConnectionState.Connected))

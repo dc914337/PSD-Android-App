@@ -1,7 +1,5 @@
 package anon.psd.crypto.protocol;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.security.InvalidKeyException;
 
@@ -10,6 +8,7 @@ import anon.psd.global.Constants;
 import anon.psd.utils.ArrayUtils;
 
 import static anon.psd.crypto.HashProvider.sha256Bytes;
+import static anon.psd.utils.DebugUtils.Log;
 
 /**
  * Created by Dmitry on 03.08.2015.
@@ -22,7 +21,6 @@ public class PsdProtocolV1
     private byte[] nextBtKey;
     private byte[] nextHBtKey;
 
-    public static String TAG = "protocol_debug";
 
     public PsdProtocolV1(byte[] currBtKey, byte[] currHBtKey)
     {
@@ -37,12 +35,8 @@ public class PsdProtocolV1
         nextBtKey = KeyGenerator.generateRandomBtKey();
         nextHBtKey = KeyGenerator.generateRandomHBtKey();
 
-        Log.i(TAG, String.format("HBTKey: %s", ArrayUtils.getHexArray(hBtKey)));
-        Log.i(TAG, String.format("BTKey: %s", ArrayUtils.getHexArray(btKey)));
-        Log.i(TAG, "-------------------");
-        Log.i(TAG, String.format("Next HBTKey: %s", ArrayUtils.getHexArray(nextHBtKey)));
-        Log.i(TAG, String.format("Next BTKey: %s", ArrayUtils.getHexArray(nextBtKey)));
-        Log.i(TAG, "-----------------------------------------------------");
+        Log(this, "[ PROTOCOL ] Generated message with keys");
+
 
         //do crypto
         byte[] tempMessagePayload = generateTempMessagePayload(index, passPart1, nextBtKey, nextHBtKey);
@@ -92,7 +86,6 @@ public class PsdProtocolV1
     {
         btKey = nextBtKey;
         hBtKey = nextHBtKey;
-
-        Log.i(TAG, "                     [ Keys roll ]");
+        Log(this, "[ PROTOCOL ] \t\t\t\t\t\t\t[ Keys roll ]");
     }
 }

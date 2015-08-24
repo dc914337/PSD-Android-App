@@ -1,7 +1,6 @@
 package anon.psd.crypto;
 
 import android.util.Base64;
-import android.util.Log;
 
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -15,7 +14,6 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class HashProvider
 {
-    private static final String TAG = "HashProvider";
 
     public static String base64Sha256String(String input)
     {
@@ -29,7 +27,6 @@ public class HashProvider
         try {
             mda = MessageDigest.getInstance("SHA-256", "BC");
         } catch (Exception e) {
-            Log.wtf(TAG, e);
             e.printStackTrace();
             return null;
         }

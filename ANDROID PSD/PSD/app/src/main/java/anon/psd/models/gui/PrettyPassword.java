@@ -2,7 +2,6 @@ package anon.psd.models.gui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,12 +10,13 @@ import anon.psd.models.HistoryList;
 import anon.psd.models.PassItem;
 import anon.psd.storage.FileWorker;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 /**
  * Created by Dmitry on 11.07.2015.
  */
 public class PrettyPassword
 {
-    transient private static final String TAG = "PrettyPassword";
     transient private static final int MAX_COMPRESS_QUALITY = 100;
 
     //appearance cfg data
@@ -134,10 +134,10 @@ public class PrettyPassword
             loadPic();
         //if pic still == null(not loaded)
         if (pic == null) {
-            Log.i(TAG, String.format("getImage of prettyPassword %s returned defaultPic", title));
+            Log(this, "[ GET IMAGE ] Pretty password %s returned default pic", title);
             return defaultPic;
         }
-        Log.i(TAG, String.format("getImage of prettyPassword %s returned pic", title));
+        Log(this, "[ GET IMAGE ] Pretty password %s returned [real]Pic", title);
         return pic;
     }
 

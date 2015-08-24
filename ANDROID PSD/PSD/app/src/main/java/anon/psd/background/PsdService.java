@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.state.ConnectionState;
@@ -23,6 +22,8 @@ import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.storage.FileRepository;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 /**
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
@@ -30,7 +31,6 @@ import anon.psd.storage.FileRepository;
 public class PsdService extends IntentService implements IBtObserver
 {
     public static final String SERVICE_NAME = "PsdService";
-    private final String TAG = "SERVICE";
 
     private CurrentServiceState serviceState = new CurrentServiceState();
     final Messenger mMessenger = new Messenger(new ServiceHandler());
@@ -61,7 +61,7 @@ public class PsdService extends IntentService implements IBtObserver
             return;
 
         serviceState.setProtocolState(newState);
-        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        Log(this, "[ SERVICE ] State changed: %s", newState.toString());
         sendServiceState();
     }
 
@@ -73,7 +73,7 @@ public class PsdService extends IntentService implements IBtObserver
             return;
 
         serviceState.setConnectionState(newState);
-        Log.d(TAG, String.format("Service [ STATE CHANGED ] %s", newState.toString()));
+        Log(this, "[ SERVICE ] State changed: %s", newState.toString());
         sendServiceState();
     }
 
@@ -109,7 +109,7 @@ public class PsdService extends IntentService implements IBtObserver
         public void handleMessage(Message msg)
         {
             RequestType type = RequestType.fromInteger(msg.what);
-            Log.d(TAG, String.format("Service handleMessage %s", type.toString()));
+            Log(this, "[ SERVICE ] Handle message: %s", type.toString());
             switch (type) {
                 case ConnectService:
                     mClient = msg.replyTo;

@@ -1,7 +1,5 @@
 package anon.psd.crypto;
 
-import android.util.Log;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,13 +14,13 @@ import javax.crypto.spec.SecretKeySpec;
 
 import anon.psd.utils.ArrayUtils;
 
+import static anon.psd.utils.DebugUtils.LogErr;
+
 /**
  * Created by Dmitry on 10.07.2015.
  */
 public class BaseCrypto
 {
-    public static final String TAG = "BaseCrypto";
-
     public static final int ivLength = 16;
     private byte[] key;
 
@@ -40,7 +38,7 @@ public class BaseCrypto
         try {
             return decrypt(key, IV, encryptedData);
         } catch (Exception ex) {
-            Log.e(TAG, "Something broke", ex);
+            LogErr(this, "[ CRYPTO ] Decrypt broke. %s", ex);
             return null;
         }
     }
@@ -53,7 +51,7 @@ public class BaseCrypto
         try {
             encryptedData = encrypt(key, IV, data);
         } catch (Exception ex) {
-            Log.e(TAG, "Something broke", ex);
+            LogErr(this, "[ CRYPTO ] Encrypt broke. %s", ex);
             return null;
         }
         return ArrayUtils.concatArrays(IV, encryptedData);

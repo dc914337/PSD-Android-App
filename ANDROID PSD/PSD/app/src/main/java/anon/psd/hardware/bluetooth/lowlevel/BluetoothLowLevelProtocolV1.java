@@ -1,12 +1,12 @@
 package anon.psd.hardware.bluetooth.lowlevel;
 
-import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import anon.psd.utils.ArrayUtils;
+
+import static anon.psd.utils.DebugUtils.Log;
 
 /**
  * Created by Dmitry on 14.08.2015.
@@ -16,7 +16,6 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     private final static int MESSAGE_LENGTH = 32;
     private final static int PONG_LENGTH = 1;
     private final static int TYPE_LENGTH = 1;
-    private final static String TAG = "LowLevel";
     private final static int NEXT_BYTE_TIMEOUT_MS = 200;
     private final static int SLEEP_BETWEEN_TRIES = 10;
 
@@ -24,7 +23,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     public byte[] preparePingMessage()
     {
         byte[] alive = new byte[]{(byte) 0xFF};
-        Log.d(TAG, "[ SEND ] Ping");
+        Log(this, "[ LOW LEVEL ] [ SEND ] Ping");
         return alive;
     }
 
@@ -32,7 +31,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     public byte[] prepareSendMessage(byte[] data)
     {
         byte[] header = new byte[]{(byte) 0xDE, (byte) 0xAD};
-        Log.d(TAG, "[ SEND ] Length: " + (data.length + 2));
+        Log(this, "[ LOW LEVEL ] [ SEND ] Length: %s", (data.length + 2));
         return ArrayUtils.concatArrays(header, data);
     }
 
@@ -53,7 +52,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
         }
 
         LowLevelMsgType type = LowLevelMsgType.fromByte(typeBytes[0]);
-        Log.d(TAG, "[ RECEIVED ] [ TYPE ] " + type.toString());
+        Log(this, "[ LOW LEVEL ] [ RECEIVED ] Type: %s", type.toString());
         switch (type) {
             case Pong:
                 return checkPong(stream);
@@ -70,7 +69,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
         if (receivedBytes == null ||
                 LowLevelMsgType.fromByte(receivedBytes[0]) != LowLevelMsgType.Pong)
             return new LowLevelMessage(LowLevelMsgType.Unknown, receivedBytes);
-        Log.d(TAG, "[ RECEIVED ] [ MESSAGE ] PONG CONFIRM");
+        Log(this, "[ RECEIVED ] [ MESSAGE ] Pong");
         return new LowLevelMessage(LowLevelMsgType.Pong, receivedBytes);
     }
 
@@ -93,7 +92,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
                 read += stream.read(buff);
                 baos.write(buff);
             }
-            Log.d(TAG, "[ RECEIVED ] [ MESSAGE ] Length: " + baos.size());
+            Log(this, "[ RECEIVED ] [ MESSAGE ] Length: %s", baos.size());
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();

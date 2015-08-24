@@ -3,7 +3,6 @@ package anon.psd.hardware.bluetooth;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +16,8 @@ import anon.psd.hardware.bluetooth.lowlevel.IBluetoothLowLevelProtocol;
 import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 import anon.psd.utils.ArrayUtils;
 import anon.psd.utils.DelayUtils;
+
+import static anon.psd.utils.DebugUtils.Log;
 
 /**
  * Created by Dmitry on 03.08.2015.
@@ -132,12 +133,14 @@ public class PsdBluetoothCommunication implements IBtObservable
     public void registerObserver(IBtObserver listener)
     {
         this.listener = listener;
+        Log(this, "[ SERVICE ] Registered observer");
     }
 
     @Override
     public void removeObserver()
     {
         listener = null;
+        Log(this, "[ SERVICE ] Removed observer");
     }
 
     public void disconnectDevice()
@@ -231,7 +234,7 @@ public class PsdBluetoothCommunication implements IBtObservable
                                 }
                                 break;
                             case Unknown:
-                                Log.wtf("WTF", ArrayUtils.getHexArray(received.message));
+                                Log(this, "[ SERVICE ] [ WTF ] Received strange message: %s", ArrayUtils.getHexArray(received.message));
                                 break;
                         }
                     }
@@ -266,12 +269,14 @@ public class PsdBluetoothCommunication implements IBtObservable
                     //check time in LastReceived
                     if (btRegistrar.pongTimedOut()) {
                         //set disconnected state
+                        Log(this, "[ SERVICE ] [ ERROR ] Pong timed out");
                         setConnectionState(ConnectionState.Disconnected);
                         return;
                     }
                     //check last requestWithout receive
                     if (btRegistrar.responseTimedOut()) {
                         //send error
+                        Log(this, "[ SERVICE ] [ ERROR ] Keys desynchronization");
                         sendError(ErrorType.Desynchronization, "Keys desynchronization");//String.empty
                         return;
                     }
