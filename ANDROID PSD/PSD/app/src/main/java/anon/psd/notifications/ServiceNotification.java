@@ -52,7 +52,7 @@ public class ServiceNotification
                 Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pi = PendingIntent.getActivity(ctx, 0, clickIntent, 0);
 
-        Notification note = new Notification.Builder(ctx).setContentTitle(TITLE).setContentText("PSD service is running").setSmallIcon(R.drawable.notification_template_icon_bg).setContentIntent(pi).build();
+        Notification note = new Notification.Builder(ctx).setContentTitle(TITLE).setContentText("PSD service is running").setSmallIcon(R.drawable.ic_service).setContentIntent(pi).build();
         note.flags |= Notification.FLAG_NO_CLEAR;
         return note;
     }

@@ -1,12 +1,10 @@
 package anon.psd.gui.activities;
 
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +16,8 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
-import anon.psd.background.ErrorType;
-import anon.psd.background.PSDServiceWorker;
+import anon.psd.background.MenuPSDServiceWorker;
 import anon.psd.device.state.ConnectionState;
-import anon.psd.device.state.CurrentServiceState;
-import anon.psd.device.state.ProtocolState;
-import anon.psd.device.state.ServiceState;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.AppearancesList;
@@ -47,110 +41,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     AppearancesList passes;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
-    PSDServiceWorker serviceWorker;
-    CurrentServiceState psdState = null;
+    MenuPSDServiceWorker serviceWorker;
+
+
     boolean userWantsPsdOn = true;
-
-
-    private class MainPSDServiceWorker extends PSDServiceWorker
-    {
-        public MainPSDServiceWorker(Context context)
-        {
-            super(context);
-        }
-
-        @Override
-        public void onStateChanged(CurrentServiceState newState)
-        {
-            Log(this,
-                    "[ Activity ] State changed.\n" +
-                            "Service state: %s \n" +
-                            "Connection state: %s \n" +
-                            "Protocol state: %s",
-                    newState.getServiceState(),
-                    newState.getConnectionState(),
-                    newState.getProtocolState());
-
-            CurrentServiceState oldState = psdState;
-            psdState = newState;
-
-            if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-                connectionStateChanged(newState.getConnectionState());
-
-            if (oldState == null || newState.getServiceState() != oldState.getServiceState())
-                serviceStateChanged(newState.getServiceState());
-
-            if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
-                protocolStateChanged(newState.getProtocolState());
-        }
-
-        private void connectionStateChanged(ConnectionState newState)
-        {
-            ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);//fix later
-            switch (newState) {
-                case NotAvailable:
-                    connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-                    break;
-                case Disconnected:
-                    showPsdConnectionState(false);
-                    break;
-                case Connected:
-                    showPsdConnectionState(true);
-                    break;
-            }
-        }
-
-        private void serviceStateChanged(ServiceState newState)
-        {
-            switch (newState) {
-                case NotInitialised:
-                    PreferencesProvider prefs = new PreferencesProvider(getApplicationContext());
-                    serviceWorker.initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
-                    break;
-            }
-        }
-
-        private void protocolStateChanged(ProtocolState newState)
-        {
-
-        }
-
-
-        @Override
-        public void onPassSentSuccess()
-        {
-            Alerts.showMessage(getApplicationContext(), "Password sent successfully");
-            Log(this, "[ ACTIVITY ] Password sent successfully");
-        }
-
-        @Override
-        public void onError(ErrorType err_type, String msg)
-        {
-            Alerts.showMessage(getApplicationContext(), msg);
-            Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
-                    "\t%s", err_type, msg);
-            //do something if needed
-            switch (err_type) {
-                case IOError:
-                    serviceWorker.disconnectPsd();
-                    break;
-            }
-        }
-
-    }
-
-
-    private void showPsdConnectionState(boolean connected)
-    {
-        ActionMenuItemView connectionStateLed = (ActionMenuItemView) findViewById(R.id.led_connected);
-        if (connected) {
-            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_green));
-            Alerts.showMessage(getApplicationContext(), "PSD connected");
-        } else {
-            connectionStateLed.setIcon(getResources().getDrawable(R.drawable.ic_little_red));
-            Alerts.showMessage(getApplicationContext(), "PSD disconnected");
-        }
-    }
 
 
     /**
@@ -163,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         initVariables();
 
-
+        serviceWorker = new MenuPSDServiceWorker(this);
         if (tryLoadPasses())
             serviceWorker.connectService();
 
@@ -173,7 +67,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     private void initVariables()
     {
-        serviceWorker = new MainPSDServiceWorker(this);
         //load path to appearance.cfg file
         appearanceCfgFile = new File(new ContextWrapper(this).getFilesDir().getPath(), "appearance.cfg");
 
@@ -225,12 +118,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void onConnectPsdClick(MenuItem item)
     {
-        if (userWantsPsdOn == psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
-        {
-            userWantsPsdOn = !userWantsPsdOn;
-            Log(this, "[ ACTIVITY ] User wants PSD changed");
-        }
-        setDesirablePsdState();
+        serviceWorker.onConnectPsdClick();
     }
 
 
@@ -369,9 +257,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     private void setDesirablePsdState()
     {
         Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
-        if (userWantsPsdOn && !psdState.is(ConnectionState.Connected))
+        if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected))
             serviceWorker.connectPsd(true);//persist
-        else if (!userWantsPsdOn && psdState.is(ConnectionState.Connected))
+        else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected))
             serviceWorker.disconnectPsd();
     }
 

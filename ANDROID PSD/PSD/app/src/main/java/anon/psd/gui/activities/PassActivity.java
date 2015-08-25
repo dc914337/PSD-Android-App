@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
+import anon.psd.background.MenuPSDServiceWorker;
 import anon.psd.gui.transfer.ActivitiesTransfer;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
@@ -30,6 +32,7 @@ public class PassActivity extends ActionBarActivity
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
+    MenuPSDServiceWorker serviceWorker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +42,8 @@ public class PassActivity extends ActionBarActivity
         prettyPassword = (PrettyPassword) ActivitiesTransfer.receiveTransferringObject("PRETTY_PASSWORD_ITEM");
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
+        serviceWorker = new MenuPSDServiceWorker(this);
+        serviceWorker.connectService();
     }
 
 
@@ -114,10 +119,20 @@ public class PassActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        // Inflate the menu; this adds items to the action bar if it is prese    public void onConnectPsdClick()
+        getMenuInflater().inflate(R.menu.menu_pass, menu);
         return true;
     }
 
+    public void onConnectPsdClick(MenuItem item)
+    {
+        serviceWorker.onConnectPsdClick();
+    }
+
+    public void openSettingsClick(MenuItem item)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 
 }
