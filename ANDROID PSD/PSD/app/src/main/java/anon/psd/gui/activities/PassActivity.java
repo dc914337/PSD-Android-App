@@ -41,7 +41,7 @@ public class PassActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
-        prettyPassword = (PrettyPassword) ActivitiesExchange.getObject("PRETTY_PASSWORD_ITEM");
+        prettyPassword = ActivitiesExchange.getObject("PRETTY_PASSWORD_ITEM");
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
 
@@ -141,4 +141,8 @@ public class PassActivity extends ActionBarActivity
         startActivity(intent);
     }
 
+    public void onBtnSendClick(View view)
+    {
+        serviceWorker.sendPass(prettyPassword.getPassItem());
+    }
 }
