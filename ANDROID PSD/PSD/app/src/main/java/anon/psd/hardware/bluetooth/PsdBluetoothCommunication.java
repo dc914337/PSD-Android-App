@@ -172,32 +172,31 @@ public class PsdBluetoothCommunication implements IBtObservable
     public void sendPasswordBytes(byte[] passBytes)
     {
         btRegistrar.registerRequest();
-        sendBytes(passBytes);
+        try {
+            sendBytes(lowLevelProtocol.prepareSendMessage(passBytes));
+        } catch (IOException e) {
+            setConnectionState(ConnectionState.Disconnected);
+            e.printStackTrace();
+            Log(this, "[ SERVICE ] [ ERROR ] Error sending message.Err message: %s", e.getMessage());
+        }
     }
 
     public void sendPing()
     {
+        btRegistrar.registerPing();
         try {
-            outStream.write(lowLevelProtocol.preparePingMessage());
-            outStream.flush();
-            btRegistrar.registerPing();
+            sendBytes(lowLevelProtocol.preparePingMessage());
         } catch (IOException e) {
             e.printStackTrace();
+            Log(this, "[ SERVICE ] [ ERROR ] Error sending ping. Message: %s", e.getMessage());
         }
 
     }
 
-    private boolean sendBytes(byte[] message)
+    private synchronized void sendBytes(byte[] msg) throws IOException
     {
-        try {
-            outStream.write(lowLevelProtocol.prepareSendMessage(message));
-            outStream.flush();
-        } catch (IOException e) {
-            setConnectionState(ConnectionState.Disconnected);
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        outStream.write(msg);
+        outStream.flush();
     }
 
 
