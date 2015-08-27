@@ -137,8 +137,8 @@
       <file leaf-file-name="ActivitiesServiceWorker.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/ActivitiesServiceWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.55214053" vertical-offset="619" max-vertical-offset="2244">
-              <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.47749725" vertical-offset="772" max-vertical-offset="2363">
+              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -150,7 +150,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdServiceWorker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="156" max-vertical-offset="2737">
-              <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
+              <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
               <folding>
                 <element signature="method#initService#0;class#PsdServiceWorker#0" expanded="false" />
                 <element signature="method#connectPsd#0;class#PsdServiceWorker#0" expanded="false" />
@@ -2519,14 +2519,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/ActivitiesServiceWorker.java</url>
-          <line>37</line>
-          <properties />
-          <option name="timeStamp" value="526" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="527" />
     </breakpoint-manager>
   </component>
@@ -2921,7 +2913,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/PsdServiceWorker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="156" max-vertical-offset="2737">
-          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
+          <caret line="52" column="0" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding>
             <element signature="method#initService#0;class#PsdServiceWorker#0" expanded="false" />
             <element signature="method#connectPsd#0;class#PsdServiceWorker#0" expanded="false" />
@@ -2931,8 +2923,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/background/ActivitiesServiceWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.55214053" vertical-offset="619" max-vertical-offset="2244">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.47749725" vertical-offset="772" max-vertical-offset="2363">
+          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

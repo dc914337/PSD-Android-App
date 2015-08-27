@@ -23,6 +23,8 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
     public CurrentServiceState psdState = null;
     ActionMenuItemView connectionStateLed;
 
+    boolean changingActivity = false;
+
     public static ActivitiesServiceWorker getOrCreate(String key)
     {
         ActivitiesServiceWorker worker = ActivitiesExchange.getObject(key);
@@ -36,6 +38,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
     {
         this.activity = newActivity;
         connectService();
+        changingActivity = true;
     }
 
 
@@ -55,17 +58,19 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
         psdState = newState;
 
         if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-            connectionStateChanged(newState.getConnectionState());
+            showCurrentConnectionState(newState.getConnectionState(), changingActivity);
 
         if (oldState == null || newState.getServiceState() != oldState.getServiceState())
-            serviceStateChanged(newState.getServiceState());
+            showCurrentServiceState(newState.getServiceState());
 
         if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
-            protocolStateChanged(newState.getProtocolState());
+            showCurrentProtocolState(newState.getProtocolState());
+
+        changingActivity = false;
     }
 
 
-    private void connectionStateChanged(ConnectionState newState)
+    private void showCurrentConnectionState(ConnectionState newState, boolean silent)
     {
         if (connectionStateLed == null) {
             View ledConnected = activity.findViewById(R.id.led_connected);
@@ -78,17 +83,19 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
                 break;
             case Disconnected:
                 connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
-                Alerts.showMessage(activity, "PSD disconnected");
+                if (!silent)
+                    Alerts.showMessage(activity, "PSD disconnected");
                 break;
             case Connected:
                 connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
-                Alerts.showMessage(activity, "PSD connected");
+                if (!silent)
+                    Alerts.showMessage(activity, "PSD connected");
                 break;
         }
     }
 
 
-    private void serviceStateChanged(ServiceState newState)
+    private void showCurrentServiceState(ServiceState newState)
     {
         switch (newState) {
             case NotInitialised:
@@ -98,7 +105,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
         }
     }
 
-    private void protocolStateChanged(ProtocolState newState)
+    private void showCurrentProtocolState(ProtocolState newState)
     {
 
     }
