@@ -143,6 +143,7 @@ public class PassActivity extends ActionBarActivity
 
     public void onBtnSendClick(View view)
     {
-        serviceWorker.sendPass(prettyPassword.getPassItem());
+        serviceWorker.sendPrettyPass(prettyPassword);
+
     }
 }

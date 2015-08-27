@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.view.View;
 
+import java.util.Date;
+
 import anon.psd.R;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.gui.exchange.ActivitiesExchange;
+import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
@@ -22,7 +25,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
 {
     public CurrentServiceState psdState = null;
     ActionMenuItemView connectionStateLed;
-
+    private PrettyPassword lastEntered;
     boolean changingActivity = false;
 
     public static ActivitiesServiceWorker getOrCreate(String key)
@@ -39,6 +42,12 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
         this.activity = newActivity;
         connectService();
         changingActivity = true;
+    }
+
+    public void sendPrettyPass(PrettyPassword prettyPassword)
+    {
+        lastEntered = prettyPassword;
+        sendPass(prettyPassword.getPassItem());
     }
 
 
@@ -114,6 +123,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
     @Override
     public void onPassSentSuccess()
     {
+        lastEntered.getHistory().add(new Date());
         Alerts.showMessage(activity, "Password sent successfully");
         Log(this, "[ ACTIVITY ] Password sent successfully");
     }

@@ -26,6 +26,7 @@ public abstract class PsdServiceWorker
     Activity activity;
     boolean serviceBound;
 
+
     //Messenger for communicating with service.
     Messenger mService = null;
 
@@ -128,7 +129,6 @@ public abstract class PsdServiceWorker
             e.printStackTrace();
         }
     }
-
 
 
     private class ActivityHandler extends Handler
