@@ -49,7 +49,6 @@ public class AppearanceCfg
 
     public AppearancesList getPassesAppearances()
     {
-
         return passwordAppearances;
     }
 

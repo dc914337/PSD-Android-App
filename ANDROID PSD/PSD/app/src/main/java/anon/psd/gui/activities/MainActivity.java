@@ -21,7 +21,6 @@ import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;
-import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
 import anon.psd.storage.AppearanceCfg;
@@ -51,17 +50,21 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
 
-
         if (tryLoadPasses())
-            serviceWorker.connectService();
-        ledController = new LedController(this, serviceWorker);
-
-        Log(this, "[ ACTIVITY ] [ CREATE ]");
+            loadServiceWorker();
     }
 
+    private void loadServiceWorker()
+    {
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker.setActivity(this);
+        serviceWorker.connectService();
+        ledController = new LedController(this, serviceWorker);
+    }
 
     private void initVariables()
     {
@@ -167,8 +170,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
 
     public void openItem(PrettyPassword item)
     {
-        Intent intent = new Intent(this, PassActivity.class);
-        ActivitiesExchange.addObject("PRETTY_PASSWORD_ITEM", item);
+        ActivitiesExchange.addObject("PASSES", passes);
+        Intent intent = new Intent(getApplicationContext(), PassActivity.class);
+        intent.putExtra("ID", item.getPassItem().id);
         startActivity(intent);
     }
 
@@ -227,27 +231,32 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
             openEnterUserPassword();
             return false;
         }
-        //load passes from base
-        passes = loadAndWrapPasses(baseRepo.getPassesBase().passwords);
+
+        loadAppearances();
+        passes = AppearancesList.Merge(baseRepo.getPassesBase().passwords,
+                appearanceCfg.getPassesAppearances());
+        bindAdapter();
         return true;
     }
 
-    private AppearancesList loadAndWrapPasses(PasswordList passwords)
+
+    private void loadAppearances()
     {
-        AppearancesList wrappedPasses = null;
-        //getting wrapped passes if passes were not loaded(loading 2 files from disk)
-        if (passes == null) {
-            //loading appearanceCfg
-            appearanceCfg = new AppearanceCfg(appearanceCfgFile);
+        //loading appearanceCfg
+        appearanceCfg = new AppearanceCfg(appearanceCfgFile);
+
+        AppearancesList prevPasses = ActivitiesExchange.getObject("PASSES");
+        if (prevPasses != null)
+            appearanceCfg.setPassesAppearances(prevPasses);
+        else
             appearanceCfg.update();
-            //merging passes and loaded appearances
-            wrappedPasses = AppearancesList.Merge(passwords, appearanceCfg.getPassesAppearances());
-        }
+    }
 
-        adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, wrappedPasses);
+
+    private void bindAdapter()
+    {
+        adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, passes);
         lvPasses.setAdapter(adapter);
-
-        return wrappedPasses;
     }
 
     private void saveChangedAppearances()

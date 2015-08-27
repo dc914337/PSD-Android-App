@@ -19,6 +19,7 @@ import anon.psd.R;
 import anon.psd.background.ActivitiesServiceWorker;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
+import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
@@ -41,7 +42,9 @@ public class PassActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
-        prettyPassword = ActivitiesExchange.getObject("PRETTY_PASSWORD_ITEM");
+        AppearancesList passes = ActivitiesExchange.getObject("PASSES");
+        short id = getIntent().getExtras().getShort("ID");
+        prettyPassword = passes.findById(id);
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
 

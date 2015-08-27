@@ -37,4 +37,13 @@ public class AppearancesList extends ArrayList<PrettyPassword>
         return null;
     }
 
+    public PrettyPassword findById(short id)
+    {
+        for (PrettyPassword pass : this) {
+            if (pass.getPassItem().id == id)
+                return pass;
+        }
+        return null;
+    }
+
 }
