@@ -123,13 +123,13 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
     @Override
     public void onPassSentSuccess()
     {
-        lastEntered.getHistory().add(new Date());
+        if (lastEntered != null)
+            lastEntered.getHistory().add(new Date());
         Alerts.showMessage(activity, "Password sent successfully");
-        Log(this, "[es with spaces ACTIVITY ] Password sent successfully");
+        Log(this, "[ ACTIVITY ] Password sent successfully");
     }
 
     @Override
-
     public void onError(ErrorType err_type, String msg)
     {
         Alerts.showMessage(activity, msg);

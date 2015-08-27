@@ -7,7 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
@@ -36,6 +38,8 @@ public class PassActivity extends ActionBarActivity
     ImageView imgViewPic;
     ActivitiesServiceWorker serviceWorker;
     LedController ledController;
+    ListView lstHistory;
+    ArrayAdapter<?> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,7 +86,23 @@ public class PassActivity extends ActionBarActivity
                 String.format("Description: %s", replaceNullOrEmpty(pass.description,
                         "-")));
 
+        lstHistory = (ListView) findViewById(R.id.lstHistory);
+
         imgViewPic.setImageBitmap(prettyPassword.getImage());
+        bindAdapter();
+        updateList();
+    }
+
+    private void bindAdapter()
+    {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, prettyPassword.getHistory());
+        lstHistory.setAdapter(adapter);
+    }
+
+    private void updateList()
+    {
+        adapter.notifyDataSetChanged();
+        lstHistory.setSelection(adapter.getCount() - 1);
     }
 
 
@@ -128,7 +148,7 @@ public class PassActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is prese    public void onLedClick()
+        // Inflate the menu; this adds items to the action bar
         getMenuInflater().inflate(R.menu.menu_pass, menu);
         return true;
     }
@@ -147,6 +167,5 @@ public class PassActivity extends ActionBarActivity
     public void onBtnSendClick(View view)
     {
         serviceWorker.sendPrettyPass(prettyPassword);
-
     }
 }

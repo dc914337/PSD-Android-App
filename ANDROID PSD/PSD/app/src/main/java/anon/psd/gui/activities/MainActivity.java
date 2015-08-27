@@ -76,7 +76,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         lvPasses.setOnItemClickListener(this);
         lvPasses.setOnItemLongClickListener(this);
 
-
         //set default pic for passes
         PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
@@ -180,7 +179,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id)
     {
         PrettyPassword selectedPassWrapper = (PrettyPassword) adapterView.getItemAtPosition(position);
-        serviceWorker.sendPass(selectedPassWrapper.getPassItem());
+        serviceWorker.sendPrettyPass(selectedPassWrapper);
         return true;
     }
 
