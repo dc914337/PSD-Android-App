@@ -1,5 +1,6 @@
 package anon.psd.background;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -20,9 +21,9 @@ import static anon.psd.utils.DebugUtils.Log;
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
  */
-public abstract class PSDServiceWorker
+public abstract class PsdServiceWorker
 {
-    Context ctx;
+    Activity activity;
     boolean serviceBound;
 
     //Messenger for communicating with service.
@@ -31,9 +32,10 @@ public abstract class PSDServiceWorker
     //Handler of incoming messages from service.
     final Messenger mMessenger = new Messenger(new ActivityHandler());
 
-    public PSDServiceWorker(Context context)
+
+    public void setActivity(Activity activity)
     {
-        this.ctx = context;
+        this.activity = activity;
     }
 
 
@@ -44,9 +46,9 @@ public abstract class PSDServiceWorker
     public void connectService()
     {
         ServiceConnection mConnection = new MyServiceConnection();
-        Intent mServiceIntent = new Intent(ctx, PsdService.class);
-        ctx.startService(mServiceIntent);
-        ctx.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
+        Intent mServiceIntent = new Intent(activity, PsdService.class);
+        activity.startService(mServiceIntent);
+        activity.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     public void initService(String dbPath, byte[] dbPass, String psdMacAddress)

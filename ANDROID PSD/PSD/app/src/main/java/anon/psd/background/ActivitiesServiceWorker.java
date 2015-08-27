@@ -1,32 +1,43 @@
 package anon.psd.background;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.view.View;
 
 import anon.psd.R;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
+import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
 
 /**
- * Created by Dmitry on 24.08.2015.
+ * Created by Dmitry on 27.08.2015.
  */
-public class MenuPSDServiceWorker extends PSDServiceWorker
+public class ActivitiesServiceWorker extends PsdServiceWorker
 {
     public CurrentServiceState psdState = null;
     ActionMenuItemView connectionStateLed;
-    boolean userWantsPsdOn = true;
 
-    public MenuPSDServiceWorker(Context context)
+    public static ActivitiesServiceWorker getOrCreate(String key)
     {
-        super(context);
+        ActivitiesServiceWorker worker = ActivitiesExchange.getObject(key);
+        if (worker == null)
+            worker = new ActivitiesServiceWorker();
+        return worker;
     }
+
+
+    public void setNewActivity(Activity newActivity)
+    {
+        this.activity = newActivity;
+        connectService();
+    }
+
 
     @Override
     public void onStateChanged(CurrentServiceState newState)
@@ -56,40 +67,24 @@ public class MenuPSDServiceWorker extends PSDServiceWorker
 
     private void connectionStateChanged(ConnectionState newState)
     {
-        if (connectionStateLed == null)
-            connectionStateLed = (ActionMenuItemView) ((Activity) ctx).findViewById(R.id.led_connected);
+        if (connectionStateLed == null) {
+            View ledConnected = activity.findViewById(R.id.led_connected);
+            connectionStateLed = (ActionMenuItemView) ledConnected;
+        }
+
         switch (newState) {
             case NotAvailable:
-                connectionStateLed.setIcon(ctx.getResources().getDrawable(R.drawable.ic_little_green));
+                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
                 break;
             case Disconnected:
-                connectionStateLed.setIcon(ctx.getResources().getDrawable(R.drawable.ic_little_red));
-                Alerts.showMessage(ctx, "PSD disconnected");
+                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
+                Alerts.showMessage(activity, "PSD disconnected");
                 break;
             case Connected:
-                connectionStateLed.setIcon(ctx.getResources().getDrawable(R.drawable.ic_little_green));
-                Alerts.showMessage(ctx, "PSD connected");
+                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
+                Alerts.showMessage(activity, "PSD connected");
                 break;
         }
-    }
-
-    public void onConnectPsdClick()
-    {
-        if (userWantsPsdOn == psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
-        {
-            userWantsPsdOn = !userWantsPsdOn;
-            Log(this, "[ ACTIVITY ] User wants PSD changed");
-        }
-        setDesirablePsdState();
-    }
-
-    private void setDesirablePsdState()
-    {
-        Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
-        if (userWantsPsdOn && !psdState.is(ConnectionState.Connected))
-            connectPsd(true);//persist
-        else if (!userWantsPsdOn && psdState.is(ConnectionState.Connected))
-            disconnectPsd();
     }
 
 
@@ -97,7 +92,7 @@ public class MenuPSDServiceWorker extends PSDServiceWorker
     {
         switch (newState) {
             case NotInitialised:
-                PreferencesProvider prefs = new PreferencesProvider(ctx);
+                PreferencesProvider prefs = new PreferencesProvider(activity);
                 initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
                 break;
         }
@@ -112,14 +107,14 @@ public class MenuPSDServiceWorker extends PSDServiceWorker
     @Override
     public void onPassSentSuccess()
     {
-        Alerts.showMessage(ctx, "Password sent successfully");
+        Alerts.showMessage(activity, "Password sent successfully");
         Log(this, "[ ACTIVITY ] Password sent successfully");
     }
 
     @Override
     public void onError(ErrorType err_type, String msg)
     {
-        Alerts.showMessage(ctx, msg);
+        Alerts.showMessage(activity, msg);
         Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
                 "\t%s", err_type, msg);
         //do something if needed

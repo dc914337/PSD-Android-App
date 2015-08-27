@@ -16,8 +16,9 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
-import anon.psd.background.MenuPSDServiceWorker;
-import anon.psd.gui.transfer.ActivitiesTransfer;
+import anon.psd.background.ActivitiesServiceWorker;
+import anon.psd.gui.elements.LedController;
+import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
@@ -32,18 +33,23 @@ public class PassActivity extends ActionBarActivity
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
-    MenuPSDServiceWorker serviceWorker;
+    ActivitiesServiceWorker serviceWorker;
+    LedController ledController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
-        prettyPassword = (PrettyPassword) ActivitiesTransfer.receiveTransferringObject("PRETTY_PASSWORD_ITEM");
+        prettyPassword = (PrettyPassword) ActivitiesExchange.getObject("PRETTY_PASSWORD_ITEM");
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
-        serviceWorker = new MenuPSDServiceWorker(this);
+
+        //load service worker
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker.setActivity(this);
         serviceWorker.connectService();
+        ledController = new LedController(this, serviceWorker);
     }
 
 
@@ -119,14 +125,14 @@ public class PassActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is prese    public void onConnectPsdClick()
+        // Inflate the menu; this adds items to the action bar if it is prese    public void onLedClick()
         getMenuInflater().inflate(R.menu.menu_pass, menu);
         return true;
     }
 
-    public void onConnectPsdClick(MenuItem item)
+    public void onLedClick(MenuItem item)
     {
-        serviceWorker.onConnectPsdClick();
+        ledController.toggleStateIfStable();
     }
 
     public void openSettingsClick(MenuItem item)

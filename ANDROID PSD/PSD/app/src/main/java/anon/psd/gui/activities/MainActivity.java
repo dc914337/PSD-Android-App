@@ -16,10 +16,10 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
-import anon.psd.background.MenuPSDServiceWorker;
-import anon.psd.device.state.ConnectionState;
+import anon.psd.background.ActivitiesServiceWorker;
 import anon.psd.gui.adapters.PassItemsAdapter;
-import anon.psd.gui.transfer.ActivitiesTransfer;
+import anon.psd.gui.elements.LedController;
+import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;
 import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
@@ -41,11 +41,8 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     AppearancesList passes;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
-    MenuPSDServiceWorker serviceWorker;
-
-
-    boolean userWantsPsdOn = true;
-
+    ActivitiesServiceWorker serviceWorker;
+    LedController ledController;
 
     /**
      * Activity events
@@ -57,9 +54,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
         initVariables();
 
-        serviceWorker = new MenuPSDServiceWorker(this);
+
         if (tryLoadPasses())
             serviceWorker.connectService();
+        ledController = new LedController(this, serviceWorker);
 
         Log(this, "[ ACTIVITY ] [ CREATE ]");
     }
@@ -79,6 +77,10 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
         //set default pic for passes
         PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
+
+        //load service worker
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker.setActivity(this);
     }
 
     @Override
@@ -116,9 +118,9 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     }
 
 
-    public void onConnectPsdClick(MenuItem item)
+    public void onLedClick(MenuItem item)
     {
-        serviceWorker.onConnectPsdClick();
+        ledController.toggleStateIfStable();
     }
 
 
@@ -166,7 +168,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     public void openItem(PrettyPassword item)
     {
         Intent intent = new Intent(this, PassActivity.class);
-        ActivitiesTransfer.sendTransferringObject("PRETTY_PASSWORD_ITEM", item);
+        ActivitiesExchange.addObject("PRETTY_PASSWORD_ITEM", item);
         startActivity(intent);
     }
 
@@ -252,15 +254,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         appearanceCfg.setPassesAppearances(passes);
         appearanceCfg.rewrite();
-    }
-
-    private void setDesirablePsdState()
-    {
-        Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
-        if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected))
-            serviceWorker.connectPsd(true);//persist
-        else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected))
-            serviceWorker.disconnectPsd();
     }
 
 
