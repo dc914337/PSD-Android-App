@@ -4,32 +4,4 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".SettingsActivity">
 
-    <item
-        android:id="@+id/led_connected"
-        android:title="@string/led_connected"
-        android:icon="@drawable/ic_little_white"
-        android:onClick="onConnectPsdClick"
-        app:showAsAction="always"/>
-
-
-    <item
-        android:id="@+id/action_connect_psd"
-        android:title="@string/action_connect_psd"
-        android:orderInCategory="100"
-        android:onClick="onConnectPsdClick"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_about"
-        android:title="@string/action_about"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:onClick="openSettingsClick"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
-
 </menu>
