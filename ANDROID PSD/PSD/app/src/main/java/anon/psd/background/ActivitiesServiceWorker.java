@@ -88,7 +88,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
 
         switch (newState) {
             case NotAvailable:
-                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
+                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
                 break;
             case Disconnected:
                 connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
