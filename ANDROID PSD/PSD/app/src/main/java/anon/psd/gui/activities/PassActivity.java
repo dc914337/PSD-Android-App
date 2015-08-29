@@ -22,6 +22,7 @@ import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
 import anon.psd.models.gui.PrettyPassword;
 
+import static anon.psd.utils.DebugUtils.Log;
 import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
 
 /**
@@ -52,6 +53,7 @@ public class PassActivity extends MyActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_password);
         AppearancesList passes = ActivitiesExchange.getObject("PASSES");
         short id = getIntent().getExtras().getShort("ID");
@@ -64,6 +66,7 @@ public class PassActivity extends MyActionBarActivity
         serviceWorker.setActivity(this);
         serviceWorker.connectService();
         ledController = new LedController(this, serviceWorker);
+
     }
 
 

@@ -29,6 +29,12 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    /*public void openMain()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }*/
+
     public void exitClick(MenuItem item)
     {
         finish();

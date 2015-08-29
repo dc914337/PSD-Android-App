@@ -60,13 +60,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         initVariables();
     }
 
-    private void loadServiceWorker()
-    {
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
-        serviceWorker.setActivity(this);
-        serviceWorker.connectService();
-        ledController = new LedController(this, serviceWorker);
-    }
 
     private void initVariables()
     {
@@ -91,12 +84,22 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     protected void onResume()
     {
         super.onResume();
-        if (tryLoadPasses()) {
-            loadServiceWorker();
+        Log(this, "[ ACTIVITY ] [ RESUME ]");
+        if (!tryLoadPasses())
+            return;
+
+        loadServiceWorker();
+        if (serviceWorker != null) {
             serviceWorker.connectService();
         }
+    }
 
-        Log(this, "[ ACTIVITY ] [ RESUME ]");
+
+    private void loadServiceWorker()
+    {
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
+        serviceWorker.setActivity(this);
+        ledController = new LedController(this, serviceWorker);
     }
 
 
@@ -157,7 +160,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             //refresh existing prettyPasses
             adapter.notifyDataSetChanged();
             saveChangedAppearances();
-            return false;
+            return true;
         }
 
         //check or set path

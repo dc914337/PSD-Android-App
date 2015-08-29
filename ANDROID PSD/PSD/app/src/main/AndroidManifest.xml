@@ -7,6 +7,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".gui.activities.MainActivity"
             android:label="@string/app_name">
@@ -19,21 +20,13 @@
         <activity
             android:name=".gui.activities.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".gui.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".gui.activities.MainActivity"/>
-        </activity>
+            android:parentActivityName=".gui.activities.MainActivity"/>
 
         <activity
             android:name=".gui.activities.PairedPSDSelectorActivity"
             android:label="Select your PSD from paired devices:"
             android:theme="@android:style/Theme.Material.Dialog.NoActionBar"
-            android:parentActivityName=".gui.activities.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".gui.activities.SettingsActivity"/>
-        </activity>
+            android:parentActivityName=".gui.activities.SettingsActivity"/>
 
 
         <activity
@@ -44,7 +37,6 @@
         <activity
             android:name=".gui.activities.EnterPassActivity"
             android:label="@string/enter_pass_label"
-            android:parentActivityName=".gui.activities.MainActivity"
             android:theme="@android:style/Theme.Material.Dialog"
             android:excludeFromRecents="true"/>
 
@@ -52,12 +44,7 @@
             android:name=".background.PsdService"
             android:exported="false"
             android:enabled="true"
-            android:process=":remote"
-            >
-            <intent-filter>
-                <action
-                    android:name="anon.psd.background.PsdComService"/>
-            </intent-filter>
+            android:process=":remote">
         </service>
 
     </application>
