@@ -3,9 +3,6 @@ package anon.psd.gui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -30,14 +27,14 @@ import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
 /**
  * Created by Dmitry on 06.07.2015.
  */
-public class PassActivity extends ActionBarActivity
+public class PassActivity extends MyActionBarActivity
 {
     private static final int REQUEST_CODE = 1234;
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
     ActivitiesServiceWorker serviceWorker;
-    LedController ledController;
+
     ListView lstHistory;
     ArrayAdapter<?> adapter;
 
@@ -125,6 +122,12 @@ public class PassActivity extends ActionBarActivity
     }
 
     @Override
+    void killService()
+    {
+        serviceWorker.killService();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         switch (requestCode) {
@@ -142,26 +145,6 @@ public class PassActivity extends ActionBarActivity
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar
-        getMenuInflater().inflate(R.menu.menu_pass, menu);
-        return true;
-    }
-
-    public void onLedClick(MenuItem item)
-    {
-        ledController.toggleStateIfStable();
-    }
-
-    public void openSettingsClick(MenuItem item)
-    {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
     }
 
     public void onBtnSendClick(View view)

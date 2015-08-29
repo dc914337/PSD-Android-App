@@ -4,10 +4,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -30,7 +27,7 @@ import anon.psd.storage.PreferencesProvider;
 import static anon.psd.utils.DebugUtils.Log;
 
 
-public class MainActivity extends ActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class MainActivity extends MyActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     DynamicListView lvPasses;
 
@@ -41,7 +38,7 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
     ActivitiesServiceWorker serviceWorker;
-    LedController ledController;
+
 
     /**
      * Activity events
@@ -95,37 +92,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-
-    /**
-     * Action bar
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    public void onLedClick(MenuItem item)
-    {
-        ledController.toggleStateIfStable();
-    }
-
-
     /**
      * Search
      */
@@ -139,21 +105,6 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     public boolean onQueryTextChange(String newText)
     {
         return false;
-    }
-
-
-    /**
-     * Menu entries
-     */
-    public void openSettingsClick(MenuItem item)
-    {
-        openSettings();
-    }
-
-    public void openSettings()
-    {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
     }
 
 
@@ -287,6 +238,12 @@ public class MainActivity extends ActionBarActivity implements SearchView.OnQuer
     {
         Intent intent = new Intent(this, EnterPassActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    void killService()
+    {
+        serviceWorker.killService();
     }
 }
 
