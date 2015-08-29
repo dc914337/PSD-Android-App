@@ -154,6 +154,11 @@ public class PsdBluetoothCommunication implements IBtObservable
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            btSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         btSocket = null;
         stopPsdConnect();
         setConnectionState(ConnectionState.Disconnected);
