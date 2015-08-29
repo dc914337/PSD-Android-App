@@ -102,7 +102,7 @@ public class PassActivity extends MyActionBarActivity
 
     private void bindAdapter()
     {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, prettyPassword.getHistory());
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, prettyPassword.getHistory());
         lstHistory.setAdapter(adapter);
     }
 
