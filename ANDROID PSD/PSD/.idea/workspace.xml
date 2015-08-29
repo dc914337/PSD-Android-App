@@ -163,10 +163,10 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="LedController.java" pinned="false" current="false" current-in-tab="true">
+            <file leaf-file-name="LedController.java" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/elements/LedController.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.29399797" vertical-offset="0" max-vertical-offset="1003">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1003">
                     <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
                     <folding />
                   </state>
@@ -214,11 +214,11 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="menu_main.xml" pinned="false" current="false" current-in-tab="false">
+            <file leaf-file-name="menu_main.xml" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="1054">
-                    <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="52" selection-end-column="34" />
+                  <state vertical-scroll-proportion="0.34587997" vertical-offset="0" max-vertical-offset="1054">
+                    <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
                     <folding>
                       <element signature="e#1379#1400#0" expanded="true" />
                       <element signature="e#1598#1636#0" expanded="true" />
@@ -238,14 +238,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2863" max-vertical-offset="4233">
-              <caret line="238" column="66" selection-start-line="238" selection-start-column="66" selection-end-line="238" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.5225027" vertical-offset="510" max-vertical-offset="4233">
+              <caret line="58" column="5" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdapterView.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/android/widget/AdapterView.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1316" max-vertical-offset="2227">
+              <caret line="123" column="28" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -288,11 +298,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BluetoothLowLevelProtocolV1.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="BluetoothLowLevelProtocolV1.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.40724477" vertical-offset="836" max-vertical-offset="1802">
-              <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="891" max-vertical-offset="1802">
+              <caret line="86" column="34" selection-start-line="86" selection-start-column="34" selection-end-line="86" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -2704,7 +2714,7 @@
           <option name="timeStamp" value="569" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="570" />
+      <option name="time" value="571" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -2712,16 +2722,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_psd_selector.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/utils/DebugUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
@@ -3033,32 +3033,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2863" max-vertical-offset="4233">
-          <caret line="238" column="66" selection-start-line="238" selection-start-column="66" selection-end-line="238" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/SettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
           <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="71" max-vertical-offset="1054">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="52" selection-end-column="34" />
-          <folding>
-            <element signature="e#1379#1400#0" expanded="true" />
-            <element signature="e#1598#1636#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3119,7 +3098,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/elements/LedController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29399797" vertical-offset="0" max-vertical-offset="1003">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1003">
           <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
@@ -3127,9 +3106,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/hardware/bluetooth/lowlevel/BluetoothLowLevelProtocolV1.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40724477" vertical-offset="836" max-vertical-offset="1802">
-          <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="891" max-vertical-offset="1802">
+          <caret line="86" column="34" selection-start-line="86" selection-start-column="34" selection-end-line="86" selection-end-column="34" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/Android/adt-bundle-windows-x86_64-20140321/sdk/platforms/android-22/android.jar!/android/widget/AdapterView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1316" max-vertical-offset="2227">
+          <caret line="123" column="28" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34587997" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
+          <folding>
+            <element signature="e#1379#1400#0" expanded="true" />
+            <element signature="e#1598#1636#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/anon/psd/gui/activities/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5225027" vertical-offset="510" max-vertical-offset="4233">
+          <caret line="58" column="5" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
