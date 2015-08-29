@@ -58,6 +58,8 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
+        if (tryLoadPasses())
+            loadServiceWorker();
     }
 
     private void loadServiceWorker()
@@ -92,11 +94,9 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     {
         super.onResume();
 
-        if (tryLoadPasses()) {
-            if (serviceWorker == null)
-                loadServiceWorker();
+        if (tryLoadPasses())
             serviceWorker.connectService();
-        }
+
         Log(this, "[ ACTIVITY ] [ RESUME ]");
     }
 
