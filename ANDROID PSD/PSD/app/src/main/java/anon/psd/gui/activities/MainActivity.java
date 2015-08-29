@@ -58,8 +58,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
-        if (tryLoadPasses())
-            loadServiceWorker();
     }
 
     private void loadServiceWorker()
@@ -93,9 +91,10 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     protected void onResume()
     {
         super.onResume();
-
-        if (tryLoadPasses())
+        if (tryLoadPasses()) {
+            loadServiceWorker();
             serviceWorker.connectService();
+        }
 
         Log(this, "[ ACTIVITY ] [ RESUME ]");
     }
@@ -252,6 +251,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         baseRepo.setDbPass(dbPass);
         return baseRepo.update();
     }
+
 
     public void openEnterUserPassword()
     {
