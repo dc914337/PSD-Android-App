@@ -38,6 +38,16 @@ public class PassActivity extends MyActionBarActivity
     ListView lstHistory;
     ArrayAdapter<?> adapter;
 
+    class PassActivitiesServiceWorker extends ActivitiesServiceWorker
+    {
+        @Override
+        public void passItemChanged()
+        {
+            fillElements();
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -50,7 +60,7 @@ public class PassActivity extends MyActionBarActivity
         fillElements();
 
         //load service worker
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new PassActivitiesServiceWorker());
         serviceWorker.setActivity(this);
         serviceWorker.connectService();
         ledController = new LedController(this, serviceWorker);

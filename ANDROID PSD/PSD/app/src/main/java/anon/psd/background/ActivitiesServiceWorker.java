@@ -21,18 +21,18 @@ import static anon.psd.utils.DebugUtils.Log;
 /**
  * Created by Dmitry on 27.08.2015.
  */
-public class ActivitiesServiceWorker extends PsdServiceWorker
+public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 {
     public CurrentServiceState psdState = null;
     ActionMenuItemView connectionStateLed;
     private PrettyPassword lastEntered;
     boolean changingActivity = false;
 
-    public static ActivitiesServiceWorker getOrCreate(String key)
+    public static ActivitiesServiceWorker getOrCreate(String key, ActivitiesServiceWorker newOne)
     {
         ActivitiesServiceWorker worker = ActivitiesExchange.getObject(key);
         if (worker == null)
-            worker = new ActivitiesServiceWorker();
+            worker = newOne;
         return worker;
     }
 
@@ -126,6 +126,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
         if (lastEntered != null)
             lastEntered.getHistory().add(new Date());
         Alerts.showMessage(activity, "Password sent successfully");
+        passItemChanged();
         Log(this, "[ ACTIVITY ] Password sent successfully");
     }
 
@@ -142,4 +143,7 @@ public class ActivitiesServiceWorker extends PsdServiceWorker
                 break;
         }
     }
+
+
+    abstract public void passItemChanged();
 }

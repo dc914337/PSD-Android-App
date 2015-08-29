@@ -39,6 +39,14 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     AppearanceCfg appearanceCfg;
     ActivitiesServiceWorker serviceWorker;
 
+    class MainActivitiesServiceWorker extends ActivitiesServiceWorker
+    {
+        @Override
+        public void passItemChanged()
+        {
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     /**
      * Activity events
@@ -57,7 +65,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
 
     private void loadServiceWorker()
     {
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
         serviceWorker.setActivity(this);
         serviceWorker.connectService();
         ledController = new LedController(this, serviceWorker);
@@ -78,7 +86,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
 
         //load service worker
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER");
+        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
         serviceWorker.setActivity(this);
     }
 
