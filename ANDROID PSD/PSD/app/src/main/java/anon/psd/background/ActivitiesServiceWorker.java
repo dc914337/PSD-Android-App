@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.view.View;
 
-import java.util.Date;
-
 import anon.psd.R;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.gui.exchange.ActivitiesExchange;
+import anon.psd.models.gui.PrettyDate;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
@@ -124,7 +123,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     public void onPassSentSuccess()
     {
         if (lastEntered != null)
-            lastEntered.getHistory().add(new Date());
+            lastEntered.getHistory().add(new PrettyDate());
         Alerts.showMessage(activity, "Password sent successfully");
         passItemChanged();
         Log(this, "[ ACTIVITY ] Password sent successfully");

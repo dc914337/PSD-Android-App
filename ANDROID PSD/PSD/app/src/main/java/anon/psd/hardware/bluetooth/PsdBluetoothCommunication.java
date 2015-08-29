@@ -245,7 +245,10 @@ public class PsdBluetoothCommunication implements IBtObservable
                                 }
                                 break;
                             case Unknown:
-                                Log(this, "[ SERVICE ] [ WTF ] Received strange message: %s", ArrayUtils.getHexArray(received.message));
+                                if (received.message != null)
+                                    Log(this, "[ SERVICE ] [ WTF ] Received strange message: %s", ArrayUtils.getHexArray(received.message));
+                                else
+                                    Log(this, "[ SERVICE ] [ WTF ] Received strange null message");
                                 break;
                         }
                     }

@@ -3,10 +3,12 @@ package anon.psd.models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import anon.psd.models.gui.PrettyDate;
+
 /**
  * Created by Dmitry on 24.07.2015.
  */
-public class HistoryList extends ArrayList<Date>
+public class HistoryList extends ArrayList<PrettyDate>
 {
     public Date getLastDate()
     {
