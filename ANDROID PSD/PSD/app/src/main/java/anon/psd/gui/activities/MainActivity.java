@@ -58,9 +58,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
-
-        if (tryLoadPasses())
-            loadServiceWorker();
     }
 
     private void loadServiceWorker()
@@ -94,8 +91,12 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     protected void onResume()
     {
         super.onResume();
-        if (tryLoadPasses())
+
+        if (tryLoadPasses()) {
+            if (serviceWorker == null)
+                loadServiceWorker();
             serviceWorker.connectService();
+        }
         Log(this, "[ ACTIVITY ] [ RESUME ]");
     }
 
@@ -159,13 +160,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             saveChangedAppearances();
             return false;
         }
-        //check or set pass
-        byte[] dbPass = prefs.getDbPass();
-        if (dbPass == null || dbPass.length <= 0) {
-            Alerts.showMessage(getApplicationContext(), "Set user pass");
-            openEnterUserPassword();
-            return false;
-        }
 
         //check or set path
         String dbPath = prefs.getDbPath();
@@ -174,6 +168,23 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             openSettings();
             return false;
         }
+
+        //check or set pass
+        byte[] dbPass = prefs.getDbPass();
+        if (dbPass == null || dbPass.length <= 0) {
+            Alerts.showMessage(getApplicationContext(), "Set user pass");
+            openEnterUserPassword();
+            return false;
+        }
+
+        //check or set pass
+        String psdMac = prefs.getPsdMacAddress();
+        if (psdMac == null || psdMac.isEmpty()) {
+            Alerts.showMessage(getApplicationContext(), "Set PSD");
+            openSettings();
+            return false;
+        }
+
 
         //try load file
         if (!connectBase(dbPath)) {
