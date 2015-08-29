@@ -63,6 +63,7 @@
             android:name=".background.PsdService"
             android:exported="false"
             android:enabled="true"
+            android:process=":remote"
             >
             <intent-filter>
                 <action
