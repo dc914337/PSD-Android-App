@@ -92,7 +92,10 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
                 read += stream.read(buff);
                 baos.write(buff);
             }
-            Log(this, "[ RECEIVED ] [ MESSAGE ] Length: %s", baos.size());
+            int receivedLength = baos.size();
+            if (receivedLength <= 0)
+                return null;
+            Log(this, "[ RECEIVED ] [ MESSAGE ] Length: %s", receivedLength);
             return baos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
