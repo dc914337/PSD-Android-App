@@ -134,7 +134,6 @@ public class PassActivity extends MyActionBarActivity
         imgViewPic.setImageBitmap(prettyPassword.getImage());
     }
 
-    @Override
     void killService()
     {
         serviceWorker.killService();

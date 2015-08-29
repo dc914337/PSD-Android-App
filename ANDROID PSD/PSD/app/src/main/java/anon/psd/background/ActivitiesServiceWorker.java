@@ -16,6 +16,7 @@ import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
+import static anon.psd.utils.DebugUtils.LogErr;
 
 /**
  * Created by Dmitry on 27.08.2015.
@@ -84,6 +85,13 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
             View ledConnected = activity.findViewById(R.id.led_connected);
             connectionStateLed = (ActionMenuItemView) ledConnected;
         }
+
+        if (connectionStateLed == null)
+        {
+            LogErr(this,"[ ERROR ] UI is not loaded yet");
+            return;
+        }
+
 
         switch (newState) {
             case NotAvailable:

@@ -29,15 +29,15 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    /*public void openMain()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }*/
 
     public void exitClick(MenuItem item)
     {
-        finish();
+        finish();//i know that it will finish only current activity.
+    }
+
+    public void uiLoaded()
+    {
+        //loaded user interface
     }
 
     abstract void killService();
@@ -52,8 +52,10 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        super.onCreateOptionsMenu(menu);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        uiLoaded();
         return true;
     }
 

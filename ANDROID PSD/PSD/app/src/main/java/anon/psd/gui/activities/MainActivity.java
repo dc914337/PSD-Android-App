@@ -89,6 +89,12 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             return;
 
         loadServiceWorker();
+
+    }
+
+    @Override
+    public void uiLoaded()
+    {
         if (serviceWorker != null) {
             serviceWorker.connectService();
         }
