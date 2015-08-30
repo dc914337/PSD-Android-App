@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import anon.psd.R;
 import anon.psd.gui.elements.LedController;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 /**
  * Created by Dmitry on 29.08.2015.
  */
@@ -27,20 +29,27 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+
     }
 
 
     public void exitClick(MenuItem item)
     {
+       /* Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);*/
         finish();//i know that it will finish only current activity.
     }
 
-    public void uiLoaded()
-    {
-        //loaded user interface
-    }
 
     abstract void killService();
+
+    //overload this
+    void loadedUI()
+    {
+        Log(this, "[ GUI ] Set led_connected element");
+    }
 
     public void killServiceClick(MenuItem item)
     {
@@ -55,7 +64,9 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onCreateOptionsMenu(menu);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        uiLoaded();
+        ledController.setLedView(menu.findItem(R.id.led_connected));
+
+        loadedUI();
         return true;
     }
 

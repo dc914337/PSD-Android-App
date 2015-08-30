@@ -1,6 +1,7 @@
 package anon.psd.gui.elements;
 
 import android.app.Activity;
+import android.view.MenuItem;
 
 import anon.psd.background.ActivitiesServiceWorker;
 import anon.psd.device.state.ConnectionState;
@@ -55,4 +56,8 @@ public class LedController
             serviceWorker.disconnectPsd();
     }
 
+    public void setLedView(MenuItem item)
+    {
+        serviceWorker.setLedView(item);
+    }
 }

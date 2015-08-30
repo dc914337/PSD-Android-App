@@ -1,8 +1,7 @@
 package anon.psd.background;
 
 import android.app.Activity;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
-import android.view.View;
+import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.device.state.ConnectionState;
@@ -16,7 +15,6 @@ import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
-import static anon.psd.utils.DebugUtils.LogErr;
 
 /**
  * Created by Dmitry on 27.08.2015.
@@ -24,7 +22,7 @@ import static anon.psd.utils.DebugUtils.LogErr;
 public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 {
     public CurrentServiceState psdState = null;
-    ActionMenuItemView connectionStateLed;
+    MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
     boolean changingActivity = false;
 
@@ -81,16 +79,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     private void showCurrentConnectionState(ConnectionState newState, boolean silent)
     {
-        if (connectionStateLed == null) {
-            View ledConnected = activity.findViewById(R.id.led_connected);
-            connectionStateLed = (ActionMenuItemView) ledConnected;
-        }
-
-        if (connectionStateLed == null)
-        {
-            LogErr(this,"[ ERROR ] UI is not loaded yet");
-            return;
-        }
 
 
         switch (newState) {
@@ -153,4 +141,9 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
 
     abstract public void passItemChanged();
+
+    public void setLedView(MenuItem ledView)
+    {
+        connectionStateLed = ledView;
+    }
 }

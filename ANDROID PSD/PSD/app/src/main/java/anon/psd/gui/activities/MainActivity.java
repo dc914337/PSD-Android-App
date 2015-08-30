@@ -87,14 +87,15 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ RESUME ]");
         if (!tryLoadPasses())
             return;
-
         loadServiceWorker();
-
     }
 
+
     @Override
-    public void uiLoaded()
+    void loadedUI()
     {
+        super.loadedUI();
+
         if (serviceWorker != null) {
             serviceWorker.connectService();
         }
