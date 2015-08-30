@@ -1,20 +1,15 @@
-package anon.psd.background;
+package anon.psd.background.messages;
 
 /**
- * Created by Dmitry on 31.07.2015.
+ * Created by Dmitry on 23.08.2015.
  */
-public enum RequestType
+public enum ResponseType
 {
-    ConnectService,
-    Init,
-    ConnectPSD,
-    DisconnectPSD,
-    SendPass,
-    UpdateState,
-    RollKeys,
-    Kill;
+    PassSentSuccess,
+    StateChanged,
+    Error;
 
-    public static RequestType fromInteger(int x)
+    public static ResponseType fromInteger(int x)
     {
         return values()[x];
     }
@@ -27,4 +22,5 @@ public enum RequestType
         }
         throw new IndexOutOfBoundsException("Wrong enum");
     }
+
 }

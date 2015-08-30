@@ -1,10 +1,12 @@
-package anon.psd.background;
+package anon.psd.background.activity;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.view.View;
 
 import anon.psd.R;
+import anon.psd.background.messages.ErrorType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
@@ -16,6 +18,7 @@ import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
+import static anon.psd.utils.DebugUtils.LogErr;
 
 /**
  * Created by Dmitry on 27.08.2015.
@@ -95,6 +98,18 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
                     Alerts.showMessage(activity, "PSD disconnected");
                 break;
             case Connected:
+                if (connectionStateLed == null)
+                    LogErr(this, "connectionStateLed==null");
+
+                if (activity == null)
+                    LogErr(this, "activity==null");
+
+                if (activity.getResources() == null)
+                    LogErr(this, "activity.getResources()==null");
+
+                if (ContextCompat.getDrawable(activity, R.drawable.ic_little_green) == null)
+                    LogErr(this, "ContextCompat.getDrawable(activity, R.drawable.ic_little_green)==null");
+
                 connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
                 if (!silent)
                     Alerts.showMessage(activity, "PSD connected");

@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
-import anon.psd.background.ActivitiesServiceWorker;
+import anon.psd.background.activity.ActivitiesServiceWorker;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;

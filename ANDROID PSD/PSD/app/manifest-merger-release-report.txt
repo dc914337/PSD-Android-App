@@ -88,7 +88,7 @@ ADDED from AndroidManifest.xml:49:9
 		ADDED from AndroidManifest.xml:52:13
 	android:name
 		ADDED from AndroidManifest.xml:50:13
-service#anon.psd.background.PsdService
+service#anon.psd.background.service.PsdService
 ADDED from AndroidManifest.xml:62:9
 	android:exported
 		ADDED from AndroidManifest.xml:64:13

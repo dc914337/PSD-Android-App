@@ -1,6 +1,6 @@
 package anon.psd.hardware.bluetooth;
 
-import anon.psd.background.ErrorType;
+import anon.psd.background.messages.ErrorType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
 

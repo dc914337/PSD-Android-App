@@ -1,4 +1,4 @@
-package anon.psd.background;
+package anon.psd.background.activity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -12,6 +12,10 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import anon.psd.background.messages.ErrorType;
+import anon.psd.background.messages.RequestType;
+import anon.psd.background.messages.ResponseType;
+import anon.psd.background.service.PsdService;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.models.PassItem;
 

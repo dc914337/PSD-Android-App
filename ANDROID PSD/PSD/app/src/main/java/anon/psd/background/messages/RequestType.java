@@ -1,18 +1,20 @@
-package anon.psd.background;
+package anon.psd.background.messages;
 
 /**
- * Created by Dmitry on 17.08.2015.
+ * Created by Dmitry on 31.07.2015.
  */
-public enum ErrorType
+public enum RequestType
 {
-    DeviceNotConnected,
-    DBError,
-    IOError,
-    Desynchronization,
-    WrongState;
+    ConnectService,
+    Init,
+    ConnectPSD,
+    DisconnectPSD,
+    SendPass,
+    UpdateState,
+    RollKeys,
+    Kill;
 
-
-    public static ErrorType fromInteger(int x)
+    public static RequestType fromInteger(int x)
     {
         return values()[x];
     }

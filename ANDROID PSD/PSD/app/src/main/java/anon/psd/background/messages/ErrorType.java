@@ -1,15 +1,18 @@
-package anon.psd.background;
+package anon.psd.background.messages;
 
 /**
- * Created by Dmitry on 23.08.2015.
+ * Created by Dmitry on 17.08.2015.
  */
-public enum ResponseType
+public enum ErrorType
 {
-    PassSentSuccess,
-    StateChanged,
-    Error;
+    DeviceNotConnected,
+    DBError,
+    IOError,
+    Desynchronization,
+    WrongState;
 
-    public static ResponseType fromInteger(int x)
+
+    public static ErrorType fromInteger(int x)
     {
         return values()[x];
     }
@@ -22,5 +25,4 @@ public enum ResponseType
         }
         throw new IndexOutOfBoundsException("Wrong enum");
     }
-
 }

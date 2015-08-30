@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import anon.psd.background.ErrorType;
+import anon.psd.background.messages.ErrorType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.hardware.bluetooth.lowlevel.BluetoothLowLevelProtocolV1;
 import anon.psd.hardware.bluetooth.lowlevel.IBluetoothLowLevelProtocol;
@@ -96,6 +96,7 @@ public class PsdBluetoothCommunication implements IBtObservable
         } catch (IOException e) {
             e.printStackTrace();
             Log(this, "[ ERROR ] Error creating socket: %s", e.getMessage());
+            setConnectionState(ConnectionState.Disconnected);
             return;
         }
 
@@ -108,10 +109,11 @@ public class PsdBluetoothCommunication implements IBtObservable
             try {
                 btSocket.close();
                 e.printStackTrace();
-                Log(this, "[ ERROR ] Error connecting device: %s", e.getMessage());
             } catch (IOException e2) {
                 e.printStackTrace();
             }
+            Log(this, "[ ERROR ] Error connecting device: %s", e.getMessage());
+            setConnectionState(ConnectionState.Disconnected);
             return;
         }
 
@@ -122,6 +124,7 @@ public class PsdBluetoothCommunication implements IBtObservable
         } catch (IOException e) {
             e.printStackTrace();
             Log(this, "[ ERROR ] Error getting connection streams for device: %s", e.getMessage());
+            setConnectionState(ConnectionState.Disconnected);
             return;
         }
 
@@ -261,7 +264,8 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     private void stopListenForData()
     {
-        listenerThread.interrupt();
+        if (listenerThread != null)
+            listenerThread.interrupt();
     }
 
 
@@ -303,7 +307,8 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     private void stopLiveChecker()
     {
-        liveCheckerThread.interrupt();
+        if (liveCheckerThread != null)
+            liveCheckerThread.interrupt();
     }
 
     private void waitBtToEnable()

@@ -45,7 +45,6 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     public void killServiceClick(MenuItem item)
     {
         killService();
-        exitClick(item);
     }
 
 

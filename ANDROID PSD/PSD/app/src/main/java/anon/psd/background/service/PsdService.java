@@ -1,4 +1,4 @@
-package anon.psd.background;
+package anon.psd.background.service;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import anon.psd.background.messages.ErrorType;
+import anon.psd.background.messages.RequestType;
+import anon.psd.background.messages.ResponseType;
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
@@ -248,6 +251,7 @@ public class PsdService extends IntentService implements IBtObserver
     private void die()
     {
         disconnect();
+        stopForeground(true);
         stopSelf();
     }
 

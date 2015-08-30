@@ -2,7 +2,7 @@ package anon.psd.gui.elements;
 
 import android.app.Activity;
 
-import anon.psd.background.ActivitiesServiceWorker;
+import anon.psd.background.activity.ActivitiesServiceWorker;
 import anon.psd.device.state.ConnectionState;
 
 import static anon.psd.utils.DebugUtils.Log;
