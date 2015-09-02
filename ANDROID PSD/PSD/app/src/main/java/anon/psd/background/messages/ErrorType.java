@@ -9,7 +9,8 @@ public enum ErrorType
     DBError,
     IOError,
     Desynchronization,
-    WrongState;
+    WrongState,
+    PongTimedOut;
 
 
     public static ErrorType fromInteger(int x)

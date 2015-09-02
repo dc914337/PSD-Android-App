@@ -17,7 +17,6 @@ import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
-import anon.psd.hardware.bluetooth.IBtObservable;
 import anon.psd.hardware.bluetooth.IBtObserver;
 import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
 import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
@@ -39,7 +38,7 @@ public class PsdService extends IntentService implements IBtObserver
     final Messenger mMessenger = new Messenger(new ServiceHandler());
     Messenger mClient;
     ServiceNotification notification;
-    IBtObservable bt;
+    PsdBluetoothCommunication bt;
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
 
@@ -72,8 +71,8 @@ public class PsdService extends IntentService implements IBtObserver
     @Override
     public void onConnectionStateChanged(ConnectionState newState)
     {
-        if (serviceState.is(newState))
-            return;
+        /*if (serviceState.is(newState))
+            return;*/
 
         serviceState.setConnectionState(newState);
         Log(this, "[ SERVICE ] State changed: %s", newState.toString());
@@ -123,8 +122,7 @@ public class PsdService extends IntentService implements IBtObserver
             Log(this, "[ SERVICE ] Handle message: %s", type.toString());
             switch (type) {
                 case ConnectService:
-                    mClient = msg.replyTo;
-                    sendServiceState();
+                    connectService(msg.replyTo);
                     break;
                 case Init:
                     initService((Bundle) msg.obj);
@@ -152,8 +150,16 @@ public class PsdService extends IntentService implements IBtObserver
         }
     }
 
+    private void connectService(Messenger messenger)
+    {
+        Log(this, "[ RECEIVED ] Connect service");
+        mClient = messenger;
+        sendServiceState();
+    }
+
     private void sendSuccess()
     {
+
         sendToClients(null, ResponseType.PassSentSuccess);
         onProtocolStateChanged(ProtocolState.ReadyToSend);
     }
@@ -183,6 +189,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void initService(Bundle bundle)
     {
+        Log(this, "[ RECEIVED ] Init service");
         String dbPath = bundle.getString("DB_PATH");
         byte[] dbPass = bundle.getByteArray("DB_PASS");
         this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
@@ -198,6 +205,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void connect(Bundle bundle)
     {
+        Log(this, "[ RECEIVED ] Connect PSD");
         boolean persist = bundle.getBoolean("PERSIST");
         if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
@@ -215,6 +223,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void disconnect()
     {
+        Log(this, "[ RECEIVED ] Disconnect PSD");
         if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
@@ -231,6 +240,7 @@ public class PsdService extends IntentService implements IBtObserver
     private void sendPassword(Bundle bundle)
     {
         short passId = bundle.getShort("PASS_ITEM_ID");
+        Log(this, "[ RECEIVED ] Send pass to PSD. Pass id: %s", passId);
         if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
@@ -250,6 +260,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void die()
     {
+        Log(this, "[ RECEIVED ] Service die");
         disconnect();
         stopForeground(true);
         stopSelf();
@@ -257,6 +268,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void rollKeys()
     {
+        Log(this, "[ RECEIVED ] Roll keys");
         if (protocolV1 != null)
             protocolV1.rollKeys();
     }
@@ -264,6 +276,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void sendServiceState()
     {
+        Log(this, "[ SERVICE ]Send service state");
         Bundle bundle = new Bundle();
         bundle.putByteArray("SERVICE_STATE", serviceState.toByteArray());
         sendToClients(bundle, ResponseType.StateChanged);

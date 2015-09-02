@@ -69,10 +69,6 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     public void setConnectionState(ConnectionState newConnectionState)
     {
-        if (newConnectionState == ConnectionState.Disconnected) {
-            stopPsdConnect();
-        }
-
         if (listener != null)
             listener.onConnectionStateChanged(newConnectionState); //send that state changed
     }
@@ -82,6 +78,21 @@ public class PsdBluetoothCommunication implements IBtObservable
         if (listener != null)
             listener.sendError(err, errMessage); //send error
     }
+
+
+    private void errorHandler(ErrorType err, boolean disconnected, String errMsg, Object... args)
+    {
+        sendError(err, String.format(errMsg, args));
+        errorHandler(disconnected, errMsg, args);
+    }
+
+    private void errorHandler(boolean disconnected, String errMsg, Object... args)
+    {
+        Log(this, errMsg, args);
+        if (disconnected)
+            setConnectionState(ConnectionState.Disconnected);
+    }
+
 
     @Override
     public void connectDevice(String mac)
@@ -95,8 +106,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) {
             e.printStackTrace();
-            Log(this, "[ ERROR ] Error creating socket: %s", e.getMessage());
-            setConnectionState(ConnectionState.Disconnected);
+            errorHandler(true, "[ ERROR ] Error creating socket: %s", e.getMessage());
             return;
         }
 
@@ -112,8 +122,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             } catch (IOException e2) {
                 e.printStackTrace();
             }
-            Log(this, "[ ERROR ] Error connecting device: %s", e.getMessage());
-            setConnectionState(ConnectionState.Disconnected);
+            errorHandler(true, "[ ERROR ] Error connecting device: %s", e.getMessage());
             return;
         }
 
@@ -123,8 +132,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             inStream = btSocket.getInputStream();
         } catch (IOException e) {
             e.printStackTrace();
-            Log(this, "[ ERROR ] Error getting connection streams for device: %s", e.getMessage());
-            setConnectionState(ConnectionState.Disconnected);
+            errorHandler(true, "[ ERROR ] Error getting connection streams for device: %s", e.getMessage());
             return;
         }
 
@@ -183,9 +191,8 @@ public class PsdBluetoothCommunication implements IBtObservable
         try {
             sendBytes(lowLevelProtocol.prepareSendMessage(passBytes));
         } catch (IOException e) {
-            setConnectionState(ConnectionState.Disconnected);
             e.printStackTrace();
-            Log(this, "[ SERVICE ] [ ERROR ] Error sending message.Err message: %s", e.getMessage());
+            errorHandler(true, "[ SERVICE ] [ ERROR ] Error sending message.Err message: %s", e.getMessage());
         }
     }
 
@@ -196,7 +203,7 @@ public class PsdBluetoothCommunication implements IBtObservable
             sendBytes(lowLevelProtocol.preparePingMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            Log(this, "[ SERVICE ] [ ERROR ] Error sending ping. Message: %s", e.getMessage());
+            errorHandler(false, "[ SERVICE ] [ ERROR ] Error sending ping. Message: %s", e.getMessage());
         }
 
     }
@@ -287,14 +294,13 @@ public class PsdBluetoothCommunication implements IBtObservable
                     if (btRegistrar != null && btRegistrar.pongTimedOut()) {
                         //set disconnected state
                         Log(this, "[ SERVICE ] [ ERROR ] Pong timed out");
-                        setConnectionState(ConnectionState.Disconnected);
+                        errorHandler(ErrorType.PongTimedOut, true, "No pong from PSD");
                         return;
                     }
                     //check last requestWithout receive
                     if (btRegistrar != null && btRegistrar.responseTimedOut()) {
                         //send error
-                        Log(this, "[ SERVICE ] [ ERROR ] Keys desynchronization");
-                        sendError(ErrorType.Desynchronization, "Keys desynchronization");//String.empty
+                        errorHandler(ErrorType.Desynchronization, true, "Keys desynchronization");
                         return;
                     }
 

@@ -40,7 +40,7 @@
 
     <item
         android:id="@+id/action_kill_service"
-        android:title="@string/action_kill_service"
+        android:title="@string/action_kill_service_and_exit"
         android:onClick="killServiceClick"
         android:orderInCategory="100"
         app:showAsAction="never"/>

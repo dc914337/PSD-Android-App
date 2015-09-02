@@ -14,6 +14,7 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.activity.ActivitiesServiceWorker;
+import anon.psd.gui.activities.actionbar.MyActionBarActivity;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
@@ -263,7 +264,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     }
 
     @Override
-    void killService()
+    public void killService()
     {
         serviceWorker.killService();
     }

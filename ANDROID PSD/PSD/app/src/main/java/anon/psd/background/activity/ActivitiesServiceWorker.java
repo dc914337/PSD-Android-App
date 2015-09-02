@@ -1,9 +1,7 @@
 package anon.psd.background.activity;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
-import android.view.View;
+import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.background.messages.ErrorType;
@@ -18,7 +16,6 @@ import anon.psd.notifications.Alerts;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
-import static anon.psd.utils.DebugUtils.LogErr;
 
 /**
  * Created by Dmitry on 27.08.2015.
@@ -26,7 +23,7 @@ import static anon.psd.utils.DebugUtils.LogErr;
 public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 {
     public CurrentServiceState psdState = null;
-    ActionMenuItemView connectionStateLed;
+    private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
     boolean changingActivity = false;
 
@@ -36,6 +33,13 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         if (worker == null)
             worker = newOne;
         return worker;
+    }
+
+    public void setConnectionStateLed(MenuItem connectionStateLed)
+    {
+        this.connectionStateLed = connectionStateLed;
+        if (psdState != null)
+            processConnectionState(psdState.getConnectionState(), true);
     }
 
 
@@ -69,48 +73,34 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         psdState = newState;
 
         if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-            showCurrentConnectionState(newState.getConnectionState(), changingActivity);
+            processConnectionState(newState.getConnectionState(), changingActivity);
 
         if (oldState == null || newState.getServiceState() != oldState.getServiceState())
-            showCurrentServiceState(newState.getServiceState());
+            processServiceState(newState.getServiceState());
 
         if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
-            showCurrentProtocolState(newState.getProtocolState());
-
+            processProtocolState(newState.getProtocolState());
         changingActivity = false;
     }
 
 
-    private void showCurrentConnectionState(ConnectionState newState, boolean silent)
+    private void processConnectionState(ConnectionState newState, boolean silent)
     {
-        if (connectionStateLed == null) {
-            View ledConnected = activity.findViewById(R.id.led_connected);
-            connectionStateLed = (ActionMenuItemView) ledConnected;
-        }
 
         switch (newState) {
             case NotAvailable:
-                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
+                if (connectionStateLed != null)
+                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
                 break;
             case Disconnected:
-                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
+                if (connectionStateLed != null)
+                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
                 if (!silent)
                     Alerts.showMessage(activity, "PSD disconnected");
                 break;
             case Connected:
-                if (connectionStateLed == null)
-                    LogErr(this, "connectionStateLed==null");
-
-                if (activity == null)
-                    LogErr(this, "activity==null");
-
-                if (activity.getResources() == null)
-                    LogErr(this, "activity.getResources()==null");
-
-                if (ContextCompat.getDrawable(activity, R.drawable.ic_little_green) == null)
-                    LogErr(this, "ContextCompat.getDrawable(activity, R.drawable.ic_little_green)==null");
-
-                connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
+                if (connectionStateLed != null)
+                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
                 if (!silent)
                     Alerts.showMessage(activity, "PSD connected");
                 break;
@@ -118,7 +108,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     }
 
 
-    private void showCurrentServiceState(ServiceState newState)
+    private void processServiceState(ServiceState newState)
     {
         switch (newState) {
             case NotInitialised:
@@ -128,7 +118,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         }
     }
 
-    private void showCurrentProtocolState(ProtocolState newState)
+    private void processProtocolState(ProtocolState newState)
     {
 
     }

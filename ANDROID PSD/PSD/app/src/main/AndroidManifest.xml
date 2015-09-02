@@ -43,8 +43,7 @@
         <service
             android:name=".background.service.PsdService"
             android:exported="false"
-            android:enabled="true"
-            android:process=":remote">
+            android:enabled="true">
         </service>
 
     </application>

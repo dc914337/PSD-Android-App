@@ -1,4 +1,4 @@
-package anon.psd.gui.activities;
+package anon.psd.gui.activities.actionbar;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import anon.psd.R;
+import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.elements.LedController;
 
 /**
@@ -13,7 +14,7 @@ import anon.psd.gui.elements.LedController;
  */
 public abstract class MyActionBarActivity extends AppCompatActivity
 {
-    LedController ledController;
+    public LedController ledController;
 
     /**
      * Menu entries
@@ -29,22 +30,13 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    /*public void openMain()
-    {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }*/
 
-    public void exitClick(MenuItem item)
-    {
-        finish();
-    }
-
-    abstract void killService();
+    public abstract void killService();
 
     public void killServiceClick(MenuItem item)
     {
         killService();
+        finish();
     }
 
 
@@ -53,6 +45,8 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem ledConnected = menu.findItem(R.id.led_connected);
+        ledController.setLedView(ledConnected);
         return true;
     }
 

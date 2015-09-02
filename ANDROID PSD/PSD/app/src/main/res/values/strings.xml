@@ -16,6 +16,6 @@
     <string name="go_to_android_settings_to_pair">Pair some devices</string>
     <string name="extras_return_name">SELECTED_NAME</string>
     <string name="extras_return_mac">SELECTED_MAC</string>
-    <string name="action_kill_service">Kill service</string>
+    <string name="action_kill_service_and_exit">Kill service and exit</string>
     <string name="action_exit">Close app</string>
 </resources>
