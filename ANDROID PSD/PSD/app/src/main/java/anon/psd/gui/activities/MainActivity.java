@@ -22,7 +22,6 @@ import anon.psd.models.AppearancesList;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
 import anon.psd.storage.AppearanceCfg;
-import anon.psd.storage.FileRepository;
 import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
@@ -31,14 +30,12 @@ import static anon.psd.utils.DebugUtils.Log;
 public class MainActivity extends MyActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     DynamicListView lvPasses;
-
     File appearanceCfgFile;
-
-    FileRepository baseRepo;
     AppearancesList passes;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
     ActivitiesServiceWorker serviceWorker;
+
 
     class MainActivitiesServiceWorker extends ActivitiesServiceWorker
     {
@@ -59,6 +56,8 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
+        getAllServiceInitData();
+        connectService();
     }
 
 
@@ -75,31 +74,13 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         //set default pic for passes
         PrettyPassword.setDefaultPic(BitmapFactory.decodeResource(getResources(), R.drawable.default_key_pic));
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
+    }
 
+    private void connectService()
+    {
         //load service worker
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
-        serviceWorker.setActivity(this);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log(this, "[ ACTIVITY ] [ RESUME ]");
-        if (!tryLoadPasses())
-            return;
-
-        loadServiceWorker();
-        if (serviceWorker != null) {
-            serviceWorker.connectService();
-        }
-    }
-
-
-    private void loadServiceWorker()
-    {
-        serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new MainActivitiesServiceWorker());
-        serviceWorker.setActivity(this);
+        serviceWorker = new MainActivitiesServiceWorker();
+        serviceWorker.connectService(this);
         ledController = new LedController(this, serviceWorker);
     }
 
@@ -146,33 +127,20 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         return true;
     }
 
-    private boolean tryLoadPasses()
+
+    /*
+    * Returns true if all loaded without opening other activities
+    * */
+    private boolean getAllServiceInitData()
     {
         PreferencesProvider prefs = new PreferencesProvider(this);
-
-        //if changed base path then refresh all
-        if (baseRepo != null &&
-                !baseRepo.getBasePath().equals(prefs.getDbPath())) {
-            passes = null;
-        }
-
-        //if passes are already loaded - skip loading and refresh representation and base path is the same
-        if (passes != null) {
-            //refresh existing prettyPasses
-            adapter.notifyDataSetChanged();
-            saveChangedAppearances();
-            return true;
-        }
-
-        //check or set path
-        String dbPath = prefs.getDbPath();
-        if (dbPath == null) {
+        String basePath = prefs.getDbPath();
+        if (basePath == null || basePath.isEmpty()) {
             Alerts.showMessage(getApplicationContext(), "Set database path");
             openSettings();
             return false;
         }
 
-        //check or set pass
         byte[] dbPass = prefs.getDbPass();
         if (dbPass == null || dbPass.length <= 0) {
             Alerts.showMessage(getApplicationContext(), "Set user pass");
@@ -180,7 +148,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             return false;
         }
 
-        //check or set pass
         String psdMac = prefs.getPsdMacAddress();
         if (psdMac == null || psdMac.isEmpty()) {
             Alerts.showMessage(getApplicationContext(), "Set PSD");
@@ -188,26 +155,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             return false;
         }
 
-
-        //try load file
-        if (!connectBase(dbPath)) {
-            Alerts.showMessage(getApplicationContext(), "Can't access file or file doesn't exist");
-            openSettings();
-            return false;
-        }
-
-        //try load base
-        if (!loadBase(dbPass)) {
-            Alerts.showMessage(getApplicationContext(), "Password is incorrect or base is broken");
-            prefs.setDbPass(null);//clear pass
-            openEnterUserPassword();
-            return false;
-        }
-
-        loadAppearances();
-        passes = AppearancesList.Merge(baseRepo.getPassesBase().passwords,
-                appearanceCfg.getPassesAppearances());
-        bindAdapter();
+        //some other data to load
         return true;
     }
 
@@ -222,6 +170,8 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             appearanceCfg.setPassesAppearances(prevPasses);
         else
             appearanceCfg.update();
+
+        bindAdapter();
     }
 
 
@@ -241,20 +191,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     /*
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
     */
-    private boolean connectBase(String path)
-    {
-        baseRepo = new FileRepository(path);
-        return baseRepo.checkConnection();
-    }
-
-    private boolean loadBase(byte[] dbPass)
-    {
-        //check if user pass set
-        if (dbPass == null)
-            return false;
-        baseRepo.setDbPass(dbPass);
-        return baseRepo.update();
-    }
 
 
     public void openEnterUserPassword()

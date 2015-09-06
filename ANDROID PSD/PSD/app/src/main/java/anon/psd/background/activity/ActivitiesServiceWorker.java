@@ -1,6 +1,5 @@
 package anon.psd.background.activity;
 
-import android.app.Activity;
 import android.view.MenuItem;
 
 import anon.psd.R;
@@ -9,7 +8,6 @@ import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
-import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.gui.PrettyDate;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
@@ -25,15 +23,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     public CurrentServiceState psdState = null;
     private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
-    boolean changingActivity = false;
-
-    public static ActivitiesServiceWorker getOrCreate(String key, ActivitiesServiceWorker newOne)
-    {
-        ActivitiesServiceWorker worker = ActivitiesExchange.getObject(key);
-        if (worker == null)
-            worker = newOne;
-        return worker;
-    }
 
     public void setConnectionStateLed(MenuItem connectionStateLed)
     {
@@ -43,19 +32,11 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     }
 
 
-    public void setNewActivity(Activity newActivity)
-    {
-        this.activity = newActivity;
-        connectService();
-        changingActivity = true;
-    }
-
     public void sendPrettyPass(PrettyPassword prettyPassword)
     {
         lastEntered = prettyPassword;
         sendPass(prettyPassword.getPassItem());
     }
-
 
     @Override
     public void onStateChanged(CurrentServiceState newState)
@@ -73,20 +54,18 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         psdState = newState;
 
         if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-            processConnectionState(newState.getConnectionState(), changingActivity);
+            processConnectionState(newState.getConnectionState(), false);
 
         if (oldState == null || newState.getServiceState() != oldState.getServiceState())
             processServiceState(newState.getServiceState());
 
         if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
             processProtocolState(newState.getProtocolState());
-        changingActivity = false;
+        ;
     }
-
 
     private void processConnectionState(ConnectionState newState, boolean silent)
     {
-
         switch (newState) {
             case NotAvailable:
                 if (connectionStateLed != null)
@@ -107,7 +86,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         }
     }
 
-
     private void processServiceState(ServiceState newState)
     {
         switch (newState) {
@@ -122,7 +100,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     {
 
     }
-
 
     @Override
     public void onPassSentSuccess()
@@ -147,7 +124,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
                 break;
         }
     }
-
 
     abstract public void passItemChanged();
 }

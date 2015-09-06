@@ -38,18 +38,13 @@ public abstract class PsdServiceWorker
     final Messenger mMessenger = new Messenger(new ActivityHandler());
 
 
-    public void setActivity(Activity activity)
-    {
-        this.activity = activity;
-    }
-
-
     /*
     we are starting and binding service to have it alive all the time. It won't die when
     this activity will die.
     */
-    public void connectService()
+    public void connectService(Activity activity)
     {
+        this.activity = activity;
         ServiceConnection mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(activity, PsdService.class);
         activity.startService(mServiceIntent);

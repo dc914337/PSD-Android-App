@@ -1,7 +1,6 @@
 package anon.psd.gui.elements;
 
 import android.app.Activity;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.view.MenuItem;
 
 import anon.psd.background.activity.ActivitiesServiceWorker;
@@ -14,15 +13,13 @@ import static anon.psd.utils.DebugUtils.Log;
  */
 public class LedController
 {
-    Activity activity;
+
     boolean userWantsPsdOn;
     ActivitiesServiceWorker serviceWorker;
 
     public LedController(Activity activity, ActivitiesServiceWorker serviceWorker)
     {
-        this.activity = activity;
         this.serviceWorker = serviceWorker;
-        serviceWorker.setNewActivity(activity);
     }
 
 
