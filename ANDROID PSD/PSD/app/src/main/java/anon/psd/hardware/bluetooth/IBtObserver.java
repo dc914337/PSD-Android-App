@@ -11,8 +11,6 @@ public interface IBtObserver
 {
     void onReceive(LowLevelMessage message);
 
-    public void sendError(ErrorType err, String errMessage);
-
     void onConnectionStateChanged(ConnectionState newState);
 
 }

@@ -5,8 +5,8 @@ package anon.psd.background.messages;
  */
 public enum ResponseType
 {
-    PassSentSuccess,
-    StateChanged,
+    ReportPassSent,
+    State,
     Error;
 
     public static ResponseType fromInteger(int x)

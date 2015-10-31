@@ -129,13 +129,13 @@ public class PsdService extends IntentService implements IBtObserver
                 case ConnectPSD:
                     connect((Bundle) msg.obj);
                     break;
-                case SendPass:
-                    sendPassword((Bundle) msg.obj);
-                    break;
                 case DisconnectPSD:
                     disconnect();
                     break;
-                case UpdateState:
+                case SendPass:
+                    sendPassword((Bundle) msg.obj);
+                    break;
+                case GetServiceState:
                     sendServiceState();
                     break;
                 case RollKeys:
@@ -159,8 +159,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     private void sendSuccess()
     {
-
-        sendToClients(null, ResponseType.PassSentSuccess);
+        sendToClients(null, ResponseType.ReportPassSent);
         onProtocolStateChanged(ProtocolState.ReadyToSend);
     }
 
@@ -279,7 +278,7 @@ public class PsdService extends IntentService implements IBtObserver
         Log(this, "[ SERVICE ]Send service state");
         Bundle bundle = new Bundle();
         bundle.putByteArray("SERVICE_STATE", serviceState.toByteArray());
-        sendToClients(bundle, ResponseType.StateChanged);
+        sendToClients(bundle, ResponseType.State);
     }
 
 

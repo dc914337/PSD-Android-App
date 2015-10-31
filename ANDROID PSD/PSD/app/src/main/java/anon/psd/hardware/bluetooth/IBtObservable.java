@@ -11,7 +11,15 @@ public interface IBtObservable
 
     public boolean isBluetoothEnabled();
 
-    public void connectDevice(String mac);
+
+    public enum BtConnectResult
+    {
+        ErrorCreatingSocket,
+        ErrorConnectingDevice,
+        ErrorGettingConnectionStream,
+        Connected
+    }
+    public PsdBluetoothCommunication.BtConnectResult connectDevice(String mac);
 
     public void disconnectDevice();
 

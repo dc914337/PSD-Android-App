@@ -84,7 +84,7 @@ public abstract class PsdServiceWorker
 
     public void updateState()
     {
-        sendCommandToService(RequestType.UpdateState);
+        sendCommandToService(RequestType.GetServiceState);
     }
 
     public void rollKeys()

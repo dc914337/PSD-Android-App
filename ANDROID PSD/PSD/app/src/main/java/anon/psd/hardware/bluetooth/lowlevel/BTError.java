@@ -1,11 +1,16 @@
-package anon.psd.device.state;
+package anon.psd.hardware.bluetooth.lowlevel;
 
-public enum ServiceState
+/**
+ * Created by Dmitry on 11.09.2015.
+ */
+public enum BTError
 {
-    NotInitialised,
-    Initialised;
+    SendingError,
+    ConnectError,
+    NoResponse,
+    PongTimedOut;
 
-    public static ServiceState fromInteger(int x)
+    public static BTError fromInteger(int x)
     {
         return values()[x];
     }
@@ -19,5 +24,3 @@ public enum ServiceState
         throw new IndexOutOfBoundsException("Wrong enum");
     }
 }
-
-

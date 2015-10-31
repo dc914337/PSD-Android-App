@@ -94,52 +94,64 @@ public class PsdBluetoothCommunication implements IBtObservable
     }
 
 
+
+
+
     @Override
-    public void connectDevice(String mac)
+    public BtConnectResult connectDevice(String mac)
     {
         //if bt not enabled - wait
         waitBtToEnable();
 
         //creating socket
         BluetoothDevice device = btAdapter.getRemoteDevice(mac);
-        try {
+        try
+        {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             errorHandler(true, "[ ERROR ] Error creating socket: %s", e.getMessage());
-            return;
+            return BtConnectResult.ErrorCreatingSocket;
         }
 
         btAdapter.cancelDiscovery();//just in case cuz discovery is resource intensive
 
         //connecting
-        try {
+        try
+        {
             btSocket.connect();
-        } catch (IOException e) {
-            try {
+        } catch (IOException e)
+        {
+            try
+            {
                 btSocket.close();
                 e.printStackTrace();
-            } catch (IOException e2) {
+            } catch (IOException e2)
+            {
                 e.printStackTrace();
             }
             errorHandler(true, "[ ERROR ] Error connecting device: %s", e.getMessage());
-            return;
+            return BtConnectResult.ErrorConnectingDevice;
         }
 
         //getting output stream
-        try {
+        try
+        {
             outStream = btSocket.getOutputStream();
             inStream = btSocket.getInputStream();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             errorHandler(true, "[ ERROR ] Error getting connection streams for device: %s", e.getMessage());
-            return;
+            return BtConnectResult.ErrorGettingConnectionStream;
         }
 
         btRegistrar = new BTRegistrar();
         sendPing();
         beginListenForData();
         beginLiveChecker();
+        return BtConnectResult.Connected;
     }
 
 
@@ -159,15 +171,19 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     public void disconnectDevice()
     {
-        try {
+        try
+        {
             outStream.write(lowLevelProtocol.prepareDisconnectMessage());
             outStream.flush();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
-        try {
+        try
+        {
             btSocket.close();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
         btSocket = null;
@@ -184,24 +200,33 @@ public class PsdBluetoothCommunication implements IBtObservable
         btRegistrar = null;
     }
 
+    public enum SendPassBytesRes{
+
+    }
+
     @Override
     public void sendPasswordBytes(byte[] passBytes)
     {
         btRegistrar.registerRequest();
-        try {
+        try
+        {
             sendBytes(lowLevelProtocol.prepareSendMessage(passBytes));
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             errorHandler(true, "[ SERVICE ] [ ERROR ] Error sending message.Err message: %s", e.getMessage());
+
         }
     }
 
     public void sendPing()
     {
         btRegistrar.registerPing();
-        try {
+        try
+        {
             sendBytes(lowLevelProtocol.preparePingMessage());
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
             errorHandler(false, "[ SERVICE ] [ ERROR ] Error sending ping. Message: %s", e.getMessage());
         }
@@ -224,32 +249,38 @@ public class PsdBluetoothCommunication implements IBtObservable
         {
             public void run()
             {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (!Thread.currentThread().isInterrupted())
+                {
                     boolean dataAvailable = false;
                     //check if data available
-                    try {
+                    try
+                    {
                         dataAvailable = inStream.available() > 0;
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                         setConnectionState(ConnectionState.Disconnected);
                         break;
                     }
 
                     //start receiving if available
-                    if (dataAvailable) {
+                    if (dataAvailable)
+                    {
                         LowLevelMessage received = lowLevelProtocol.receiveMessage(inStream);
 
                         //receiveMessage is long running operation.
                         if (Thread.currentThread().isInterrupted())
                             return;
 
-                        switch (received.type) {
+                        switch (received.type)
+                        {
                             case Pong:
                                 btRegistrar.registerPong();
                                 setConnectionState(ConnectionState.Connected);
                                 break;
                             case Response:
-                                if (received.message != null) {
+                                if (received.message != null)
+                                {
                                     btRegistrar.registerResponse();
                                     listener.onReceive(received);
                                 }
@@ -285,20 +316,23 @@ public class PsdBluetoothCommunication implements IBtObservable
         {
             public void run()
             {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (!Thread.currentThread().isInterrupted())
+                {
                     //ping
                     if (btRegistrar != null && btRegistrar.pingReady())
                         sendPing();
                     //wait ping retry time
                     //check time in LastReceived
-                    if (btRegistrar != null && btRegistrar.pongTimedOut()) {
+                    if (btRegistrar != null && btRegistrar.pongTimedOut())
+                    {
                         //set disconnected state
                         Log(this, "[ SERVICE ] [ ERROR ] Pong timed out");
                         errorHandler(ErrorType.PongTimedOut, true, "No pong from PSD");
                         return;
                     }
                     //check last requestWithout receive
-                    if (btRegistrar != null && btRegistrar.responseTimedOut()) {
+                    if (btRegistrar != null && btRegistrar.responseTimedOut())
+                    {
                         //send error
                         errorHandler(ErrorType.Desynchronization, true, "Keys desynchronization");
                         return;
@@ -319,10 +353,13 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     private void waitBtToEnable()
     {
-        while (!btAdapter.isEnabled()) {
-            try {
+        while (!btAdapter.isEnabled())
+        {
+            try
+            {
                 Thread.sleep(10);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
         }

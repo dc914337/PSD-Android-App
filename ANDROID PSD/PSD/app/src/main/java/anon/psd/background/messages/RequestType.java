@@ -10,7 +10,7 @@ public enum RequestType
     ConnectPSD,
     DisconnectPSD,
     SendPass,
-    UpdateState,
+    GetServiceState,
     RollKeys,
     Kill;
 

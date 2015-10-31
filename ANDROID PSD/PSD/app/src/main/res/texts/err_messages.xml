@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="SERVICE_ERROR_ENUM">
+        <item>Error connecting database. Maybe, password is wrong</item><!-- DBError -->
+        <item>Service was not started</item><!-- NotInitialized -->
+    </string-array>
+</resources>

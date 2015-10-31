@@ -1,4 +1,4 @@
-package anon.psd.device.state;
+package anon.psd.device;
 
 /**
  * Created by Dmitry on 19.08.2015.
