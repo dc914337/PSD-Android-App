@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import anon.psd.models.PasswordList;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.io.File;
@@ -46,6 +47,12 @@ public class PassActivity extends MyActionBarActivity
         public void passItemChanged()
         {
             fillElements();
+        }
+
+        @Override
+        public void onPassesInfo(PasswordList info)
+        {
+
         }
     }
 

@@ -1,5 +1,6 @@
 package anon.psd.models;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -7,6 +8,16 @@ import java.util.TreeMap;
  */
 public class PasswordList extends TreeMap<Short, PassItem>
 {
+    public PasswordList getCopyWithoutPasswords()
+    {
+        PasswordList passes = new PasswordList();
+        for (Map.Entry<Short, PassItem> entry : this.entrySet())
+        {
+            passes.put(entry.getKey(),
+                    entry.getValue().getCopyWithoutPass());
+        }
 
+        return passes;
+    }
 
 }

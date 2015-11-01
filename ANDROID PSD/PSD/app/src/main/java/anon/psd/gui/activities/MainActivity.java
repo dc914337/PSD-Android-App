@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.AdapterView;
 
+import anon.psd.models.PasswordList;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import java.io.File;
@@ -44,6 +45,12 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         {
             adapter.notifyDataSetChanged();
         }
+
+        @Override
+        public void onPassesInfo(PasswordList info)
+        {
+
+        }
     }
 
     /**
@@ -56,8 +63,10 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
-        getAllServiceInitData();
         connectService();
+
+        /*getAllServiceInitData();
+        loadAppearances();*/
     }
 
 
@@ -191,7 +200,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     /*
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
     */
-
 
     public void openEnterUserPassword()
     {

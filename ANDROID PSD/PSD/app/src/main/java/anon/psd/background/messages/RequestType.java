@@ -7,6 +7,7 @@ public enum RequestType
 {
     ConnectService,
     Init,
+    GetPassesInfo,
     ConnectPSD,
     DisconnectPSD,
     SendPass,

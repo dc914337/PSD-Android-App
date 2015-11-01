@@ -28,4 +28,17 @@ public class PassItem
     {
         return pass;
     }
+
+    public PassItem getCopyWithoutPass()
+    {
+        PassItem item = new PassItem();
+        item.id = this.id;
+        item.title = this.title;
+        item.login = this.login;
+        item.enterWithLogin = this.enterWithLogin;
+        /*item.pass = new byte[this.pass.length];
+        System.arraycopy(this.pass, 0, item.pass, 0, this.pass.length);*/
+        item.description = description;
+        return item;
+    }
 }

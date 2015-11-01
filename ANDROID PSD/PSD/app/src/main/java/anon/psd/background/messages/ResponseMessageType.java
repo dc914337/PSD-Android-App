@@ -1,16 +1,14 @@
 package anon.psd.background.messages;
 
 /**
- * Created by Dmitry on 23.08.2015.
+ * Created by Dmitry on 01.11.2015.
  */
-public enum ResponseType
+public enum ResponseMessageType
 {
-    Message,
-    Error,
-    State,
-    PassesInfo;
 
-    public static ResponseType fromInteger(int x)
+    PassSentSuccess;
+
+    public static ResponseMessageType fromInteger(int x)
     {
         return values()[x];
     }
@@ -23,5 +21,6 @@ public enum ResponseType
         }
         throw new IndexOutOfBoundsException("Wrong enum");
     }
+
 
 }

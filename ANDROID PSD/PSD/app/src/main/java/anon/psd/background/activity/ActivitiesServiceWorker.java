@@ -20,7 +20,7 @@ import static anon.psd.utils.DebugUtils.Log;
  */
 public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 {
-    public CurrentServiceState psdState = null;
+
     private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
 
@@ -28,7 +28,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     {
         this.connectionStateLed = connectionStateLed;
         if (psdState != null)
-            processConnectionState(psdState.getConnectionState(), true);
+            showConnectionState(psdState.getConnectionState());
     }
 
 
@@ -38,75 +38,76 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         sendPass(prettyPassword.getPassItem());
     }
 
-    @Override
-    public void onStateChanged(CurrentServiceState newState)
+
+    protected void showServiceState(ServiceState newState)
     {
-        Log(this,
-                "[ Activity ] State changed.\n" +
-                        "Service state: %s \n" +
-                        "Connection state: %s \n" +
-                        "Protocol state: %s",
-                newState.getServiceState(),
-                newState.getConnectionState(),
-                newState.getProtocolState());
-
-        CurrentServiceState oldState = psdState;
-        psdState = newState;
-
-        if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-            processConnectionState(newState.getConnectionState(), false);
-
-        if (oldState == null || newState.getServiceState() != oldState.getServiceState())
-            processServiceState(newState.getServiceState());
-
-        if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
-            processProtocolState(newState.getProtocolState());
-        ;
+        switch (newState)
+        {
+            case NotInitialised:
+                whiteDot();
+                break;
+        }
     }
 
-    private void processConnectionState(ConnectionState newState, boolean silent)
+    protected void showConnectionState(ConnectionState newState)
     {
-        switch (newState) {
-            case NotAvailable:
-                if (connectionStateLed != null)
-                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
-                break;
+        switch (newState)
+        {
             case Disconnected:
-                if (connectionStateLed != null)
-                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
-                if (!silent)
-                    Alerts.showMessage(activity, "PSD disconnected");
+                redDot();
                 break;
             case Connected:
-                if (connectionStateLed != null)
-                    connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
-                if (!silent)
-                    Alerts.showMessage(activity, "PSD connected");
+                greenDot();
                 break;
         }
     }
 
-    private void processServiceState(ServiceState newState)
+    protected void showProtocolState(ProtocolState newState)
     {
-        switch (newState) {
-            case NotInitialised:
-                PreferencesProvider prefs = new PreferencesProvider(activity);
-                initService(prefs.getDbPath(), prefs.getDbPass(), prefs.getPsdMacAddress());
+        switch (newState)
+        {
+            case ReadyToSend:
+                greenDot();
+                break;
+            case WaitingResponse:
+                yellowDot();
                 break;
         }
     }
 
-    private void processProtocolState(ProtocolState newState)
-    {
 
+    private void whiteDot()
+    {
+        if (connectionStateLed != null)
+            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
     }
+
+    private void redDot()
+    {
+        if (connectionStateLed != null)
+            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
+    }
+
+    private void greenDot()
+    {
+        if (connectionStateLed != null)
+            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
+    }
+
+
+    private void yellowDot()
+    {
+        if (connectionStateLed != null)
+            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_yellow));
+    }
+
 
     @Override
-    public void onPassSentSuccess()
+    public void onMessage(String msg)
     {
         if (lastEntered != null)
             lastEntered.getHistory().add(new PrettyDate());
-        Alerts.showMessage(activity, "Password sent successfully");
+        Alerts.showMessage(activity, msg);
         passItemChanged();
         Log(this, "[ ACTIVITY ] Password sent successfully");
     }
@@ -118,7 +119,8 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
                 "\t%s", err_type, msg);
         //do something if needed
-        switch (err_type) {
+        switch (err_type)
+        {
             case IOError:
                 disconnectPsd();
                 break;

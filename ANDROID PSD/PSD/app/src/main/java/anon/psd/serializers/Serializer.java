@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import anon.psd.models.AppearancesList;
 import anon.psd.models.DataBase;
+import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
 
 /**
@@ -34,4 +35,17 @@ public class Serializer
     {
         return JSONWorker.deserializePasswordAppearances(input);
     }
+
+
+    public static String serializePasswordList(PasswordList passes)
+    {
+        return JSONWorker.serializePasswordList(passes);
+    }
+
+    public static PasswordList deserializePasswordList(String json)
+    {
+        return JSONWorker.deserializePasswordList(json);
+    }
+
+
 }

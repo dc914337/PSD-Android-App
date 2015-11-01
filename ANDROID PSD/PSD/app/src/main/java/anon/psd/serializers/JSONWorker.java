@@ -1,5 +1,6 @@
 package anon.psd.serializers;
 
+import anon.psd.models.PasswordList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,6 +29,21 @@ public class JSONWorker
         Gson gson = builder.create();
         DataBase base = gson.fromJson(json, DataBase.class);
         return base;
+    }
+
+    public static String serializePasswordList(PasswordList passes)
+    {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        return gson.toJson(passes);
+    }
+
+    public static PasswordList deserializePasswordList(String json)
+    {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        PasswordList passes = gson.fromJson(json, PasswordList.class);
+        return passes;
     }
 
 

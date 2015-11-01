@@ -14,10 +14,16 @@ import android.os.RemoteException;
 
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.messages.RequestType;
+import anon.psd.background.messages.ResponseMessageType;
 import anon.psd.background.messages.ResponseType;
 import anon.psd.background.service.PsdService;
+import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
+import anon.psd.device.state.ProtocolState;
+import anon.psd.device.state.ServiceState;
 import anon.psd.models.PassItem;
+import anon.psd.models.PasswordList;
+import anon.psd.serializers.Serializer;
 
 import static anon.psd.utils.DebugUtils.Log;
 
@@ -29,7 +35,8 @@ public abstract class PsdServiceWorker
 {
     Activity activity;
     boolean serviceBound;
-
+    public CurrentServiceState psdState = null;
+    PasswordList passwordList = null;
 
     //Messenger for communicating with service.
     Messenger mService = null;
@@ -102,9 +109,11 @@ public abstract class PsdServiceWorker
     {
         Message msg = Message.obtain(null, RequestType.ConnectService.getInt());
         msg.replyTo = mMessenger;
-        try {
+        try
+        {
             mService.send(msg);
-        } catch (RemoteException e) {
+        } catch (RemoteException e)
+        {
             e.printStackTrace();
         }
     }
@@ -118,13 +127,16 @@ public abstract class PsdServiceWorker
 
     private void sendMessage(Message msg)
     {
-        if (!serviceBound) {
+        if (!serviceBound)
+        {
             Log(this, "[ ACTIVITY ] [ ERROR ] Service is not bound");
             return;
         }
-        try {
+        try
+        {
             mService.send(msg);
-        } catch (RemoteException e) {
+        } catch (RemoteException e)
+        {
             e.printStackTrace();
         }
     }
@@ -136,16 +148,19 @@ public abstract class PsdServiceWorker
         public void handleMessage(Message msg)
         {
             ResponseType type = ResponseType.fromInteger(msg.what);
-            switch (type) {
-                case StateChanged:
-                    receivedStateChanged(msg);
-                    break;
-                case PassSentSuccess:
-                    onPassSentSuccess();
+            switch (type)
+            {
+                case Message:
+                    receivedMessage(msg);
                     break;
                 case Error:
                     receivedError(msg);
                     break;
+                case State:
+                    receivedStateChanged(msg);
+                    break;
+                case PassesInfo:
+                    receivedPassesInfo(msg);
                 default:
                     super.handleMessage(msg);
             }
@@ -159,6 +174,27 @@ public abstract class PsdServiceWorker
         String message = bundle.getString("ERR_MSG");
         ErrorType type = ErrorType.fromInteger(bundle.getInt("ERR_TYPE"));
         onError(type, message);
+    }
+
+    private void receivedMessage(Message msg)
+    {
+        Bundle bundle = (Bundle) msg.obj;
+        String message = bundle.getString("MSG_MSG");
+        ResponseMessageType type = ResponseMessageType.fromInteger(bundle.getInt("MSG_TYPE"));
+        switch (type)
+        {
+            case PassSentSuccess:
+                onMessage(message);
+                break;
+        }
+    }
+
+    private void receivedPassesInfo(Message msg)
+    {
+        Bundle bundle = (Bundle) msg.obj;
+        String info = bundle.getString("PASSES_INFO");
+        passwordList = Serializer.deserializePasswordList(info);
+        onPassesInfo(passwordList);
     }
 
     private void receivedStateChanged(Message msg)
@@ -188,9 +224,59 @@ public abstract class PsdServiceWorker
     }
 
 
-    public abstract void onStateChanged(CurrentServiceState newState);
+    public void onStateChanged(CurrentServiceState newState)
+    {
+        Log(this,
+                "[ Activity ] State changed.\n" +
+                        "Service state: %s \n" +
+                        "Connection state: %s \n" +
+                        "Protocol state: %s",
+                newState.getServiceState(),
+                newState.getConnectionState(),
+                newState.getProtocolState());
 
-    public abstract void onPassSentSuccess();
+        CurrentServiceState oldState = psdState;
+        psdState = newState;
+
+        if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
+            showConnectionState(newState.getConnectionState());
+
+        if (oldState == null || newState.getServiceState() != oldState.getServiceState())
+            showServiceState(newState.getServiceState());
+
+        if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
+            showProtocolState(newState.getProtocolState());
+
+        new StateMachine().processState();
+    }
+
+
+    class StateMachine
+    {
+        public void processState()
+        {
+            if (passwordList == null && psdState.getServiceState() == ServiceState.Initialised)
+                sendCommandToService(RequestType.GetPassesInfo);
+        }
+
+        public void Initialized()
+        {
+
+        }
+    }
+
+
+    protected abstract void showProtocolState(ProtocolState protocolState);
+
+    protected abstract void showServiceState(ServiceState serviceState);
+
+    protected abstract void showConnectionState(ConnectionState connectionState);
+
+    public abstract void onMessage(String msg);
 
     public abstract void onError(ErrorType err, String msg);
+
+
+    public abstract void onPassesInfo(PasswordList info);
+
 }
