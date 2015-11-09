@@ -260,7 +260,7 @@ public abstract class PsdServiceWorker
                 serviceNotInitialised();
                 break;
             case Initialised:
-
+                serviceInitialised();
                 break;
         }
 
@@ -284,7 +284,6 @@ public abstract class PsdServiceWorker
         connectService();
     }
 
-
     private void serviceNotInitialised()
     {
         //ask if data is ready
@@ -296,6 +295,16 @@ public abstract class PsdServiceWorker
                 && psdMac != null
                 && dbPass != null)
             initService(dbPath, dbPass, psdMac);
+    }
+
+    private void serviceInitialised()
+    {
+        if (passwordList == null)
+            sendCommandToService(RequestType.GetPassesInfo);
+
+        switch (psdState.getConnectionState()) {
+
+        }
     }
 
     private void connectPSD()

@@ -51,9 +51,12 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         }
 
         @Override
-        public void onPassesInfo(PasswordList info)
+        public void onPassesInfo(PasswordList passesInfo)
         {
-
+            loadAppearances();
+            passes = AppearancesList.Merge(passesInfo,
+                    appearanceCfg.getPassesAppearances());
+            bindAdapter();
         }
     }
 
@@ -166,7 +169,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         else
             appearanceCfg.update();
 
-        bindAdapter();
+
     }
 
 
@@ -175,11 +178,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         appearanceCfg.setPassesAppearances(passes);
         appearanceCfg.rewrite();
     }
-
-
-    /*
-    Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
-    */
 
 
     @Override

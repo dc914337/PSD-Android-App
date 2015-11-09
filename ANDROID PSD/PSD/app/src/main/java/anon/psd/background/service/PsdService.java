@@ -213,7 +213,8 @@ public class PsdService extends IntentService implements IBtObserver
             return;
         }
         protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
-        serviceState.setServiceState(ServiceState.Initialised); //here we don't have client messenger(mClient) yet. We will call sendState  when we will get mClient
+        serviceState.setServiceState(ServiceState.Initialised);
+        sendServiceState();
     }
 
 
