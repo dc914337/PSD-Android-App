@@ -163,6 +163,7 @@ public class PsdService extends IntentService implements IBtObserver
     {
         Log(this, "[ RECEIVED ] Connect service");
         mClient = messenger;
+        serviceState.setServiceState(ServiceState.NotInitialised);
         sendServiceState();
     }
 

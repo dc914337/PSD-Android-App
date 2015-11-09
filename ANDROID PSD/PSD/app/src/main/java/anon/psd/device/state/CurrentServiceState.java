@@ -6,7 +6,7 @@ package anon.psd.device.state;
 
 public class CurrentServiceState
 {
-    private ServiceState serviceState = ServiceState.NotInitialised;
+    private ServiceState serviceState = ServiceState.NotConnected;
     private ConnectionState connectionState = ConnectionState.NotAvailable;
     private ProtocolState protocolState = ProtocolState.NotAvailable;
 

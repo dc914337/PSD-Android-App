@@ -1,13 +1,16 @@
 package anon.psd.background.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.background.messages.ErrorType;
 import anon.psd.device.state.ConnectionState;
-import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
+import anon.psd.gui.activities.EnterPassActivity;
+import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.models.gui.PrettyDate;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
@@ -23,6 +26,11 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
+
+    public ActivitiesServiceWorker(Activity activity)
+    {
+        super(activity);
+    }
 
     public void setConnectionStateLed(MenuItem connectionStateLed)
     {
@@ -41,8 +49,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     protected void showServiceState(ServiceState newState)
     {
-        switch (newState)
-        {
+        switch (newState) {
             case NotInitialised:
                 whiteDot();
                 break;
@@ -51,8 +58,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     protected void showConnectionState(ConnectionState newState)
     {
-        switch (newState)
-        {
+        switch (newState) {
             case Disconnected:
                 redDot();
                 break;
@@ -64,8 +70,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     protected void showProtocolState(ProtocolState newState)
     {
-        switch (newState)
-        {
+        switch (newState) {
             case ReadyToSend:
                 greenDot();
                 break;
@@ -102,6 +107,60 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     }
 
 
+    public void openSettings()
+    {
+        Intent intent = new Intent(activity, SettingsActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    public void openEnterUserPassword()
+    {
+        Intent intent = new Intent(activity, EnterPassActivity.class);
+        activity.startActivity(intent);
+    }
+
+
+    /*
+   * Returns true if all loaded without opening other activities
+   * */
+    protected String getBasePath()
+    {
+        PreferencesProvider prefs = new PreferencesProvider(activity);
+        String basePath = prefs.getDbPath();
+        if (basePath == null || basePath.isEmpty()) {
+            Alerts.showMessage(activity, "Set database path");
+            openSettings();
+            return null;
+        }
+        return basePath;
+    }
+
+    protected byte[] getDbPass()
+    {
+        PreferencesProvider prefs = new PreferencesProvider(activity);
+        byte[] dbPass = prefs.getDbPass();
+        if (dbPass == null || dbPass.length <= 0) {
+            Alerts.showMessage(activity, "Set user pass");
+            openEnterUserPassword();
+            return null;
+        }
+        return dbPass;
+    }
+
+    protected String getPSDMac()
+    {
+        PreferencesProvider prefs = new PreferencesProvider(activity);
+        String psdMac = prefs.getPsdMacAddress();
+        if (psdMac == null || psdMac.isEmpty()) {
+            Alerts.showMessage(activity, "Set PSD");
+            openSettings();
+            return null;
+        }
+        return psdMac;
+    }
+
+
     @Override
     public void onMessage(String msg)
     {
@@ -119,8 +178,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
                 "\t%s", err_type, msg);
         //do something if needed
-        switch (err_type)
-        {
+        switch (err_type) {
             case IOError:
                 disconnectPsd();
                 break;

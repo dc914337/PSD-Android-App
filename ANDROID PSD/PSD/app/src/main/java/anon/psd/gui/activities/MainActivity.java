@@ -1,5 +1,6 @@
 package anon.psd.gui.activities;
 
+import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -8,7 +9,6 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.AdapterView;
 
-import anon.psd.models.PasswordList;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
 import java.io.File;
@@ -20,10 +20,9 @@ import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;
+import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
-import anon.psd.notifications.Alerts;
 import anon.psd.storage.AppearanceCfg;
-import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
 
@@ -40,6 +39,11 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
 
     class MainActivitiesServiceWorker extends ActivitiesServiceWorker
     {
+        public MainActivitiesServiceWorker(Activity activity)
+        {
+            super(activity);
+        }
+
         @Override
         public void passItemChanged()
         {
@@ -63,10 +67,18 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
-        connectService();
+        initService();
 
         /*getAllServiceInitData();
         loadAppearances();*/
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log(this, "[ ACTIVITY ] [ RESUME ]");
+        serviceWorker.processState();
     }
 
 
@@ -85,11 +97,10 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
     }
 
-    private void connectService()
+    private void initService()
     {
         //load service worker
-        serviceWorker = new MainActivitiesServiceWorker();
-        serviceWorker.connectService(this);
+        serviceWorker = new MainActivitiesServiceWorker(this);
         ledController = new LedController(this, serviceWorker);
     }
 
@@ -137,35 +148,10 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     }
 
 
-    /*
-    * Returns true if all loaded without opening other activities
-    * */
-    private boolean getAllServiceInitData()
+    private void bindAdapter()
     {
-        PreferencesProvider prefs = new PreferencesProvider(this);
-        String basePath = prefs.getDbPath();
-        if (basePath == null || basePath.isEmpty()) {
-            Alerts.showMessage(getApplicationContext(), "Set database path");
-            openSettings();
-            return false;
-        }
-
-        byte[] dbPass = prefs.getDbPass();
-        if (dbPass == null || dbPass.length <= 0) {
-            Alerts.showMessage(getApplicationContext(), "Set user pass");
-            openEnterUserPassword();
-            return false;
-        }
-
-        String psdMac = prefs.getPsdMacAddress();
-        if (psdMac == null || psdMac.isEmpty()) {
-            Alerts.showMessage(getApplicationContext(), "Set PSD");
-            openSettings();
-            return false;
-        }
-
-        //some other data to load
-        return true;
+        adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, passes);
+        lvPasses.setAdapter(adapter);
     }
 
 
@@ -184,12 +170,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     }
 
 
-    private void bindAdapter()
-    {
-        adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, passes);
-        lvPasses.setAdapter(adapter);
-    }
-
     private void saveChangedAppearances()
     {
         appearanceCfg.setPassesAppearances(passes);
@@ -201,11 +181,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     Check if we can read file. doesn't mean we can decrypt it. Just read encrypted data
     */
 
-    public void openEnterUserPassword()
-    {
-        Intent intent = new Intent(this, EnterPassActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void killService()

@@ -30,12 +30,14 @@ import static anon.psd.utils.DebugUtils.Log;
 /**
  * Created by Dmitry on 01.08.2015.
  * Happy birthday me, yay!
+ * <p/>
+ * This class works with PSD service. It needs activity only to bound service
  */
 public abstract class PsdServiceWorker
 {
     Activity activity;
     boolean serviceBound;
-    public CurrentServiceState psdState = null;
+    public CurrentServiceState psdState = new CurrentServiceState();
     PasswordList passwordList = null;
 
     //Messenger for communicating with service.
@@ -44,14 +46,18 @@ public abstract class PsdServiceWorker
     //Handler of incoming messages from service.
     final Messenger mMessenger = new Messenger(new ActivityHandler());
 
+    public PsdServiceWorker(Activity activity)
+    {
+        this.activity = activity;
+    }
+
 
     /*
     we are starting and binding service to have it alive all the time. It won't die when
     this activity will die.
     */
-    public void connectService(Activity activity)
+    public void connectService()
     {
-        this.activity = activity;
         ServiceConnection mConnection = new MyServiceConnection();
         Intent mServiceIntent = new Intent(activity, PsdService.class);
         activity.startService(mServiceIntent);
@@ -109,11 +115,9 @@ public abstract class PsdServiceWorker
     {
         Message msg = Message.obtain(null, RequestType.ConnectService.getInt());
         msg.replyTo = mMessenger;
-        try
-        {
+        try {
             mService.send(msg);
-        } catch (RemoteException e)
-        {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
@@ -127,16 +131,13 @@ public abstract class PsdServiceWorker
 
     private void sendMessage(Message msg)
     {
-        if (!serviceBound)
-        {
+        if (!serviceBound) {
             Log(this, "[ ACTIVITY ] [ ERROR ] Service is not bound");
             return;
         }
-        try
-        {
+        try {
             mService.send(msg);
-        } catch (RemoteException e)
-        {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
@@ -148,8 +149,7 @@ public abstract class PsdServiceWorker
         public void handleMessage(Message msg)
         {
             ResponseType type = ResponseType.fromInteger(msg.what);
-            switch (type)
-            {
+            switch (type) {
                 case Message:
                     receivedMessage(msg);
                     break;
@@ -181,8 +181,7 @@ public abstract class PsdServiceWorker
         Bundle bundle = (Bundle) msg.obj;
         String message = bundle.getString("MSG_MSG");
         ResponseMessageType type = ResponseMessageType.fromInteger(bundle.getInt("MSG_TYPE"));
-        switch (type)
-        {
+        switch (type) {
             case PassSentSuccess:
                 onMessage(message);
                 break;
@@ -247,24 +246,69 @@ public abstract class PsdServiceWorker
         if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
             showProtocolState(newState.getProtocolState());
 
-        new StateMachine().processState();
+        processState();
     }
 
 
-    class StateMachine
+    public void processState()
     {
-        public void processState()
-        {
-            if (passwordList == null && psdState.getServiceState() == ServiceState.Initialised)
-                sendCommandToService(RequestType.GetPassesInfo);
+        switch (psdState.getServiceState()) {
+            case NotConnected:
+                serviceNotConnected();
+                break;
+            case NotInitialised:
+                serviceNotInitialised();
+                break;
+            case Initialised:
+
+                break;
         }
 
-        public void Initialized()
-        {
+            /*
+            if (newState.is()) {
+                connectService();
+            } else if (newState.is(ServiceState.NotInitialised)) {
+                if (newState.is(ConnectionState.Disconnected)) {
+                    connectPSD();
+                }
+            }*/
 
-        }
+
+            /*if (passwordList == null && psdState.getServiceState() == ServiceState.Initialised)
+                sendCommandToService(RequestType.GetPassesInfo);*/
+
     }
 
+    private void serviceNotConnected()
+    {
+        connectService();
+    }
+
+
+    private void serviceNotInitialised()
+    {
+        //ask if data is ready
+        String dbPath = getBasePath();
+        String psdMac = getPSDMac();
+        byte[] dbPass = getDbPass();
+
+        if (dbPath != null
+                && psdMac != null
+                && dbPass != null)
+            initService(dbPath, dbPass, psdMac);
+    }
+
+    private void connectPSD()
+    {
+        connectPsd(false);
+    }
+
+
+    protected abstract String getBasePath();
+
+    protected abstract byte[] getDbPass();
+
+    protected abstract String getPSDMac();
 
     protected abstract void showProtocolState(ProtocolState protocolState);
 
