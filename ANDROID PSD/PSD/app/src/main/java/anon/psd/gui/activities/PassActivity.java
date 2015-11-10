@@ -74,13 +74,18 @@ public class PassActivity extends MyActionBarActivity
         prettyPassword = passes.findById(id);
         imgViewPic = ((ImageView) findViewById(R.id.imgIcon));
         fillElements();
-
-        //load service worker
-        serviceWorker = ActivitiesExchange.getObject("ACTIVITIES_SERVICE_WORKER");
-        serviceWorker.connectService();
-        ledController = new LedController(this, serviceWorker);
-
+        initService();
+        serviceWorker.processState();
     }
+
+
+    private void initService()
+    {
+        //load service worker
+        serviceWorker = new PassActivitiesServiceWorker(this);
+        ledController = new LedController(this, serviceWorker);
+    }
+
 
 
     private void fillElements()
