@@ -11,6 +11,7 @@ import android.os.RemoteException;
 
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.messages.RequestType;
+import anon.psd.background.messages.ResponseMessageType;
 import anon.psd.background.messages.ResponseType;
 import anon.psd.crypto.protocol.PsdProtocolV1;
 import anon.psd.device.state.ConnectionState;
@@ -54,7 +55,7 @@ public class PsdService extends IntentService implements IBtObserver
             return;
         //save new keys to db
         baseRepo.updateKeys(protocolV1.btKey, protocolV1.hBtKey);
-        sendSuccess();
+        sendMessage(ResponseMessageType.PassSentSuccess, "Pass sent successfully");
     }
 
 
@@ -121,8 +122,7 @@ public class PsdService extends IntentService implements IBtObserver
         {
             RequestType type = RequestType.fromInteger(msg.what);
             Log(this, "[ SERVICE ] Handle message: %s", type.toString());
-            switch (type)
-            {
+            switch (type) {
                 case ConnectService:
                     connectService(msg.replyTo);
                     break;
@@ -167,10 +167,12 @@ public class PsdService extends IntentService implements IBtObserver
         sendServiceState();
     }
 
-    private void sendSuccess()
+    private void sendMessage(ResponseMessageType type, String messageText)
     {
-
-        sendToClients(null, ResponseType.Message);
+        Bundle msgBundle = new Bundle();
+        msgBundle.putInt("MSG_TYPE", type.getInt());
+        msgBundle.putString("MSG_MSG", messageText);
+        sendToClients(msgBundle, ResponseType.Message);
         onProtocolStateChanged(ProtocolState.ReadyToSend);
     }
 
@@ -188,11 +190,9 @@ public class PsdService extends IntentService implements IBtObserver
             return;
 
         Message msg = Message.obtain(null, msgType.getInt(), bundle);
-        try
-        {
+        try {
             mClient.send(msg);
-        } catch (RemoteException e)
-        {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
@@ -207,8 +207,7 @@ public class PsdService extends IntentService implements IBtObserver
         this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
-        if (!baseRepo.update())
-        {
+        if (!baseRepo.update()) {
             sendError(ErrorType.DBError, "Couldn't load database");
             return;
         }
@@ -232,12 +231,10 @@ public class PsdService extends IntentService implements IBtObserver
     {
         Log(this, "[ RECEIVED ] Connect PSD");
         boolean persist = bundle.getBoolean("PERSIST");
-        if (serviceState.is(ConnectionState.Connected))
-        {
+        if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
             return;
-        } else if (serviceState.is(ServiceState.NotInitialised))
-        {
+        } else if (serviceState.is(ServiceState.NotInitialised)) {
             sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
             return;
         }
@@ -251,12 +248,10 @@ public class PsdService extends IntentService implements IBtObserver
     private void disconnect()
     {
         Log(this, "[ RECEIVED ] Disconnect PSD");
-        if (serviceState.is(ConnectionState.Disconnected))
-        {
+        if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
-        } else if (serviceState.is(ServiceState.NotInitialised))
-        {
+        } else if (serviceState.is(ServiceState.NotInitialised)) {
             sendError(ErrorType.WrongState, "Service is not initialised");
             return;
         }
@@ -270,14 +265,12 @@ public class PsdService extends IntentService implements IBtObserver
     {
         short passId = bundle.getShort("PASS_ITEM_ID");
         Log(this, "[ RECEIVED ] Send pass to PSD. Pass id: %s", passId);
-        if (serviceState.is(ConnectionState.Disconnected))
-        {
+        if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
         }
 
-        if (serviceState.is(ProtocolState.WaitingResponse))
-        {
+        if (serviceState.is(ProtocolState.WaitingResponse)) {
             sendError(ErrorType.WrongState, "We are still waiting for response from PSD");
             return;
         }

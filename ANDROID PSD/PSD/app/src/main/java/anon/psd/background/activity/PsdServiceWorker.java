@@ -320,6 +320,7 @@ public abstract class PsdServiceWorker
             case ReadyToSend:
                 break;
             case WaitingResponse:
+                showProtocolState(psdState.getProtocolState());
                 break;
         }
     }
