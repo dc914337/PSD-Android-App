@@ -11,7 +11,7 @@ import anon.psd.utils.TimeUtils;
 public class BTRegistrar
 {
     public static final int RETRY_PING_MS = 3000;//3000
-    public static final int PONG_TIMEOUT = 6500;//6500
+    public static final int PONG_TIMEOUT = 10500;//6500
     public static final int RESPONSE_TIMEOUT = 5000;//5000
 
     private Date lastSentPing = null;

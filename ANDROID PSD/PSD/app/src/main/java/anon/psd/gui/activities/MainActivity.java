@@ -159,6 +159,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     }
 
 
+
     private void checkOrUpdateAppearanceCfg()
     {
         //loading appearanceCfg
