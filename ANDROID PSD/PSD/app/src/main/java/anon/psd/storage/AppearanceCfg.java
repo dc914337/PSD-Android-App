@@ -55,5 +55,6 @@ public class AppearanceCfg
     public void setPassesAppearances(AppearancesList passesAppearances)
     {
         passwordAppearances = passesAppearances;
+        rewrite();
     }
 }

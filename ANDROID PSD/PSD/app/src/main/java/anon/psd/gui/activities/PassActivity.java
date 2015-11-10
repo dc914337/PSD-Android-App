@@ -76,8 +76,7 @@ public class PassActivity extends MyActionBarActivity
         fillElements();
 
         //load service worker
-        //serviceWorker = ActivitiesServiceWorker.getOrCreate("ACTIVITIES_SERVICE_WORKER", new PassActivitiesServiceWorker());
-
+        serviceWorker = ActivitiesExchange.getObject("ACTIVITIES_SERVICE_WORKER");
         serviceWorker.connectService();
         ledController = new LedController(this, serviceWorker);
 

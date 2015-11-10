@@ -53,7 +53,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         @Override
         public void onPassesInfo(PasswordList passesInfo)
         {
-            loadAppearances();
+            checkOrUpdateAppearanceCfg();
             passes = AppearancesList.Merge(passesInfo,
                     appearanceCfg.getPassesAppearances());
             bindAdapter();
@@ -71,9 +71,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         setContentView(R.layout.activity_main);
         initVariables();
         initService();
-
-        /*getAllServiceInitData();
-        loadAppearances();*/
     }
 
     @Override
@@ -82,6 +79,9 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         super.onResume();
         Log(this, "[ ACTIVITY ] [ RESUME ]");
         serviceWorker.processState();
+        checkOrUpdateAppearanceCfg();
+        if (passes != null)
+            bindAdapter();
     }
 
 
@@ -137,6 +137,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     public void openItem(PrettyPassword item)
     {
         ActivitiesExchange.addObject("PASSES", passes);
+        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", serviceWorker);
         Intent intent = new Intent(getApplicationContext(), PassActivity.class);
         intent.putExtra("ID", item.getPassItem().id);
         startActivity(intent);
@@ -158,7 +159,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     }
 
 
-    private void loadAppearances()
+    private void checkOrUpdateAppearanceCfg()
     {
         //loading appearanceCfg
         appearanceCfg = new AppearanceCfg(appearanceCfgFile);
@@ -168,15 +169,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             appearanceCfg.setPassesAppearances(prevPasses);
         else
             appearanceCfg.update();
-
-
-    }
-
-
-    private void saveChangedAppearances()
-    {
-        appearanceCfg.setPassesAppearances(passes);
-        appearanceCfg.rewrite();
     }
 
 
