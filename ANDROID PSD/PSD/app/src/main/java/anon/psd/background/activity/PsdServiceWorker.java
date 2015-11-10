@@ -194,6 +194,7 @@ public abstract class PsdServiceWorker
         String info = bundle.getString("PASSES_INFO");
         passwordList = Serializer.deserializePasswordList(info);
         onPassesInfo(passwordList);
+        processState();
     }
 
     private void receivedStateChanged(Message msg)
@@ -299,11 +300,27 @@ public abstract class PsdServiceWorker
 
     private void serviceInitialised()
     {
-        if (passwordList == null)
+        if (passwordList == null) {
             sendCommandToService(RequestType.GetPassesInfo);
+        } else
+            switch (psdState.getConnectionState()) {
+                case Disconnected:
+                    connectPSD();
+                    break;
+                case Connected:
+                    psdConnected();
+                    break;
+            }
+    }
 
-        switch (psdState.getConnectionState()) {
 
+    private void psdConnected()
+    {
+        switch (psdState.getProtocolState()) {
+            case ReadyToSend:
+                break;
+            case WaitingResponse:
+                break;
         }
     }
 
