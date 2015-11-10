@@ -137,7 +137,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     public void openItem(PrettyPassword item)
     {
         ActivitiesExchange.addObject("PASSES", passes);
-        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", serviceWorker);
+        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", (ActivitiesServiceWorker)serviceWorker);
         Intent intent = new Intent(getApplicationContext(), PassActivity.class);
         intent.putExtra("ID", item.getPassItem().id);
         startActivity(intent);

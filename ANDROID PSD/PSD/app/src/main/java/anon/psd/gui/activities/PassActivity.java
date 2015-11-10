@@ -37,7 +37,7 @@ public class PassActivity extends MyActionBarActivity
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
-    ActivitiesServiceWorker serviceWorker;
+    PassActivitiesServiceWorker serviceWorker;
 
     ListView lstHistory;
     ArrayAdapter<?> adapter;

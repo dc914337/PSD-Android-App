@@ -316,6 +316,7 @@ public abstract class PsdServiceWorker
 
     private void psdConnected()
     {
+        showConnectionState(psdState.getConnectionState());
         switch (psdState.getProtocolState()) {
             case ReadyToSend:
                 break;
