@@ -38,7 +38,7 @@ public abstract class PsdServiceWorker
     Activity activity;
     boolean serviceBound;
     private int connectionTries = 0;
-    private final int MAX_CONNECTION_TRIES = 5;
+    private final int MAX_CONNECTION_TRIES = 2;
 
     public CurrentServiceState psdState = new CurrentServiceState();
     PasswordList passwordList = null;
@@ -256,10 +256,10 @@ public abstract class PsdServiceWorker
 
     public void processState()
     {
+        if (!serviceBound)
+            serviceNotConnected();
+
         switch (psdState.getServiceState()) {
-            case NotConnected:
-                serviceNotConnected();
-                break;
             case NotInitialised:
                 serviceNotInitialised();
                 break;

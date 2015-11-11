@@ -2,7 +2,6 @@ package anon.psd.device.state;
 
 public enum ServiceState
 {
-    NotConnected,
     NotInitialised,
     Initialised;
 

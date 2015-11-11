@@ -49,7 +49,7 @@ public class LedController
     {
         Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
         if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected))
-            serviceWorker.connectPsd(true);//persist
+            serviceWorker.connectPsd(false);
         else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected))
             serviceWorker.disconnectPsd();
     }

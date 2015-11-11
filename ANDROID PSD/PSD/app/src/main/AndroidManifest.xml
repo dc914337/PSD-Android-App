@@ -43,10 +43,9 @@
         <service
             android:name=".background.service.PsdService"
             android:exported="false"
-            android:process=":remote"
             android:enabled="true">
         </service>
-
+        <![CDATA[android:process=":remote"]]>
     </application>
 
 
