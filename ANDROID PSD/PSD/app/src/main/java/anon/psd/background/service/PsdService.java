@@ -43,6 +43,7 @@ public class PsdService extends IntentService implements IBtObserver
     PsdBluetoothCommunication bt;
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
+    PasswordForgetPolicyType forgetPolicy = PasswordForgetPolicyType.WhileServiceAlive;
 
     String psdMacAddress;
     FileRepository baseRepo;
@@ -133,7 +134,7 @@ public class PsdService extends IntentService implements IBtObserver
                     sendPassesInfo();
                     break;
                 case ConnectPSD:
-                    connect((Bundle) msg.obj);
+                    connectPSD((Bundle) msg.obj);
                     break;
                 case SendPass:
                     sendPassword((Bundle) msg.obj);
@@ -227,10 +228,11 @@ public class PsdService extends IntentService implements IBtObserver
     }
 
 
-    private void connect(Bundle bundle)
+    private void connectPSD(Bundle bundle)
     {
         Log(this, "[ RECEIVED ] Connect PSD");
         boolean persist = bundle.getBoolean("PERSIST");
+        forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
         if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
             return;

@@ -16,6 +16,7 @@ import anon.psd.background.messages.ErrorType;
 import anon.psd.background.messages.RequestType;
 import anon.psd.background.messages.ResponseMessageType;
 import anon.psd.background.messages.ResponseType;
+import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.background.service.PsdService;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.CurrentServiceState;
@@ -86,10 +87,11 @@ public abstract class PsdServiceWorker
         sendMessage(msg);
     }
 
-    public void connectPsd(boolean persist)
+    public void connectPsd(boolean persist, PasswordForgetPolicyType forgetPolicy)
     {
         Bundle bundle = new Bundle();
         bundle.putBoolean("PERSIST", persist);
+        bundle.putInt("FORGET_POLICY", forgetPolicy.getInt());
         Message msg = Message.obtain(null, RequestType.ConnectPSD.getInt(), bundle);
         sendMessage(msg);
     }
@@ -331,17 +333,18 @@ public abstract class PsdServiceWorker
     private void psdNotConnected()
     {
         if (connectionTries < MAX_CONNECTION_TRIES && autoconnect) {
-            connectPsd(false);
+            connectPsd(false, getPassForgetPolicy());
             connectionTries++;
         }
     }
-
 
     protected abstract String getBasePath();
 
     protected abstract byte[] getDbPass();
 
     protected abstract String getPSDMac();
+
+    protected abstract PasswordForgetPolicyType getPassForgetPolicy();
 
     protected abstract void showProtocolState(ProtocolState protocolState);
 
@@ -352,7 +355,6 @@ public abstract class PsdServiceWorker
     public abstract void onMessage(String msg);
 
     public abstract void onError(ErrorType err, String msg);
-
 
     public abstract void onPassesInfo(PasswordList info);
 

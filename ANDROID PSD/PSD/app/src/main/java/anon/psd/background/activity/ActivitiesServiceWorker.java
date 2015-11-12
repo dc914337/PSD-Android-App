@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.background.messages.ErrorType;
+import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
@@ -67,6 +68,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
                 break;
         }
     }
+
 
     protected void showProtocolState(ProtocolState newState)
     {
@@ -158,6 +160,12 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
             return null;
         }
         return psdMac;
+    }
+
+    protected PasswordForgetPolicyType getPassForgetPolicy()
+    {
+        PreferencesProvider prefs = new PreferencesProvider(activity);
+        return prefs.getPasswordForgetPolicyType();
     }
 
 

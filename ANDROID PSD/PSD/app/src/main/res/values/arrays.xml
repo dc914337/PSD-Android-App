@@ -15,10 +15,10 @@
 
 
     <string-array name="listPolicyNames">
-        <item>Never</item>
+        <item>When application closes</item>
+        <item>After 30 minutes</item>
         <item>Every reboot</item>
-        <item>Every 30 minutes</item>
-        <item>Every time</item>
+        <item>Never(password saved in prefs. Please, don\'t use it)</item>
     </string-array>
 
     <string-array name="listPolicyValues">

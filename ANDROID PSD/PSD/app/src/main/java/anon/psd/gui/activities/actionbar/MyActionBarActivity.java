@@ -32,6 +32,8 @@ public abstract class MyActionBarActivity extends AppCompatActivity
             super(activity);
         }
 
+
+
         @Override
         public void passItemChanged()
         {

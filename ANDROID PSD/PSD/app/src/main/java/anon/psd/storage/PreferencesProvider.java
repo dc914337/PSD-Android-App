@@ -5,14 +5,17 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 
+import anon.psd.background.service.PasswordForgetPolicyType;
+
 /**
  * Created by Dmitry on 27.07.2015.
  */
 public class PreferencesProvider
 {
-    private static  final String USER_PASSWORD_KEY = "db_password";
+    private static final String USER_PASSWORD_KEY = "db_password";
     private static final String DB_PATH = "db_path";
     private static final String PSD_MAC = "psd_mac";
+    private static final String FORGET_POLICY = "password_forget_policy";
 
     SharedPreferences sharedPrefs;
 
@@ -51,4 +54,12 @@ public class PreferencesProvider
     {
         return sharedPrefs.getString(PSD_MAC, null);
     }
+
+
+    public PasswordForgetPolicyType getPasswordForgetPolicyType()
+    {
+        return PasswordForgetPolicyType.fromInteger(sharedPrefs.getInt(FORGET_POLICY, 0));
+    }
+
+
 }

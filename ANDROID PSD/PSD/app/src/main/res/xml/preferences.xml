@@ -20,9 +20,9 @@
         android:title="Notify is signal is low"/>
 
     <ListPreference
-        android:title="Disconnect database policy"
+        android:title="Forget user password policy"
         android:summary="%s"
-        android:key="listPref"
+        android:key="password_forget_policy"
         android:defaultValue="0"
         android:entries="@array/listPolicyNames"
         android:entryValues="@array/listPolicyValues"/>
