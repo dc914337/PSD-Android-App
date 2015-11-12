@@ -1,6 +1,5 @@
 package anon.psd.gui.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
-import anon.psd.background.activity.ActivitiesServiceWorker;
 import anon.psd.gui.activities.actionbar.MyActionBarActivity;
 import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
@@ -37,29 +35,23 @@ public class PassActivity extends MyActionBarActivity
 
     PrettyPassword prettyPassword;
     ImageView imgViewPic;
-    PassActivitiesServiceWorker serviceWorker;
 
     ListView lstHistory;
     ArrayAdapter<?> adapter;
 
-    class PassActivitiesServiceWorker extends ActivitiesServiceWorker
+
+
+
+    @Override
+    public void passItemChanged()
     {
-        public PassActivitiesServiceWorker(Activity activity)
-        {
-            super(activity);
-        }
+        fillElements();
+    }
 
-        @Override
-        public void passItemChanged()
-        {
-            fillElements();
-        }
-
-        @Override
-        public void onPassesInfo(PasswordList info)
-        {
-            System.out.println();
-        }
+    @Override
+    public void onPassesInfo(PasswordList info)
+    {
+        System.out.println();
     }
 
 
@@ -82,7 +74,7 @@ public class PassActivity extends MyActionBarActivity
     private void initService()
     {
         //load service worker
-        serviceWorker = new PassActivitiesServiceWorker(this);
+        serviceWorker = new BarActivitiesServiceWorker(this);
         ledController = new LedController(this, serviceWorker);
     }
 

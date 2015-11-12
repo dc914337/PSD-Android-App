@@ -1,6 +1,5 @@
 package anon.psd.gui.activities;
 
-import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -37,27 +36,19 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     ActivitiesServiceWorker serviceWorker;
 
 
-    class MainActivitiesServiceWorker extends ActivitiesServiceWorker
+    @Override
+    public void passItemChanged()
     {
-        public MainActivitiesServiceWorker(Activity activity)
-        {
-            super(activity);
-        }
+        adapter.notifyDataSetChanged();
+    }
 
-        @Override
-        public void passItemChanged()
-        {
-            adapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onPassesInfo(PasswordList passesInfo)
-        {
-            checkOrUpdateAppearanceCfg();
-            passes = AppearancesList.Merge(passesInfo,
-                    appearanceCfg.getPassesAppearances());
-            bindAdapter();
-        }
+    @Override
+    public void onPassesInfo(PasswordList passesInfo)
+    {
+        checkOrUpdateAppearanceCfg();
+        passes = AppearancesList.Merge(passesInfo,
+                appearanceCfg.getPassesAppearances());
+        bindAdapter();
     }
 
     /**
@@ -103,7 +94,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     private void initService()
     {
         //load service worker
-        serviceWorker = new MainActivitiesServiceWorker(this);
+        serviceWorker = new BarActivitiesServiceWorker(this);
         ledController = new LedController(this, serviceWorker);
     }
 
@@ -137,7 +128,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     public void openItem(PrettyPassword item)
     {
         ActivitiesExchange.addObject("PASSES", passes);
-        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", (ActivitiesServiceWorker)serviceWorker);
+        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", (ActivitiesServiceWorker) serviceWorker);
         Intent intent = new Intent(getApplicationContext(), PassActivity.class);
         intent.putExtra("ID", item.getPassItem().id);
         startActivity(intent);
@@ -157,7 +148,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         adapter = new PassItemsAdapter<>(this, android.R.layout.simple_list_item_1, passes);
         lvPasses.setAdapter(adapter);
     }
-
 
 
     private void checkOrUpdateAppearanceCfg()

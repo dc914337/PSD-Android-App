@@ -48,10 +48,13 @@ public class LedController
     private void setDesirablePsdState()
     {
         Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
-        if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected))
-            serviceWorker.connectPsd(false);
-        else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected))
+        if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected)) {
+            serviceWorker.setAutoconnect(true);
+            serviceWorker.processState();
+        } else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected)) {
+            serviceWorker.setAutoconnect(false);
             serviceWorker.disconnectPsd();
+        }
     }
 
     public void setLedView(MenuItem ledView)

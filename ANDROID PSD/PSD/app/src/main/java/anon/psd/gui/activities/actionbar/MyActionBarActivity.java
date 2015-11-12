@@ -1,13 +1,16 @@
 package anon.psd.gui.activities.actionbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import anon.psd.R;
+import anon.psd.background.activity.ActivitiesServiceWorker;
 import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.elements.LedController;
+import anon.psd.models.PasswordList;
 
 /**
  * Created by Dmitry on 29.08.2015.
@@ -16,9 +19,33 @@ public abstract class MyActionBarActivity extends AppCompatActivity
 {
     public LedController ledController;
 
+    protected BarActivitiesServiceWorker serviceWorker;
+
     /**
      * Menu entries
      */
+
+    protected class BarActivitiesServiceWorker extends ActivitiesServiceWorker
+    {
+        public BarActivitiesServiceWorker(Activity activity)
+        {
+            super(activity);
+        }
+
+        @Override
+        public void passItemChanged()
+        {
+            MyActionBarActivity.this.passItemChanged();
+        }
+
+        @Override
+        public void onPassesInfo(PasswordList info)
+        {
+            MyActionBarActivity.this.onPassesInfo(info);
+        }
+    }
+
+
     public void openSettingsClick(MenuItem item)
     {
         openSettings();
@@ -72,6 +99,10 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     {
         ledController.toggleStateIfStable();
     }
+
+    public abstract void passItemChanged();
+
+    public abstract void onPassesInfo(PasswordList info);
 
 
 }

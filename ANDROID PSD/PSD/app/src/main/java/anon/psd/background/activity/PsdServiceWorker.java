@@ -39,6 +39,8 @@ public abstract class PsdServiceWorker
     boolean serviceBound;
     private int connectionTries = 0;
     private final int MAX_CONNECTION_TRIES = 2;
+    private boolean autoconnect = true;
+
 
     public CurrentServiceState psdState = new CurrentServiceState();
     PasswordList passwordList = null;
@@ -54,7 +56,6 @@ public abstract class PsdServiceWorker
         this.activity = activity;
     }
 
-
     /*
     we are starting and binding service to have it alive all the time. It won't die when
     this activity will die.
@@ -66,6 +67,14 @@ public abstract class PsdServiceWorker
         activity.startService(mServiceIntent);
         activity.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
     }
+
+
+    public void setAutoconnect(boolean value)
+    {
+        autoconnect = value;
+        connectionTries = 0;
+    }
+
 
     public void initService(String dbPath, byte[] dbPass, String psdMacAddress)
     {
@@ -131,7 +140,6 @@ public abstract class PsdServiceWorker
         sendMessage(msg);
     }
 
-
     private void sendMessage(Message msg)
     {
         if (!serviceBound) {
@@ -176,6 +184,7 @@ public abstract class PsdServiceWorker
         Bundle bundle = (Bundle) msg.obj;
         String message = bundle.getString("ERR_MSG");
         ErrorType type = ErrorType.fromInteger(bundle.getInt("ERR_TYPE"));
+
         onError(type, message);
     }
 
@@ -256,8 +265,10 @@ public abstract class PsdServiceWorker
 
     public void processState()
     {
-        if (!serviceBound)
+        if (!serviceBound) {
             serviceNotConnected();
+            return;
+        }
 
         switch (psdState.getServiceState()) {
             case NotInitialised:
@@ -267,20 +278,6 @@ public abstract class PsdServiceWorker
                 serviceInitialised();
                 break;
         }
-
-            /*
-            if (newState.is()) {
-                connectService();
-            } else if (newState.is(ServiceState.NotInitialised)) {
-                if (newState.is(ConnectionState.Disconnected)) {
-                    psdNotConnected();
-                }
-            }*/
-
-
-            /*if (passwordList == null && psdState.getServiceState() == ServiceState.Initialised)
-                sendCommandToService(RequestType.GetPassesInfo);*/
-
     }
 
     private void serviceNotConnected()
@@ -333,7 +330,7 @@ public abstract class PsdServiceWorker
 
     private void psdNotConnected()
     {
-        if (connectionTries < MAX_CONNECTION_TRIES) {
+        if (connectionTries < MAX_CONNECTION_TRIES && autoconnect) {
             connectPsd(false);
             connectionTries++;
         }
