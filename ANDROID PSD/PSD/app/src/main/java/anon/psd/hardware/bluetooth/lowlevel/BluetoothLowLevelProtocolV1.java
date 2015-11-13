@@ -1,5 +1,7 @@
 package anon.psd.hardware.bluetooth.lowlevel;
 
+import android.os.SystemClock;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +85,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             while (read < count && failedTries * SLEEP_BETWEEN_TRIES < NEXT_BYTE_TIMEOUT_MS) {
                 int available = stream.available();
                 if (available <= 0) {
-                    Thread.sleep(SLEEP_BETWEEN_TRIES);
+                    SystemClock.sleep(SLEEP_BETWEEN_TRIES);
                     failedTries++;
                     continue;
                 }
@@ -98,9 +100,6 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             Log(this, "[ RECEIVED ] [ MESSAGE ] Length: %s", receivedLength);
             return baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (InterruptedException e) {
             e.printStackTrace();
             return null;
         }

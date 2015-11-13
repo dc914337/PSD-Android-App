@@ -9,6 +9,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import java.util.Date;
+
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.messages.RequestType;
 import anon.psd.background.messages.ResponseMessageType;
@@ -44,6 +46,7 @@ public class PsdService extends IntentService implements IBtObserver
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
     PasswordForgetPolicyType forgetPolicy = PasswordForgetPolicyType.WhileServiceAlive;
+    ForgetPolicyThread passwordForgetThread;
 
     String psdMacAddress;
     FileRepository baseRepo;
@@ -141,7 +144,7 @@ public class PsdService extends IntentService implements IBtObserver
                     sendPassword((Bundle) msg.obj);
                     break;
                 case DisconnectPSD:
-                    disconnect();
+                    disconnectPSD();
                     break;
                 case UpdateState:
                     sendServiceState();
@@ -206,21 +209,36 @@ public class PsdService extends IntentService implements IBtObserver
         String dbPath = bundle.getString("DB_PATH");
         byte[] dbPass = bundle.getByteArray("DB_PASS");
         this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
+        forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         if (!baseRepo.update()) {
-            sendError(ErrorType.DBError, "Couldn't access database \n(user pass or database path are incorrect)");
+            sendDbError();
             return;
         }
         protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
         serviceState.setServiceState(ServiceState.Initialised);
+        passwordForgetThread = new ForgetPolicyThread(forgetPolicy, new Date(), this);
+        passwordForgetThread.start();
         sendServiceState();
+    }
+
+
+    private void sendDbError()
+    {
+        sendError(ErrorType.DBError, "Couldn't access database \n(user pass or database path are incorrect)");
     }
 
 
     private void sendPassesInfo()
     {
         Log(this, "[ RECEIVED ] Send passes info");
+
+        if (serviceState.is(ServiceState.NotInitialised)) {
+            sendDbError();
+            return;
+        }
+
         String serialized = Serializer.serializePasswordList(baseRepo.getPassesBase().passwords.getCopyWithoutPasswords());
         Bundle bundle = new Bundle();
         bundle.putString("PASSES_INFO", serialized);
@@ -232,12 +250,17 @@ public class PsdService extends IntentService implements IBtObserver
     {
         Log(this, "[ RECEIVED ] Connect PSD");
         boolean persist = bundle.getBoolean("PERSIST");
-        forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
+
+        if (serviceState.is(ServiceState.NotInitialised)) {
+            sendDbError();
+            return;
+        }
+
         if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
             return;
         } else if (serviceState.is(ServiceState.NotInitialised)) {
-            sendError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
+            sendError(ErrorType.WrongState, "Service is not initialised. Errors while initialising");
             return;
         }
         rememberedBtState = bt.isBluetoothEnabled();
@@ -247,9 +270,14 @@ public class PsdService extends IntentService implements IBtObserver
         bt.connectDevice(psdMacAddress);
     }
 
-    private void disconnect()
+    private void disconnectPSD()
     {
         Log(this, "[ RECEIVED ] Disconnect PSD");
+
+        if (serviceState.is(ServiceState.NotInitialised)) {
+            sendDbError();
+            return;
+        }
         if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
@@ -267,6 +295,12 @@ public class PsdService extends IntentService implements IBtObserver
     {
         short passId = bundle.getShort("PASS_ITEM_ID");
         Log(this, "[ RECEIVED ] Send pass to PSD. Pass id: %s", passId);
+
+        if (serviceState.is(ServiceState.NotInitialised)) {
+            sendDbError();
+            return;
+        }
+
         if (serviceState.is(ConnectionState.Disconnected)) {
             sendError(ErrorType.WrongState, "PSD is not connected");
             return;
@@ -284,11 +318,20 @@ public class PsdService extends IntentService implements IBtObserver
     }
 
 
+    public void stopStoringPassword()
+    {
+        disconnectPSD();
+        serviceState = new CurrentServiceState();
+        sendServiceState();
+        baseRepo = null;
+    }
+
     private void die()
     {
         Log(this, "[ RECEIVED ] Service die");
-        disconnect();
+        disconnectPSD();
         stopForeground(true);
+        passwordForgetThread.interrupt();
         stopSelf();
     }
 

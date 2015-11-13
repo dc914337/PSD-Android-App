@@ -3,6 +3,7 @@ package anon.psd.hardware.bluetooth;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.os.SystemClock;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -325,11 +326,7 @@ public class PsdBluetoothCommunication implements IBtObservable
     private void waitBtToEnable()
     {
         while (!btAdapter.isEnabled()) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                SystemClock.sleep(10);
         }
     }
 

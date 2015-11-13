@@ -76,21 +76,21 @@ public abstract class PsdServiceWorker
         connectionTries = 0;
     }
 
-    public void initService(String dbPath, byte[] dbPass, String psdMacAddress)
+    public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy)
     {
         Bundle bundle = new Bundle();
         bundle.putString("DB_PATH", dbPath);
         bundle.putByteArray("DB_PASS", dbPass);
         bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
+        bundle.putInt("FORGET_POLICY", forgetPolicy.getInt());
         Message msg = Message.obtain(null, RequestType.Init.getInt(), bundle);
         sendMessage(msg);
     }
 
-    public void connectPsd(boolean persist, PasswordForgetPolicyType forgetPolicy)
+    public void connectPsd(boolean persist)
     {
         Bundle bundle = new Bundle();
         bundle.putBoolean("PERSIST", persist);
-        bundle.putInt("FORGET_POLICY", forgetPolicy.getInt());
         Message msg = Message.obtain(null, RequestType.ConnectPSD.getInt(), bundle);
         sendMessage(msg);
     }
@@ -297,7 +297,7 @@ public abstract class PsdServiceWorker
         if (dbPath != null
                 && psdMac != null
                 && dbPass != null)
-            initService(dbPath, dbPass, psdMac);
+            initService(dbPath, dbPass, psdMac, getPassForgetPolicy());
     }
 
     private void serviceInitialised()
@@ -333,7 +333,7 @@ public abstract class PsdServiceWorker
     private void psdNotConnected()
     {
         if (connectionTries < MAX_CONNECTION_TRIES && autoconnect) {
-            connectPsd(false, getPassForgetPolicy());
+            connectPsd(false);
             connectionTries++;
         }
     }
