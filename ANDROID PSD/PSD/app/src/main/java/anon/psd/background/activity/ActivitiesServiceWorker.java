@@ -11,6 +11,7 @@ import anon.psd.device.state.ConnectionState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.gui.activities.EnterPassActivity;
+import anon.psd.gui.activities.RollbackActivity;
 import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.gui.PrettyDate;
@@ -117,6 +118,12 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         activity.startActivity(intent);
     }
 
+    public void openRollKeysMenu()
+    {
+        Intent intent = new Intent(activity, RollbackActivity.class);
+        activity.startActivity(intent);
+    }
+
 
     public void openEnterUserPassword()
     {
@@ -201,13 +208,16 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         Alerts.showMessage(activity, msg);
         Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
                 "\t%s", err_type, msg);
-        //process error
+        //process errors
         switch (err_type) {
             case IOError:
                 disconnectPsd();
                 break;
             case DBError:
                 openEnterUserPassword();
+                break;
+            case Desynchronization:
+                openRollKeysMenu();
                 break;
         }
     }
