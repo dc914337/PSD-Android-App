@@ -58,7 +58,10 @@ public class PreferencesProvider
 
     public PasswordForgetPolicyType getPasswordForgetPolicyType()
     {
-        return PasswordForgetPolicyType.fromInteger(Integer.parseInt(sharedPrefs.getString(FORGET_POLICY, "0")));
+        PasswordForgetPolicyType ret = PasswordForgetPolicyType.fromInteger(Integer.parseInt(sharedPrefs.getString(FORGET_POLICY, "0")));
+        if (ret != PasswordForgetPolicyType.SavePassInPrefs)
+            setDbPass(null);  //just in case it was not null(if prev policy was save in prefs)
+        return ret;
     }
 
 
