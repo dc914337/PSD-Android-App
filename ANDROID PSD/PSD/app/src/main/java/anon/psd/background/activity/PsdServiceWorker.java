@@ -76,7 +76,6 @@ public abstract class PsdServiceWorker
         connectionTries = 0;
     }
 
-
     public void initService(String dbPath, byte[] dbPass, String psdMacAddress)
     {
         Bundle bundle = new Bundle();
@@ -121,6 +120,7 @@ public abstract class PsdServiceWorker
 
     public void killService()
     {
+        autoconnect = false;
         sendCommandToService(RequestType.Kill);
     }
 

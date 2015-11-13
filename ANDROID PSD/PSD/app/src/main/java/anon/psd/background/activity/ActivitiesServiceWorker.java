@@ -157,9 +157,8 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
             }
             return dbPass;
         } else {
-            dbPass = ActivitiesExchange.getObject("DB_PASSWORD");
-            if (dbPass == null)
-            {
+            dbPass = ActivitiesExchange.getAndRemoveObject("DB_PASSWORD");
+            if (dbPass == null) {
                 openEnterUserPassword();
                 return null;// yeah, i know that i could return just dbPass, cuz it's null. but this case seems easier to understand
             }

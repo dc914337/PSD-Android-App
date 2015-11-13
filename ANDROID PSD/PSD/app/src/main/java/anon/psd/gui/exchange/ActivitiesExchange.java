@@ -24,4 +24,12 @@ public class ActivitiesExchange
         return (T) innerDict.get(key);
     }
 
+
+    public static <T> T getAndRemoveObject(String key)
+    {
+        T ret = (T) innerDict.get(key);
+        innerDict.remove(key);
+        return ret;
+    }
+
 }

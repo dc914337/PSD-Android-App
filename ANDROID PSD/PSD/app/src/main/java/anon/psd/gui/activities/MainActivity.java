@@ -162,6 +162,12 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             appearanceCfg.update();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
 
     @Override
     public void killService()

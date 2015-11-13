@@ -159,9 +159,13 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     public void disconnectDevice()
     {
+        stopPsdConnect();
+
         try {
             outStream.write(lowLevelProtocol.prepareDisconnectMessage());
             outStream.flush();
+            outStream.close();
+            inStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -169,9 +173,10 @@ public class PsdBluetoothCommunication implements IBtObservable
             btSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
+            e.printStackTrace();
         }
         btSocket = null;
-        stopPsdConnect();
+
         setConnectionState(ConnectionState.Disconnected);
     }
 
