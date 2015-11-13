@@ -12,6 +12,7 @@ import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.gui.activities.EnterPassActivity;
 import anon.psd.gui.activities.SettingsActivity;
+import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.gui.PrettyDate;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
@@ -24,9 +25,10 @@ import static anon.psd.utils.DebugUtils.Log;
  */
 public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 {
-
     private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
+    private byte[] dbPass;
+
 
     public ActivitiesServiceWorker(Activity activity)
     {
@@ -119,6 +121,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     public void openEnterUserPassword()
     {
         Intent intent = new Intent(activity, EnterPassActivity.class);
+        ActivitiesExchange.addObject("PASSWORD_FORGET_POLICY", getPassForgetPolicy());
         activity.startActivity(intent);
     }
 
@@ -140,14 +143,29 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     protected byte[] getDbPass()
     {
-        PreferencesProvider prefs = new PreferencesProvider(activity);
-        byte[] dbPass = prefs.getDbPass();
-        if (dbPass == null || dbPass.length <= 0) {
-            Alerts.showMessage(activity, "Set user pass");
-            openEnterUserPassword();
-            return null;
+        if (dbPass != null)
+            return dbPass;
+
+
+        if (getPassForgetPolicy() == PasswordForgetPolicyType.SavePassInPrefs) {
+            PreferencesProvider prefs = new PreferencesProvider(activity);
+            byte[] dbPass = prefs.getDbPass();
+            if (dbPass == null || dbPass.length <= 0) {
+                Alerts.showMessage(activity, "Set user pass");
+                openEnterUserPassword();
+                return null;
+            }
+            return dbPass;
+        } else {
+            dbPass = ActivitiesExchange.getObject("DB_PASSWORD");
+            if (dbPass == null)
+            {
+                openEnterUserPassword();
+                return null;// yeah, i know that i could return just dbPass, cuz it's null. but this case seems easier to understand
+            }
+            return dbPass;
         }
-        return dbPass;
+
     }
 
     protected String getPSDMac()
@@ -185,10 +203,13 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         Alerts.showMessage(activity, msg);
         Log(this, "[ ACTIVITY ] [ ERROR ] Err type: %s \n " +
                 "\t%s", err_type, msg);
-        //do something if needed
+        //process error
         switch (err_type) {
             case IOError:
                 disconnectPsd();
+                break;
+            case DBError:
+                openEnterUserPassword();
                 break;
         }
     }

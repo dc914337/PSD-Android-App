@@ -164,7 +164,6 @@ public class PsdService extends IntentService implements IBtObserver
     {
         Log(this, "[ RECEIVED ] Connect service");
         mClient = messenger;
-        //serviceState.setServiceState(ServiceState.NotInitialised);// gslkjhsgrlsrgsrgsdrgkss
         sendServiceState();
     }
 
@@ -209,7 +208,7 @@ public class PsdService extends IntentService implements IBtObserver
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         if (!baseRepo.update()) {
-            sendError(ErrorType.DBError, "Couldn't load database");
+            sendError(ErrorType.DBError, "Couldn't access database \n(user pass or database path are incorrect)");
             return;
         }
         protocolV1 = new PsdProtocolV1(baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);

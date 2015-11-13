@@ -58,7 +58,7 @@ public class PreferencesProvider
 
     public PasswordForgetPolicyType getPasswordForgetPolicyType()
     {
-        return PasswordForgetPolicyType.fromInteger(sharedPrefs.getInt(FORGET_POLICY, 0));
+        return PasswordForgetPolicyType.fromInteger(Integer.parseInt(sharedPrefs.getString(FORGET_POLICY, "0")));
     }
 
 

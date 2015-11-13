@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import anon.psd.R;
+import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.crypto.KeyGenerator;
+import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.storage.PreferencesProvider;
 
 /**
@@ -15,8 +17,8 @@ import anon.psd.storage.PreferencesProvider;
  */
 public class EnterPassActivity extends Activity
 {
-
     TextView txtPass;
+    PasswordForgetPolicyType forgetPolicy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,13 +26,18 @@ public class EnterPassActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_password);
         txtPass = (TextView) findViewById(R.id.txtPass);
+        forgetPolicy = ActivitiesExchange.getObject("PASSWORD_FORGET_POLICY");
     }
 
 
     public void btnOnClick(View view)
     {
         byte[] dbPass = KeyGenerator.getBasekeyFromUserkey(txtPass.getText().toString());
-        new PreferencesProvider(this).setDbPass(dbPass);
+        if (forgetPolicy == PasswordForgetPolicyType.SavePassInPrefs) {
+            new PreferencesProvider(this).setDbPass(dbPass);
+        } else {
+            ActivitiesExchange.addObject("DB_PASSWORD", dbPass);
+        }
         finish();
     }
 
