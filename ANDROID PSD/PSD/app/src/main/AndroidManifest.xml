@@ -46,19 +46,24 @@
             android:label="@string/enter_pass_label"
             android:theme="@android:style/Theme.Material.Dialog" />
 
+        <activity
+            android:name=".gui.activities.RollbackActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_rollback"
+            android:theme="@android:style/Theme.Material.Dialog"/>
+
+
+
+
+
         <service
             android:name=".background.service.PsdService"
             android:enabled="true"
             android:exported="false" >
         </service>
         android:process=":remote"
-        <activity
-            android:name=".gui.activities.RollbackActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:label="@string/title_activity_rollback"
-            android:theme="@android:style/Theme.Material.Dialog">
-        </activity>
+
     </application>
 
 </manifest>

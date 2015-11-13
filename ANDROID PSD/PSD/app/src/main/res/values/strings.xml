@@ -18,7 +18,7 @@
     <string name="extras_return_mac">SELECTED_MAC</string>
     <string name="action_kill_service_and_exit">Kill service and exit</string>
     <string name="action_exit">Close app</string>
-    <string name="title_activity_rollback">Keys desynchronization</string>
+    <string name="title_activity_rollback">Oops. Keys desynchronization</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

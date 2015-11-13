@@ -53,6 +53,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         bindAdapter();
     }
 
+
     /**
      * Activity events
      */
