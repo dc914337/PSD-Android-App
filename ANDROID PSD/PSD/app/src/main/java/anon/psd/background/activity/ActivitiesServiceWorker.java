@@ -181,8 +181,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     protected PasswordForgetPolicyType getPassForgetPolicy()
     {
-        PreferencesProvider prefs = new PreferencesProvider(activity);
-        return prefs.getPasswordForgetPolicyType();
+        return new PreferencesProvider(activity).getPasswordForgetPolicyType();
     }
 
 

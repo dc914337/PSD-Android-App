@@ -37,7 +37,7 @@ import static anon.psd.utils.DebugUtils.Log;
 public abstract class PsdServiceWorker
 {
     Activity activity;
-    boolean serviceBound;
+    public boolean serviceBound;
     private int connectionTries = 0;
     private final int MAX_CONNECTION_TRIES = 2;
     private boolean autoconnect = true;
