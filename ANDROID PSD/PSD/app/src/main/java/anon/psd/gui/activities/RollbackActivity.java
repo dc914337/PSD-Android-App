@@ -14,7 +14,6 @@ import anon.psd.gui.exchange.ActivitiesExchange;
 public class RollbackActivity extends Activity
 {
     PsdServiceWorker serviceWorker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
