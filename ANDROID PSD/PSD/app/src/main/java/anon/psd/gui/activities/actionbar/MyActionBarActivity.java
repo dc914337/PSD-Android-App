@@ -2,6 +2,7 @@ package anon.psd.gui.activities.actionbar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import anon.psd.R;
 import anon.psd.background.activity.ActivitiesServiceWorker;
 import anon.psd.background.service.PasswordForgetPolicyType;
+import anon.psd.gui.activities.MainActivity;
 import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.elements.LedController;
 import anon.psd.models.PasswordList;
@@ -48,6 +50,15 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+    }
+
 
     public void openSettingsClick(MenuItem item)
     {
@@ -70,10 +81,18 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         }
     }
 
+    private void killActivities()
+    {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+    }
+
     public void killServiceClick(MenuItem item)
     {
         killService();
-        finish();
+        killActivities();
     }
 
 
