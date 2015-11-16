@@ -14,7 +14,6 @@ import java.io.File;
 
 import anon.psd.R;
 import anon.psd.background.activity.ActivitiesServiceWorker;
-import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.gui.activities.actionbar.MyActionBarActivity;
 import anon.psd.gui.adapters.PassItemsAdapter;
 import anon.psd.gui.elements.LedController;
@@ -23,7 +22,6 @@ import anon.psd.models.AppearancesList;
 import anon.psd.models.PasswordList;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.storage.AppearanceCfg;
-import anon.psd.storage.PreferencesProvider;
 
 import static anon.psd.utils.DebugUtils.Log;
 
@@ -131,7 +129,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     public void openItem(PrettyPassword item)
     {
         ActivitiesExchange.addObject("PASSES", passes);
-        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", (ActivitiesServiceWorker) serviceWorker);
+        ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", serviceWorker);
         Intent intent = new Intent(getApplicationContext(), PassActivity.class);
         intent.putExtra("ID", item.getPassItem().id);
         startActivity(intent);
@@ -163,18 +161,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
             appearanceCfg.setPassesAppearances(prevPasses);
         else
             appearanceCfg.update();
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        PasswordForgetPolicyType forgetPolicy = new PreferencesProvider(this).getPasswordForgetPolicyType();
-        if (serviceWorker != null && serviceWorker.serviceBound &&
-                forgetPolicy == PasswordForgetPolicyType.OnAppClose) {
-            serviceWorker.killService();
-        }
-        finish();
     }
 
 

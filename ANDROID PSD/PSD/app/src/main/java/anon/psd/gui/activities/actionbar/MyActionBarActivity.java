@@ -8,9 +8,11 @@ import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.background.activity.ActivitiesServiceWorker;
+import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.elements.LedController;
 import anon.psd.models.PasswordList;
+import anon.psd.storage.PreferencesProvider;
 
 /**
  * Created by Dmitry on 29.08.2015.
@@ -31,7 +33,6 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         {
             super(activity);
         }
-
 
 
         @Override
@@ -60,7 +61,14 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     }
 
 
-    public abstract void killService();
+    public void killService()
+    {
+        PasswordForgetPolicyType forgetPolicy = new PreferencesProvider(this).getPasswordForgetPolicyType();
+        if (serviceWorker != null && serviceWorker.serviceBound &&
+                forgetPolicy == PasswordForgetPolicyType.OnAppClose) {
+            serviceWorker.killService();
+        }
+    }
 
     public void killServiceClick(MenuItem item)
     {

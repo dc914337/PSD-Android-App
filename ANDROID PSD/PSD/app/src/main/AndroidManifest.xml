@@ -60,9 +60,12 @@
         <service
             android:name=".background.service.PsdService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false"
+
+            >
+
         </service>
-        android:process=":remote"
+
 
     </application>
 
