@@ -121,6 +121,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     public void openRollKeysMenu()
     {
         Intent intent = new Intent(activity, RollbackActivity.class);
+        ActivitiesExchange.addObject("SERVICE_WORKER", this);
         activity.startActivity(intent);
     }
 
