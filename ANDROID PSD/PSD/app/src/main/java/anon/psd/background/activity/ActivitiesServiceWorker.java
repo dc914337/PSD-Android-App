@@ -154,7 +154,6 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
         if (dbPass != null)
             return dbPass;
 
-
         if (getPassForgetPolicy() == PasswordForgetPolicyType.SavePassInPrefs) {
             PreferencesProvider prefs = new PreferencesProvider(activity);
             byte[] dbPass = prefs.getDbPass();

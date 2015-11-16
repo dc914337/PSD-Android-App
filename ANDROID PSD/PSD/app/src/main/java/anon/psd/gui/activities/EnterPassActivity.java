@@ -46,6 +46,21 @@ public class EnterPassActivity extends Activity
         openSettings();
     }
 
+    public void btnExitClick(View view)
+    {
+        killActivities();
+    }
+
+    //COPY-PASTE CODE
+    private void killActivities()
+    {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+    }
+
+
     public void openSettings()
     {
         Intent intent = new Intent(this, SettingsActivity.class);
