@@ -30,7 +30,7 @@
             android:text="Roll keys"
             android:id="@+id/btnSettings"
             android:layout_weight="0.5"
-            android:onClick="btnSettingsClick"/>
+            android:onClick="onRollKeysClick"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -38,7 +38,8 @@
             android:text="Do nothing"
             android:id="@+id/btnOk"
             android:layout_weight="0.5"
-            android:onClick="btnOnClick"/>
+            android:onClick="onDoNothingClick"
+            android:nestedScrollingEnabled="false"/>
     </LinearLayout>
 
 </LinearLayout>
