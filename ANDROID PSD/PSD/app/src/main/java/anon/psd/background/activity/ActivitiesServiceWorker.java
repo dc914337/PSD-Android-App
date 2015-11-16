@@ -215,6 +215,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
                 disconnectPsd();
                 break;
             case DBError:
+                dbPass = null;
                 openEnterUserPassword();
                 break;
             case Desynchronization:
