@@ -1,18 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
-              android:layout_width="wrap_content"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               tools:context="anon.psd.gui.activities.RollbackActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Keys for encryption are different on PSD and this phone. There are 2 ways how that could happen: somebody attacked the protocol(it&apos;s not dangerous. No compromised data) or package from PSD got lost on it&apos;s way. \nMost common case is that package from PSD was lost. If PSD entered password succesfully then click &quot;Roll keys&quot; button. It might help.\nIf you think you can handle that by yourself then click &quot;Do nothing&quot; and do your magic.\nIf nothing helps, you&apos;ll need to connect PSD to your home PC and rewrite keys on it and on your phone.\n Good luck!"
         android:id="@+id/lblText"
-        android:ems="10"
-        android:layout_weight="0.3"/>
+        android:layout_weight="0.3"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"/>
 
     <LinearLayout
         android:orientation="horizontal"
