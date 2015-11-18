@@ -45,7 +45,7 @@ namespace PsdBasesSetter.Crypto
         private byte[] AESEncrypt(out byte[] IV, byte[] raw)
         {
             byte[] encrypted;
-            using (Rijndael rijAlg = Rijndael.Create())
+            using (Aes rijAlg = Aes.Create())
             {
                 rijAlg.Key = key;
                 IV = rijAlg.IV;
@@ -66,7 +66,7 @@ namespace PsdBasesSetter.Crypto
         {
             byte[] decryptedTempMessageBytes = new byte[encrypted.Length];
 
-            using (Rijndael rijAlg = Rijndael.Create())
+            using (Aes rijAlg = Aes.Create())
             {
                 rijAlg.Key = key;
                 rijAlg.IV = IV;
