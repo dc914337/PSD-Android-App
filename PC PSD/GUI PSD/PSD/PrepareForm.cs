@@ -26,18 +26,11 @@ namespace PSD
             InitializeComponent();
         }
 
-        private void PrepareForm_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnConnectPsd_Click(object sender, EventArgs e)
         {
             TryConnectPSDBase();
+            UpdateLables();
         }
 
 
@@ -73,6 +66,7 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectPcBase(fileDialog.FileName);
+            UpdateLables();
         }
 
 
@@ -81,6 +75,7 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectAndroidBase(fileDialog.FileName);
+            UpdateLables();
         }
 
         private void TryConnectPcBase(string path)
@@ -108,10 +103,11 @@ namespace PSD
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.TrySetPcBase(saveFileDialog.FileName))
+            if (!DataConnections.TryCreateAndSetPcBase(saveFileDialog.FileName))
             {
                 MessageBox.Show(Localization.CantLoadFileString);
             }
+            UpdateLables();
         }
 
 
@@ -120,11 +116,20 @@ namespace PSD
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.TrySetPhoneBase(saveFileDialog.FileName))
+            if (!DataConnections.TryCreateAndSetPhoneBase(saveFileDialog.FileName))
             {
                 MessageBox.Show(Localization.CantLoadFileString);
             }
+            UpdateLables();
         }
+
+        private void UpdateLables()
+        {
+            lblBasePath.Text = DataConnections.PcBase?.Path;
+            lblAndroidPath.Text = DataConnections.PhoneBase?.Path;
+            lblConnectedPsd.Text = DataConnections.PsdBase?.Name;
+        }
+
 
 
         private void SwitchEnabled()
@@ -160,16 +165,6 @@ namespace PSD
         {
             if (!ReinitPsds())
                 MessageBox.Show(Localization.NoPSDsError);
-        }
-
-        private void PrepareForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void cmbPsds_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

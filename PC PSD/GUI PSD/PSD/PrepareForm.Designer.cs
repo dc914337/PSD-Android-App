@@ -106,7 +106,6 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(195, 20);
             this.txtPassword.TabIndex = 8;
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblUsrPass
             // 
@@ -163,7 +162,6 @@
             this.cmbPsds.Name = "cmbPsds";
             this.cmbPsds.Size = new System.Drawing.Size(197, 21);
             this.cmbPsds.TabIndex = 27;
-            this.cmbPsds.SelectedIndexChanged += new System.EventHandler(this.cmbPsds_SelectedIndexChanged);
             // 
             // lblConnectedPsd
             // 
@@ -214,8 +212,6 @@
             this.Controls.Add(this.lblBasePath);
             this.Name = "PrepareForm";
             this.Text = "Prepare";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PrepareForm_FormClosing);
-            this.Load += new System.EventHandler(this.PrepareForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
