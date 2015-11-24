@@ -7,8 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PsdBasesSetter;
+using PsdBasesSetter.Repositories;
+using PsdBasesSetter.Repositories.Objects;
 using PSD.Locales;
-using PSD.Repositories;
 
 namespace PSD
 {
@@ -98,11 +100,12 @@ namespace PSD
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(pass.Pass))
-            {
-                MessageBox.Show("Password is empty");
-                return false;
-            }
+            /*  if (string.IsNullOrWhiteSpace(pass.Pass))
+              {
+                  MessageBox.Show("Password is empty");
+                  return false;
+              }
+              */
 
             if (string.IsNullOrWhiteSpace(pass.Description))
             {
@@ -114,10 +117,10 @@ namespace PSD
 
         private bool Contains(PassItem pass)
         {
-            return _connections.PcBase.Base.Passwords.Any(a => a.Id == pass.Id && a != pass);
+            return _connections.PcBase.Base.Passwords.Any(a => a.Key == pass.Id && a.Value != pass);
         }
-        
-     
+
+
         private int GetLastIndex()
         {
             /*
@@ -184,13 +187,13 @@ namespace PSD
 
         private void SaveAll()
         {
-            ReindexPasswords();
-           // RefillPasswordsList();
+            /*  ReindexPasswords();
+              // RefillPasswordsList();
 
-            if (!_connections.UpdateInAllAvailableBases())
-            {
-                MessageBox.Show(Localization.UpdatingAllError);
-            }
+              if (!_connections.UpdateInAllAvailableBases())
+              {
+                  MessageBox.Show(Localization.UpdatingAllError);
+              }*/
         }
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
@@ -204,12 +207,12 @@ namespace PSD
 
         private void btnRemovePass_Click(object sender, EventArgs e)
         {
-           /* foreach (var selectedPass in GetSelectedPasswords())
-            {
-                //_passwords.Remove(selectedPass);
-            }
-            RegisterChange();
-            UpdateData();*/
+            /* foreach (var selectedPass in GetSelectedPasswords())
+             {
+                 //_passwords.Remove(selectedPass);
+             }
+             RegisterChange();
+             UpdateData();*/
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -220,14 +223,14 @@ namespace PSD
         private void UpdateData()
         {
             ReindexPasswords();
-           // RefillPasswordsList();
+            // RefillPasswordsList();
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-           /* var selectedPass = GetFirstSelectedPassword();
-            if (selectedPass == null)
-                return;*/
+            /* var selectedPass = GetFirstSelectedPassword();
+             if (selectedPass == null)
+                 return;*/
 
             /*var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
             if (prevPass == null)
@@ -239,9 +242,9 @@ namespace PSD
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-           /* var selectedPass = GetFirstSelectedPassword();
-            if (selectedPass == null)
-                return;*/
+            /* var selectedPass = GetFirstSelectedPassword();
+             if (selectedPass == null)
+                 return;*/
             /*var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
             if (nextPass == null)
                 return;
@@ -262,14 +265,15 @@ namespace PSD
         private bool ExitCheck()
         {
             //check if not saved
-            if (_connections.AllUpToDate(_lastChanges))
+            /*if (_connections.AllUpToDate(_lastChanges))
                 return true;
 
             return MessageBox.Show(
                 Localization.ExitQuestion,
                 Localization.ExitQuestionFormText,
                 MessageBoxButtons.YesNo)
-                   == DialogResult.Yes;
+                   == DialogResult.Yes;*/
+            return false;//stub
         }
 
 
@@ -292,35 +296,32 @@ namespace PSD
 
         private void savePcMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PcBase.Connected)
-                MessageBox.Show(Localization.NotConnectedWarning);
-
-            if (!_connections.UpdateIfConnected(_connections.PcBase))
-            {
-                MessageBox.Show(Localization.PsdUpdatingError);
-            }
+            /*   if (!_connections.(_connections.PcBase))
+               {
+                   MessageBox.Show(Localization.PsdUpdatingError);
+               }*/
         }
 
         private void savePhoneMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PhoneBase.Connected)
-                MessageBox.Show(Localization.NotConnectedWarning);
+            /* if (!_connections.PhoneBase.Connected)
+                 MessageBox.Show(Localization.NotConnectedWarning);
 
-            if (!_connections.UpdateIfConnected(_connections.PhoneBase))
-            {
-                MessageBox.Show(Localization.PhoneUpdateError);
-            }
+             if (!_connections.UpdateIfConnected(_connections.PhoneBase))
+             {
+                 MessageBox.Show(Localization.PhoneUpdateError);
+             }*/
         }
 
         private void saveToPsdMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PsdBase.Connected)
-                MessageBox.Show(Localization.NotConnectedWarning);
+            /* if (!_connections.PsdBase.Connected)
+                 MessageBox.Show(Localization.NotConnectedWarning);
 
-            if (!_connections.UpdateIfConnected(_connections.PsdBase))
-            {
-                MessageBox.Show(Localization.PsdUpdateError);
-            }
+             if (!_connections.UpdateIfConnected(_connections.PsdBase))
+             {
+                 MessageBox.Show(Localization.PsdUpdateError);
+             }*/
         }
 
         private void newPCBaseMenuItem_Click(object sender, EventArgs e)

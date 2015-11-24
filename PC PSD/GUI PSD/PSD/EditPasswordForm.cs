@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PsdBasesSetter.Repositories.Objects;
 
 namespace PSD
 {
@@ -34,7 +35,7 @@ namespace PSD
             txtTitle.Text = _passItem.Title;
             txtLogin.Text = _passItem.Login;
             cbxEnterWithLogin.Checked = _passItem.EnterWithLogin;
-            txtPass.Text = _passItem.Pass;
+            txtPass.Text = Encoding.ASCII.GetString(_passItem.Pass);
             rtxtDescription.Text = _passItem.Description;
         }
 
@@ -43,7 +44,7 @@ namespace PSD
             _passItem.Title = txtTitle.Text;
             _passItem.Login = txtLogin.Text;
             _passItem.EnterWithLogin = cbxEnterWithLogin.Checked;
-            _passItem.Pass = txtPass.Text;
+            _passItem.Pass = Encoding.ASCII.GetBytes(txtPass.Text);
             _passItem.Description = rtxtDescription.Text;
         }
 

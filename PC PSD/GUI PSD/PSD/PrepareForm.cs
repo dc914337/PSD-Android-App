@@ -12,7 +12,6 @@ using PsdBasesSetter;
 using PsdBasesSetter.Device.Hid;
 using PSD.Locales;
 using PSD.Properties;
-using PSD.Repositories;
 
 namespace PSD
 {
@@ -47,7 +46,7 @@ namespace PSD
             if (txtPassword.Enabled)
             {
                 btnSet.Text = Localization.btnUnsetText;
-                DataConnections.UserPasses = new BasePasswords(txtPassword.Text);
+                DataConnections.UserPass = txtPassword.Text;
                 ReinitPsds();
             }
             else
@@ -86,20 +85,20 @@ namespace PSD
 
         private void TryConnectPcBase(string path)
         {
-            if (!DataConnections.SetPCBase(path))
+            if (!DataConnections.TrySetPcBase(path))
                 MessageBox.Show(Localization.CantLoadFileString);
         }
 
         private void TryConnectAndroidBase(string path)
         {
-            if (!DataConnections.SetPhoneBase(path))
+            if (!DataConnections.TrySetPhoneBase(path))
                 MessageBox.Show(Localization.CantLoadFileString);
 
         }
 
         private void TryConnectPSDBase()
         {
-            if (!DataConnections.SetPsdDevice((PSDDevice)cmbPsds.SelectedItem))
+            if (!DataConnections.TrySetPsdBase((PSDDevice)cmbPsds.SelectedItem))
                 MessageBox.Show(Localization.PsdConnectionError);
         }
 
@@ -109,9 +108,9 @@ namespace PSD
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.SetPCBase(saveFileDialog.FileName))
+            if (!DataConnections.TrySetPcBase(saveFileDialog.FileName))
             {
-                DataConnections.DropPcBase();
+                MessageBox.Show(Localization.CantLoadFileString);
             }
         }
 
@@ -121,9 +120,9 @@ namespace PSD
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.SetPhoneBase(saveFileDialog.FileName))
+            if (!DataConnections.TrySetPhoneBase(saveFileDialog.FileName))
             {
-                DataConnections.DropPhoneBase();
+                MessageBox.Show(Localization.CantLoadFileString);
             }
         }
 
