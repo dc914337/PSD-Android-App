@@ -35,48 +35,24 @@ namespace PSD
                 this.Close();
                 return;
             }
-            BindControls();
+            UpdateLabels();
             UpdateData();
         }
 
-        private void BindControls()
+
+
+        private void UpdateLabels()
         {
+            lblBasePathDesc.Visible = lblBasePath.Visible = _connections.PcBase != null;
+            lblBasePath.Text = _connections.PcBase?.Path;
 
-            lblBasePath.DataBindings.Clear();
-            lblBasePathDesc.DataBindings.Clear();
-            if (_connections.PcBase != null)
-            {
-                lblBasePath.DataBindings.Add(new Binding("Text", _connections.PcBase, "Path"));
-                lblBasePath.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
-                lblBasePathDesc.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
+            lblAndroidPathDesc.Visible = lblAndroidBasePath.Visible = _connections.PhoneBase != null;
+            lblAndroidBasePath.Text = _connections.PhoneBase?.Path;
 
-                lstPasses.DataBindings.Clear();
-                lstPasses.DataSource = _connections.Passwords;
-            }
-
-
-            lblAndroidBasePath.DataBindings.Clear();
-            lblAndroidPathDesc.DataBindings.Clear();
-            if (_connections.PhoneBase != null)
-            {
-                lblAndroidBasePath.DataBindings.Add(new Binding("Text", _connections.PhoneBase, "Path"));
-                lblAndroidBasePath.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
-                lblAndroidPathDesc.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
-            }
-
-            lblPsdConnected.DataBindings.Clear();
-            lblPsdConnectionDesc.DataBindings.Clear();
-            if (_connections.PsdBase != null)
-            {
-                lblPsdConnected.DataBindings.Add(new Binding("Text", _connections.PsdBase, "Name"));
-                lblPsdConnected.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
-                lblPsdConnectionDesc.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
-            }
-
-
-
-
+            lblPsdConnectionDesc.Visible = lblPsdConnected.Visible = _connections.PsdBase != null;
+            lblPsdConnected.Text = _connections.PsdBase?.Name;
         }
+
 
 
 
