@@ -163,6 +163,7 @@
             this.cmbPsds.Name = "cmbPsds";
             this.cmbPsds.Size = new System.Drawing.Size(197, 21);
             this.cmbPsds.TabIndex = 27;
+            this.cmbPsds.SelectedIndexChanged += new System.EventHandler(this.cmbPsds_SelectedIndexChanged);
             // 
             // lblConnectedPsd
             // 

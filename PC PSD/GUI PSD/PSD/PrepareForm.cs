@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PSD.Config;
-using PSD.Device.Hid;
+using PsdBasesSetter;
+using PsdBasesSetter.Device.Hid;
 using PSD.Locales;
 using PSD.Properties;
 using PSD.Repositories;
@@ -39,7 +39,6 @@ namespace PSD
         private void btnConnectPsd_Click(object sender, EventArgs e)
         {
             TryConnectPSDBase();
-            RebindAll();
         }
 
 
@@ -48,10 +47,8 @@ namespace PSD
             if (txtPassword.Enabled)
             {
                 btnSet.Text = Localization.btnUnsetText;
-
                 DataConnections.UserPasses = new BasePasswords(txtPassword.Text);
                 ReinitPsds();
-                RebindAll();
             }
             else
             {
@@ -60,32 +57,6 @@ namespace PSD
             SwitchEnabled();
         }
 
-
-        private void RebindAll()
-        {
-            lblBasePath.DataBindings.Clear();
-            if (DataConnections.PcBase != null)
-            {
-                lblBasePath.DataBindings.Add(new Binding("Text", DataConnections.PcBase, "Path"));
-            }
-
-            lblAndroidPath.DataBindings.Clear();
-            if (DataConnections.PhoneBase != null)
-            {
-                lblAndroidPath.DataBindings.Add(new Binding("Text", DataConnections.PhoneBase, "Path"));
-            }
-
-            lblConnectedPsd.DataBindings.Clear();
-            lblConnectedDesc.DataBindings.Clear();
-            if (DataConnections.PsdBase != null)
-            {
-                lblConnectedPsd.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "Name"));
-                lblConnectedPsd.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
-                lblConnectedDesc.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
-            }
-        }
-
-
         private bool ReinitPsds()
         {
             var finder = new PSDFinder();
@@ -93,15 +64,8 @@ namespace PSD
             cmbPsds.Items.Clear();
             cmbPsds.Items.AddRange(psds);
             if (psds.Any())
-            {
                 cmbPsds.SelectedIndex = 0;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return psds.Any();
         }
 
 
@@ -110,7 +74,6 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectPcBase(fileDialog.FileName);
-            RebindAll();
         }
 
 
@@ -119,7 +82,6 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectAndroidBase(fileDialog.FileName);
-            RebindAll();
         }
 
         private void TryConnectPcBase(string path)
@@ -151,7 +113,6 @@ namespace PSD
             {
                 DataConnections.DropPcBase();
             }
-            RebindAll();
         }
 
 
@@ -164,7 +125,6 @@ namespace PSD
             {
                 DataConnections.DropPhoneBase();
             }
-            RebindAll();
         }
 
 
@@ -204,6 +164,11 @@ namespace PSD
         }
 
         private void PrepareForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void cmbPsds_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

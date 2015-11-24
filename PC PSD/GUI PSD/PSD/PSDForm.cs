@@ -195,21 +195,21 @@ namespace PSD
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+            /*var selectedPass = GetFirstSelectedPassword();
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
                 selectedPass.InitFromPass(backup);
-            UpdateData();
+            UpdateData();*/
         }
 
         private void btnRemovePass_Click(object sender, EventArgs e)
         {
-            foreach (var selectedPass in GetSelectedPasswords())
+           /* foreach (var selectedPass in GetSelectedPasswords())
             {
                 //_passwords.Remove(selectedPass);
             }
             RegisterChange();
-            UpdateData();
+            UpdateData();*/
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -225,9 +225,9 @@ namespace PSD
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+           /* var selectedPass = GetFirstSelectedPassword();
             if (selectedPass == null)
-                return;
+                return;*/
 
             /*var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
             if (prevPass == null)
@@ -239,9 +239,9 @@ namespace PSD
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+           /* var selectedPass = GetFirstSelectedPassword();
             if (selectedPass == null)
-                return;
+                return;*/
             /*var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
             if (nextPass == null)
                 return;
