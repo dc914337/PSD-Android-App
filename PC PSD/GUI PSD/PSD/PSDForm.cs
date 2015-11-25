@@ -254,32 +254,36 @@ namespace PSD
 
         private void savePcMenuItem_Click(object sender, EventArgs e)
         {
-            /*   if (!_connections.(_connections.PcBase))
-               {
-                   MessageBox.Show(Localization.PsdUpdatingError);
-               }*/
+            if (_connections.PcBase == null)
+            {
+                MessageBox.Show(Localization.NotConnectedWarning);
+                return;
+            }
+            _connections.PcBase.WriteChanges();
         }
 
         private void savePhoneMenuItem_Click(object sender, EventArgs e)
         {
-            /* if (!_connections.PhoneBase.Connected)
-                 MessageBox.Show(Localization.NotConnectedWarning);
-
-             if (!_connections.UpdateIfConnected(_connections.PhoneBase))
-             {
-                 MessageBox.Show(Localization.PhoneUpdateError);
-             }*/
+            if (_connections.PhoneBase == null)
+            {
+                MessageBox.Show(Localization.NotConnectedWarning);
+                return;
+            }
+            _connections.PhoneBase.WriteChanges();
         }
 
         private void saveToPsdMenuItem_Click(object sender, EventArgs e)
         {
-            /* if (!_connections.PsdBase.Connected)
-                 MessageBox.Show(Localization.NotConnectedWarning);
+            if (_connections.PsdBase == null)
+            {
+                MessageBox.Show(Localization.NotConnectedWarning);
+                return;
+            }
 
-             if (!_connections.UpdateIfConnected(_connections.PsdBase))
-             {
-                 MessageBox.Show(Localization.PsdUpdateError);
-             }*/
+            if (!_connections.PsdBase.WriteChanges())
+            {
+                MessageBox.Show(Localization.PsdUpdateError);
+            }
         }
 
         private void newPCBaseMenuItem_Click(object sender, EventArgs e)

@@ -46,7 +46,10 @@ namespace PsdBasesSetter.Repositories
             var psdConverted = GetPreparedPasswords(Base.Passwords);
             int wrote = Psd.WritePasswords(psdConverted);
 
-            return wrote == psdConverted.Count();
+            var result = wrote == psdConverted.Count();
+            if (result)
+                LastUpdated = DateTime.Now;
+            return result;
         }
 
 
