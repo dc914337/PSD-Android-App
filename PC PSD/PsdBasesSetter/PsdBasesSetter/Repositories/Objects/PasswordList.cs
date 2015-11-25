@@ -61,8 +61,7 @@ namespace PsdBasesSetter.Repositories.Objects
             SwapPasswords(pass, nextPass);
             return true;
         }
-
-
+        
 
         public bool RemovePass(ushort id)
         {

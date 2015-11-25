@@ -344,6 +344,7 @@
             this.lstPasses.Name = "lstPasses";
             this.lstPasses.Size = new System.Drawing.Size(330, 404);
             this.lstPasses.TabIndex = 43;
+            this.lstPasses.DoubleClick += new System.EventHandler(this.lstViewPasswords_DoubleClick);
             // 
             // PSDForm
             // 

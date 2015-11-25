@@ -96,7 +96,7 @@ namespace PsdBasesSetter.Repositories.Objects
             return Title;
         }
 
-        public void Copy(PassItem backup)
+        public void RestoreCopy(PassItem backup)
         {
             this.Id = backup.Id;
             this.Title = backup.Title;

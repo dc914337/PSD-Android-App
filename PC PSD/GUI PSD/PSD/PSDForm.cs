@@ -153,11 +153,13 @@ namespace PSD
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
         {
-            /*var selectedPass = GetFirstSelectedPassword();
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
-                selectedPass.InitFromPass(backup);
-            UpdateList();*/
+                selectedPass.RestoreCopy(backup);
+            else
+                RegisterChange();
+            RefillPasswordsList();
         }
 
         private void btnRemovePass_Click(object sender, EventArgs e)
