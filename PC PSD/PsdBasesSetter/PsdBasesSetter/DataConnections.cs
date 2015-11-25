@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using PsdBasesSetter.Crypto;
 using PsdBasesSetter.Device.Hid;
 using PsdBasesSetter.Repositories;
@@ -27,6 +28,17 @@ namespace PsdBasesSetter
 
         public PasswordList Passwords => PcBase.Base.Passwords;
 
+        public DateTime LastUpdate
+        {
+            get
+            {
+                var allDates = new DateTime[] {
+                    PcBase?.LastUpdated ?? DateTime.MaxValue,
+                    PhoneBase?.LastUpdated ?? DateTime.MaxValue,
+                    PsdBase?.LastUpdated ?? DateTime.MaxValue };
+                return allDates.Min();
+            }
+        }
 
         public bool TryCreateAndSetPcBase(String path)
         {

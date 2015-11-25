@@ -30,7 +30,7 @@ namespace PSD
                 return;
             }
             UpdateLabels();
-            UpdateList();
+            RefillPasswordsList();
         }
 
 
@@ -91,31 +91,26 @@ namespace PSD
         }
 
 
-        private int GetLastIndex()
-        {
-            /*
-            if (!_passwords.Any())
-                return -1;
-            return _passwords.OrderBy(a => a.Id).Last().Id;*/
-            return 0;
-        }
+
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
-            /*var lastIndex = (ushort)(GetLastIndex() + 1);
-            PassItem newPassword = new PassItem
-            {
-                Id = lastIndex //can fail
-            };
+            var selectedIndex = lstPasses.SelectedIndex;
 
+            var newPassword = new PassItem();
+            _passwords.AddPass(newPassword);
 
             if (!EditPassword(newPassword))
                 return;
+
+            if (selectedIndex != -1 && selectedIndex != lstPasses.Items.Count - 1)
+            {
+              //  _passwords.SwapPasswords();
+            }
+
+
             RegisterChange();
-
-            _passwords.Add(newPassword);
-            UpdateList();*/
-
+            Refresh();
         }
 
 
@@ -148,13 +143,10 @@ namespace PSD
 
         private void SaveAll()
         {
-            /*  ReindexPasswords();
-              // RefillPasswordsList();
-
-              if (!_connections.UpdateInAllAvailableBases())
-              {
-                  MessageBox.Show(Localization.UpdatingAllError);
-              }*/
+            if (_connections.WriteAll() != WriteAllResult.Success)
+            {
+                MessageBox.Show(Localization.UpdatingAllError);
+            }
         }
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
@@ -168,23 +160,19 @@ namespace PSD
 
         private void btnRemovePass_Click(object sender, EventArgs e)
         {
-            /* foreach (var selectedPass in GetSelectedPasswords())
-             {
-                 //_passwords.Remove(selectedPass);
-             }
-             RegisterChange();
-             UpdateList();*/
+            if (lstPasses.SelectedItem != null)
+            {
+                _passwords.RemovePass((ushort)((PassItem)lstPasses.SelectedItem).Id);
+                RefillPasswordsList();
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            UpdateList();
-        }
-
-        private void UpdateList()
-        {
             RefillPasswordsList();
         }
+
+
 
 
 
@@ -206,25 +194,25 @@ namespace PSD
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
             var selectedPass = (PassItem)lstPasses.SelectedItem;
-            if (selectedPass == null || lstPasses.SelectedIndex == 0)
+            if (selectedPass == null)
                 return;
-            var nextPass = (PassItem)lstPasses.Items[lstPasses.SelectedIndex - 1];
-
-            _passwords.SwapPasswords(selectedPass, nextPass);
-            RegisterChange();
-            UpdateList();
+            if (_passwords.MoveUp(selectedPass))
+            {
+                RegisterChange();
+                RefillPasswordsList();
+            }
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
             var selectedPass = (PassItem)lstPasses.SelectedItem;
-            if (selectedPass == null || lstPasses.SelectedIndex == lstPasses.Items.Count - 1)
+            if (selectedPass == null)
                 return;
-            var nextPass = (PassItem)lstPasses.Items[lstPasses.SelectedIndex + 1];
-
-            _passwords.SwapPasswords(selectedPass, nextPass);
-            RegisterChange();
-            UpdateList();
+            if (_passwords.MoveDown(selectedPass))
+            {
+                RegisterChange();
+                RefillPasswordsList();
+            }
         }
 
 
@@ -233,15 +221,13 @@ namespace PSD
         private bool ExitCheck()
         {
             //check if not saved
-            /*if (_connections.AllUpToDate(_lastChanges))
-                return true;
-
-            return MessageBox.Show(
-                Localization.ExitQuestion,
-                Localization.ExitQuestionFormText,
-                MessageBoxButtons.YesNo)
-                   == DialogResult.Yes;*/
-            return false;//stub
+            if (_connections.LastUpdate < _lastChanges)
+                return MessageBox.Show(
+                    Localization.ExitQuestion,
+                    Localization.ExitQuestionFormText,
+                    MessageBoxButtons.YesNo)
+                       == DialogResult.Yes;
+            return true;
         }
 
 

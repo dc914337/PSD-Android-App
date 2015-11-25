@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace PsdBasesSetter.Repositories.Objects
 {
@@ -10,7 +11,7 @@ namespace PsdBasesSetter.Repositories.Objects
         public bool AddPass(PassItem item)
         {
             ushort newId;
-            newId = item.Id ?? FindMinEmptyId();
+            newId = item.Id ?? this.Keys.Max();
 
             if (ContainsKey(newId))
                 return false;
@@ -38,6 +39,31 @@ namespace PsdBasesSetter.Repositories.Objects
             return lastKey;
         }
 
+        public bool MoveUp(PassItem pass)
+        {
+            if (pass.Id == 0)
+                return false;
+
+            var prevPass = this.GetPassById(this.Values.Where(a => a.Id < pass.Id).Max(m => m.Id).Value);
+
+            SwapPasswords(pass, prevPass);
+            return true;
+        }
+
+
+        public bool MoveDown(PassItem pass)
+        {
+            if (pass.Id == this.Keys.Max())
+                return false;
+
+            var nextPass = this.GetPassById(this.Values.Where(a => a.Id > pass.Id).Min(m => m.Id).Value);
+
+            SwapPasswords(pass, nextPass);
+            return true;
+        }
+
+
+
         public bool RemovePass(ushort id)
         {
             var result = this.Remove(id);
@@ -50,7 +76,7 @@ namespace PsdBasesSetter.Repositories.Objects
         {
             RemovePass((ushort)a.Id);
             RemovePass((ushort)b.Id);
-            
+
             var tempId = a.Id;
             a.Id = b.Id;
             b.Id = tempId;
