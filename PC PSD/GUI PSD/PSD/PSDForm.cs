@@ -105,12 +105,14 @@ namespace PSD
 
             if (selectedIndex != -1 && selectedIndex != lstPasses.Items.Count - 1)
             {
-              //  _passwords.SwapPasswords();
+                while (newPassword.Id > ((PassItem)lstPasses.SelectedItem).Id)
+                {
+                    _passwords.MoveUp(newPassword);
+                }
+                _passwords.MoveDown(newPassword);
             }
-
-
             RegisterChange();
-            Refresh();
+            RefillPasswordsList();
         }
 
 
