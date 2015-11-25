@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using PsdBasesSetter;
 using PsdBasesSetter.Repositories;
@@ -20,6 +14,7 @@ namespace PSD
 
         private DateTime _lastChanges;
 
+        private PasswordList _passwords => _connections.Passwords ?? new PasswordList();
 
         public PSDForm(DataConnections dataConnections)
         {
@@ -36,7 +31,7 @@ namespace PSD
                 return;
             }
             UpdateLabels();
-            UpdateData();
+            UpdateList();
         }
 
 
@@ -120,7 +115,7 @@ namespace PSD
             RegisterChange();
 
             _passwords.Add(newPassword);
-            UpdateData();*/
+            UpdateList();*/
 
         }
 
@@ -178,7 +173,7 @@ namespace PSD
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
                 selectedPass.InitFromPass(backup);
-            UpdateData();*/
+            UpdateList();*/
         }
 
         private void btnRemovePass_Click(object sender, EventArgs e)
@@ -188,19 +183,39 @@ namespace PSD
                  //_passwords.Remove(selectedPass);
              }
              RegisterChange();
-             UpdateData();*/
+             UpdateList();*/
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            UpdateData();
+            UpdateList();
         }
 
-        private void UpdateData()
+        private void UpdateList()
         {
             ReindexPasswords();
-            // RefillPasswordsList();
+            FillPasswordsList();
         }
+
+
+
+        private void FillPasswordsList()
+        {
+            lstPasses.Items.Clear();
+            for (ushort i = 0; i < _passwords.Count; i++)
+            {
+                var currPass = _passwords[i];
+               /* ListViewItem item = new ListViewItem(
+                    new string[] {
+                        currPass.Id.ToString(),
+                        currPass.Title,
+                        currPass.Login });*/
+                lstPasses.Items.Add(currPass);
+            }
+        }
+
+
+
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
@@ -213,7 +228,7 @@ namespace PSD
                 return;
             SwapItems(selectedPass, prevPass);
             RegisterChange();
-            UpdateData();*/
+            UpdateList();*/
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
@@ -226,7 +241,7 @@ namespace PSD
                 return;
             SwapItems(selectedPass, nextPass);
             RegisterChange();
-            UpdateData();*/
+            UpdateList();*/
         }
 
 

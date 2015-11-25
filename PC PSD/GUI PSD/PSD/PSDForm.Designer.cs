@@ -337,10 +337,12 @@
             // 
             // lstPasses
             // 
+            this.lstPasses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lstPasses.FormattingEnabled = true;
+            this.lstPasses.ItemHeight = 20;
             this.lstPasses.Location = new System.Drawing.Point(13, 27);
             this.lstPasses.Name = "lstPasses";
-            this.lstPasses.Size = new System.Drawing.Size(330, 420);
+            this.lstPasses.Size = new System.Drawing.Size(330, 404);
             this.lstPasses.TabIndex = 43;
             // 
             // PSDForm
