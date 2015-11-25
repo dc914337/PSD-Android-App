@@ -11,7 +11,6 @@ namespace PSD
     public partial class PSDForm : Form
     {
         private DataConnections _connections;
-
         private DateTime _lastChanges;
 
         private PasswordList _passwords => _connections.Passwords ?? new PasswordList();
@@ -125,15 +124,6 @@ namespace PSD
             _lastChanges = DateTime.Now;
         }
 
-        private void ReindexPasswords()
-        {
-            /* ushort newIndex = 0;
-             foreach (var pass in _passwords.OrderBy(a => a.Id))
-             {
-                 pass.Id = newIndex++;
-             }*/
-        }
-
 
         private bool EditPassword(PassItem password)
         {
@@ -193,25 +183,21 @@ namespace PSD
 
         private void UpdateList()
         {
-            ReindexPasswords();
-            FillPasswordsList();
+            RefillPasswordsList();
         }
 
 
 
-        private void FillPasswordsList()
+        private void RefillPasswordsList()
         {
+            var selectedItem = lstPasses.SelectedItem;
             lstPasses.Items.Clear();
-            for (ushort i = 0; i < _passwords.Count; i++)
+            foreach (var keyValuePair in _passwords)
             {
-                var currPass = _passwords[i];
-               /* ListViewItem item = new ListViewItem(
-                    new string[] {
-                        currPass.Id.ToString(),
-                        currPass.Title,
-                        currPass.Login });*/
-                lstPasses.Items.Add(currPass);
+                lstPasses.Items.Add(keyValuePair.Value);
             }
+            lstPasses.SelectedItem = selectedItem;
+
         }
 
 
@@ -219,38 +205,29 @@ namespace PSD
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            /* var selectedPass = GetFirstSelectedPassword();
-             if (selectedPass == null)
-                 return;*/
-
-            /*var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
-            if (prevPass == null)
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
+            if (selectedPass == null || lstPasses.SelectedIndex == 0)
                 return;
-            SwapItems(selectedPass, prevPass);
+            var nextPass = (PassItem)lstPasses.Items[lstPasses.SelectedIndex - 1];
+
+            _passwords.SwapPasswords(selectedPass, nextPass);
             RegisterChange();
-            UpdateList();*/
+            UpdateList();
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            /* var selectedPass = GetFirstSelectedPassword();
-             if (selectedPass == null)
-                 return;*/
-            /*var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
-            if (nextPass == null)
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
+            if (selectedPass == null || lstPasses.SelectedIndex == lstPasses.Items.Count - 1)
                 return;
-            SwapItems(selectedPass, nextPass);
+            var nextPass = (PassItem)lstPasses.Items[lstPasses.SelectedIndex + 1];
+
+            _passwords.SwapPasswords(selectedPass, nextPass);
             RegisterChange();
-            UpdateList();*/
+            UpdateList();
         }
 
 
-        private static void SwapItems(PassItem pass1, PassItem pass2)
-        {
-            var tempId = pass1.Id;
-            pass1.Id = pass2.Id;
-            pass2.Id = tempId;
-        }
 
 
         private bool ExitCheck()

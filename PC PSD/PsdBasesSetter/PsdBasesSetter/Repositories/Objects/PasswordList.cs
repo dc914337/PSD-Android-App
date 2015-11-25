@@ -41,8 +41,25 @@ namespace PsdBasesSetter.Repositories.Objects
         public bool RemovePass(ushort id)
         {
             var result = this.Remove(id);
-            //may be move all elements to fill spaces
+            //maybe move all elements to fill spaces
             return result;
         }
+
+
+        public void SwapPasswords(PassItem a, PassItem b)
+        {
+            RemovePass((ushort)a.Id);
+            RemovePass((ushort)b.Id);
+            
+            var tempId = a.Id;
+            a.Id = b.Id;
+            b.Id = tempId;
+
+            AddPass(a);
+            AddPass(b);
+
+
+        }
+
     }
 }
