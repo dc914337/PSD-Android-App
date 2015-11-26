@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PsdBasesSetter;
 using PsdBasesSetter.Device.Hid;
+using PsdBasesSetter.Repositories;
 using PSD.Locales;
 using PSD.Properties;
 
@@ -93,10 +94,28 @@ namespace PSD
 
         private void TryConnectPSDBase()
         {
-            if (!DataConnections.TrySetPsdBase((PSDDevice)cmbPsds.SelectedItem))
-                MessageBox.Show(Localization.PsdConnectionError);
+            switch (DataConnections.TrySetPsdBase((PSDDevice)cmbPsds.SelectedItem))
+            {
+                case PSDRepository.SetPsdResult.NotConnected:
+                    MessageBox.Show(Localization.PsdConnectionError);
+                    break;
+                case PSDRepository.SetPsdResult.WrongPassword:
+                    MessageBox.Show(Localization.WrongPasswordPSD);
+                    FlushPassword();
+                    break;
+            }
         }
 
+
+
+        private void FlushPassword()
+        {
+            if ( MessageBox.Show( "Do you want to set new password on PSD?", "Reset PSD password", MessageBoxButtons.YesNo )
+                 == DialogResult.Yes )
+            {
+                DataConnections.PsdBase.Reset();
+            }
+        }
 
 
         private void btnCreateStorageFile_Click(object sender, EventArgs e)

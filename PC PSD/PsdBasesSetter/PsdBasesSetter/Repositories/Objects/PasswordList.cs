@@ -11,7 +11,7 @@ namespace PsdBasesSetter.Repositories.Objects
         public bool AddPass(PassItem item)
         {
             ushort newId;
-            newId = item.Id ?? (ushort)(this.Keys.Max() + 1);
+            newId = item.Id ?? (ushort)(this.Count == 0 ? 0 : (this.Keys.Max() + 1));
 
             if (ContainsKey(newId))
                 return false;

@@ -97,16 +97,19 @@ namespace PsdBasesSetter
             return connectResult == ConnectResult.Success;
         }
 
-        public bool TrySetPsdBase(PSDDevice newDevice)
+
+
+        public PSDRepository.SetPsdResult TrySetPsdBase(PSDDevice newDevice)
         {
-            if (_userPasses == null)
-                return false;
+            /* if (_userPasses == null)
+                 return false;*/
 
             var newPsdBase = new PSDRepository(_userPasses.PsdLoginPass);
-            if (!newPsdBase.Connect(newDevice))
-                return false;
-            PsdBase = newPsdBase;
-            return true;
+            var res = newPsdBase.Connect(newDevice);
+            if (res == PSDRepository.SetPsdResult.Connected ||
+                res == PSDRepository.SetPsdResult.WrongPassword)
+                PsdBase = newPsdBase;
+            return res;
         }
 
 

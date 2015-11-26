@@ -162,4 +162,7 @@
 	<data name="NotConnectedWarning" xml:space="preserve">
     <value>Not connected</value>
   </data>
+  <data name="WrongPasswordPSD" xml:space="preserve">
+    <value>Can't login into PSD. Wrong password.</value>
+  </data>
 </root>
