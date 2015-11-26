@@ -11,7 +11,7 @@ namespace PsdBasesSetter.Repositories.Objects
         public bool AddPass(PassItem item)
         {
             ushort newId;
-            newId = item.Id ?? (ushort)(this.Keys.Max()+1);
+            newId = item.Id ?? (ushort)(this.Keys.Max() + 1);
 
             if (ContainsKey(newId))
                 return false;
@@ -61,20 +61,39 @@ namespace PsdBasesSetter.Repositories.Objects
             SwapPasswords(pass, nextPass);
             return true;
         }
-        
+
 
         public bool RemovePass(ushort id)
         {
             var result = this.Remove(id);
-            //maybe move all elements to fill spaces
+            FillEmptySpaces();
             return result;
+        }
+
+
+        //moves passes to have no empty id's in the middle
+        public void FillEmptySpaces()
+        {
+            var goodList = new List<PassItem>();
+            foreach (var pass in Values)
+            {
+                goodList.Add(pass);
+            }
+            this.Clear();
+            ushort passId = 0;
+            foreach (var pass in goodList)
+            {
+                pass.Id = passId++;
+                this.AddPass(pass);
+            }
+
         }
 
 
         public void SwapPasswords(PassItem a, PassItem b)
         {
-            RemovePass((ushort)a.Id);
-            RemovePass((ushort)b.Id);
+            this.Remove((ushort)a.Id);
+            this.Remove((ushort)b.Id);
 
             var tempId = a.Id;
             a.Id = b.Id;
@@ -82,8 +101,6 @@ namespace PsdBasesSetter.Repositories.Objects
 
             AddPass(a);
             AddPass(b);
-
-
         }
 
     }

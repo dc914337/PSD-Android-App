@@ -173,6 +173,7 @@ namespace PSD
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            _passwords.FillEmptySpaces();
             RefillPasswordsList();
         }
 
