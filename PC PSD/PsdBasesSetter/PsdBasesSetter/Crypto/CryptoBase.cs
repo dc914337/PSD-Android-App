@@ -45,11 +45,11 @@ namespace PsdBasesSetter.Crypto
         private byte[] AESEncrypt(out byte[] IV, byte[] raw)
         {
             byte[] encrypted;
-            using (Aes rijAlg = Aes.Create())
+            using (Aes aesAlg = Aes.Create())
             {
-                rijAlg.Key = key;
-                IV = rijAlg.IV;
-                ICryptoTransform encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV);
+                aesAlg.Key = key;
+                IV = aesAlg.IV;
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
                 using (MemoryStream msEncrypt = new MemoryStream())
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -66,12 +66,12 @@ namespace PsdBasesSetter.Crypto
         {
             byte[] decryptedTempMessageBytes = new byte[encrypted.Length];
 
-            using (Aes rijAlg = Aes.Create())
+            using (Aes aesAlg = Aes.Create())
             {
-                rijAlg.Key = key;
-                rijAlg.IV = IV;
+                aesAlg.Key = key;
+                aesAlg.IV = IV;
 
-                ICryptoTransform decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
                 using (MemoryStream msDecrypt = new MemoryStream(encrypted))
                 {
                     try
