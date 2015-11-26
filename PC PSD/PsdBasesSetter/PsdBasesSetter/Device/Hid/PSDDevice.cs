@@ -52,8 +52,8 @@ namespace PsdBasesSetter.Device.Hid
             }
             catch (IOException ex)
             {
-                throw ex;//for debug
-                //return false;
+                //throw ex;//for debug
+                return false;
             }
         }
 

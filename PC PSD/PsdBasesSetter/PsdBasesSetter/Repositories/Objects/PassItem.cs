@@ -81,7 +81,7 @@ namespace PsdBasesSetter.Repositories.Objects
 
         [DataMember]
         [JsonConverter(typeof(ByteArrayConverter))]
-        public byte[] Pass { get; set; }
+        public byte[] Pass { get; set; } = new byte[0];
 
         [DataMember]
         public string Description { get; set; }
@@ -96,7 +96,7 @@ namespace PsdBasesSetter.Repositories.Objects
             return Title;
         }
 
-        public void Copy(PassItem backup)
+        public void RestoreCopy(PassItem backup)
         {
             this.Id = backup.Id;
             this.Title = backup.Title;

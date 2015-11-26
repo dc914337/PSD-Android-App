@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PSD.Config;
-using PSD.Device.Hid;
+using PsdBasesSetter;
+using PsdBasesSetter.Device.Hid;
+using PsdBasesSetter.Repositories;
 using PSD.Locales;
 using PSD.Properties;
-using PSD.Repositories;
 
 namespace PSD
 {
@@ -27,19 +27,11 @@ namespace PSD
             InitializeComponent();
         }
 
-        private void PrepareForm_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnConnectPsd_Click(object sender, EventArgs e)
         {
             TryConnectPSDBase();
-            RebindAll();
+            UpdateLables();
         }
 
 
@@ -48,10 +40,8 @@ namespace PSD
             if (txtPassword.Enabled)
             {
                 btnSet.Text = Localization.btnUnsetText;
-
-                DataConnections.UserPasses = new BasePasswords(txtPassword.Text);
+                DataConnections.UserPass = txtPassword.Text;
                 ReinitPsds();
-                RebindAll();
             }
             else
             {
@@ -60,32 +50,6 @@ namespace PSD
             SwitchEnabled();
         }
 
-
-        private void RebindAll()
-        {
-            lblBasePath.DataBindings.Clear();
-            if (DataConnections.PcBase != null)
-            {
-                lblBasePath.DataBindings.Add(new Binding("Text", DataConnections.PcBase, "Path"));
-            }
-
-            lblAndroidPath.DataBindings.Clear();
-            if (DataConnections.PhoneBase != null)
-            {
-                lblAndroidPath.DataBindings.Add(new Binding("Text", DataConnections.PhoneBase, "Path"));
-            }
-
-            lblConnectedPsd.DataBindings.Clear();
-            lblConnectedDesc.DataBindings.Clear();
-            if (DataConnections.PsdBase != null)
-            {
-                lblConnectedPsd.DataBindings.Add(new Binding("Text", DataConnections.PsdBase, "Name"));
-                lblConnectedPsd.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
-                lblConnectedDesc.DataBindings.Add(new Binding("Visible", DataConnections.PsdBase, "Connected"));
-            }
-        }
-
-
         private bool ReinitPsds()
         {
             var finder = new PSDFinder();
@@ -93,15 +57,8 @@ namespace PSD
             cmbPsds.Items.Clear();
             cmbPsds.Items.AddRange(psds);
             if (psds.Any())
-            {
                 cmbPsds.SelectedIndex = 0;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            return psds.Any();
         }
 
 
@@ -110,7 +67,7 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectPcBase(fileDialog.FileName);
-            RebindAll();
+            UpdateLables();
         }
 
 
@@ -119,39 +76,57 @@ namespace PSD
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.ShowDialog();
             TryConnectAndroidBase(fileDialog.FileName);
-            RebindAll();
+            UpdateLables();
         }
 
         private void TryConnectPcBase(string path)
         {
-            if (!DataConnections.SetPCBase(path))
+            if (!DataConnections.TrySetPcBase(path))
                 MessageBox.Show(Localization.CantLoadFileString);
         }
 
         private void TryConnectAndroidBase(string path)
         {
-            if (!DataConnections.SetPhoneBase(path))
+            if (!DataConnections.TrySetPhoneBase(path))
                 MessageBox.Show(Localization.CantLoadFileString);
 
         }
 
         private void TryConnectPSDBase()
         {
-            if (!DataConnections.SetPsdDevice((PSDDevice)cmbPsds.SelectedItem))
-                MessageBox.Show(Localization.PsdConnectionError);
+            switch (DataConnections.TrySetPsdBase((PSDDevice)cmbPsds.SelectedItem))
+            {
+                case PSDRepository.SetPsdResult.NotConnected:
+                    MessageBox.Show(Localization.PsdConnectionError);
+                    break;
+                case PSDRepository.SetPsdResult.WrongPassword:
+                    MessageBox.Show(Localization.WrongPasswordPSD);
+                    FlushPassword();
+                    break;
+            }
         }
 
+
+
+        private void FlushPassword()
+        {
+            if ( MessageBox.Show( "Do you want to set new password on PSD?", "Reset PSD password", MessageBoxButtons.YesNo )
+                 == DialogResult.Yes )
+            {
+                DataConnections.PsdBase.Reset();
+            }
+        }
 
 
         private void btnCreateStorageFile_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.SetPCBase(saveFileDialog.FileName))
+            if (!DataConnections.TryCreateAndSetPcBase(saveFileDialog.FileName))
             {
-                DataConnections.DropPcBase();
+                MessageBox.Show(Localization.CantLoadFileString);
             }
-            RebindAll();
+            UpdateLables();
         }
 
 
@@ -160,12 +135,20 @@ namespace PSD
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.ShowDialog();
-            if (!DataConnections.SetPhoneBase(saveFileDialog.FileName))
+            if (!DataConnections.TryCreateAndSetPhoneBase(saveFileDialog.FileName))
             {
-                DataConnections.DropPhoneBase();
+                MessageBox.Show(Localization.CantLoadFileString);
             }
-            RebindAll();
+            UpdateLables();
         }
+
+        private void UpdateLables()
+        {
+            lblBasePath.Text = DataConnections.PcBase?.Path;
+            lblAndroidPath.Text = DataConnections.PhoneBase?.Path;
+            lblConnectedPsd.Text = DataConnections.PsdBase?.Name;
+        }
+
 
 
         private void SwitchEnabled()
@@ -201,11 +184,6 @@ namespace PSD
         {
             if (!ReinitPsds())
                 MessageBox.Show(Localization.NoPSDsError);
-        }
-
-        private void PrepareForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
         }
     }
 }

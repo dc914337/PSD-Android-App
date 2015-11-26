@@ -24,8 +24,14 @@ namespace PsdBasesSetter.Repositories
             LoginPass = loginPass;
         }
 
+        public enum SetPsdResult
+        {
+            NotConnected,
+            WrongPassword,
+            Connected
+        }
 
-        public bool Connect(PSDDevice psdDevice)
+        public SetPsdResult Connect(PSDDevice psdDevice)
         {
             var connected = psdDevice.Connect();
             if (connected)
@@ -33,20 +39,26 @@ namespace PsdBasesSetter.Repositories
                 Psd = psdDevice;
                 Name = Psd.ToString();
                 Base = new Base();
+                if (!Psd.Login(LoginPass))
+                    return SetPsdResult.WrongPassword;
             }
             else
                 Psd = null;
-            return connected;
+            return connected ? SetPsdResult.Connected : SetPsdResult.NotConnected;
         }
 
         public bool WriteChanges()
         {
-            Psd.Login(LoginPass);
+            if (!Psd.Login(LoginPass))
+                return false;
             Psd.WriteKeys(Base.BTKey, Base.HBTKey);
             var psdConverted = GetPreparedPasswords(Base.Passwords);
             int wrote = Psd.WritePasswords(psdConverted);
 
-            return wrote == psdConverted.Count();
+            var result = wrote == psdConverted.Count();
+            if (result)
+                LastUpdated = DateTime.Now;
+            return result;
         }
 
 

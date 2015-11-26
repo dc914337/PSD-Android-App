@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using PsdBasesSetter;
+using PsdBasesSetter.Repositories;
+using PsdBasesSetter.Repositories.Objects;
 using PSD.Locales;
-using PSD.Repositories;
 
 namespace PSD
 {
     public partial class PSDForm : Form
     {
         private DataConnections _connections;
-
         private DateTime _lastChanges;
 
+        private PasswordList _passwords => _connections.Passwords ?? new PasswordList();
 
         public PSDForm(DataConnections dataConnections)
         {
@@ -33,48 +29,24 @@ namespace PSD
                 this.Close();
                 return;
             }
-            BindControls();
-            UpdateData();
+            UpdateLabels();
+            RefillPasswordsList();
         }
 
-        private void BindControls()
+
+
+        private void UpdateLabels()
         {
+            lblBasePathDesc.Visible = lblBasePath.Visible = _connections.PcBase != null;
+            lblBasePath.Text = _connections.PcBase?.Path;
 
-            lblBasePath.DataBindings.Clear();
-            lblBasePathDesc.DataBindings.Clear();
-            if (_connections.PcBase != null)
-            {
-                lblBasePath.DataBindings.Add(new Binding("Text", _connections.PcBase, "Path"));
-                lblBasePath.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
-                lblBasePathDesc.DataBindings.Add(new Binding("Visible", _connections.PcBase, "Connected"));
+            lblAndroidPathDesc.Visible = lblAndroidBasePath.Visible = _connections.PhoneBase != null;
+            lblAndroidBasePath.Text = _connections.PhoneBase?.Path;
 
-                lstPasses.DataBindings.Clear();
-                lstPasses.DataSource = _connections.Passwords;
-            }
-
-
-            lblAndroidBasePath.DataBindings.Clear();
-            lblAndroidPathDesc.DataBindings.Clear();
-            if (_connections.PhoneBase != null)
-            {
-                lblAndroidBasePath.DataBindings.Add(new Binding("Text", _connections.PhoneBase, "Path"));
-                lblAndroidBasePath.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
-                lblAndroidPathDesc.DataBindings.Add(new Binding("Visible", _connections.PhoneBase, "Connected"));
-            }
-
-            lblPsdConnected.DataBindings.Clear();
-            lblPsdConnectionDesc.DataBindings.Clear();
-            if (_connections.PsdBase != null)
-            {
-                lblPsdConnected.DataBindings.Add(new Binding("Text", _connections.PsdBase, "Name"));
-                lblPsdConnected.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
-                lblPsdConnectionDesc.DataBindings.Add(new Binding("Visible", _connections.PsdBase, "Connected"));
-            }
-
-
-
-
+            lblPsdConnectionDesc.Visible = lblPsdConnected.Visible = _connections.PsdBase != null;
+            lblPsdConnected.Text = _connections.PsdBase?.Name;
         }
+
 
 
 
@@ -98,11 +70,12 @@ namespace PSD
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(pass.Pass))
-            {
-                MessageBox.Show("Password is empty");
-                return false;
-            }
+            /*  if (string.IsNullOrWhiteSpace(pass.Pass))
+              {
+                  MessageBox.Show("Password is empty");
+                  return false;
+              }
+              */
 
             if (string.IsNullOrWhiteSpace(pass.Description))
             {
@@ -114,50 +87,38 @@ namespace PSD
 
         private bool Contains(PassItem pass)
         {
-            return _connections.PcBase.Base.Passwords.Any(a => a.Id == pass.Id && a != pass);
+            return _connections.PcBase.Base.Passwords.Any(a => a.Key == pass.Id && a.Value != pass);
         }
-        
-     
-        private int GetLastIndex()
-        {
-            /*
-            if (!_passwords.Any())
-                return -1;
-            return _passwords.OrderBy(a => a.Id).Last().Id;*/
-            return 0;
-        }
+
+
+
 
         private void btnAddPass_Click(object sender, EventArgs e)
         {
-            /*var lastIndex = (ushort)(GetLastIndex() + 1);
-            PassItem newPassword = new PassItem
-            {
-                Id = lastIndex //can fail
-            };
+            var selectedIndex = lstPasses.SelectedIndex;
 
+            var newPassword = new PassItem();
+            _passwords.AddPass(newPassword);
 
             if (!EditPassword(newPassword))
                 return;
+
+            if (selectedIndex != -1 && selectedIndex != lstPasses.Items.Count - 1)
+            {
+                while (newPassword.Id > ((PassItem)lstPasses.SelectedItem).Id)
+                {
+                    _passwords.MoveUp(newPassword);
+                }
+                _passwords.MoveDown(newPassword);
+            }
             RegisterChange();
-
-            _passwords.Add(newPassword);
-            UpdateData();*/
-
+            RefillPasswordsList();
         }
 
 
         private void RegisterChange()
         {
             _lastChanges = DateTime.Now;
-        }
-
-        private void ReindexPasswords()
-        {
-            /* ushort newIndex = 0;
-             foreach (var pass in _passwords.OrderBy(a => a.Id))
-             {
-                 pass.Id = newIndex++;
-             }*/
         }
 
 
@@ -184,10 +145,7 @@ namespace PSD
 
         private void SaveAll()
         {
-            ReindexPasswords();
-           // RefillPasswordsList();
-
-            if (!_connections.UpdateInAllAvailableBases())
+            if (_connections.WriteAll() != WriteAllResult.Success)
             {
                 MessageBox.Show(Localization.UpdatingAllError);
             }
@@ -195,81 +153,86 @@ namespace PSD
 
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
-                selectedPass.InitFromPass(backup);
-            UpdateData();
+                selectedPass.RestoreCopy(backup);
+            else
+                RegisterChange();
+            RefillPasswordsList();
         }
 
         private void btnRemovePass_Click(object sender, EventArgs e)
         {
-            foreach (var selectedPass in GetSelectedPasswords())
+            if (lstPasses.SelectedItem != null)
             {
-                //_passwords.Remove(selectedPass);
+                _passwords.RemovePass((ushort)((PassItem)lstPasses.SelectedItem).Id);
+                RefillPasswordsList();
             }
-            RegisterChange();
-            UpdateData();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            UpdateData();
+            _passwords.FillEmptySpaces();
+            RefillPasswordsList();
         }
 
-        private void UpdateData()
+
+
+
+
+        private void RefillPasswordsList()
         {
-            ReindexPasswords();
-           // RefillPasswordsList();
+            var selectedItem = lstPasses.SelectedItem;
+            lstPasses.Items.Clear();
+            foreach (var keyValuePair in _passwords)
+            {
+                lstPasses.Items.Add(keyValuePair.Value);
+            }
+            lstPasses.SelectedItem = selectedItem;
+
         }
+
+
+
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
             if (selectedPass == null)
                 return;
-
-            /*var prevPass = _passwords.LastOrDefault(a => a.Id == selectedPass.Id - 1);//we suppose that array has no spaces
-            if (prevPass == null)
-                return;
-            SwapItems(selectedPass, prevPass);
-            RegisterChange();
-            UpdateData();*/
+            if (_passwords.MoveUp(selectedPass))
+            {
+                RegisterChange();
+                RefillPasswordsList();
+            }
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            var selectedPass = GetFirstSelectedPassword();
+            var selectedPass = (PassItem)lstPasses.SelectedItem;
             if (selectedPass == null)
                 return;
-            /*var nextPass = _passwords.FirstOrDefault(a => a.Id == selectedPass.Id + 1);//we suppose that array has no spaces
-            if (nextPass == null)
-                return;
-            SwapItems(selectedPass, nextPass);
-            RegisterChange();
-            UpdateData();*/
+            if (_passwords.MoveDown(selectedPass))
+            {
+                RegisterChange();
+                RefillPasswordsList();
+            }
         }
 
 
-        private static void SwapItems(PassItem pass1, PassItem pass2)
-        {
-            var tempId = pass1.Id;
-            pass1.Id = pass2.Id;
-            pass2.Id = tempId;
-        }
 
 
         private bool ExitCheck()
         {
             //check if not saved
-            if (_connections.AllUpToDate(_lastChanges))
-                return true;
-
-            return MessageBox.Show(
-                Localization.ExitQuestion,
-                Localization.ExitQuestionFormText,
-                MessageBoxButtons.YesNo)
-                   == DialogResult.Yes;
+            if (_connections.LastUpdate < _lastChanges)
+                return MessageBox.Show(
+                    Localization.ExitQuestion,
+                    Localization.ExitQuestionFormText,
+                    MessageBoxButtons.YesNo)
+                       == DialogResult.Yes;
+            return true;
         }
 
 
@@ -292,32 +255,33 @@ namespace PSD
 
         private void savePcMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PcBase.Connected)
-                MessageBox.Show(Localization.NotConnectedWarning);
-
-            if (!_connections.UpdateIfConnected(_connections.PcBase))
+            if (_connections.PcBase == null)
             {
-                MessageBox.Show(Localization.PsdUpdatingError);
+                MessageBox.Show(Localization.NotConnectedWarning);
+                return;
             }
+            _connections.PcBase.WriteChanges();
         }
 
         private void savePhoneMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PhoneBase.Connected)
-                MessageBox.Show(Localization.NotConnectedWarning);
-
-            if (!_connections.UpdateIfConnected(_connections.PhoneBase))
+            if (_connections.PhoneBase == null)
             {
-                MessageBox.Show(Localization.PhoneUpdateError);
+                MessageBox.Show(Localization.NotConnectedWarning);
+                return;
             }
+            _connections.PhoneBase.WriteChanges();
         }
 
         private void saveToPsdMenuItem_Click(object sender, EventArgs e)
         {
-            if (!_connections.PsdBase.Connected)
+            if (_connections.PsdBase == null)
+            {
                 MessageBox.Show(Localization.NotConnectedWarning);
+                return;
+            }
 
-            if (!_connections.UpdateIfConnected(_connections.PsdBase))
+            if (!_connections.PsdBase.WriteChanges())
             {
                 MessageBox.Show(Localization.PsdUpdateError);
             }

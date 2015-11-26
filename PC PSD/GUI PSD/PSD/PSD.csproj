@@ -32,13 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HidSharp, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -53,11 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePasswords.cs" />
-    <Compile Include="Config\PSDConfigSection.cs" />
-    <Compile Include="Device\Hid\PSDDevice.cs" />
-    <Compile Include="Device\Hid\PSDFinder.cs" />
-    <Compile Include="Repositories\DataConnections.cs" />
     <Compile Include="EditPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,12 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\Objects\PasswordsList.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Repositories\CryptoBase.cs" />
-    <Compile Include="FileRepository.cs" />
-    <Compile Include="Repositories\Objects\PassItem.cs" />
     <Compile Include="PSDForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,12 +72,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Objects\Base.cs" />
-    <Compile Include="Repositories\PSDRepository.cs" />
-    <Compile Include="Repositories\Serializers\JSONWorker.cs" />
-    <Compile Include="Repositories\Serializers\Serializer.cs" />
-    <Compile Include="Repositories\Serializers\XMLWorker.cs" />
-    <Compile Include="Repositories\WriteResult.cs" />
     <EmbeddedResource Include="EditPasswordForm.resx">
       <DependentUpon>EditPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,6 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\appbar.list.add.below.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PsdBasesSetter\PsdBasesSetter\PsdBasesSetter.csproj">
+      <Project>{701DABF1-7F96-481D-93FA-9CD815D46713}</Project>
+      <Name>PsdBasesSetter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
