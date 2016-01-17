@@ -82,7 +82,7 @@ namespace psd
             if (selectedPsd == null)
                 return false;
 
-            if (!_connetions.TrySetPsdBase(selectedPsd))
+            if (_connetions.TrySetPsdBase(selectedPsd)!=PsdBasesSetter.Repositories.PSDRepository.SetPsdResult.Connected)
                 return false;
 
             return true;
@@ -147,7 +147,7 @@ namespace psd
             return _connetions.Passwords.AddPass(_args.PassItem);
         }
 
-        private static PassItem GetSelectedItemId()
+        private static PassItem GetSelectedItem()
         {
             if (!_args.FindPassById.HasValue)
             {
@@ -172,7 +172,7 @@ namespace psd
 
         private static bool RemovePass()
         {
-            var selectedPass = GetSelectedItemId();
+            var selectedPass = GetSelectedItem();
             if (selectedPass == null)
                 return false;
 
@@ -191,16 +191,16 @@ namespace psd
 
         private static bool EditPass()
         {
-            var selectedPass = GetSelectedItemId();
+            var selectedPass = GetSelectedItem();
             if (selectedPass == null)
                 return false;
-            selectedPass?.Copy(_args.PassItem);
+            selectedPass?.RestoreCopy(_args.PassItem);
             return true;
         }
 
         private static bool ShowPass()
         {
-            var selectedPass = GetSelectedItemId();
+            var selectedPass = GetSelectedItem();
             if (selectedPass == null)
                 return false;
 
