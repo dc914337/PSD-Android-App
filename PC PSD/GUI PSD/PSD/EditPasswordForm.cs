@@ -69,5 +69,11 @@ namespace PSD
         {
             txtPass.UseSystemPasswordChar = cbxShowPassword.Checked;
         }
+
+        private void btnGenPass_Click(object sender, EventArgs e)
+        {
+            string randomPass = new PassGenerator().GenerateStringPassword(16);
+            txtPass.Text = randomPass;
+        }
     }
 }

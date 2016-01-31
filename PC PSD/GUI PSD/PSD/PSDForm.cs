@@ -64,9 +64,9 @@ namespace PSD
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(pass.Login))
+            if (string.IsNullOrWhiteSpace(pass.Login) && pass.EnterWithLogin)
             {
-                MessageBox.Show("Login is empty");
+                MessageBox.Show("No login set to \"Enter with login\"");
                 return false;
             }
 
@@ -77,11 +77,11 @@ namespace PSD
               }
               */
 
-            if (string.IsNullOrWhiteSpace(pass.Description))
-            {
-                MessageBox.Show("Description is empty");
-                return false;
-            }
+            /* if (string.IsNullOrWhiteSpace(pass.Description))
+             {
+                 MessageBox.Show("Description is empty");
+                 return false;
+             }*/
             return true;
         }
 
@@ -98,11 +98,11 @@ namespace PSD
             var selectedIndex = lstPasses.SelectedIndex;
 
             var newPassword = new PassItem();
-            _passwords.AddPass(newPassword);
-
+            
             if (!EditPassword(newPassword))
                 return;
 
+            _passwords.AddPass(newPassword);
             if (selectedIndex != -1 && selectedIndex != lstPasses.Items.Count - 1)
             {
                 while (newPassword.Id > ((PassItem)lstPasses.SelectedItem).Id)
@@ -138,6 +138,7 @@ namespace PSD
         private void btnSaveAll_Click(object sender, EventArgs e)
         {
             SaveAll();
+            MessageBox.Show("All bases successfully saved");
         }
 
 
@@ -154,6 +155,9 @@ namespace PSD
         private void lstViewPasswords_DoubleClick(object sender, EventArgs e)
         {
             var selectedPass = (PassItem)lstPasses.SelectedItem;
+            if (selectedPass == null)
+                return;
+
             var backup = selectedPass.GetCopy();
             if (!EditPassword(selectedPass))
                 selectedPass.RestoreCopy(backup);

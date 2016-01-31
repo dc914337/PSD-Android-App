@@ -57,6 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization.resx</DependentUpon>
     </Compile>
+    <Compile Include="PassGenerator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="PSDForm.cs">
       <SubType>Form</SubType>

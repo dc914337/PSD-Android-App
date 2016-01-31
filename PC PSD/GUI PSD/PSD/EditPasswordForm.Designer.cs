@@ -40,6 +40,7 @@
             this.txtPass = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDiscard = new System.Windows.Forms.Button();
+            this.btnGenPass = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTitle
@@ -154,11 +155,22 @@
             this.btnDiscard.UseVisualStyleBackColor = true;
             this.btnDiscard.Click += new System.EventHandler(this.btnDiscard_Click);
             // 
+            // btnGenPass
+            // 
+            this.btnGenPass.Location = new System.Drawing.Point(9, 123);
+            this.btnGenPass.Name = "btnGenPass";
+            this.btnGenPass.Size = new System.Drawing.Size(160, 23);
+            this.btnGenPass.TabIndex = 41;
+            this.btnGenPass.Text = "Generate random password";
+            this.btnGenPass.UseVisualStyleBackColor = true;
+            this.btnGenPass.Click += new System.EventHandler(this.btnGenPass_Click);
+            // 
             // EditPasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(485, 295);
+            this.Controls.Add(this.btnGenPass);
             this.Controls.Add(this.btnDiscard);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtTitle);
@@ -194,5 +206,6 @@
         private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDiscard;
+        private System.Windows.Forms.Button btnGenPass;
     }
 }

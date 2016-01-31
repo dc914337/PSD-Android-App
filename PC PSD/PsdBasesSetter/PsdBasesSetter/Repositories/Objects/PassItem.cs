@@ -71,20 +71,20 @@ namespace PsdBasesSetter.Repositories.Objects
         public ushort? Id { get; set; }
 
         [DataMember]
-        public string Title { get; set; }
+        public string Title { get; set; } = String.Empty;
 
         [DataMember]
-        public string Login { get; set; }
+        public string Login { get; set; } = String.Empty;
 
         [DataMember]
-        public bool EnterWithLogin { get; set; }
+        public bool EnterWithLogin { get; set; } = false;
 
         [DataMember]
         [JsonConverter(typeof(ByteArrayConverter))]
         public byte[] Pass { get; set; } = new byte[0];
 
         [DataMember]
-        public string Description { get; set; }
+        public string Description { get; set; } = String.Empty;
 
         public PassItem GetCopy()
         {

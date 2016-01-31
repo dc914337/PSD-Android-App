@@ -210,7 +210,7 @@ namespace PsdBasesSetter.Device.Hid
 
         public override string ToString()
         {
-            return String.Format("PSD VID: {0} PID: {1}", _hidDevice.VendorID, _hidDevice.ProductID);
+            return String.Format("{0}  V{1} \t SN: {2}", _hidDevice.ProductName,  _hidDevice.ProductVersion, _hidDevice.SerialNumber);
         }
 
     }
