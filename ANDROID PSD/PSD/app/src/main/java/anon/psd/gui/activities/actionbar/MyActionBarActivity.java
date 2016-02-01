@@ -25,6 +25,11 @@ public abstract class MyActionBarActivity extends AppCompatActivity
 
     protected BarActivitiesServiceWorker serviceWorker;
 
+    public void exitClick(MenuItem item) {
+        killActivities();
+        ledController.setState(false);
+    }
+
     /**
      * Menu entries
      */

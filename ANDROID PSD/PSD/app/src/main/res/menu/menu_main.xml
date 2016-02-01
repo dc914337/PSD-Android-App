@@ -39,6 +39,14 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_exit"
+        android:title="@string/action_exit"
+        android:onClick="exitClick"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
+
+    <item
         android:id="@+id/action_kill_service"
         android:title="@string/action_kill_service_and_exit"
         android:onClick="killServiceClick"

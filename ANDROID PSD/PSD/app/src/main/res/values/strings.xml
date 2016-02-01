@@ -7,7 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Quick search</string>
     <string name="led_connected">PSD connected</string>
-    <string name="pref_syncConnectionTypes_default"></string>
     <string name="prefs_file">anon.psd_preferences</string>
     <string name="enter_pass_label">Enter user password</string>
     <string name="notification_title">PSD</string>
@@ -17,7 +16,7 @@
     <string name="extras_return_name">SELECTED_NAME</string>
     <string name="extras_return_mac">SELECTED_MAC</string>
     <string name="action_kill_service_and_exit">Kill service and exit</string>
-    <string name="action_exit">Close app</string>
+    <string name="action_exit">Disconnect PSD and close app</string>
     <string name="title_activity_rollback">Oops. Keys desynchronization</string>
     <string name="hello_world">Hello world!</string>
 

@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Keys for encryption are different on PSD and this phone. There are 2 ways how that could happen: somebody attacked the protocol(it&apos;s not dangerous. No compromised data) or package from PSD got lost on it&apos;s way. \nMost common case is that package from PSD was lost. If PSD entered password succesfully then click &quot;Roll keys&quot; button. It might help.\nIf you think you can handle that by yourself then click &quot;Do nothing&quot; and do your magic.\nIf nothing helps, you&apos;ll need to connect PSD to your home PC and rewrite keys on it and on your phone.\n Good luck!"
+        android:text="This phone didn&apos;t get confirmation message from PSD after entering a password.\n  If PSD entered password(or anything) on target PC then press &quot;Roll keys&quot;.\n If PSD didn&apos;t enter anything on target PC then press &quot;Do nothing&quot;.\n  In both cases you need to reinsert PSD into the PC and reload this application(&quot;Kill service&quot; in menu)\n If this didn&apos;t help, you need to reload bases on PSD and your phone from PC with the main base.\n  If you know why this happened you can create an issue in our repository github.com/dc914337/PSD and we will fix it as soon as we can."
         android:id="@+id/lblText"
         android:layout_weight="0.3"
         android:paddingTop="5dp"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="anon.psd" >
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -33,18 +34,18 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Select your PSD from paired devices:"
             android:parentActivityName=".gui.activities.SettingsActivity"
-            android:theme="@android:style/Theme.Material.Dialog.NoActionBar" />
+            android:theme="@android:style/Theme.Material.Dialog.NoActionBar"/>
         <activity
             android:name=".gui.activities.PassActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
-            android:parentActivityName=".gui.activities.MainActivity" />
+            android:parentActivityName=".gui.activities.MainActivity"/>
         <activity
             android:name=".gui.activities.EnterPassActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/enter_pass_label"
-            android:theme="@android:style/Theme.Material.Dialog" />
+            android:theme="@android:style/Theme.Material.Dialog"/>
 
         <activity
             android:name=".gui.activities.RollbackActivity"
