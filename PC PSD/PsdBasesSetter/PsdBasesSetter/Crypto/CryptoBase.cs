@@ -28,14 +28,14 @@ namespace PsdBasesSetter.Crypto
                 dataStr = null;
                 return false;
             }
-            dataStr = Encoding.ASCII.GetString(resBytes);
+            dataStr = Encoding.UTF8.GetString(resBytes);
             return true;
         }
 
         public byte[] EncryptAll(string raw)
         {
             byte[] IV;
-            byte[] encrypted = AESEncrypt(out IV, Encoding.ASCII.GetBytes(raw));
+            byte[] encrypted = AESEncrypt(out IV, Encoding.UTF8.GetBytes(raw));
             byte[] result = new byte[IV.Length + encrypted.Length];
             IV.CopyTo(result, 0);
             encrypted.CopyTo(result, IVLength);

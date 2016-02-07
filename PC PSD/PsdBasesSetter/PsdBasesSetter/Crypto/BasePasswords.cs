@@ -66,9 +66,5 @@ namespace PsdBasesSetter.Crypto
             arr2.CopyTo(result, arr1.Length);
             return result;
         }
-
-
-
-
     }
 }
