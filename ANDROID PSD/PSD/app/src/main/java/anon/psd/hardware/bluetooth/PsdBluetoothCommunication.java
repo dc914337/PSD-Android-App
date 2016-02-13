@@ -11,9 +11,9 @@ import java.util.UUID;
 
 import anon.psd.background.messages.ErrorType;
 import anon.psd.device.state.ConnectionState;
-import anon.psd.hardware.bluetooth.lowlevel.BluetoothLowLevelProtocolV1;
-import anon.psd.hardware.bluetooth.lowlevel.IBluetoothLowLevelProtocol;
-import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
+import anon.psd.hardware.bluetooth.lowlevelV1.BluetoothLowLevelProtocolV1;
+import anon.psd.hardware.bluetooth.lowlevelV1.IBluetoothLowLevelProtocolV1;
+import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
 import anon.psd.utils.ArrayUtils;
 import anon.psd.utils.DelayUtils;
 
@@ -27,13 +27,13 @@ public class PsdBluetoothCommunication implements IBtObservable
 
     BTRegistrar btRegistrar;
 
-    // SPP UUID сервиса
+    // SPP UUID
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothAdapter btAdapter;
     BluetoothSocket btSocket = null;
     OutputStream outStream = null;
     InputStream inStream = null;
-    IBluetoothLowLevelProtocol lowLevelProtocol = new BluetoothLowLevelProtocolV1();
+    IBluetoothLowLevelProtocolV1 lowLevelProtocol = new BluetoothLowLevelProtocolV1();
     IBtObserver listener;
 
     Thread listenerThread;
@@ -243,7 +243,7 @@ public class PsdBluetoothCommunication implements IBtObservable
 
                     //start receiving if available
                     if (dataAvailable) {
-                        LowLevelMessage received = lowLevelProtocol.receiveMessage(inStream);
+                        LowLevelMessageV1 received = lowLevelProtocol.receiveMessage(inStream);
 
                         //receiveMessage is long running operation.
                         if (Thread.currentThread().isInterrupted())

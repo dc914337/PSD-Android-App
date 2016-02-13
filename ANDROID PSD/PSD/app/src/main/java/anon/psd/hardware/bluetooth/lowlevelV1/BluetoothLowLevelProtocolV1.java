@@ -1,4 +1,4 @@
-package anon.psd.hardware.bluetooth.lowlevel;
+package anon.psd.hardware.bluetooth.lowlevelV1;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import static anon.psd.utils.DebugUtils.Log;
 /**
  * Created by Dmitry on 14.08.2015.
  */
-public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
+public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocolV1
 {
     private final static int MESSAGE_LENGTH = 32;
     private final static int PONG_LENGTH = 1;
@@ -42,7 +42,7 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
     }
 
     @Override
-    public LowLevelMessage receiveMessage(InputStream stream)
+    public LowLevelMessageV1 receiveMessage(InputStream stream)
     {
         byte[] typeBytes = new byte[TYPE_LENGTH];
         try {
@@ -57,20 +57,20 @@ public class BluetoothLowLevelProtocolV1 implements IBluetoothLowLevelProtocol
             case Pong:
                 return checkPong(stream);
             case Response:
-                return new LowLevelMessage(LowLevelMsgType.Response, receiveNextBytes(MESSAGE_LENGTH, stream));
+                return new LowLevelMessageV1(LowLevelMsgType.Response, receiveNextBytes(MESSAGE_LENGTH, stream));
             default:
-                return new LowLevelMessage(LowLevelMsgType.Unknown, typeBytes);
+                return new LowLevelMessageV1(LowLevelMsgType.Unknown, typeBytes);
         }
     }
 
-    private LowLevelMessage checkPong(InputStream stream)
+    private LowLevelMessageV1 checkPong(InputStream stream)
     {
         byte[] receivedBytes = receiveNextBytes(PONG_LENGTH, stream);
         if (receivedBytes == null ||
                 LowLevelMsgType.fromByte(receivedBytes[0]) != LowLevelMsgType.Pong)
-            return new LowLevelMessage(LowLevelMsgType.Unknown, receivedBytes);
+            return new LowLevelMessageV1(LowLevelMsgType.Unknown, receivedBytes);
         Log(this, "[ RECEIVED ] [ MESSAGE ] Pong");
-        return new LowLevelMessage(LowLevelMsgType.Pong, receivedBytes);
+        return new LowLevelMessageV1(LowLevelMsgType.Pong, receivedBytes);
     }
 
 

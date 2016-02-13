@@ -30,6 +30,13 @@ public class KeyGenerator
         return generateSecureBytes(Constants.HMAC_BT_KEY_LENGTH);
     }
 
+    public static byte[] generateSResp()
+    {
+        return generateSecureBytes(Constants.SECRET_RESPONSE_LENGTH);
+    }
+
+
+
     private static byte[] generateSecureBytes(int length)
     {
         byte[] newBytes = new byte[length];

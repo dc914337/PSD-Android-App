@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
  * Created by Dmitry on 10.07.2015.
  */
 
-/*
-* C# naming convention because deserializing json serialized in c#
-*/
 public class PassItem
 {
     @SerializedName("Id")
@@ -20,14 +17,22 @@ public class PassItem
     @SerializedName("EnterWithLogin")
     public boolean enterWithLogin;
     @SerializedName("Pass")
-    public byte[] pass;
+    private byte[] passwordBytes;
     @SerializedName("Description")
     public String description;
 
+
+    public Password getPassword()
+    {
+        return new Password(passwordBytes);
+    }
+
     public byte[] getPasswordBytes()
     {
-        return pass;
+        return passwordBytes;
     }
+
+
 
     public PassItem getCopyWithoutPass()
     {

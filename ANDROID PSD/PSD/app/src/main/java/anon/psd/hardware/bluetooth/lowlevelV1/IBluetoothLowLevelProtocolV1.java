@@ -1,11 +1,11 @@
-package anon.psd.hardware.bluetooth.lowlevel;
+package anon.psd.hardware.bluetooth.lowlevelV1;
 
 import java.io.InputStream;
 
 /**
  * Created by Dmitry on 14.08.2015.
  */
-public interface IBluetoothLowLevelProtocol
+public interface IBluetoothLowLevelProtocolV1
 {
     public byte[] preparePingMessage();
 
@@ -13,5 +13,5 @@ public interface IBluetoothLowLevelProtocol
 
     public byte[] prepareDisconnectMessage();
 
-    public LowLevelMessage receiveMessage(InputStream stream);
+    public LowLevelMessageV1 receiveMessage(InputStream stream);
 }

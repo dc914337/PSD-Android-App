@@ -20,7 +20,7 @@ import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.hardware.bluetooth.IBtObserver;
 import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
-import anon.psd.hardware.bluetooth.lowlevel.LowLevelMessage;
+import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
 import anon.psd.models.PassItem;
 import anon.psd.notifications.ServiceNotification;
 import anon.psd.serializers.Serializer;
@@ -50,7 +50,7 @@ public class PsdService extends IntentService implements IBtObserver
 
     //On receive message from PSD through bluetooth
     @Override
-    public void onReceive(LowLevelMessage message)
+    public void onReceive(LowLevelMessageV1 message)
     {
         if (!protocolV1.checkResponse(message.message))
             return;
@@ -278,7 +278,7 @@ public class PsdService extends IntentService implements IBtObserver
         }
 
         PassItem passItem = baseRepo.getPassesBase().passwords.get(passId);
-        byte[] encryptedMessage = protocolV1.generateNextMessage(passId, passItem.getPasswordBytes());
+        byte[] encryptedMessage = protocolV1.generateSendPass(passId, passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
         onProtocolStateChanged(ProtocolState.WaitingResponse);
     }

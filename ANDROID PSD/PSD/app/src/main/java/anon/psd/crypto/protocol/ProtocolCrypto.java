@@ -37,11 +37,11 @@ public class ProtocolCrypto
     public byte[] generateSignedEncryptedMessage(byte[] payload) throws InvalidKeyException, IOException
     {
         //encrypt tempMessage
-        byte[] encryptedTempMessage = encryptTempMessage(payload);
+        byte[] encryptedMessage = encryptTempMessage(payload);
         //count HMAC
-        byte[] hmac = countTempMessageHMAC(encryptedTempMessage);
+        byte[] hmac = countTempMessageHMAC(encryptedMessage);
         //concat
-        return concatArrays(iv, encryptedTempMessage, hmac);
+        return concatArrays(iv, encryptedMessage, hmac);
     }
 
 

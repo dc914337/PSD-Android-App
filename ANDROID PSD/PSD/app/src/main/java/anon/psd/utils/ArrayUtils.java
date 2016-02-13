@@ -49,10 +49,12 @@ public class ArrayUtils
             return false;
 
         boolean success = true;
-        for (int i = 0; i < arr1.length; i++) {
+        int i;
+        for (i = 0; i < arr1.length; i++) {
             if (arr1[i] != arr2[i])
                 success = false;
         }
-        return success;
+        return success &&
+                i>=(arr1.length-1); //always true if went through the for
     }
 }

@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 
 import anon.psd.crypto.KeyGenerator;
-import anon.psd.global.Constants;
-import anon.psd.models.Password;
+import anon.psd.crypto.protocol.packages.PackageV2;
 import anon.psd.utils.ArrayUtils;
 import anon.psd.utils.ShortUtils;
 
@@ -13,37 +12,38 @@ import static anon.psd.crypto.HashProvider.sha256Bytes;
 import static anon.psd.utils.DebugUtils.Log;
 
 /**
- * Created by Dmitry on 03.08.2015.
+ * Created by dmitry on 2/13/16.
  */
-public class PsdProtocolV1
-{
+public class PsdProtocolV2 {
+
     public byte[] btKey;
     public byte[] hBtKey;
 
     private byte[] nextBtKey;
-    private byte[] nextHBtKey;
+    private byte[] SResp; //secret response
 
-
-    public PsdProtocolV1(byte[] currBtKey, byte[] currHBtKey)
+    public PsdProtocolV2(byte[] startBtKey, byte[] HBtKey)
     {
-        btKey = currBtKey;
-        hBtKey = currHBtKey;
+        btKey = startBtKey;
+        hBtKey = HBtKey;
     }
 
-
-    public byte[] generateSendPass(short index, byte[] passPart1Bytes)
+    public byte[] generateNextSignedEncryptedPackage(PackageV2 packagev2)
     {
         //generate new keys
         nextBtKey = KeyGenerator.generateRandomBtKey();
-        nextHBtKey = KeyGenerator.generateRandomHBtKey();
+        SResp=KeyGenerator.generateSResp();
+        Log(this, "[ PROTOCOL V2 ] Generated "+packagev2.type );
+        return generateSignedEncryptedMessage(packagev2);
+    }
 
-        Log(this, "[ PROTOCOL ] Generated message with keys");
-
-        //do crypto
-        byte[] tempMessagePayload = generateTempMessagePayload(index, passPart1Bytes, nextBtKey, nextHBtKey);
+    private byte[] generateSignedEncryptedMessage(PackageV2 packagev2)
+    {
+        byte[] payload= ArrayUtils.concatArrays(nextBtKey,SResp,packagev2.getBytes());
         byte[] message = new byte[0];
+
         try {
-            message = new ProtocolCrypto(btKey, hBtKey).generateSignedEncryptedMessage(tempMessagePayload);
+            message = new ProtocolCrypto(btKey, hBtKey).generateSignedEncryptedMessage(payload);
         } catch (InvalidKeyException e) {
             e.printStackTrace();
             return null;//return null and don't switch keys
@@ -51,20 +51,18 @@ public class PsdProtocolV1
             e.printStackTrace();
             return null;//return null and don't switch keys
         }
-        return message;
-    }
 
-
-    private byte[] generateTempMessagePayload(short index, byte[] passPart1Bytes, byte[] nextBtKey, byte[] nextHBtKey)
-    {
-        byte[] indexBytes = ShortUtils.getShortBytes(index);
-        return ArrayUtils.concatArrays(indexBytes, passPart1Bytes, nextBtKey, nextHBtKey);
+        byte[] messageWithSize = ArrayUtils.concatArrays(
+                ShortUtils.getShortBytes((byte)message.length),
+                message
+        );
+        return messageWithSize;
     }
 
 
     public boolean checkResponse(byte[] message)
     {
-        byte[] expectedMessage = sha256Bytes(hBtKey);
+        byte[] expectedMessage = sha256Bytes(SResp);
         boolean responseCorrect = ArrayUtils.safeCompare(expectedMessage, message);
 
         if (responseCorrect)
@@ -72,11 +70,9 @@ public class PsdProtocolV1
         return responseCorrect;
     }
 
-
     public void rollKeys()
     {
         btKey = nextBtKey;
-        hBtKey = nextHBtKey;
         Log(this, "[ PROTOCOL ] \t\t\t\t\t\t\t[ Keys roll ]");
     }
 }

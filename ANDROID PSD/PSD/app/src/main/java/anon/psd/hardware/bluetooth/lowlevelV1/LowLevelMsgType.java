@@ -1,4 +1,4 @@
-package anon.psd.hardware.bluetooth.lowlevel;
+package anon.psd.hardware.bluetooth.lowlevelV1;
 
 /**
  * Created by Dmitry on 16.08.2015.
