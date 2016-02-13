@@ -19,6 +19,7 @@ import anon.psd.device.state.CurrentServiceState;
 import anon.psd.device.state.ProtocolState;
 import anon.psd.device.state.ServiceState;
 import anon.psd.hardware.bluetooth.IBtObserver;
+import anon.psd.hardware.bluetooth.NormalBluetoothCommunication;
 import anon.psd.hardware.bluetooth.PsdBluetoothCommunication;
 import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
 import anon.psd.models.PassItem;
@@ -92,7 +93,7 @@ public class PsdService extends IntentService implements IBtObserver
     public void onCreate()
     {
         super.onCreate();
-        bt = new PsdBluetoothCommunication();
+        bt = new NormalBluetoothCommunication();
         notification = new ServiceNotification(this);
     }
 
