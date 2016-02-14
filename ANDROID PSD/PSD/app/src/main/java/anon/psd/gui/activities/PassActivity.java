@@ -40,8 +40,6 @@ public class PassActivity extends MyActionBarActivity
     ArrayAdapter<?> adapter;
 
 
-
-
     @Override
     public void passItemChanged()
     {

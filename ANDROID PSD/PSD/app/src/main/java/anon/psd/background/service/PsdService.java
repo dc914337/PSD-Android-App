@@ -206,6 +206,7 @@ public class PsdService extends IntentService implements IBtObserver
         String dbPath = bundle.getString("DB_PATH");
         byte[] dbPass = bundle.getByteArray("DB_PASS");
         this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
+        forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
         if (!baseRepo.update()) {
@@ -231,8 +232,12 @@ public class PsdService extends IntentService implements IBtObserver
     private void connectPSD(Bundle bundle)
     {
         Log(this, "[ RECEIVED ] Connect PSD");
-        boolean persist = bundle.getBoolean("PERSIST");
-        forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
+        connectPSD();
+    }
+
+
+    private void connectPSD()
+    {
         if (serviceState.is(ConnectionState.Connected)) {
             sendError(ErrorType.WrongState, "PSD is already connected");
             return;
@@ -241,11 +246,11 @@ public class PsdService extends IntentService implements IBtObserver
             return;
         }
         rememberedBtState = bt.isBluetoothEnabled();
-
         bt.enableBluetooth();
         bt.registerObserver(this);
         bt.connectDevice(psdMacAddress);
     }
+
 
     private void disconnect()
     {
@@ -268,8 +273,7 @@ public class PsdService extends IntentService implements IBtObserver
         short passId = bundle.getShort("PASS_ITEM_ID");
         Log(this, "[ RECEIVED ] Send pass to PSD. Pass id: %s", passId);
         if (serviceState.is(ConnectionState.Disconnected)) {
-            sendError(ErrorType.WrongState, "PSD is not connected");
-            return;
+            connectPSD();
         }
 
         if (serviceState.is(ProtocolState.WaitingResponse)) {
