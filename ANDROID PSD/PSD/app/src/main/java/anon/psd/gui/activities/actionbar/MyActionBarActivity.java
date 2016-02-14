@@ -27,7 +27,6 @@ public abstract class MyActionBarActivity extends AppCompatActivity
 
     public void exitClick(MenuItem item) {
         killActivities();
-        ledController.setState(false);
     }
 
     /**
@@ -131,7 +130,6 @@ public abstract class MyActionBarActivity extends AppCompatActivity
 
     public void onLedClick(MenuItem item)
     {
-        ledController.toggleStateIfStable();
     }
 
     public abstract void passItemChanged();

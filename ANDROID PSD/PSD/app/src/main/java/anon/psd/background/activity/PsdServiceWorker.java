@@ -40,7 +40,7 @@ public abstract class PsdServiceWorker
     public boolean serviceBound;
     private int connectionTries = 0;
     private final int MAX_CONNECTION_TRIES = 2;
-    private boolean autoconnect = true;
+    private boolean autoconnect = false;
 
 
     public CurrentServiceState psdState = new CurrentServiceState();

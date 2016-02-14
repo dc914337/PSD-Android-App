@@ -13,48 +13,11 @@ import static anon.psd.utils.DebugUtils.Log;
  */
 public class LedController
 {
-
-    boolean userWantsPsdOn;
     ActivitiesServiceWorker serviceWorker;
 
     public LedController(Activity activity, ActivitiesServiceWorker serviceWorker)
     {
         this.serviceWorker = serviceWorker;
-    }
-
-
-    public void setState(boolean on)
-    {
-        userWantsPsdOn = on;
-        setDesirablePsdState();
-    }
-
-    public void toggleState()
-    {
-        userWantsPsdOn = !userWantsPsdOn;
-        setDesirablePsdState();
-    }
-
-    public void toggleStateIfStable()
-    {
-        if (userWantsPsdOn == serviceWorker.psdState.is(ConnectionState.Connected)) //if current state is what user wanted, then switch user desirable state
-        {
-            userWantsPsdOn = !userWantsPsdOn;
-            Log(this, "[ ACTIVITY ] User wants PSD changed");
-        }
-        setDesirablePsdState();
-    }
-
-    private void setDesirablePsdState()
-    {
-        Log(this, "[ ACTIVITY ] User wants PSD on: %s", userWantsPsdOn);
-        if (userWantsPsdOn && !serviceWorker.psdState.is(ConnectionState.Connected)) {
-            serviceWorker.setAutoconnect(true);
-            serviceWorker.processState();
-        } else if (!userWantsPsdOn && serviceWorker.psdState.is(ConnectionState.Connected)) {
-            serviceWorker.setAutoconnect(false);
-            serviceWorker.disconnectPsd();
-        }
     }
 
     public void setLedView(MenuItem ledView)
