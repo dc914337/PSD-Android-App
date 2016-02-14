@@ -76,13 +76,14 @@ public abstract class PsdServiceWorker
         connectionTries = 0;
     }
 
-    public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy)
+    public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy, int autoDisconnectSeconds)
     {
         Bundle bundle = new Bundle();
         bundle.putString("DB_PATH", dbPath);
         bundle.putByteArray("DB_PASS", dbPass);
         bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
         bundle.putInt("FORGET_POLICY", forgetPolicy.getInt());
+        bundle.putInt("AUTO_DISCONNECT_SECONDS", autoDisconnectSeconds);
         Message msg = Message.obtain(null, RequestType.Init.getInt(), bundle);
         sendMessage(msg);
     }
@@ -100,10 +101,11 @@ public abstract class PsdServiceWorker
         sendCommandToService(RequestType.DisconnectPSD);
     }
 
-    public void sendPass(PassItem pass)
+    public void sendPass(PassItem pass,boolean disconnect)
     {
         Bundle bundle = new Bundle();
         bundle.putShort("PASS_ITEM_ID", pass.id);
+        bundle.putBoolean("DISCONNECT_AFTER_SEND",disconnect);
         Message msg = Message.obtain(null, RequestType.SendPass.getInt(), bundle);
         sendMessage(msg);
     }
@@ -301,7 +303,7 @@ public abstract class PsdServiceWorker
         if (dbPath != null
                 && psdMac != null
                 && dbPass != null)
-            initService(dbPath, dbPass, psdMac, getPassForgetPolicy());
+            initService(dbPath, dbPass, psdMac, getPassForgetPolicy(),20);
     }
 
     private void serviceInitialised()

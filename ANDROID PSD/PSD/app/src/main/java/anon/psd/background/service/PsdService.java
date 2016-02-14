@@ -44,6 +44,9 @@ public class PsdService extends IntentService implements IBtObserver
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
     PasswordForgetPolicyType forgetPolicy = PasswordForgetPolicyType.WhileServiceAlive;
+    int autoDisconnectSeconds;
+    boolean disconnectAfterSend =false;
+
 
     String psdMacAddress;
     FileRepository baseRepo;
@@ -57,8 +60,13 @@ public class PsdService extends IntentService implements IBtObserver
         //save new keys to db
         baseRepo.updateKeys(protocolV1.btKey, protocolV1.hBtKey);
         sendMessage(ResponseMessageType.PassSentSuccess, "Pass sent successfully");
+        onProtocolStateChanged(ProtocolState.ReadyToSend);
+        if(disconnectAfterSend)
+        {
+            disconnect();
+            disconnectAfterSend=false;
+        }
     }
-
 
     public void onProtocolStateChanged(ProtocolState newState)
     {
@@ -174,7 +182,6 @@ public class PsdService extends IntentService implements IBtObserver
         msgBundle.putInt("MSG_TYPE", type.getInt());
         msgBundle.putString("MSG_MSG", messageText);
         sendToClients(msgBundle, ResponseType.Message);
-        onProtocolStateChanged(ProtocolState.ReadyToSend);
     }
 
     public void sendError(ErrorType err, String errMessage)
@@ -183,6 +190,14 @@ public class PsdService extends IntentService implements IBtObserver
         errBundle.putInt("ERR_TYPE", err.getInt());
         errBundle.putString("ERR_MSG", errMessage);
         sendToClients(errBundle, ResponseType.Error);
+    }
+
+    private void sendServiceState()
+    {
+        Log(this, "[ SERVICE ]Send service state");
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("SERVICE_STATE", serviceState.toByteArray());
+        sendToClients(bundle, ResponseType.State);
     }
 
     private void sendToClients(Bundle bundle, ResponseType msgType)
@@ -206,6 +221,7 @@ public class PsdService extends IntentService implements IBtObserver
         String dbPath = bundle.getString("DB_PATH");
         byte[] dbPass = bundle.getByteArray("DB_PASS");
         this.psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
+        autoDisconnectSeconds = bundle.getInt("AUTO_DISCONNECT_SECONDS");
         forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
@@ -271,6 +287,7 @@ public class PsdService extends IntentService implements IBtObserver
     private void sendPassword(Bundle bundle)
     {
         short passId = bundle.getShort("PASS_ITEM_ID");
+        disconnectAfterSend = bundle.getBoolean("DISCONNECT_AFTER_SEND");
         Log(this, "[ RECEIVED ] Send pass to PSD. Pass id: %s", passId);
         if (serviceState.is(ConnectionState.Disconnected)) {
             connectPSD();
@@ -300,17 +317,13 @@ public class PsdService extends IntentService implements IBtObserver
     {
         Log(this, "[ RECEIVED ] Roll keys");
         if (protocolV1 != null)
+        {
             protocolV1.rollKeys();
+        }
     }
 
 
-    private void sendServiceState()
-    {
-        Log(this, "[ SERVICE ]Send service state");
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("SERVICE_STATE", serviceState.toByteArray());
-        sendToClients(bundle, ResponseType.State);
-    }
+
 
 
 }
