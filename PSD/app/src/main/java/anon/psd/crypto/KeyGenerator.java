@@ -1,6 +1,8 @@
 package anon.psd.crypto;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 
 import anon.psd.global.Constants;
 
@@ -13,11 +15,19 @@ public class KeyGenerator
 {
     static SecureRandom sr = new SecureRandom();
 
-    public static byte[] getBasekeyFromUserkey(String userKey)
+    public static byte[] getBaseKeyFromUserKey(String userKey)
     {
-        byte[] passwordHash = HashProvider.sha256Bytes(userKey.getBytes());
-        byte[] saltBytes = Constants.BASE_PASS_SALT.getBytes();
-        return HashProvider.sha256Bytes(concatArrays(passwordHash, saltBytes));
+        byte[] passwordHash = new byte[0];
+        try {
+            char[] keyBytes=userKey.toCharArray();
+            passwordHash = HashProvider.PBKDF2(keyBytes, Constants.BASE_PASS_SALT.getBytes());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+
+        return passwordHash;
     }
 
     public static byte[] generateRandomBtKey()

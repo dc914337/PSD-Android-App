@@ -238,7 +238,7 @@ public class PsdService extends IntentService implements IBtObserver
     private void sendPassesInfo()
     {
         Log(this, "[ RECEIVED ] Send passes info");
-        String serialized = Serializer.serializePasswordList(baseRepo.getPassesBase().passwords.getCopyWithoutPasswords());
+        String serialized = Serializer.serializePasswordList(baseRepo.getPassesBase().rootGroup.passwords.getCopyWithoutPasswords());
         Bundle bundle = new Bundle();
         bundle.putString("PASSES_INFO", serialized);
         sendToClients(bundle, ResponseType.PassesInfo);
@@ -298,7 +298,7 @@ public class PsdService extends IntentService implements IBtObserver
             return;
         }
 
-        PassItem passItem = baseRepo.getPassesBase().passwords.get(passId);
+        PassItem passItem = baseRepo.getPassesBase().rootGroup.passwords.get(passId);
         byte[] encryptedMessage = protocolV1.generateSendPass(passId, passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
         onProtocolStateChanged(ProtocolState.WaitingResponse);

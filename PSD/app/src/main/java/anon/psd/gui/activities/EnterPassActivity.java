@@ -32,7 +32,7 @@ public class EnterPassActivity extends Activity
 
     public void btnOnClick(View view)
     {
-        byte[] dbPass = KeyGenerator.getBasekeyFromUserkey(txtPass.getText().toString());
+        byte[] dbPass = KeyGenerator.getBaseKeyFromUserKey(txtPass.getText().toString());
         if (forgetPolicy == PasswordForgetPolicyType.SavePassInPrefs) {
             new PreferencesProvider(this).setDbPass(dbPass);
         } else {

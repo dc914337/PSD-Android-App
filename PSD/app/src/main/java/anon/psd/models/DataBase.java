@@ -12,6 +12,6 @@ public class DataBase
     public byte[] btKey;
     @SerializedName("HBTKey")
     public byte[] hBTKey;
-    @SerializedName("Passwords")
-    public PasswordList passwords;
+    @SerializedName("PassGroup")
+    public PassGroup rootGroup;
 }
