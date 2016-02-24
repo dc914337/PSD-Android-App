@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class PassItem
 {
-    @SerializedName("Id")
-    public short id;    //was unsigned short. i don't like java so much.
+    @SerializedName("PsdId")
+    public short psdId;    //was unsigned short. i don't like java so much.
 
     @SerializedName("UUID")
     public String uuid;
@@ -44,7 +44,7 @@ public class PassItem
     public PassItem getCopyWithoutPass()
     {
         PassItem item = new PassItem();
-        item.id = this.id;
+        item.psdId = this.psdId;
         item.title = this.title;
         item.login = this.login;
         item.enterWithLogin = this.enterWithLogin;

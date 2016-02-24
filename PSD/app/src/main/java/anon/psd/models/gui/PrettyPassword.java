@@ -121,7 +121,7 @@ public class PrettyPassword
         if (passItem != null)
             return passItem.title;
         else
-            return title;
+            return "No title";
     }
 
     /*

@@ -15,8 +15,8 @@ public class AppearancesList extends ArrayList<PrettyPassword>
         AppearancesList mergedAppearances = new AppearancesList();
 
         //merge appearances by title
-        for (Map.Entry<Short, PassItem> entry : passItems.entrySet()) {
-            PassItem currPass = entry.getValue();
+        for (PassItem entry : passItems) {
+            PassItem currPass = entry;
             PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.title);
             if (currAppearance == null)
                 currAppearance = new PrettyPassword(currPass);
@@ -40,7 +40,7 @@ public class AppearancesList extends ArrayList<PrettyPassword>
     public PrettyPassword findById(short id)
     {
         for (PrettyPassword pass : this) {
-            if (pass.getPassItem().id == id)
+            if (pass.getPassItem().psdId == id)
                 return pass;
         }
         return null;
