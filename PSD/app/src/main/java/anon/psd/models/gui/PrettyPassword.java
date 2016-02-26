@@ -22,7 +22,7 @@ public class PrettyPassword
     //appearance cfg data
     String picName;
     HistoryList history = new HistoryList();
-    String title;
+    String uuid;
 
     //real data
     transient PassItem passItem;
@@ -30,6 +30,12 @@ public class PrettyPassword
     transient final String picPostfix = ".pic";
     transient public static Bitmap defaultPic;
     transient public static File picsDir;
+
+
+    public String getUuid()
+    {
+        return uuid;
+    }
 
     public PrettyPassword()
     {
@@ -52,7 +58,7 @@ public class PrettyPassword
     public void setPassItem(PassItem pass)
     {
         passItem = pass;
-        title = pass.getTitle();
+        uuid = pass.getUuid();
     }
 
     public PassItem getPassItem()
@@ -136,10 +142,10 @@ public class PrettyPassword
             loadPic();
         //if pic still == null(not loaded)
         if (pic == null) {
-            Log(this, "[ GET IMAGE ] Pretty password %s returned default pic", title);
+            Log(this, "[ GET IMAGE ] Pretty password uuid[%s] returned default pic", uuid);
             return defaultPic;
         }
-        Log(this, "[ GET IMAGE ] Pretty password %s returned [real]Pic", title);
+        Log(this, "[ GET IMAGE ] Pretty password uuid[%s] returned [real]Pic", uuid);
         return pic;
     }
 

@@ -1,7 +1,6 @@
 package anon.psd.models;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import anon.psd.models.gui.PrettyPassword;
 
@@ -17,7 +16,7 @@ public class AppearancesList extends ArrayList<PrettyPassword>
         //merge appearances by title
         for (PassItem entry : passItems) {
             PassItem currPass = entry;
-            PrettyPassword currAppearance = loadedAppearances.findByTitle(currPass.getTitle());
+            PrettyPassword currAppearance = loadedAppearances.findByUuid(currPass.getUuid());
             if (currAppearance == null)
                 currAppearance = new PrettyPassword(currPass);
             else
@@ -28,10 +27,11 @@ public class AppearancesList extends ArrayList<PrettyPassword>
         return mergedAppearances;
     }
 
-    public PrettyPassword findByTitle(String title)
+    public PrettyPassword findByUuid(String uuid)
     {
         for (PrettyPassword pass : this) {
-            if (pass.getTitle().equals(title))
+            String ppUuid=pass.getUuid();
+            if (ppUuid!=null &&  ppUuid.equals(uuid))
                 return pass;
         }
         return null;
@@ -40,7 +40,7 @@ public class AppearancesList extends ArrayList<PrettyPassword>
     public PrettyPassword findById(short id)
     {
         for (PrettyPassword pass : this) {
-            if (pass.getPassItem().psdId == id)
+            if (pass.getPassItem().getPsdId() == id)
                 return pass;
         }
         return null;

@@ -122,7 +122,7 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         ActivitiesExchange.addObject("PASSES", passes);
         ActivitiesExchange.addObject("ACTIVITIES_SERVICE_WORKER", serviceWorker);
         Intent intent = new Intent(getApplicationContext(), PassActivity.class);
-        intent.putExtra("ID", item.getPassItem().psdId);
+        intent.putExtra("ID", item.getPassItem().getPsdId());
         startActivity(intent);
     }
 

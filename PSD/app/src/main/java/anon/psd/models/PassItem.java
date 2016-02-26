@@ -2,8 +2,6 @@ package anon.psd.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Map;
-
 /**
  * Created by Dmitry on 10.07.2015.
  */
@@ -11,19 +9,28 @@ import java.util.Map;
 public class PassItem
 {
     @SerializedName("PsdId")
-    public short psdId;    //was unsigned short. i don't like java so much.
+    private short psdId;    //was unsigned short. i don't like java so much.
 
     @SerializedName("UUID")
-    public String uuid;
+    private String uuid;
 
     @SerializedName("Tags")
-    public String[] Tags;
+    private String[] tags;
 
     @SerializedName("Pass")
     private byte[] passwordBytes;
 
     @SerializedName("Strings")
     private Strings strings;
+
+    public short getPsdId()
+    {
+        return psdId;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
 
     public String getTitle()
     {
@@ -36,6 +43,11 @@ public class PassItem
     public String getDescription()
     {
         return strings.getValueOrDefault("Notes", "");
+    }
+
+    public String getString(String key)
+    {
+        return strings.getValueOrNull(key);
     }
 
     public Password getPassword()
@@ -52,9 +64,12 @@ public class PassItem
         PassItem item = new PassItem();
         item.psdId = this.psdId;
         item.uuid = this.uuid;
-        item.Tags = this.Tags.clone();
+        item.tags = this.tags.clone();
         item.strings = this.strings.getCopy();
 
         return item;
     }
+
+
+
 }

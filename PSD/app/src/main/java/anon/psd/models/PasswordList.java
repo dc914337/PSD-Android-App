@@ -22,7 +22,7 @@ public class PasswordList extends HashSet<PassItem>
     public PassItem get(short passId) {
         for (PassItem item: this)
         {
-            if(item.psdId==passId)
+            if(item.getPsdId()==passId)
                 return item;
         }
         return null;

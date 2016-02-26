@@ -103,7 +103,7 @@ public abstract class PsdServiceWorker
     public void sendPass(PassItem pass,boolean disconnect)
     {
         Bundle bundle = new Bundle();
-        bundle.putShort("PASS_ITEM_ID", pass.psdId);
+        bundle.putShort("PASS_ITEM_ID", pass.getPsdId());
         bundle.putBoolean("DISCONNECT_AFTER_SEND",disconnect);
         Message msg = Message.obtain(null, RequestType.SendPass.getInt(), bundle);
         sendMessage(msg);
