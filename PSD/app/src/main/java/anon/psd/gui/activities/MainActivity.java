@@ -68,8 +68,8 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     {
         super.onResume();
         checkOrUpdateAppearanceCfg();
-        if (passes != null)
-            bindAdapter();
+        //if (passes != null)
+        //    bindAdapter();
     }
 
 

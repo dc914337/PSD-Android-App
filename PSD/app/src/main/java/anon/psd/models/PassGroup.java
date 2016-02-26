@@ -31,7 +31,6 @@ public class PassGroup  {
         allPasses.addAll(passwords);
         for(PassGroup subgroup : passGroups)
         {
-            allPasses.addAll(subgroup.passwords);
             for(PassItem subgroupPass : subgroup.getAllSubPasses())
             {
                 allPasses.add(subgroupPass);
