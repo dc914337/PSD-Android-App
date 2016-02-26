@@ -9,6 +9,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import java.util.ArrayList;
+
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.messages.RequestType;
 import anon.psd.background.messages.ResponseMessageType;
@@ -238,7 +240,7 @@ public class PsdService extends IntentService implements IBtObserver
     private void sendPassesInfo()
     {
         Log(this, "[ RECEIVED ] Send passes info");
-        String serialized = Serializer.serializePasswordList(baseRepo.getPassesBase().rootGroup.passwords.getCopyWithoutPasswords());
+        String serialized = Serializer.serializePasswordList(baseRepo.getPassesBase().rootGroup.getAllSubPasses().getCopyWithoutPasswords());
         Bundle bundle = new Bundle();
         bundle.putString("PASSES_INFO", serialized);
         sendToClients(bundle, ResponseType.PassesInfo);
@@ -298,12 +300,11 @@ public class PsdService extends IntentService implements IBtObserver
             return;
         }
 
-        PassItem passItem = baseRepo.getPassesBase().rootGroup.passwords.get(passId);
+        PassItem passItem = baseRepo.getPassesBase().rootGroup.getAllSubPasses().get(passId);
         byte[] encryptedMessage = protocolV1.generateSendPass(passId, passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
         onProtocolStateChanged(ProtocolState.WaitingResponse);
     }
-
 
     private void die()
     {
