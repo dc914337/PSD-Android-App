@@ -33,7 +33,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
     AppearancesList passes;
     PassItemsAdapter adapter;
     AppearanceCfg appearanceCfg;
-    ActivitiesServiceWorker serviceWorker;
 
 
     @Override
@@ -62,19 +61,17 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         Log(this, "[ ACTIVITY ] [ CREATE ]");
         setContentView(R.layout.activity_main);
         initVariables();
-        initService();
     }
 
     @Override
     protected void onResume()
     {
         super.onResume();
-        Log(this, "[ ACTIVITY ] [ RESUME ]");
-        serviceWorker.processState();
         checkOrUpdateAppearanceCfg();
         if (passes != null)
             bindAdapter();
     }
+
 
 
     private void initVariables()
@@ -92,12 +89,6 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         PrettyPassword.setPicsDir(new File(new ContextWrapper(this).getFilesDir().getPath(), "pics"));
     }
 
-    private void initService()
-    {
-        //load service worker
-        serviceWorker = new BarActivitiesServiceWorker(this);
-        ledController = new LedController(this, serviceWorker);
-    }
 
 
     /**

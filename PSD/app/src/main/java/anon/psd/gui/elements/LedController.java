@@ -15,7 +15,7 @@ public class LedController
 {
     ActivitiesServiceWorker serviceWorker;
 
-    public LedController(Activity activity, ActivitiesServiceWorker serviceWorker)
+    public LedController(ActivitiesServiceWorker serviceWorker)
     {
         this.serviceWorker = serviceWorker;
     }

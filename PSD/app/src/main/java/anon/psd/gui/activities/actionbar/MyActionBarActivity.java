@@ -16,6 +16,8 @@ import anon.psd.gui.elements.LedController;
 import anon.psd.models.PasswordList;
 import anon.psd.storage.PreferencesProvider;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 /**
  * Created by Dmitry on 29.08.2015.
  */
@@ -64,6 +66,34 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        initService();
+        Log(this, "[ ACTIVITY ] [ RESUME ]");
+        serviceWorker.processState();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        serviceWorker.unbind();
+    }
+
+
+
+    private void initService()
+    {
+        //load service worker
+        serviceWorker = new BarActivitiesServiceWorker(this);
+        ledController = new LedController(serviceWorker);
+    }
+
+
+
     public void openSettingsClick(MenuItem item)
     {
         openSettings();
@@ -106,7 +136,8 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem ledConnected = menu.findItem(R.id.led_connected);
-        ledController.setLedView(ledConnected);
+        if(ledController!=null)
+           ledController.setLedView(ledConnected);
         return true;
     }
 
