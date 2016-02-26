@@ -161,4 +161,3 @@ public class MainActivity extends MyActionBarActivity implements SearchView.OnQu
         serviceWorker.killService();
     }
 }
-

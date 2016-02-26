@@ -23,7 +23,7 @@ public class PrettyDate extends java.util.Date
     @Override
     public String toString()
     {
-        SimpleDateFormat dt = new SimpleDateFormat("'Time: ' hh:mm:ss ' \nDate: ' yyyy-mm-dd ");
+        SimpleDateFormat dt = new SimpleDateFormat("'Time: ' hh:mm:ss ' \nDate: ' yyyy-MM-dd ");
 
         return dt.format(this) + (isToday() ? "(today)" : "");
     }

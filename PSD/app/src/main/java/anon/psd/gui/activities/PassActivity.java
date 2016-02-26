@@ -67,9 +67,6 @@ public class PassActivity extends MyActionBarActivity
     }
 
 
-
-
-
     private void fillElements()
     {
         PassItem pass = prettyPassword.getPassItem();
