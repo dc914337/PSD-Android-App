@@ -41,7 +41,7 @@ public abstract class PsdServiceWorker
     private int connectionTries = 0;
     private final int MAX_CONNECTION_TRIES = 2;
     private boolean autoconnect = false;
-
+    private ServiceConnection mConnection;
 
     public CurrentServiceState psdState = new CurrentServiceState();
     PasswordList passwordList = null;
@@ -63,10 +63,9 @@ public abstract class PsdServiceWorker
     */
     public void connectService()
     {
-        ServiceConnection mConnection = new MyServiceConnection();
-        Intent mServiceIntent = new Intent(activity, PsdService.class);
-        activity.startService(mServiceIntent);
-        activity.bindService(mServiceIntent, mConnection, Context.BIND_AUTO_CREATE);
+        mConnection = new MyServiceConnection();
+        activity.startService(new Intent(activity, PsdService.class));
+        serviceBound = activity.bindService(new Intent(activity, PsdService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
 
 
@@ -155,6 +154,12 @@ public abstract class PsdServiceWorker
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void unbind()
+    {
+        if(serviceBound)
+          activity.unbindService(mConnection);
     }
 
 

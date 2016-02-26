@@ -52,9 +52,9 @@ public class PassItemsAdapter<T extends PrettyPassword> extends ArrayAdapter<T>
         }
 
         PassItem passItem = wrappedPass.getPassItem();
-        viewHolder.passTitle.setText(String.format("%s", passItem.title));
+        viewHolder.passTitle.setText(String.format("%s", passItem.getTitle()));
 
-        viewHolder.passLogin.setText(String.format("Login: %s %s", replaceNullOrEmpty(passItem.login, "-"), passItem.enterWithLogin ? "(will be entered)" : ""));//they don't have empty string.
+        viewHolder.passLogin.setText(String.format("Login: %s", replaceNullOrEmpty(passItem.getLogin(), "-")));//they don't have empty string.
         viewHolder.passUsedTimes.setText(String.format("Used %s times", wrappedPass.getHistory().size()));
         viewHolder.passImg.setImageBitmap(wrappedPass.getImage());
         return convertView;

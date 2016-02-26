@@ -23,14 +23,20 @@ public class PassItem
     private byte[] passwordBytes;
 
     @SerializedName("Strings")
-    private Map<String, String> strings;
+    private Strings strings;
 
-
-    public String title;
-    public String login;
-    public String description;
-    public boolean enterWithLogin;
-
+    public String getTitle()
+    {
+       return strings.getValueOrDefault("Title", "No title");
+    }
+    public String getLogin()
+    {
+        return strings.getValueOrNull("UserName");
+    }
+    public String getDescription()
+    {
+        return strings.getValueOrDefault("Notes", "");
+    }
 
     public Password getPassword()
     {
@@ -45,12 +51,10 @@ public class PassItem
     {
         PassItem item = new PassItem();
         item.psdId = this.psdId;
-        item.title = this.title;
-        item.login = this.login;
-        item.enterWithLogin = this.enterWithLogin;
-        /*item.pass = new byte[this.pass.length];
-        System.arraycopy(this.pass, 0, item.pass, 0, this.pass.length);*/
-        item.description = description;
+        item.uuid = this.uuid;
+        item.Tags = this.Tags.clone();
+        item.strings = this.strings.getCopy();
+
         return item;
     }
 }

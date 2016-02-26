@@ -52,7 +52,7 @@ public class PrettyPassword
     public void setPassItem(PassItem pass)
     {
         passItem = pass;
-        title = pass.title;
+        title = pass.getTitle();
     }
 
     public PassItem getPassItem()
@@ -119,9 +119,11 @@ public class PrettyPassword
     public String getTitle()
     {
         if (passItem != null)
-            return passItem.title;
+        {
+                return passItem.getTitle();
+        }
         else
-            return "No title";
+            return "";
     }
 
     /*
