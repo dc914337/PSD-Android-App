@@ -21,4 +21,5 @@ public interface IBtObservable
 
     public void removeObserver();
 
+    boolean isConnected();
 }

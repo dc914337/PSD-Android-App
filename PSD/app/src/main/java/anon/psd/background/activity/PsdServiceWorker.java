@@ -18,10 +18,8 @@ import anon.psd.background.messages.ResponseMessageType;
 import anon.psd.background.messages.ResponseType;
 import anon.psd.background.service.PasswordForgetPolicyType;
 import anon.psd.background.service.PsdService;
-import anon.psd.device.state.ConnectionState;
-import anon.psd.device.state.CurrentServiceState;
-import anon.psd.device.state.ProtocolState;
-import anon.psd.device.state.ServiceState;
+
+import anon.psd.communication.PSDState;
 import anon.psd.models.PassItem;
 import anon.psd.models.PasswordList;
 import anon.psd.serializers.Serializer;
@@ -38,13 +36,12 @@ public abstract class PsdServiceWorker
 {
     Activity activity;
     public boolean serviceBound;
-    private int connectionTries = 0;
-    private final int MAX_CONNECTION_TRIES = 2;
-    private boolean autoconnect = false;
+
     private ServiceConnection mConnection;
 
-    public CurrentServiceState psdState = new CurrentServiceState();
+    PSDState psdState = PSDState.Disconnected;
     PasswordList passwordList = null;
+    boolean isServiceInitialized=false;
 
     //Messenger for communicating with service.
     Messenger mService = null;
@@ -69,12 +66,6 @@ public abstract class PsdServiceWorker
     }
 
 
-    public void setAutoconnect(boolean value)
-    {
-        autoconnect = value;
-        connectionTries = 0;
-    }
-
     public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy, int autoDisconnectSeconds)
     {
         Bundle bundle = new Bundle();
@@ -87,10 +78,10 @@ public abstract class PsdServiceWorker
         sendMessage(msg);
     }
 
-    public void connectPsd(boolean persist)
+    public void connectPsd(int autodisconnectSeconds)
     {
         Bundle bundle = new Bundle();
-        bundle.putBoolean("PERSIST", persist);
+        bundle.putInt("AUTODISCONNECT_SECS",autodisconnectSeconds);
         Message msg = Message.obtain(null, RequestType.ConnectPSD.getInt(), bundle);
         sendMessage(msg);
     }
@@ -121,7 +112,6 @@ public abstract class PsdServiceWorker
 
     public void killService()
     {
-        autoconnect = false;
         sendCommandToService(RequestType.Kill);
     }
 
@@ -179,6 +169,9 @@ public abstract class PsdServiceWorker
                 case State:
                     receivedStateChanged(msg);
                     break;
+                case Initialized:
+                    receivedInitState(msg);
+                    break;
                 case PassesInfo:
                     receivedPassesInfo(msg);
                 default:
@@ -215,14 +208,21 @@ public abstract class PsdServiceWorker
         String info = bundle.getString("PASSES_INFO");
         passwordList = Serializer.deserializePasswordList(info);
         onPassesInfo(passwordList);
-        processState();
+        readyService();
     }
 
     private void receivedStateChanged(Message msg)
     {
-        CurrentServiceState state = CurrentServiceState.fromByteArray(
-                (byte[]) ((Bundle) msg.obj).get("SERVICE_STATE"));
-        onStateChanged(state);
+        psdState = PSDState.fromInteger(
+                (int) ((Bundle) msg.obj).get("COMM_STATE"));
+        onStateChanged(psdState);
+    }
+
+    private void receivedInitState(Message msg)
+    {
+        isServiceInitialized =
+                (boolean) ((Bundle) msg.obj).get("SERVICE_INITIALIZED");
+        readyService();
     }
 
 
@@ -244,61 +244,33 @@ public abstract class PsdServiceWorker
         }
     }
 
-
-    public void onStateChanged(CurrentServiceState newState)
+    public void onStateChanged(PSDState newState)
     {
-        Log(this,
-                "[ Activity ] State changed.\n" +
-                        "Service state: %s \n" +
-                        "Connection state: %s \n" +
-                        "Protocol state: %s",
-                newState.getServiceState(),
-                newState.getConnectionState(),
-                newState.getProtocolState());
-
-        CurrentServiceState oldState = psdState;
         psdState = newState;
-
-        if (oldState == null || newState.getConnectionState() != oldState.getConnectionState())
-            showConnectionState(newState.getConnectionState());
-
-        if (oldState == null || newState.getServiceState() != oldState.getServiceState())
-            showServiceState(newState.getServiceState());
-
-        if (oldState == null || newState.getProtocolState() != oldState.getProtocolState())
-            showProtocolState(newState.getProtocolState());
-
-        processState();
+        showPSDState(newState);
     }
 
-    //autoconnects service
-    //autoinits service
-    //gets passes info
-    //connects psd if autoconnect set
-    //shows connection state if connected
-    public void processState()
+    public void readyService()
     {
         if (!serviceBound) {
-            serviceNotConnected();
+            connectService();
             return;
         }
 
-        switch (psdState.getServiceState()) {
-            case NotInitialised:
-                serviceNotInitialised();
-                break;
-            case Initialised:
-                serviceInitialised();
-                break;
+        if(!isServiceInitialized)
+        {
+            initializeService();
+             return;
         }
+        
+        if (passwordList == null) {
+            sendCommandToService(RequestType.GetPassesInfo);
+            return;
+        }
+        updateState();
     }
 
-    private void serviceNotConnected()
-    {
-        connectService();
-    }
-
-    private void serviceNotInitialised()
+    private void initializeService()
     {
         //ask if data is ready
         String dbPath = getBasePath();
@@ -311,43 +283,6 @@ public abstract class PsdServiceWorker
             initService(dbPath, dbPass, psdMac, getPassForgetPolicy(),20);
     }
 
-    private void serviceInitialised()
-    {
-        if (passwordList == null) {
-            sendCommandToService(RequestType.GetPassesInfo);
-        } else
-            switch (psdState.getConnectionState()) {
-                case Disconnected:
-                    psdNotConnected();
-                    break;
-                case Connected:
-                    psdConnected();
-                    break;
-            }
-    }
-
-
-    private void psdConnected()
-    {
-        connectionTries = 0;
-        showConnectionState(psdState.getConnectionState());
-        switch (psdState.getProtocolState()) {
-            case ReadyToSend:
-                break;
-            case WaitingResponse:
-                showProtocolState(psdState.getProtocolState());
-                break;
-        }
-    }
-
-
-    private void psdNotConnected()
-    {
-        if (connectionTries < MAX_CONNECTION_TRIES && autoconnect) {
-            connectPsd(false);
-            connectionTries++;
-        }
-    }
 
     protected abstract String getBasePath();
 
@@ -357,11 +292,7 @@ public abstract class PsdServiceWorker
 
     protected abstract PasswordForgetPolicyType getPassForgetPolicy();
 
-    protected abstract void showProtocolState(ProtocolState protocolState);
-
-    protected abstract void showServiceState(ServiceState serviceState);
-
-    protected abstract void showConnectionState(ConnectionState connectionState);
+    protected abstract void showPSDState(PSDState psdState);
 
     public abstract void onMessage(String msg);
 

@@ -1,7 +1,6 @@
 package anon.psd.hardware.bluetooth;
 
 import anon.psd.background.messages.ErrorType;
-import anon.psd.device.state.ConnectionState;
 import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
 
 /**
@@ -9,10 +8,12 @@ import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
  */
 public interface IBtObserver
 {
-    void onReceive(LowLevelMessageV1 message);
+    void onBtReceive(LowLevelMessageV1 message);
 
-    public void sendError(ErrorType err, String errMessage);
+    void onBtError(ErrorType err, String errMessage);
 
-    void onConnectionStateChanged(ConnectionState newState);
+    void onBtDisconnected();
+
+    void onBtConnected();
 
 }

@@ -27,7 +27,8 @@ public abstract class MyActionBarActivity extends AppCompatActivity
 
     protected BarActivitiesServiceWorker serviceWorker;
 
-    public void exitClick(MenuItem item) {
+    public void disconnectAndExitClick(MenuItem item) {
+        serviceWorker.disconnectPsd();
         killActivities();
     }
 
@@ -72,7 +73,7 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onResume();
         initService();
         Log(this, "[ ACTIVITY ] [ RESUME ]");
-        serviceWorker.processState();
+        serviceWorker.readyService();
     }
 
 

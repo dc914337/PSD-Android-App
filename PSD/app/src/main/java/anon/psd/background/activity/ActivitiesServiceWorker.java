@@ -7,9 +7,9 @@ import android.view.MenuItem;
 import anon.psd.R;
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.service.PasswordForgetPolicyType;
-import anon.psd.device.state.ConnectionState;
-import anon.psd.device.state.ProtocolState;
-import anon.psd.device.state.ServiceState;
+
+import anon.psd.communication.PSDCommunication;
+import anon.psd.communication.PSDState;
 import anon.psd.gui.activities.EnterPassActivity;
 import anon.psd.gui.activities.RollbackActivity;
 import anon.psd.gui.activities.SettingsActivity;
@@ -40,7 +40,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     {
         this.connectionStateLed = connectionStateLed;
         if (psdState != null)
-            showConnectionState(psdState.getConnectionState());
+            showPSDState(psdState);
     }
 
 
@@ -51,36 +51,25 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     }
 
 
-    protected void showServiceState(ServiceState newState)
+
+
+    protected void showPSDState(PSDState newState)
     {
-        switch (newState) {
-            case NotInitialised:
-                whiteDot();
-                break;
+        if(!isServiceInitialized)
+        {
+            whiteDot();
+            return;
         }
-    }
 
-    protected void showConnectionState(ConnectionState newState)
-    {
-        switch (newState) {
-            case Disconnected:
-                redDot();
-                break;
-            case Connected:
-                greenDot();
-                break;
-        }
-    }
-
-
-    protected void showProtocolState(ProtocolState newState)
-    {
         switch (newState) {
             case ReadyToSend:
                 greenDot();
                 break;
-            case WaitingResponse:
+            case Awaiting:
                 yellowDot();
+                break;
+            case Disconnected:
+                redDot();
                 break;
         }
     }
