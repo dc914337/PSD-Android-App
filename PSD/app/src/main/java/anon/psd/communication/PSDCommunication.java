@@ -9,11 +9,27 @@ import anon.psd.hardware.bluetooth.PsdBluetoothProtocol;
 import anon.psd.hardware.bluetooth.lowlevelV1.LowLevelMessageV1;
 import anon.psd.models.PassItem;
 
+import static anon.psd.utils.DebugUtils.Log;
+
 /**
  * Created by Dmitry on 27/02/2016.
  */
-public class PSDCommunication implements IBtObserver {
+public class PSDCommunication implements IBtObserver,IAutoDisconnectListener {
+
     private PSDState commState= PSDState.Disconnected;
+    String psdMacAddress;
+    int autoDisconnectSeconds=30;
+
+
+    ICommunicationObserver observer;
+
+    PsdBluetoothProtocol bt;
+    PsdProtocolV1 protocolV1;
+    boolean rememberedBtState;
+
+    Thread autoDisconnectThread;
+    AutoDisconnectWatcher autoDisconnectWatcher;
+
 
     public PSDState getCommState()
     {
@@ -25,20 +41,13 @@ public class PSDCommunication implements IBtObserver {
     {
         if(newState!=commState)
         {
+            Log(this, String.format("[ SERVICE ] [ COMM STATE CHANGED ] Old state: [%s], new state: [%s]",commState,newState ));
             commState=newState;
             observer.onCommStateChanged(commState);
         }
     }
 
-    String psdMacAddress;
-    int autoDisconnectSeconds=30;
 
-
-    ICommunicationObserver observer;
-
-    PsdBluetoothProtocol bt;
-    PsdProtocolV1 protocolV1;
-    boolean rememberedBtState;
 
     public PSDCommunication(ICommunicationObserver Observer, String PsdMacAddress, byte[] startBtKey, byte[] startHBtKey )
     {
@@ -50,7 +59,7 @@ public class PSDCommunication implements IBtObserver {
 
     public void setAutoDisconnectSeconds(int seconds)
     {
-autoDisconnectSeconds=seconds;
+        autoDisconnectSeconds=seconds;
     }
 
     public void connectPSD()
@@ -59,6 +68,19 @@ autoDisconnectSeconds=seconds;
         bt.enableBluetooth();
         bt.registerObserver(this);
         bt.connectDevice(psdMacAddress);
+        startAutoDisconnect();
+    }
+
+    private void startAutoDisconnect()
+    {
+        if(autoDisconnectThread!=null && autoDisconnectThread.isAlive())
+        {
+            autoDisconnectThread.interrupt();
+        }
+        autoDisconnectWatcher=new AutoDisconnectWatcher(this,autoDisconnectSeconds);
+        autoDisconnectThread=new Thread(autoDisconnectWatcher);
+        setCommState(PSDState.ReadyToSend);
+        autoDisconnectThread.start();
     }
 
 
@@ -68,6 +90,8 @@ autoDisconnectSeconds=seconds;
         if (!rememberedBtState)
             bt.disableBluetooth();
         bt.removeObserver();
+        autoDisconnectThread.interrupt();
+        setCommState(PSDState.Disconnected);
     }
 
 
@@ -76,6 +100,7 @@ autoDisconnectSeconds=seconds;
         byte[] encryptedMessage = protocolV1.generateSendPass(passItem.getPsdId(), passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
         setCommState(PSDState.Awaiting);
+        autoDisconnectWatcher.resetTimer();
     }
 
 
@@ -107,7 +132,7 @@ autoDisconnectSeconds=seconds;
 
     @Override
     public void onBtDisconnected() {
-setCommState(PSDState.Disconnected);
+        setCommState(PSDState.Disconnected);
     }
 
     @Override
@@ -117,4 +142,8 @@ setCommState(PSDState.Disconnected);
     }
 
 
+    @Override
+    public void onAutoDisconnect() {
+        disconnect();
+    }
 }
