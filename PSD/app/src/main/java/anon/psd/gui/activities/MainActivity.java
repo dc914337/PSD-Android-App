@@ -13,10 +13,8 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import java.io.File;
 
 import anon.psd.R;
-import anon.psd.background.activity.ActivitiesServiceWorker;
-import anon.psd.gui.activities.actionbar.MyActionBarActivity;
+import anon.psd.gui.activities.global.PSDActivity;
 import anon.psd.gui.adapters.PassItemsAdapter;
-import anon.psd.gui.elements.LedController;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;
 import anon.psd.models.PasswordList;
@@ -26,7 +24,7 @@ import anon.psd.storage.AppearanceCfg;
 import static anon.psd.utils.DebugUtils.Log;
 
 
-public class MainActivity extends MyActionBarActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class MainActivity extends PSDActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     DynamicListView lvPasses;
     File appearanceCfgFile;

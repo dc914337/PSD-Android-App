@@ -15,8 +15,7 @@ import java.io.File;
 import java.util.Date;
 
 import anon.psd.R;
-import anon.psd.gui.activities.actionbar.MyActionBarActivity;
-import anon.psd.gui.elements.LedController;
+import anon.psd.gui.activities.global.PSDActivity;
 import anon.psd.gui.exchange.ActivitiesExchange;
 import anon.psd.models.AppearancesList;
 import anon.psd.models.PassItem;
@@ -29,7 +28,7 @@ import static anon.psd.utils.TextUtils.replaceNullOrEmpty;
 /**
  * Created by Dmitry on 06.07.2015.
  */
-public class PassActivity extends MyActionBarActivity
+public class PassActivity extends PSDActivity
 {
     private static final int REQUEST_CODE = 1234;
 

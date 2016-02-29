@@ -47,7 +47,7 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     public void sendPrettyPass(PrettyPassword prettyPassword)
     {
         lastEntered = prettyPassword;
-        sendPass(prettyPassword.getPassItem(),true);
+        sendPass(prettyPassword.getPassItem());
     }
 
 

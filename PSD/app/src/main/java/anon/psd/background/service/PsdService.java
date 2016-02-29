@@ -210,7 +210,6 @@ public class PsdService extends IntentService implements ICommunicationObserver
         String dbPath = bundle.getString("DB_PATH");
         byte[] dbPass = bundle.getByteArray("DB_PASS");
         String psdMacAddress = bundle.getString("PSD_MAC_ADDRESS");
-        int autoDisconnectSeconds = bundle.getInt("AUTO_DISCONNECT_SECONDS");
         forgetPolicy = PasswordForgetPolicyType.fromInteger(bundle.getInt("FORGET_POLICY"));
         baseRepo = new FileRepository(dbPath);
         baseRepo.setDbPass(dbPass);
@@ -218,7 +217,7 @@ public class PsdService extends IntentService implements ICommunicationObserver
             onCommError(ErrorType.DBError, "Couldn't access database \n(user pass or database path are incorrect)");
             return;
         }
-        psd=new PSDCommunication(this,psdMacAddress,autoDisconnectSeconds,baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
+        psd=new PSDCommunication(this,psdMacAddress,baseRepo.getPassesBase().btKey, baseRepo.getPassesBase().hBTKey);
         initialized=true;
         sendInitializedState();
     }
@@ -234,6 +233,7 @@ public class PsdService extends IntentService implements ICommunicationObserver
 
 
     private void connectPSD(Bundle bundle) {
+        int autoDisconnectSeconds = bundle.getInt("AUTO_DISCONNECT_SECS");
         if (psd==null) {
             onCommError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
             return;
@@ -242,6 +242,7 @@ public class PsdService extends IntentService implements ICommunicationObserver
             onCommError(ErrorType.WrongState, "PSD is already connected");
             return;
         }
+        psd.setAutoDisconnectSeconds(autoDisconnectSeconds);
         psd.connectPSD();
     }
 

@@ -36,12 +36,14 @@ public abstract class PsdServiceWorker
 {
     Activity activity;
     public boolean serviceBound;
+    final int SECONDS_TO_AUTODISCONNECT=30;
 
     private ServiceConnection mConnection;
 
-    PSDState psdState = PSDState.Disconnected;
+    PSDState psdState;
     PasswordList passwordList = null;
     boolean isServiceInitialized=false;
+    private boolean connectIfReady =false;
 
     //Messenger for communicating with service.
     Messenger mService = null;
@@ -54,10 +56,15 @@ public abstract class PsdServiceWorker
         this.activity = activity;
     }
 
+    public void setConnectIfReady(boolean ConnectWhenReady)
+    {
+        connectIfReady =ConnectWhenReady;
+    }
     /*
     we are starting and binding service to have it alive all the time. It won't die when
     this activity will die.
     */
+
     public void connectService()
     {
         mConnection = new MyServiceConnection();
@@ -66,22 +73,21 @@ public abstract class PsdServiceWorker
     }
 
 
-    public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy, int autoDisconnectSeconds)
+    public void initService(String dbPath, byte[] dbPass, String psdMacAddress, PasswordForgetPolicyType forgetPolicy)
     {
         Bundle bundle = new Bundle();
         bundle.putString("DB_PATH", dbPath);
         bundle.putByteArray("DB_PASS", dbPass);
         bundle.putString("PSD_MAC_ADDRESS", psdMacAddress);
         bundle.putInt("FORGET_POLICY", forgetPolicy.getInt());
-        bundle.putInt("AUTO_DISCONNECT_SECONDS", autoDisconnectSeconds);
         Message msg = Message.obtain(null, RequestType.Init.getInt(), bundle);
         sendMessage(msg);
     }
 
-    public void connectPsd(int autodisconnectSeconds)
+    public void connectPsd(int autoDisconnectSeconds)
     {
         Bundle bundle = new Bundle();
-        bundle.putInt("AUTODISCONNECT_SECS",autodisconnectSeconds);
+        bundle.putInt("AUTO_DISCONNECT_SECS",autoDisconnectSeconds);
         Message msg = Message.obtain(null, RequestType.ConnectPSD.getInt(), bundle);
         sendMessage(msg);
     }
@@ -91,11 +97,10 @@ public abstract class PsdServiceWorker
         sendCommandToService(RequestType.DisconnectPSD);
     }
 
-    public void sendPass(PassItem pass,boolean disconnect)
+    public void sendPass(PassItem pass)
     {
         Bundle bundle = new Bundle();
         bundle.putShort("PASS_ITEM_ID", pass.getPsdId());
-        bundle.putBoolean("DISCONNECT_AFTER_SEND",disconnect);
         Message msg = Message.obtain(null, RequestType.SendPass.getInt(), bundle);
         sendMessage(msg);
     }
@@ -216,6 +221,11 @@ public abstract class PsdServiceWorker
         psdState = PSDState.fromInteger(
                 (int) ((Bundle) msg.obj).get("COMM_STATE"));
         onStateChanged(psdState);
+        if(connectIfReady)
+        {
+            connectPsd(SECONDS_TO_AUTODISCONNECT);
+            connectIfReady=false;
+        }
     }
 
     private void receivedInitState(Message msg)
@@ -250,8 +260,15 @@ public abstract class PsdServiceWorker
         showPSDState(newState);
     }
 
+
+    public void readyService(boolean connectAfter) {
+        setConnectIfReady(connectAfter);
+        readyService();
+    }
+
     public void readyService()
     {
+
         if (!serviceBound) {
             connectService();
             return;
@@ -267,7 +284,11 @@ public abstract class PsdServiceWorker
             sendCommandToService(RequestType.GetPassesInfo);
             return;
         }
-        updateState();
+        if(psdState==null)
+        {
+            updateState();
+            return;
+        }
     }
 
     private void initializeService()
@@ -280,7 +301,7 @@ public abstract class PsdServiceWorker
         if (dbPath != null
                 && psdMac != null
                 && dbPass != null)
-            initService(dbPath, dbPass, psdMac, getPassForgetPolicy(),20);
+            initService(dbPath, dbPass, psdMac, getPassForgetPolicy());
     }
 
 

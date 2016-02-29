@@ -1,4 +1,4 @@
-package anon.psd.gui.activities.actionbar;
+package anon.psd.gui.activities.global;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,9 +21,12 @@ import static anon.psd.utils.DebugUtils.Log;
 /**
  * Created by Dmitry on 29.08.2015.
  */
-public abstract class MyActionBarActivity extends AppCompatActivity
+public abstract class PSDActivity extends AppCompatActivity
 {
     public LedController ledController;
+
+
+
 
     protected BarActivitiesServiceWorker serviceWorker;
 
@@ -47,13 +50,13 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         @Override
         public void passItemChanged()
         {
-            MyActionBarActivity.this.passItemChanged();
+            PSDActivity.this.passItemChanged();
         }
 
         @Override
         public void onPassesInfo(PasswordList info)
         {
-            MyActionBarActivity.this.onPassesInfo(info);
+            PSDActivity.this.onPassesInfo(info);
         }
     }
 
@@ -63,7 +66,9 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
+            return;
         }
+
     }
 
 
@@ -73,7 +78,7 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onResume();
         initService();
         Log(this, "[ ACTIVITY ] [ RESUME ]");
-        serviceWorker.readyService();
+        serviceWorker.readyService(true);
     }
 
 

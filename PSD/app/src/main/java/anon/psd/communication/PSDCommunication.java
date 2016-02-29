@@ -31,7 +31,7 @@ public class PSDCommunication implements IBtObserver {
     }
 
     String psdMacAddress;
-    int autoDisconnectSeconds;
+    int autoDisconnectSeconds=30;
 
 
     ICommunicationObserver observer;
@@ -40,13 +40,17 @@ public class PSDCommunication implements IBtObserver {
     PsdProtocolV1 protocolV1;
     boolean rememberedBtState;
 
-    public PSDCommunication(ICommunicationObserver Observer, String PsdMacAddress,int AutoDisconnectSeconds, byte[] startBtKey, byte[] startHBtKey )
+    public PSDCommunication(ICommunicationObserver Observer, String PsdMacAddress, byte[] startBtKey, byte[] startHBtKey )
     {
         observer=Observer;
         psdMacAddress=PsdMacAddress;
-        autoDisconnectSeconds=AutoDisconnectSeconds;
         bt=new PsdBluetoothProtocol();
         protocolV1=new PsdProtocolV1(startBtKey,startHBtKey);
+    }
+
+    public void setAutoDisconnectSeconds(int seconds)
+    {
+autoDisconnectSeconds=seconds;
     }
 
     public void connectPSD()
