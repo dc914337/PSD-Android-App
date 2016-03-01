@@ -24,8 +24,7 @@ import anon.psd.storage.FileRepository;
 import static anon.psd.utils.DebugUtils.Log;
 
 /**
- * Created by Dmitry on 01.08.2015.
- * Happy birthday me, yay!
+ * Created by Dmitry
  */
 public class PsdService extends IntentService implements ICommunicationObserver
 {
@@ -184,10 +183,6 @@ public class PsdService extends IntentService implements ICommunicationObserver
         }
         return psd.connectPSD();
     }
-
-
-
-
 
 
 

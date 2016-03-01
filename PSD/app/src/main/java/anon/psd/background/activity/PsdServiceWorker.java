@@ -28,8 +28,6 @@ import static anon.psd.utils.DebugUtils.Log;
 
 /**
  * Created by Dmitry on 01.08.2015.
- * Happy birthday me, yay!
- * <p/>
  * This class works with PSD service. It needs activity only to bound service
  */
 public abstract class PsdServiceWorker
