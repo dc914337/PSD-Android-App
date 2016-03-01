@@ -1,15 +1,14 @@
-package anon.psd.device.state;
+package anon.psd.communication;
 
 /**
- * Created by Dmitry on 19.08.2015.
+ * Created by Dmitry on 28/02/2016.
  */
-public enum ConnectionState
-{
-    NotAvailable,
+public enum PSDState {
     Disconnected,
-    Connected;
+    ReadyToSend,
+    Awaiting;
 
-    public static ConnectionState fromInteger(int x)
+    public static PSDState fromInteger(int x)
     {
         return values()[x];
     }
@@ -22,5 +21,4 @@ public enum ConnectionState
         }
         throw new IndexOutOfBoundsException("Wrong enum");
     }
-
 }

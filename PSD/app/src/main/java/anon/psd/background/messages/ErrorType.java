@@ -10,7 +10,8 @@ public enum ErrorType
     IOError,
     Desynchronization,
     WrongState,
-    PongTimedOut;
+    PongTimedOut,
+    CantConnectDevice;
 
 
     public static ErrorType fromInteger(int x)

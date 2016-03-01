@@ -1,4 +1,4 @@
-package anon.psd.gui.activities.actionbar;
+package anon.psd.gui.activities.global;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,13 +21,14 @@ import static anon.psd.utils.DebugUtils.Log;
 /**
  * Created by Dmitry on 29.08.2015.
  */
-public abstract class MyActionBarActivity extends AppCompatActivity
+public abstract class PSDActivity extends AppCompatActivity
 {
     public LedController ledController;
-
+    MenuItem ledConnected;
     protected BarActivitiesServiceWorker serviceWorker;
 
-    public void exitClick(MenuItem item) {
+    public void disconnectAndExitClick(MenuItem item) {
+        serviceWorker.disconnectPsd();
         killActivities();
     }
 
@@ -46,13 +47,13 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         @Override
         public void passItemChanged()
         {
-            MyActionBarActivity.this.passItemChanged();
+            PSDActivity.this.passItemChanged();
         }
 
         @Override
         public void onPassesInfo(PasswordList info)
         {
-            MyActionBarActivity.this.onPassesInfo(info);
+            PSDActivity.this.onPassesInfo(info);
         }
     }
 
@@ -62,7 +63,9 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
+            return;
         }
+
     }
 
 
@@ -72,7 +75,7 @@ public abstract class MyActionBarActivity extends AppCompatActivity
         super.onResume();
         initService();
         Log(this, "[ ACTIVITY ] [ RESUME ]");
-        serviceWorker.processState();
+        serviceWorker.readyService(true);
     }
 
 
@@ -89,7 +92,13 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     {
         //load service worker
         serviceWorker = new BarActivitiesServiceWorker(this);
+        initLedController();
+    }
+
+    private void initLedController()
+    {
         ledController = new LedController(serviceWorker);
+        ledController.setLedView(ledConnected);
     }
 
 
@@ -135,9 +144,8 @@ public abstract class MyActionBarActivity extends AppCompatActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem ledConnected = menu.findItem(R.id.led_connected);
-        if(ledController!=null)
-           ledController.setLedView(ledConnected);
+        ledConnected = menu.findItem(R.id.led_connected);
+        initLedController();
         return true;
     }
 

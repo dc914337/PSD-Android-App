@@ -1,19 +1,23 @@
 package anon.psd.background.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.MenuItem;
 
 import anon.psd.R;
 import anon.psd.background.messages.ErrorType;
 import anon.psd.background.service.PasswordForgetPolicyType;
-import anon.psd.device.state.ConnectionState;
-import anon.psd.device.state.ProtocolState;
-import anon.psd.device.state.ServiceState;
+
+import anon.psd.communication.PSDCommunication;
+import anon.psd.communication.PSDState;
 import anon.psd.gui.activities.EnterPassActivity;
 import anon.psd.gui.activities.RollbackActivity;
 import anon.psd.gui.activities.SettingsActivity;
 import anon.psd.gui.exchange.ActivitiesExchange;
+import anon.psd.models.Strings;
 import anon.psd.models.gui.PrettyDate;
 import anon.psd.models.gui.PrettyPassword;
 import anon.psd.notifications.Alerts;
@@ -29,58 +33,49 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
     private MenuItem connectionStateLed;
     private PrettyPassword lastEntered;
     private byte[] dbPass;
+    private Context context;
 
 
     public ActivitiesServiceWorker(Activity activity)
     {
         super(activity);
+        context=activity.getApplicationContext();
     }
 
     public void setConnectionStateLed(MenuItem connectionStateLed)
     {
         this.connectionStateLed = connectionStateLed;
         if (psdState != null)
-            showConnectionState(psdState.getConnectionState());
+            showPSDState(psdState);
     }
 
 
     public void sendPrettyPass(PrettyPassword prettyPassword)
     {
         lastEntered = prettyPassword;
-        sendPass(prettyPassword.getPassItem(),true);
+        sendPass(prettyPassword.getPassItem());
     }
 
 
-    protected void showServiceState(ServiceState newState)
+
+
+    protected void showPSDState(PSDState newState)
     {
-        switch (newState) {
-            case NotInitialised:
-                whiteDot();
-                break;
+        if(!isServiceInitialized)
+        {
+            whiteDot();
+            return;
         }
-    }
 
-    protected void showConnectionState(ConnectionState newState)
-    {
-        switch (newState) {
-            case Disconnected:
-                redDot();
-                break;
-            case Connected:
-                greenDot();
-                break;
-        }
-    }
-
-
-    protected void showProtocolState(ProtocolState newState)
-    {
         switch (newState) {
             case ReadyToSend:
                 greenDot();
                 break;
-            case WaitingResponse:
+            case Awaiting:
                 yellowDot();
+                break;
+            case Disconnected:
+                redDot();
                 break;
         }
     }
@@ -88,27 +83,41 @@ public abstract class ActivitiesServiceWorker extends PsdServiceWorker
 
     private void whiteDot()
     {
+        Log(this,"[DOT] [WHITE DOT]");
         if (connectionStateLed != null)
             connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_white));
     }
 
     private void redDot()
     {
+        Log(this,"[DOT] [RED DOT]");
         if (connectionStateLed != null)
-            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_red));
+            connectionStateLed.setIcon(getPicFromRes(R.drawable.ic_little_red));
+
     }
 
     private void greenDot()
     {
+        Log(this,"[DOT] [GREEN DOT]");
         if (connectionStateLed != null)
-            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_green));
+            connectionStateLed.setIcon(getPicFromRes(R.drawable.ic_little_green));
     }
 
 
     private void yellowDot()
     {
+        Log(this,"[DOT] [YELLOW DOT]");
         if (connectionStateLed != null)
-            connectionStateLed.setIcon(activity.getResources().getDrawable(R.drawable.ic_little_yellow));
+            connectionStateLed.setIcon(getPicFromRes(R.drawable.ic_little_yellow));
+    }
+
+    private Drawable getPicFromRes(int id)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return activity.getResources().getDrawable(id, context.getTheme());
+        } else {
+            return activity.getResources().getDrawable(id);
+        }
     }
 
 

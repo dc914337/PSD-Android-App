@@ -8,6 +8,7 @@ public enum ResponseType
     Message,
     Error,
     State,
+    Initialized,
     PassesInfo;
 
     public static ResponseType fromInteger(int x)
