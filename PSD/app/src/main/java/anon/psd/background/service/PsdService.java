@@ -56,7 +56,7 @@ public class PsdService extends IntentService implements ICommunicationObserver
 
     @Override
     public void updateKeysInDatabase(byte[] BtKey, byte[] HBtKey) {
-        baseRepo.updateKeys(BtKey,HBtKey);
+        baseRepo.updateKeys(BtKey, HBtKey);
     }
 
     public void onCommError(ErrorType err, String errMessage)
@@ -147,18 +147,49 @@ public class PsdService extends IntentService implements ICommunicationObserver
 
     private void sendPassword(Bundle bundle) {
         short passId = bundle.getShort("PASS_ITEM_ID");
+
         if (psd.getCommState()== PSDState.Awaiting) {
             onCommError(ErrorType.WrongState, "We are still waiting for response from PSD");
             return;
         }
 
-        if (psd.getCommState()== PSDState.Disconnected) {
-            psd.connectPSD();
-        }
+        if (psd.getCommState()== PSDState.Disconnected)
+           if(!connectPSD()) {
+               onCommError(ErrorType.CantConnectDevice, "Can't connect PSD. Is it plugged?");
+               return;
+           }
 
         PassItem passItem = baseRepo.getPassesBase().rootGroup.getAllSubPasses().get(passId);
         psd.sendPassword(passItem);
     }
+
+
+
+    private void connectPSD(Bundle bundle) {
+        int autoDisconnectSeconds = bundle.getInt("AUTO_DISCONNECT_SECS");
+        psd.setAutoDisconnectSeconds(autoDisconnectSeconds);
+        connectPSD();
+    }
+
+
+    private boolean connectPSD()
+    {
+        if (psd==null) {
+            onCommError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
+            return false;
+        }
+        else if (psd.getCommState()!= PSDState.Disconnected) {
+            psd.resetAutoDisconnect();
+            return true;
+        }
+        return psd.connectPSD();
+    }
+
+
+
+
+
+
 
     private void disconnect() {
         if (psd.getCommState()== PSDState.Disconnected) {
@@ -232,20 +263,6 @@ public class PsdService extends IntentService implements ICommunicationObserver
     }
 
 
-    private void connectPSD(Bundle bundle) {
-        int autoDisconnectSeconds = bundle.getInt("AUTO_DISCONNECT_SECS");
-        if (psd==null) {
-            onCommError(ErrorType.WrongState, "PSD is not initialised. Errors while initialising");
-            return;
-        }
-        else if (psd.getCommState()!= PSDState.Disconnected) {
-            onCommError(ErrorType.WrongState, "PSD is already connected");
-            psd.resetAutoDisconnect();
-            return;
-        }
-        psd.setAutoDisconnectSeconds(autoDisconnectSeconds);
-        psd.connectPSD();
-    }
 
 
     private void die()

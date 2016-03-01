@@ -20,6 +20,7 @@ public class LedController
 
     public void setLedView(MenuItem ledView)
     {
-        serviceWorker.setConnectionStateLed(ledView);
+        if(serviceWorker!=null)
+            serviceWorker.setConnectionStateLed(ledView);
     }
 }

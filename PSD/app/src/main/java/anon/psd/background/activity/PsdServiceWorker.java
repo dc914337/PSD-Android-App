@@ -36,7 +36,7 @@ public abstract class PsdServiceWorker
 {
     Activity activity;
     public boolean serviceBound;
-    final int SECONDS_TO_AUTODISCONNECT=6;
+    final int SECONDS_TO_AUTO_DISCONNECT =6;
 
     private ServiceConnection mConnection;
 
@@ -223,7 +223,7 @@ public abstract class PsdServiceWorker
         onStateChanged(psdState);
         if(connectIfReady)
         {
-            connectPsd(SECONDS_TO_AUTODISCONNECT);
+            connectPsd(SECONDS_TO_AUTO_DISCONNECT);
             connectIfReady=false;
         }
     }

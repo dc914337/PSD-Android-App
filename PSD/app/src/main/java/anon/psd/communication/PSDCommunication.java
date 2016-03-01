@@ -62,13 +62,16 @@ public class PSDCommunication implements IBtObserver,IAutoDisconnectListener {
         autoDisconnectSeconds=seconds;
     }
 
-    public void connectPSD()
+    public boolean connectPSD()
     {
         rememberedBtState = bt.isBluetoothEnabled();
         bt.enableBluetooth();
         bt.registerObserver(this);
         bt.connectDevice(psdMacAddress);
-        startAutoDisconnect();
+        boolean success=  bt.isConnected();
+        if(success)
+            startAutoDisconnect();
+       return success;
     }
 
 

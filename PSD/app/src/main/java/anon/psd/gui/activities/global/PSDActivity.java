@@ -25,9 +25,6 @@ public abstract class PSDActivity extends AppCompatActivity
 {
     public LedController ledController;
     MenuItem ledConnected;
-
-
-
     protected BarActivitiesServiceWorker serviceWorker;
 
     public void disconnectAndExitClick(MenuItem item) {
