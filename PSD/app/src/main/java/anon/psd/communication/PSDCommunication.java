@@ -71,6 +71,8 @@ public class PSDCommunication implements IBtObserver,IAutoDisconnectListener {
         startAutoDisconnect();
     }
 
+
+
     private void startAutoDisconnect()
     {
         if(autoDisconnectThread!=null && autoDisconnectThread.isAlive())
@@ -81,6 +83,11 @@ public class PSDCommunication implements IBtObserver,IAutoDisconnectListener {
         autoDisconnectThread=new Thread(autoDisconnectWatcher);
         setCommState(PSDState.ReadyToSend);
         autoDisconnectThread.start();
+    }
+
+    public void resetAutoDisconnect()
+    {
+        autoDisconnectWatcher.resetTimer();
     }
 
 
@@ -100,7 +107,7 @@ public class PSDCommunication implements IBtObserver,IAutoDisconnectListener {
         byte[] encryptedMessage = protocolV1.generateSendPass(passItem.getPsdId(), passItem.getPasswordBytes());
         bt.sendPasswordBytes(encryptedMessage);
         setCommState(PSDState.Awaiting);
-        autoDisconnectWatcher.resetTimer();
+        resetAutoDisconnect();
     }
 
 

@@ -24,7 +24,7 @@ import static anon.psd.utils.DebugUtils.Log;
 public abstract class PSDActivity extends AppCompatActivity
 {
     public LedController ledController;
-
+    MenuItem ledConnected;
 
 
 
@@ -95,7 +95,13 @@ public abstract class PSDActivity extends AppCompatActivity
     {
         //load service worker
         serviceWorker = new BarActivitiesServiceWorker(this);
+        initLedController();
+    }
+
+    private void initLedController()
+    {
         ledController = new LedController(serviceWorker);
+        ledController.setLedView(ledConnected);
     }
 
 
@@ -141,9 +147,8 @@ public abstract class PSDActivity extends AppCompatActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem ledConnected = menu.findItem(R.id.led_connected);
-        if(ledController!=null)
-           ledController.setLedView(ledConnected);
+        ledConnected = menu.findItem(R.id.led_connected);
+        initLedController();
         return true;
     }
 

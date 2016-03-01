@@ -240,6 +240,7 @@ public class PsdService extends IntentService implements ICommunicationObserver
         }
         else if (psd.getCommState()!= PSDState.Disconnected) {
             onCommError(ErrorType.WrongState, "PSD is already connected");
+            psd.resetAutoDisconnect();
             return;
         }
         psd.setAutoDisconnectSeconds(autoDisconnectSeconds);

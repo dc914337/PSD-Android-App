@@ -184,9 +184,6 @@ public class PsdBluetoothProtocol implements IBtObservable
         } catch (IOException e) {
             e.printStackTrace();
         }
-        btSocket = null;
-        outStream = null;
-        inStream = null;
         setConnected(false);
     }
 
@@ -258,6 +255,8 @@ public class PsdBluetoothProtocol implements IBtObservable
                     boolean dataAvailable = false;
                     //check if data available
                     try {
+                        if(inStream==null)
+                            break;
                         dataAvailable = inStream.available() > 0;
                     } catch (IOException e) {
                         e.printStackTrace();

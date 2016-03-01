@@ -36,7 +36,7 @@ public abstract class PsdServiceWorker
 {
     Activity activity;
     public boolean serviceBound;
-    final int SECONDS_TO_AUTODISCONNECT=30;
+    final int SECONDS_TO_AUTODISCONNECT=6;
 
     private ServiceConnection mConnection;
 
